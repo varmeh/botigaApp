@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'theme/appTheme.dart';
-import 'screens/home/homeScreen.dart';
+import 'package:botiga/theme/appTheme.dart';
+import 'package:botiga/screens/tabbar/tabbar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Restricting Orientation to Portrait Mode only
   await SystemChrome.setPreferredOrientations(
     [
       DeviceOrientation.portraitUp,
@@ -23,9 +25,9 @@ class BotigaApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       title: 'Botiga',
       theme: AppTheme.light,
-      initialRoute: HomeScreen.route,
+      initialRoute: Tabbar.route,
       routes: {
-        HomeScreen.route: (context) => HomeScreen(),
+        Tabbar.route: (context) => Tabbar(),
       },
     );
   }
