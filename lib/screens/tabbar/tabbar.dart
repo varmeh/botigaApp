@@ -31,7 +31,7 @@ class _TabbarState extends State<Tabbar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Botiga'),
+        title: const Text('Botiga'),
       ),
       body: SafeArea(
         child: Padding(
@@ -42,20 +42,18 @@ class _TabbarState extends State<Tabbar> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        iconSize: 30,
-        selectedIconTheme: IconThemeData(size: 40),
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.store),
-            title: Text('Stores'),
+            icon: const Icon(Icons.store),
+            title: const Text('Stores'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.receipt),
-            title: Text('Orders'),
+            icon: const Icon(Icons.receipt),
+            title: const Text('Orders'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            title: Text('Profile'),
+            icon: const Icon(Icons.person),
+            title: const Text('Profile'),
           ),
         ],
         currentIndex: _selectedIndex,

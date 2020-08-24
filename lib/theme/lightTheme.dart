@@ -24,6 +24,11 @@ final _textTheme = TextTheme(
   ),
 );
 
+final _bottomNavigationBarTheme = BottomNavigationBarThemeData(
+  selectedIconTheme: const IconThemeData(size: 40),
+  unselectedIconTheme: const IconThemeData(size: 30),
+);
+
 final lightTheme = ThemeData.light().copyWith(
   primaryColor: Color(0xff00bcd4),
   primaryColorBrightness: Brightness.light,
@@ -38,5 +43,6 @@ final lightTheme = ThemeData.light().copyWith(
   indicatorColor: Color(0xff00bcd4),
   hintColor: Color(0x8a000000),
   errorColor: Color(0xffd32f2f),
+  bottomNavigationBarTheme: _bottomNavigationBarTheme,
   textTheme: _textTheme,
 );
