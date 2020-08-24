@@ -42,6 +42,8 @@ class _TabbarState extends State<Tabbar> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        iconSize: 30,
+        selectedIconTheme: IconThemeData(size: 40),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.store),
