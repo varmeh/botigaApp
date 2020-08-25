@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:botiga/theme/appTheme.dart';
-import 'package:botiga/screens/tabbar/tabbar.dart';
+import 'package:botiga/screens/tabbar.dart';
+
+import 'package:botiga/screens/stores/products.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +30,7 @@ class BotigaApp extends StatelessWidget {
       initialRoute: Tabbar.route,
       routes: {
         Tabbar.route: (context) => Tabbar(),
+        ProductsScreen.route: (context) => ProductsScreen(),
       },
     );
   }

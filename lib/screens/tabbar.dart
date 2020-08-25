@@ -33,14 +33,8 @@ class _TabbarState extends State<Tabbar> {
         title: const Text('Botiga'),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 8.0,
-            vertical: 10.0,
-          ),
-          child: Center(
-            child: _widgetOptions.elementAt(_selectedIndex),
-          ),
+        child: Center(
+          child: _widgetOptions.elementAt(_selectedIndex),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(

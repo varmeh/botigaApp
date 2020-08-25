@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class StoreCardWidget extends StatelessWidget {
+class StoreCard extends StatelessWidget {
   final String title;
   final String subTitle;
   final Function onTap;
 
-  StoreCardWidget({@required this.title, @required this.subTitle, this.onTap});
+  StoreCard({@required this.title, @required this.subTitle, this.onTap});
 
   @override
   Widget build(BuildContext context) {
