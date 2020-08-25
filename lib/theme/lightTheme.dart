@@ -1,48 +1,22 @@
 import 'package:flutter/material.dart';
 
-final _textTheme = TextTheme(
-  headline6: TextStyle(
-    color: Colors.black,
-    fontSize: 20.0,
-    fontWeight: FontWeight.bold,
-  ),
-  subtitle1: TextStyle(
-    color: Colors.grey,
-    fontSize: 18.0,
-  ),
-  subtitle2: TextStyle(
-    color: Colors.grey,
-    fontSize: 14.0,
-  ),
-  bodyText2: TextStyle(
-    color: Colors.black,
-    fontSize: 14.0,
-  ),
-  button: TextStyle(
-    color: Colors.white,
-    fontSize: 18.0,
-  ),
-);
+// Material Color Theme Creation
+// https://material.io/design/color/the-color-system.html#color-theme-creation
 
-final _bottomNavigationBarTheme = BottomNavigationBarThemeData(
-  selectedIconTheme: const IconThemeData(size: 40),
-  unselectedIconTheme: const IconThemeData(size: 30),
-);
-
-final lightTheme = ThemeData.light().copyWith(
-  primaryColor: Color(0xff00bcd4),
-  primaryColorBrightness: Brightness.light,
-  primaryColorLight: Color(0xffb2ebf2),
-  primaryColorDark: Color(0xff0097a7),
-  accentColor: Color(0xff00bcd4),
-  scaffoldBackgroundColor: Color(0xfffafafa),
-  bottomAppBarColor: Color(0xffffffff),
-  cardColor: Color(0xffffffff),
-  dividerColor: Color(0x1f000000),
-  highlightColor: Color(0x66bcbcbc),
-  indicatorColor: Color(0xff00bcd4),
-  hintColor: Color(0x8a000000),
-  errorColor: Color(0xffd32f2f),
-  bottomNavigationBarTheme: _bottomNavigationBarTheme,
-  textTheme: _textTheme,
+final lightTheme = ThemeData.from(
+  colorScheme: ColorScheme(
+    brightness: Brightness.light,
+    primary: Color(0xff6200ee),
+    primaryVariant: Color(0xff3700b3),
+    secondary: Color(0xff03dac6),
+    secondaryVariant: Color(0xff018786),
+    background: Colors.white,
+    surface: Colors.white,
+    error: Color(0xffb00020),
+    onPrimary: Colors.white,
+    onSecondary: Colors.black,
+    onBackground: Colors.black,
+    onSurface: Colors.black,
+    onError: Colors.white,
+  ),
 );
