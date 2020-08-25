@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:botiga/screens/stores/stores.dart';
+
 class Tabbar extends StatefulWidget {
   static String route = 'tabbar';
 
@@ -12,11 +14,8 @@ class _TabbarState extends State<Tabbar> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Home',
-      style: optionStyle,
-    ),
+  static List<Widget> _widgetOptions = <Widget>[
+    StoresScreen(),
     Text(
       'Orders',
       style: optionStyle,
@@ -35,7 +34,10 @@ class _TabbarState extends State<Tabbar> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 10.0,
+          ),
           child: Center(
             child: _widgetOptions.elementAt(_selectedIndex),
           ),
