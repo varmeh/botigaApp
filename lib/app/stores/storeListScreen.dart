@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'models/index.dart' show StoreModel;
 import 'widgets/index.dart' show StoreCard;
 
-import 'products.dart';
+import 'productListScreen.dart';
 
 final store = StoreModel(
   name: '24 Mantra',
@@ -12,7 +12,7 @@ final store = StoreModel(
   tagList: ['Foods', 'Organic', 'Certified', 'USDA Organic', 'India Organic'],
 );
 
-class StoresScreen extends StatelessWidget {
+class StoreListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -24,7 +24,7 @@ class StoresScreen extends StatelessWidget {
           onTap: () {
             Navigator.pushNamed(
               context,
-              ProductsScreen.route,
+              ProductListScreen.route,
               arguments: store,
             );
           },

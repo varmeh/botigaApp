@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'theme/appTheme.dart';
 import 'app/tabbar.dart';
 
-import 'app/stores/products.dart';
+import 'app/stores/productListScreen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +30,7 @@ class BotigaApp extends StatelessWidget {
       initialRoute: Tabbar.route,
       routes: {
         Tabbar.route: (context) => Tabbar(),
-        ProductsScreen.route: (context) => ProductsScreen(),
+        ProductListScreen.route: (context) => ProductListScreen(),
       },
     );
   }

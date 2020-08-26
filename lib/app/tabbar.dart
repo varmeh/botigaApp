@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'stores/stores.dart';
+import 'stores/storeListScreen.dart';
 
 class Tabbar extends StatefulWidget {
   static String route = 'tabbar';
@@ -15,7 +15,7 @@ class _TabbarState extends State<Tabbar> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static List<Widget> _widgetOptions = <Widget>[
-    StoresScreen(),
+    StoreListScreen(),
     Text(
       'Orders',
       style: optionStyle,

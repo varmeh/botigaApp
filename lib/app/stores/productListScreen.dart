@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'models/index.dart' show StoreModel;
 import 'widgets/index.dart' show StoreBrandCard, CategoryCard;
 
-class ProductsScreen extends StatelessWidget {
+class ProductListScreen extends StatelessWidget {
   static String route = 'productsScreen';
 
   @override
