@@ -8,6 +8,7 @@ final textThemeUpdate = TextTheme(
 
 class AppTheme {
   static final light = lightTheme.copyWith(
+    disabledColor: Colors.grey[300],
     textTheme: lightTheme.textTheme.merge(textThemeUpdate),
     cardTheme: CardTheme(
       margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),

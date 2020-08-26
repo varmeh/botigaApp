@@ -28,7 +28,7 @@ class ProductsScreen extends StatelessWidget {
                       return CategoryCard();
                     },
                   ),
-                )
+                ),
               ],
             ),
           ),
