@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../../util/index.dart' show Constants;
 import 'productSelectionButton.dart';
 
 class ProductTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _textTheme = Theme.of(context).textTheme;
-    final _mediumFontWeightStyle = TextStyle(fontWeight: FontWeight.w600);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -17,8 +17,8 @@ class ProductTile extends StatelessWidget {
           children: [
             Text(
               'Moong Dal',
-              style: _textTheme.subtitle1
-                  .merge(TextStyle(fontWeight: FontWeight.bold)),
+              style:
+                  _textTheme.subtitle1.merge(Constants.kTextStyleFontWeight700),
             ),
             ProductSelectionButton(),
           ],
@@ -30,14 +30,16 @@ class ProductTile extends StatelessWidget {
           children: [
             Text(
               '₹100',
-              style: _textTheme.subtitle2.merge(_mediumFontWeightStyle),
+              style:
+                  _textTheme.subtitle2.merge(Constants.kTextStyleFontWeight600),
             ),
             SizedBox(
               width: 40,
             ),
             Text(
               '100gm',
-              style: _textTheme.subtitle2.merge(_mediumFontWeightStyle),
+              style:
+                  _textTheme.subtitle2.merge(Constants.kTextStyleFontWeight600),
             ),
           ],
         ),
@@ -64,7 +66,7 @@ class ProductInfo extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .subtitle2
-                  .merge(TextStyle(fontWeight: FontWeight.w300)),
+                  .merge(Constants.kTextStyleFontWeight300),
             ),
           )
         : Container();

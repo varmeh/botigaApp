@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/index.dart' show StoreModel;
+import '../../../util/index.dart' show Constants;
 
 class StoreBrandCard extends StatelessWidget {
   final StoreModel store;
@@ -8,8 +9,13 @@ class StoreBrandCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _themeData = Theme.of(context);
+    final _subtitle1 =
+        _themeData.textTheme.subtitle1.merge(Constants.kTextStyleFontWeight300);
+    final _sizedBox = SizedBox(height: 15.0);
+
     return Card(
-      color: Theme.of(context).accentColor,
+      color: _themeData.accentColor,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -18,17 +24,17 @@ class StoreBrandCard extends StatelessWidget {
           children: [
             Text(
               store.moto,
-              style: Theme.of(context).textTheme.headline6,
+              style: _themeData.textTheme.headline6,
             ),
-            SizedBox(height: 8.0),
+            _sizedBox,
             Text(
               store.combinedCategory,
-              style: Theme.of(context).textTheme.subtitle1,
+              style: _subtitle1,
             ),
-            SizedBox(height: 8.0),
+            _sizedBox,
             Text(
               store.combinedTag,
-              style: Theme.of(context).textTheme.subtitle1,
+              style: _subtitle1,
             ),
           ],
         ),
