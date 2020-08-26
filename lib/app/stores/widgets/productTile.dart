@@ -43,26 +43,19 @@ class ProductTile extends StatelessWidget {
             ),
           ],
         ),
-        ProductInfo(
+        _productInfo(context,
             'Description - All you have got here is organic dal from farmer to fork'),
-        ProductInfo('Ingredients'),
+        _productInfo(context, 'Ingredients'),
       ],
     );
   }
-}
 
-class ProductInfo extends StatelessWidget {
-  final String title;
-
-  ProductInfo(this.title);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _productInfo(BuildContext context, String title) {
     return title.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: Text(
-              this.title,
+              title,
               style: Theme.of(context)
                   .textTheme
                   .subtitle2
