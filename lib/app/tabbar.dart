@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'stores/storeListScreen.dart';
+import 'orders/orderListScreen.dart';
 
 class Tabbar extends StatefulWidget {
   static String route = 'tabbar';
@@ -10,19 +11,14 @@ class Tabbar extends StatefulWidget {
 }
 
 class _TabbarState extends State<Tabbar> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  int _selectedIndex = 1;
 
-  static List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _selectedTab = [
     StoreListScreen(),
-    Text(
-      'Orders',
-      style: optionStyle,
-    ),
+    OrderListScreen(),
     Text(
       'Profile',
-      style: optionStyle,
+      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
     ),
   ];
 
@@ -33,9 +29,7 @@ class _TabbarState extends State<Tabbar> {
         title: const Text('Botiga'),
       ),
       body: SafeArea(
-        child: Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
-        ),
+        child: _selectedTab.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
