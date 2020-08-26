@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'package:botiga/models/index.dart' show StoreModel;
+import 'models/index.dart' show StoreModel;
+import 'widgets/index.dart' show StoreCard;
 
-import 'package:botiga/screens/stores/products.dart';
-import 'package:botiga/screens/stores/widgets/index.dart' show StoreCard;
+import 'products.dart';
 
 final store = StoreModel(
   name: '24 Mantra',
   moto: 'You, Farmers, Nature, Deserve the Best Deserve the Best ',
-  categories: ['Grocery', 'Healthy Foods'],
-  tags: ['Foods', 'Organic', 'Certified', 'USDA Organic', 'India Organic'],
+  categoryList: ['Grocery', 'Healthy Foods'],
+  tagList: ['Foods', 'Organic', 'Certified', 'USDA Organic', 'India Organic'],
 );
 
 class StoresScreen extends StatelessWidget {

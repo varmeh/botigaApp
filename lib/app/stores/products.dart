@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:botiga/models/index.dart' show StoreModel;
-import 'package:botiga/screens/stores/widgets/index.dart' show StoreBrandCard;
+import 'models/index.dart' show StoreModel;
+import 'widgets/index.dart' show StoreBrandCard, CategoryCard;
 
 class ProductsScreen extends StatelessWidget {
   static String route = 'productsScreen';
@@ -23,20 +23,9 @@ class ProductsScreen extends StatelessWidget {
                 SizedBox(height: 4.0),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: 2,
+                    itemCount: 4,
                     itemBuilder: (context, index) {
-                      return Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text('Pulses'),
-                            ],
-                          ),
-                        ),
-                      );
+                      return CategoryCard();
                     },
                   ),
                 )

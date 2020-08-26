@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:botiga/theme/appTheme.dart';
-import 'package:botiga/screens/tabbar.dart';
+import 'theme/appTheme.dart';
+import 'app/tabbar.dart';
 
-import 'package:botiga/screens/stores/products.dart';
+import 'app/stores/products.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

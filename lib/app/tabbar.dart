@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:botiga/screens/stores/stores.dart';
+import 'stores/stores.dart';
 
 class Tabbar extends StatefulWidget {
   static String route = 'tabbar';

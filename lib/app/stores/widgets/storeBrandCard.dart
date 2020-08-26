@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:botiga/models/index.dart' show StoreModel;
+import '../models/index.dart' show StoreModel;
 
 class StoreBrandCard extends StatelessWidget {
   final StoreModel store;
