@@ -20,7 +20,7 @@ class StoreBrandCard extends StatelessWidget {
       child: Padding(
         padding: Constants.kEdgeInsetsCard,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Expanded(
               flex: 7,
@@ -45,11 +45,13 @@ class StoreBrandCard extends StatelessWidget {
                 ],
               ),
             ),
-            ContactPartnerWidget(
-              phone: '+919910057232',
-              whatsapp: '+919910057232',
-              phoneIconColor: _themeData.textTheme.headline6.color,
-              whatsappIconColor: _themeData.textTheme.headline6.color,
+            Expanded(
+              child: ContactPartnerWidget(
+                phone: '+919910057232',
+                whatsapp: '+919910057232',
+                phoneIconColor: _themeData.textTheme.headline6.color,
+                whatsappIconColor: _themeData.textTheme.headline6.color,
+              ),
             ),
           ],
         ),

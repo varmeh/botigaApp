@@ -67,25 +67,23 @@ class ContactPartnerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          ColorIconButton(
-            icon: Icons.phone,
-            color: this.phoneIconColor,
-            onPressed: () => _phone(context),
-          ),
-          SizedBox(
-            height: 15.0,
-          ),
-          ColorIconButton(
-            icon: Icons.message,
-            color: this.whatsappIconColor,
-            onPressed: () => _whatsapp(context),
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        ColorIconButton(
+          icon: Icons.phone,
+          color: this.phoneIconColor,
+          onPressed: () => _phone(context),
+        ),
+        SizedBox(
+          height: 20.0,
+        ),
+        ColorIconButton(
+          icon: Icons.message,
+          color: this.whatsappIconColor,
+          onPressed: () => _whatsapp(context),
+        ),
+      ],
     );
   }
 }

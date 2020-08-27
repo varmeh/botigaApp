@@ -63,9 +63,11 @@ class OrderStandardInfoWidget extends StatelessWidget {
               ],
             ),
           ),
-          ContactPartnerWidget(
-            phone: '+919910057232',
-            whatsapp: '+919910057232',
+          Expanded(
+            child: ContactPartnerWidget(
+              phone: '+919910057232',
+              whatsapp: '+919910057232',
+            ),
           ),
         ],
       ),
