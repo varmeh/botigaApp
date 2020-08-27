@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/index.dart' show StoreModel;
 import '../../../util/index.dart' show Constants;
+import '../../../widgets/index.dart' show ContactPartnerWidget;
 
 class StoreBrandCard extends StatelessWidget {
   final StoreModel store;
@@ -17,24 +18,37 @@ class StoreBrandCard extends StatelessWidget {
     return Card(
       color: _themeData.accentColor,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        padding: const EdgeInsets.only(
+            top: 25.0, left: 15.0, right: 15.0, bottom: 20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              store.moto,
-              style: _themeData.textTheme.headline6,
+            Expanded(
+              flex: 7,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    store.moto,
+                    style: _themeData.textTheme.headline6,
+                  ),
+                  _sizedBox,
+                  Text(
+                    store.category,
+                    style: _subtitle1,
+                  ),
+                  _sizedBox,
+                  Text(
+                    store.combinedTag,
+                    style: _subtitle1,
+                  ),
+                ],
+              ),
             ),
-            _sizedBox,
-            Text(
-              store.combinedCategory,
-              style: _subtitle1,
-            ),
-            _sizedBox,
-            Text(
-              store.combinedTag,
-              style: _subtitle1,
+            ContactPartnerWidget(
+              phone: '+919910057232',
+              whatsapp: '+919910057232',
             ),
           ],
         ),

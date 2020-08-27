@@ -8,7 +8,7 @@ import 'productListScreen.dart';
 final store = StoreModel(
   name: '24 Mantra',
   moto: 'You, Farmers, Nature, Deserve the Best',
-  categoryList: ['Grocery', 'Healthy Foods'],
+  category: 'Grocery',
   tagList: ['Foods', 'Organic', 'Certified', 'USDA Organic', 'India Organic'],
 );
 
@@ -20,7 +20,7 @@ class StoreListScreen extends StatelessWidget {
       itemBuilder: (context, index) {
         return StoreCard(
           title: store.name,
-          subTitle: store.combinedCategory,
+          subTitle: store.category,
           onTap: () {
             Navigator.pushNamed(
               context,
