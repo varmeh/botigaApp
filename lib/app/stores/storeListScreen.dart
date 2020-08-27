@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'models/index.dart' show StoreModel;
-import 'widgets/index.dart' show StoreCard;
+import 'widgets/storeCard.dart';
 
-import 'productListScreen.dart';
+import '../products/productListScreen.dart';
 
 final store = StoreModel(
   name: '24 Mantra',
