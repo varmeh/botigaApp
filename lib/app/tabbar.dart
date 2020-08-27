@@ -35,7 +35,7 @@ class _TabbarState extends State<Tabbar> {
         items: const [
           BottomNavigationBarItem(
             icon: const Icon(Icons.store),
-            title: const Text('Stores'),
+            title: const Text('Botigas'),
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.receipt),

@@ -7,7 +7,7 @@ import 'productListScreen.dart';
 
 final store = StoreModel(
   name: '24 Mantra',
-  moto: 'You, Farmers, Nature, Deserve the Best Deserve the Best ',
+  moto: 'You, Farmers, Nature, Deserve the Best',
   categoryList: ['Grocery', 'Healthy Foods'],
   tagList: ['Foods', 'Organic', 'Certified', 'USDA Organic', 'India Organic'],
 );
