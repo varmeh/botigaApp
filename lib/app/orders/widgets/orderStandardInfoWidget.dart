@@ -1,43 +1,23 @@
 import 'package:flutter/material.dart';
 
 import '../../../util/index.dart' show Constants;
-
-enum _DeliveryStatus { pending, outfordelivery, delivered, cancelled }
-
-class _DeliveryData {
-  final String message;
-  final IconData iconData;
-  final Color iconColor;
-
-  _DeliveryData(this.message, this.iconData, this.iconColor);
-}
+import '../models/deliveryStatusEnum.dart';
 
 class OrderStandardInfoWidget extends StatelessWidget {
-  static Map<_DeliveryStatus, _DeliveryData> _deliveryInfo = {
-    _DeliveryStatus.pending:
-        _DeliveryData('Pending', Icons.hourglass_empty, Colors.orange),
-    _DeliveryStatus.outfordelivery:
-        _DeliveryData('Out For Delivery', Icons.directions_bike, Colors.green),
-    _DeliveryStatus.cancelled:
-        _DeliveryData('Cancelled', Icons.highlight_off, Colors.red),
-    _DeliveryStatus.delivered:
-        _DeliveryData('Delivered', Icons.check_circle, Colors.green),
-  };
-
-  Widget _deliveryStatus(TextTheme textTheme, _DeliveryStatus status) {
+  Widget deliveryStatus(TextTheme textTheme, DeliveryStatus status) {
     return Row(
       children: [
         Text(
-          _deliveryInfo[status].message,
+          status.message,
           style: textTheme.bodyText2,
         ),
         SizedBox(
           width: 3,
         ),
         Icon(
-          _deliveryInfo[status].iconData,
+          status.icon,
           size: 16,
-          color: _deliveryInfo[status].iconColor,
+          color: status.color,
         ),
       ],
     );
@@ -64,7 +44,7 @@ class OrderStandardInfoWidget extends StatelessWidget {
                 style: _textTheme.subtitle1
                     .merge(Constants.kTextStyleFontWeight700),
               ),
-              _deliveryStatus(_textTheme, _DeliveryStatus.outfordelivery),
+              deliveryStatus(_textTheme, DeliveryStatus.outfordelivery),
             ],
           ),
           _sizedBox,
