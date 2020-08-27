@@ -7,8 +7,6 @@ import 'orderItemizedDetailWidget.dart';
 class OrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _themeData = Theme.of(context);
-
     return ExpandableNotifier(
       child: Card(
         clipBehavior: Clip.antiAlias,
@@ -16,7 +14,7 @@ class OrderCard extends StatelessWidget {
           child: Column(
             children: [
               OrderStandardInfoWidget(),
-              OrderItemizedDetailsWidget(themeData: _themeData),
+              OrderItemizedDetailsWidget(),
             ],
           ),
         ),

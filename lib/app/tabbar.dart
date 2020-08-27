@@ -11,7 +11,7 @@ class Tabbar extends StatefulWidget {
 }
 
 class _TabbarState extends State<Tabbar> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
 
   static List<Widget> _selectedTab = [
     StoreListScreen(),

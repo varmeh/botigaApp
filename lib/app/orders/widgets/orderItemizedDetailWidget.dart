@@ -1,19 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 
-const loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
+import '../../../util/index.dart' show Constants;
 
 class OrderItemizedDetailsWidget extends StatelessWidget {
   const OrderItemizedDetailsWidget({
     Key key,
-    @required ThemeData themeData,
-  })  : _themeData = themeData,
-        super(key: key);
+  }) : super(key: key);
 
-  final ThemeData _themeData;
+  Widget _itemizedInfo(ThemeData themeData) {
+    final _textStyle =
+        themeData.textTheme.subtitle2.merge(Constants.kTextStyleFontWeight300);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            flex: 2,
+            child: Text(
+              'Basmati Atta',
+              style: _textStyle,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              '2kg x 1',
+              textAlign: TextAlign.end,
+              style: _textStyle,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              '₹150',
+              textAlign: TextAlign.end,
+              style: _textStyle,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final _themeData = Theme.of(context);
     return ScrollOnExpand(
       scrollOnExpand: true,
       scrollOnCollapse: false,
@@ -33,6 +64,7 @@ class OrderItemizedDetailsWidget extends StatelessWidget {
             "Details",
             style: Theme.of(context).textTheme.bodyText2,
           ),
+          // Collapsed Used to display a portion of expanded data
           // collapsed: Text(
           //   loremIpsum,
           //   softWrap: true,
@@ -42,20 +74,14 @@ class OrderItemizedDetailsWidget extends StatelessWidget {
           expanded: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              for (var _ in Iterable.generate(5))
-                Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    loremIpsum,
-                    softWrap: true,
-                    overflow: TextOverflow.fade,
-                  ),
-                ),
+              _itemizedInfo(_themeData),
+              _itemizedInfo(_themeData),
+              _itemizedInfo(_themeData),
+              _itemizedInfo(_themeData),
             ],
           ),
           builder: (_, collapsed, expanded) {
             return Container(
-              // padding: EdgeInsets.only(left: 10, right: 10, bottom: 5),
               child: Expandable(
                 collapsed: collapsed,
                 expanded: expanded,
