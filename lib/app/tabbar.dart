@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'stores/storeListScreen.dart';
 import 'orders/orderListScreen.dart';
+import 'profile/profileListScreen.dart';
 
 class Tabbar extends StatefulWidget {
   static String route = 'tabbar';
@@ -16,10 +17,7 @@ class _TabbarState extends State<Tabbar> {
   static List<Widget> _selectedTab = [
     StoreListScreen(),
     OrderListScreen(),
-    Text(
-      'Profile',
-      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-    ),
+    ProfileListScreen(),
   ];
 
   @override
