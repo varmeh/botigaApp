@@ -37,11 +37,6 @@ class StoreBrandCard extends StatelessWidget {
                     store.category,
                     style: _subtitle1,
                   ),
-                  _sizedBox,
-                  Text(
-                    store.combinedTag,
-                    style: _subtitle1,
-                  ),
                 ],
               ),
             ),

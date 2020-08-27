@@ -8,8 +8,7 @@ import 'productListScreen.dart';
 final store = StoreModel(
   name: '24 Mantra',
   moto: 'You, Farmers, Nature, Deserve the Best',
-  category: 'Grocery',
-  tagList: ['Foods', 'Organic', 'Certified', 'USDA Organic', 'India Organic'],
+  categoryList: ['Grocery', 'Foods'],
 );
 
 class StoreListScreen extends StatelessWidget {

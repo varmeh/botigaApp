@@ -4,20 +4,20 @@ class StoreModel {
   final String name;
   final String id;
   final String moto;
-  final String category;
-  final List<String> tagList;
+  final List<String> categoryList;
   final String phoneNumber;
   final String whatsappNumber;
 
   StoreModel({
     @required this.name,
-    @required this.category,
+    @required this.categoryList,
     this.moto,
-    this.tagList,
     this.id,
     this.phoneNumber,
     this.whatsappNumber,
   });
 
-  String get combinedTag => tagList.join(' - ');
+  String get category {
+    return categoryList.join(' - ');
+  }
 }
