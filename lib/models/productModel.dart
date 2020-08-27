@@ -4,7 +4,7 @@ class ProductModel {
   final String name;
   final String description;
   final String id;
-  final String price;
+  final double price;
   final String quantity;
   final String imageUrl;
   final List<String> ingredientList;

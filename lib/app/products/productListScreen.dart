@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 
-import '../stores/models/index.dart' show StoreModel;
+import '../../models/index.dart' show StoreModel;
 import 'widgets/index.dart' show StoreBrandCard, CategoryCard;
 
 class ProductListScreen extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../stores/models/index.dart' show StoreModel;
+import '../../../models/index.dart' show StoreModel;
 import '../../../util/index.dart' show Constants;
 import '../../../widgets/index.dart' show ContactPartnerWidget;
 

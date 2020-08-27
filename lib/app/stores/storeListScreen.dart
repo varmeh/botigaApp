@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'models/index.dart' show StoreModel;
+import '../../models/index.dart' show StoreModel;
 import 'widgets/storeCard.dart';
 
 import '../products/productListScreen.dart';

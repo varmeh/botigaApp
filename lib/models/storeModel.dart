@@ -5,16 +5,16 @@ class StoreModel {
   final String id;
   final String moto;
   final List<String> categoryList;
-  final String phoneNumber;
-  final String whatsappNumber;
+  final String phone;
+  final String whatsapp;
 
   StoreModel({
     @required this.name,
     @required this.categoryList,
     this.moto,
     this.id,
-    this.phoneNumber,
-    this.whatsappNumber,
+    this.phone,
+    this.whatsapp,
   });
 
   String get category {
