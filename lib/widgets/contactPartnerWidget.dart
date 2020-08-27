@@ -8,7 +8,15 @@ class ContactPartnerWidget extends StatelessWidget {
   final String phone;
   final String whatsapp;
 
-  ContactPartnerWidget({@required this.phone, @required this.whatsapp});
+  final Color phoneIconColor;
+  final Color whatsappIconColor;
+
+  ContactPartnerWidget({
+    @required this.phone,
+    @required this.whatsapp,
+    this.phoneIconColor = Colors.blue,
+    this.whatsappIconColor = Colors.green,
+  });
 
   void _phone(BuildContext context) async {
     final url = 'tel://$phone';
@@ -65,7 +73,7 @@ class ContactPartnerWidget extends StatelessWidget {
         children: [
           ColorIconButton(
             icon: Icons.phone,
-            color: Colors.blue,
+            color: this.phoneIconColor,
             onPressed: () => _phone(context),
           ),
           SizedBox(
@@ -73,7 +81,7 @@ class ContactPartnerWidget extends StatelessWidget {
           ),
           ColorIconButton(
             icon: Icons.message,
-            color: Colors.green,
+            color: this.whatsappIconColor,
             onPressed: () => _whatsapp(context),
           ),
         ],

@@ -18,8 +18,7 @@ class StoreBrandCard extends StatelessWidget {
     return Card(
       color: _themeData.accentColor,
       child: Padding(
-        padding: const EdgeInsets.only(
-            top: 25.0, left: 15.0, right: 15.0, bottom: 20.0),
+        padding: Constants.kEdgeInsetsCard,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -49,6 +48,8 @@ class StoreBrandCard extends StatelessWidget {
             ContactPartnerWidget(
               phone: '+919910057232',
               whatsapp: '+919910057232',
+              phoneIconColor: _themeData.textTheme.headline6.color,
+              whatsappIconColor: _themeData.textTheme.headline6.color,
             ),
           ],
         ),

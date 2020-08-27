@@ -32,8 +32,7 @@ class OrderStandardInfoWidget extends StatelessWidget {
     );
 
     return Container(
-      padding: const EdgeInsets.only(
-          top: 25.0, left: 15.0, right: 15.0, bottom: 20.0),
+      padding: Constants.kEdgeInsetsCard,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
