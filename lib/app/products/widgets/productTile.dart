@@ -4,6 +4,10 @@ import '../../../util/index.dart' show Constants;
 import 'productSelectionButton.dart';
 
 class ProductTile extends StatelessWidget {
+  const ProductTile({
+    Key key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final _textTheme = Theme.of(context).textTheme;
@@ -11,7 +15,7 @@ class ProductTile extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 30.0),
+        SizedBox(height: 20.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

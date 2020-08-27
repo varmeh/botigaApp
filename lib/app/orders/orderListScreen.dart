@@ -15,7 +15,6 @@ class _OrderListScreenState extends State<OrderListScreen> {
   Widget build(BuildContext context) {
     return ExpandableTheme(
       data: ExpandableThemeData(
-        // iconColor: Theme.of(context).primaryColor,
         useInkWell: true,
       ),
       child: ListView.builder(

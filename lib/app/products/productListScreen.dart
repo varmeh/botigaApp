@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:expandable/expandable.dart';
 
 import '../stores/models/index.dart' show StoreModel;
 import 'widgets/index.dart' show StoreBrandCard, CategoryCard;
@@ -21,12 +22,18 @@ class ProductListScreen extends StatelessWidget {
               children: [
                 StoreBrandCard(store),
                 SizedBox(height: 4.0),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: 4,
-                    itemBuilder: (context, index) {
-                      return CategoryCard();
-                    },
+                ExpandableTheme(
+                  data: ExpandableThemeData(
+                    useInkWell: true,
+                  ),
+                  child: Expanded(
+                    child: ListView.builder(
+                      itemCount: 4,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return CategoryCard();
+                      },
+                    ),
                   ),
                 ),
               ],
