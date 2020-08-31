@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../util/index.dart' show Constants;
 import '../../../widgets/index.dart' show ContactPartnerWidget;
-import '../models/deliveryStatusEnum.dart';
+import '../../../models/index.dart'
+    show DeliveryStatus, DeliveryStatusExtension;
 
 class OrderStandardInfoWidget extends StatelessWidget {
   Widget deliveryStatus(TextTheme textTheme, DeliveryStatus status) {
