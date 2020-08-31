@@ -5,26 +5,32 @@ import 'widgets/storeCard.dart';
 
 import '../products/productListScreen.dart';
 
-final store = StoreModel(
-  name: '24 Mantra',
-  moto: 'You, Farmers, Nature, Deserve the Best',
-  categoryList: ['Grocery', 'Foods'],
+final storeList = new List<StoreModel>.generate(
+  6,
+  (index) => StoreModel(
+    id: 'store_id$index',
+    name: '24 Mantra ${index + 1}',
+    moto: 'You, Farmers, Nature, Deserve the Best',
+    segmentList: ['Grocery', 'Foods'],
+    phone: '+919900099000',
+    whatsapp: '+919900099000',
+  ),
 );
 
 class StoreListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 6,
+      itemCount: storeList.length,
       itemBuilder: (context, index) {
         return StoreCard(
-          title: store.name,
-          subTitle: store.category,
+          title: storeList[index].name,
+          subTitle: storeList[index].segments,
           onTap: () {
             Navigator.pushNamed(
               context,
               ProductListScreen.route,
-              arguments: store,
+              arguments: storeList[index],
             );
           },
         );

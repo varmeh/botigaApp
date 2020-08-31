@@ -1,23 +1,23 @@
 import 'package:flutter/foundation.dart';
 
 class StoreModel {
-  final String name;
   final String id;
+  final String name;
   final String moto;
-  final List<String> categoryList;
+  final List<String> segmentList;
   final String phone;
   final String whatsapp;
 
   StoreModel({
+    @required this.id,
     @required this.name,
-    @required this.categoryList,
+    @required this.segmentList,
     this.moto,
-    this.id,
-    this.phone,
-    this.whatsapp,
+    @required this.phone,
+    @required this.whatsapp,
   });
 
-  String get category {
-    return categoryList.join(' - ');
+  String get segments {
+    return segmentList.join(' - ');
   }
 }
