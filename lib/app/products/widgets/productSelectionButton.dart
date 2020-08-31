@@ -63,7 +63,7 @@ class _AddButton extends StatelessWidget {
     final themeData = Theme.of(context);
     final _color = this.enabled ? themeData.primaryColor : themeData.hintColor;
     return GestureDetector(
-      onTap: this.onPressed,
+      onTap: this.enabled ? this.onPressed : () {},
       child: FittedBox(
         fit: BoxFit.contain,
         child: Text(

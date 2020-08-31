@@ -24,7 +24,7 @@ class CategoryProductList extends StatelessWidget {
         child: ExpandablePanel(
           theme: const ExpandableThemeData(
             headerAlignment: ExpandablePanelHeaderAlignment.center,
-            tapBodyToCollapse: true,
+            tapBodyToCollapse: false,
           ),
           header: Text(
             'Click to select products',
