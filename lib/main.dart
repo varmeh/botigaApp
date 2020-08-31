@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
-import './util/index.dart' show Flavor;
+import 'providers/index.dart' show StoresProvider;
+import 'util/index.dart' show Flavor;
 import 'theme/appTheme.dart';
 import 'app/tabbar.dart';
 
@@ -19,7 +21,14 @@ Future<void> main() async {
   );
 
   await Flavor.shared.init();
-  runApp(BotigaApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => StoresProvider()),
+      ],
+      child: BotigaApp(),
+    ),
+  );
 }
 
 class BotigaApp extends StatelessWidget {
