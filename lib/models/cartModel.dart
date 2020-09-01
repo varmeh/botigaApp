@@ -1,8 +1,8 @@
 import 'package:botiga/models/index.dart';
 import 'package:flutter/foundation.dart';
-import 'dart:collection';
 
 import 'storeModel.dart';
+import 'productModel.dart';
 
 class CartItemModel {
   final String name;
