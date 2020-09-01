@@ -8,12 +8,9 @@ class HttpService {
   final _baseUrl = Flavor.shared.baseUrl;
 
   Future<dynamic> get(String url) async {
-    try {
-      final response = await http.get(_baseUrl + url);
-      return _returnResponse(response);
-    } catch (e) {
-      rethrow;
-    }
+    // Propogate errors to parent for effective UI management
+    final response = await http.get(_baseUrl + url);
+    return _returnResponse(response);
   }
 
   dynamic _returnResponse(http.Response response) {
