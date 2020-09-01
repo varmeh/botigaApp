@@ -11,21 +11,17 @@ class StoresProvider with ChangeNotifier {
       UnmodifiableListView(_storeList);
 
   Future<void> getStores() async {
-    try {
-      if (_storeList.length > 0) {
-        return;
-      } else {
-        final json = await HttpService().get('/user/stores');
-        final _storeIterable = json['stores'].map(
-          (item) => StoreModel.fromJson(item),
-        );
+    if (_storeList.length > 0) {
+      return;
+    } else {
+      final json = await HttpService().get('/user/stores');
+      final _storeIterable = json['stores'].map(
+        (item) => StoreModel.fromJson(item),
+      );
 
-        // Iterable returned above is of type of dynamic
-        // Below method is used to convert supertype list to subtype list
-        _storeList = List<StoreModel>.from(_storeIterable);
-      }
-    } catch (error) {
-      print(error);
+      // Iterable returned above is of type of dynamic
+      // Below method is used to convert supertype list to subtype list
+      _storeList = List<StoreModel>.from(_storeIterable);
     }
   }
 }

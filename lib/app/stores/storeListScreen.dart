@@ -6,6 +6,7 @@ import '../../providers/index.dart' show StoresProvider;
 import 'widgets/storeCard.dart';
 
 import '../products/productListScreen.dart';
+import '../../util/index.dart' show HttpServiceExceptionWidget;
 
 class StoreListScreen extends StatelessWidget {
   @override
@@ -21,9 +22,7 @@ class StoreListScreen extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasError) {
-          return Center(
-            child: Text('${snapshot.error}'),
-          );
+          return HttpServiceExceptionWidget(snapshot.error);
         } else {
           return Consumer<StoresProvider>(
             builder: (context, storeProvider, child) {
