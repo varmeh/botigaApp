@@ -9,7 +9,6 @@ class StoreModel {
   final String name;
   final String moto;
 
-  @JsonKey(name: 'categoryList')
   final List<String> segmentList;
 
   final String phone;
@@ -19,7 +18,7 @@ class StoreModel {
     @required this.id,
     @required this.name,
     @required this.segmentList,
-    this.moto,
+    @required this.moto,
     @required this.phone,
     @required this.whatsapp,
   });

@@ -11,7 +11,7 @@ StoreModel _$StoreModelFromJson(Map<String, dynamic> json) {
     id: json['id'] as String,
     name: json['name'] as String,
     segmentList:
-        (json['categoryList'] as List)?.map((e) => e as String)?.toList(),
+        (json['segmentList'] as List)?.map((e) => e as String)?.toList(),
     moto: json['moto'] as String,
     phone: json['phone'] as String,
     whatsapp: json['whatsapp'] as String,
@@ -23,7 +23,7 @@ Map<String, dynamic> _$StoreModelToJson(StoreModel instance) =>
       'id': instance.id,
       'name': instance.name,
       'moto': instance.moto,
-      'categoryList': instance.segmentList,
+      'segmentList': instance.segmentList,
       'phone': instance.phone,
       'whatsapp': instance.whatsapp,
     };
