@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../../../models/productModel.dart' show ProductModel;
 import '../../../util/index.dart' show Constants;
 import 'productSelectionButton.dart';
 
 class ProductTile extends StatelessWidget {
-  const ProductTile({
-    Key key,
-  }) : super(key: key);
+  final ProductModel product;
+
+  ProductTile(this.product);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class ProductTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Moong Dal',
+              product.name,
               style:
                   _textTheme.subtitle1.merge(Constants.kTextStyleFontWeight700),
             ),
@@ -33,7 +34,7 @@ class ProductTile extends StatelessWidget {
         Row(
           children: [
             Text(
-              '₹100',
+              '₹${product.price.toString()}',
               style:
                   _textTheme.subtitle2.merge(Constants.kTextStyleFontWeight600),
             ),
@@ -41,21 +42,19 @@ class ProductTile extends StatelessWidget {
               width: 40,
             ),
             Text(
-              '100gm',
+              product.quantity,
               style:
                   _textTheme.subtitle2.merge(Constants.kTextStyleFontWeight600),
             ),
           ],
         ),
-        _productInfo(context,
-            'Description - All you have got here is organic dal from farmer to fork'),
-        _productInfo(context, 'Ingredients'),
+        _productInfo(context, product.description),
       ],
     );
   }
 
   Widget _productInfo(BuildContext context, String title) {
-    return title.isNotEmpty
+    return title != null && title.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: Text(

@@ -42,8 +42,8 @@ class StoreBrandCard extends StatelessWidget {
             ),
             Expanded(
               child: ContactPartnerWidget(
-                phone: '+919910057232',
-                whatsapp: '+919910057232',
+                phone: store.phone,
+                whatsapp: store.whatsapp,
                 phoneIconColor: _themeData.textTheme.headline6.color,
                 whatsappIconColor: _themeData.textTheme.headline6.color,
               ),

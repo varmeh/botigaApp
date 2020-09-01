@@ -25,18 +25,18 @@ class StoreListScreen extends StatelessWidget {
           return HttpServiceExceptionWidget(snapshot.error);
         } else {
           return Consumer<StoresProvider>(
-            builder: (context, storeProvider, child) {
+            builder: (context, provider, child) {
               return ListView.builder(
-                itemCount: storeProvider.storeList.length,
+                itemCount: provider.storeList.length,
                 itemBuilder: (context, index) {
                   return StoreCard(
-                    title: storeProvider.storeList[index].name,
-                    subTitle: storeProvider.storeList[index].segments,
+                    title: provider.storeList[index].name,
+                    subTitle: provider.storeList[index].segments,
                     onTap: () {
                       Navigator.pushNamed(
                         context,
                         ProductListScreen.route,
-                        arguments: storeProvider.storeList[index],
+                        arguments: provider.storeList[index],
                       );
                     },
                   );

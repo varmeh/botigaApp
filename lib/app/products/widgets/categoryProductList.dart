@@ -1,12 +1,13 @@
+import 'package:botiga/models/productModel.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 
 import 'productTile.dart';
 
 class CategoryProductList extends StatelessWidget {
-  const CategoryProductList({
-    Key key,
-  }) : super(key: key);
+  final List<ProductModel> products;
+
+  CategoryProductList(this.products);
 
   @override
   Widget build(BuildContext context) {
@@ -32,17 +33,13 @@ class CategoryProductList extends StatelessWidget {
           ),
           // Collapsed Used to display a portion of expanded data
           collapsed: Text(
-            'Moong Dal * Whole Moong Dal * Moong Dal * Whole Moong Dal',
+            products.map((product) => product.name).join(' - '),
             softWrap: true,
             overflow: TextOverflow.ellipsis,
           ),
           expanded: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ProductTile(),
-              ProductTile(),
-              ProductTile(),
-            ],
+            children: products.map((product) => ProductTile(product)).toList(),
           ),
           builder: (_, collapsed, expanded) {
             return Container(
