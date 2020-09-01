@@ -3,34 +3,26 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import 'flavor.dart';
-import '../models/index.dart' show StoreModel;
 
 class HttpService {
-  final baseUrl = Flavor.shared.baseUrl;
+  final _baseUrl = Flavor.shared.baseUrl;
 
-  Future<List<StoreModel>> getStoreList() async {
+  Future<Map<String, dynamic>> get(String url) async {
     try {
-      var response = await http.get('$baseUrl/user/stores');
+      var response = await http.get('$_baseUrl$url');
 
       if (response.statusCode == 200) {
-        Map<String, dynamic> body = jsonDecode(response.body);
-        var storeList = body['stores'].map(
-          (item) => StoreModel.fromJson(item),
-        );
-
-        // Iterable returned above is of type of dynamic
-        // Below method is used to convert supertype list to subtype list
-        return List<StoreModel>.from(storeList);
+        return jsonDecode(response.body);
       } else {
         print(response.statusCode);
         throw Exception('Failed to Load Stores');
       }
     } on SocketException {
-      print('No Internet connection 😑');
+      throw Exception('No Internet connection 😑');
     } on HttpException {
-      print("Couldn't find the post 😱");
+      throw Exception("Couldn't find the post 😱");
     } on FormatException {
-      print("Bad response format 👎");
+      throw Exception("Bad response format 👎");
     }
   }
 }

@@ -2,20 +2,30 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 
 import '../models/index.dart' show StoreModel;
+import '../util/index.dart' show HttpService;
 
 class StoresProvider with ChangeNotifier {
-  List<StoreModel> _storeList;
+  List<StoreModel> _storeList = [];
 
   UnmodifiableListView<StoreModel> get storeList =>
       UnmodifiableListView(_storeList);
 
-  set storeList(List<StoreModel> stores) {
-    _storeList = stores;
-  }
-  // Future<StoreModel> fetchStores() {}
+  Future<void> getStores() async {
+    try {
+      if (_storeList.length > 0) {
+        return;
+      } else {
+        final json = await HttpService().get('/user/stores');
+        final _storeIterable = json['stores'].map(
+          (item) => StoreModel.fromJson(item),
+        );
 
-  void addStore(StoreModel newStore) {
-    _storeList.add(newStore);
-    notifyListeners();
+        // Iterable returned above is of type of dynamic
+        // Below method is used to convert supertype list to subtype list
+        _storeList = List<StoreModel>.from(_storeIterable);
+      }
+    } catch (error) {
+      print(error);
+    }
   }
 }
