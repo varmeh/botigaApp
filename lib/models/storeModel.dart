@@ -1,17 +1,19 @@
-import 'dart:collection';
-
+import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter/foundation.dart';
 
-import 'productCategoryModel.dart';
+part 'storeModel.g.dart';
 
+@JsonSerializable()
 class StoreModel {
   final String id;
   final String name;
   final String moto;
+
+  @JsonKey(name: 'categoryList')
   final List<String> segmentList;
+
   final String phone;
   final String whatsapp;
-  List<ProductCategoryModel> _productCategory = [];
 
   StoreModel({
     @required this.id,
@@ -22,21 +24,12 @@ class StoreModel {
     @required this.whatsapp,
   });
 
-  factory StoreModel.fromJson(Map<String, dynamic> json) {
-    return StoreModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      segmentList: json['categoryList'] as List<String>,
-      moto: '',
-      phone: json['phone'] as String,
-      whatsapp: json['whatsapp'] as String,
-    );
-  }
+  factory StoreModel.fromJson(Map<String, dynamic> json) =>
+      _$StoreModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StoreModelToJson(this);
 
   String get segments {
     return segmentList.join(' - ');
   }
-
-  UnmodifiableListView<ProductCategoryModel> get category =>
-      UnmodifiableListView(_productCategory);
 }

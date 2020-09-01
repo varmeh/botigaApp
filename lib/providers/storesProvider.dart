@@ -4,21 +4,14 @@ import 'package:flutter/material.dart';
 import '../models/index.dart' show StoreModel;
 
 class StoresProvider with ChangeNotifier {
-  List<StoreModel> _storeList = new List<StoreModel>.generate(
-    6,
-    (index) => StoreModel(
-      id: 'store_id$index',
-      name: '24 Mantra ${index + 1}',
-      moto: 'You, Farmers, Nature, Deserve the Best',
-      segmentList: ['Grocery', 'Foods'],
-      phone: '+919900099000',
-      whatsapp: '+919900099000',
-    ),
-  );
+  List<StoreModel> _storeList;
 
   UnmodifiableListView<StoreModel> get storeList =>
       UnmodifiableListView(_storeList);
 
+  set storeList(List<StoreModel> stores) {
+    _storeList = stores;
+  }
   // Future<StoreModel> fetchStores() {}
 
   void addStore(StoreModel newStore) {
