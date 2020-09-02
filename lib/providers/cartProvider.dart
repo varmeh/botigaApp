@@ -7,9 +7,16 @@ class CartProvider with ChangeNotifier {
       selectedProductListStore; // Store which is now visible in product list screen
   StoreModel
       cartStore; // Store from which current product list has been selected
-  double totalPrice = 0;
+  double totalPrice = 0.0;
   int numberOfItemsInCart = 0;
   Map<ProductModel, int> products = {};
+
+  void clearCart() {
+    totalPrice = 0.0;
+    numberOfItemsInCart = 0;
+    products.clear();
+    cartStore = null;
+  }
 
   void addProduct(ProductModel product) {
     if (cartStore == selectedProductListStore) {
@@ -18,6 +25,7 @@ class CartProvider with ChangeNotifier {
       totalPrice += product.price;
       numberOfItemsInCart++;
     } else {
+      clearCart();
       cartStore = selectedProductListStore;
       products[product] = 1;
       totalPrice = product.price;
