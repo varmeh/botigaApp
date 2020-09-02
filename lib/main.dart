@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import 'providers/index.dart' show StoresProvider, ProductsProvider;
+import 'providers/index.dart'
+    show StoresProvider, ProductsProvider, CartProvider;
 import 'util/index.dart' show Flavor;
 import 'theme/appTheme.dart';
 import 'app/tabbar.dart';
@@ -26,6 +27,7 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => StoresProvider()),
         ChangeNotifierProvider(create: (context) => ProductsProvider()),
+        ChangeNotifierProvider(create: (context) => CartProvider()),
       ],
       child: BotigaApp(),
     ),

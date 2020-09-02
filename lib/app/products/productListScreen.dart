@@ -4,11 +4,33 @@ import 'package:expandable/expandable.dart';
 
 import '../../models/index.dart' show StoreModel;
 import 'widgets/index.dart' show StoreBrandCard, CategoryCard;
-import '../../providers/index.dart' show ProductsProvider;
+import '../../providers/index.dart' show ProductsProvider, CartProvider;
 import '../../util/index.dart' show HttpServiceExceptionWidget;
+import '../cart/cartBottomModal.dart';
 
-class ProductListScreen extends StatelessWidget {
+class ProductListScreen extends StatefulWidget {
   static String route = 'productsScreen';
+
+  @override
+  _ProductListScreenState createState() => _ProductListScreenState();
+}
+
+class _ProductListScreenState extends State<ProductListScreen> {
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      Provider.of<CartProvider>(context, listen: false)
+          .selectedProductListStore = ModalRoute.of(context).settings.arguments;
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Provider.of<CartProvider>(context, listen: false).selectedProductListStore =
+        null;
+    super.dispose();
+  }
 
   Widget _futureBuilder(BuildContext context, String storeId) {
     return FutureBuilder(
@@ -60,15 +82,20 @@ class ProductListScreen extends StatelessWidget {
         ),
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
-            child: Column(
-              children: [
-                StoreBrandCard(store),
-                SizedBox(height: 4.0),
-                _futureBuilder(context, store.id),
-              ],
-            ),
-          ),
+              padding: const EdgeInsets.symmetric(vertical: 5.0),
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  Column(
+                    children: [
+                      StoreBrandCard(store),
+                      SizedBox(height: 4.0),
+                      _futureBuilder(context, store.id),
+                    ],
+                  ),
+                  CartBottomModal()
+                ],
+              )),
         ),
       ),
     );

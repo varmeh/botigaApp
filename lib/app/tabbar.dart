@@ -5,6 +5,7 @@ import 'orders/orderListScreen.dart';
 import 'profile/profileListScreen.dart';
 
 import '../util/index.dart' show FlavorBanner;
+import './cart/cartBottomModal.dart';
 
 class Tabbar extends StatefulWidget {
   static String route = 'tabbar';
@@ -30,7 +31,13 @@ class _TabbarState extends State<Tabbar> {
           title: const Text('Botiga'),
         ),
         body: SafeArea(
-          child: _selectedTab.elementAt(_selectedIndex),
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              _selectedTab.elementAt(_selectedIndex),
+              CartBottomModal(),
+            ],
+          ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           items: const [

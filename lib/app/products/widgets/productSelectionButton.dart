@@ -1,11 +1,15 @@
+import 'package:botiga/models/index.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../widgets/index.dart' show IncrementButton;
+import '../../../providers/index.dart' show CartProvider;
 
 class ProductSelectionButton extends StatefulWidget {
+  final ProductModel product;
   final bool enabled;
 
-  ProductSelectionButton({this.enabled = true});
+  ProductSelectionButton(this.product, [this.enabled = true]);
 
   @override
   _ProductSelectionButtonState createState() => _ProductSelectionButtonState();
@@ -19,6 +23,8 @@ class _ProductSelectionButtonState extends State<ProductSelectionButton> {
     final themeData = Theme.of(context);
     final _borderColor =
         widget.enabled ? themeData.primaryColor : themeData.disabledColor;
+    final provider = Provider.of<CartProvider>(context);
+    _value = provider.quantityInCart(widget.product);
     return Container(
       width: 80.0,
       height: 30.0,
@@ -28,6 +34,7 @@ class _ProductSelectionButtonState extends State<ProductSelectionButton> {
           ? _AddButton(
               enabled: widget.enabled,
               onPressed: () {
+                provider.addProduct(widget.product);
                 setState(() {
                   _value++;
                 });
@@ -36,16 +43,18 @@ class _ProductSelectionButtonState extends State<ProductSelectionButton> {
           : IncrementButton(
               value: _value,
               onIncrement: () {
+                provider.addProduct(widget.product);
                 setState(() {
                   _value++;
                 });
               },
               onDecrement: () {
-                setState(() {
-                  if (_value > 0) {
+                if (_value > 0) {
+                  provider.removeProduct(widget.product);
+                  setState(() {
                     _value--;
-                  }
-                });
+                  });
+                }
               },
             ),
     );

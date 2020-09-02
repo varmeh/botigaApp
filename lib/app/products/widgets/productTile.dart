@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/productModel.dart' show ProductModel;
+import '../../../models/index.dart' show ProductModel;
 import '../../../util/index.dart' show Constants;
 import 'productSelectionButton.dart';
 
@@ -25,7 +25,7 @@ class ProductTile extends StatelessWidget {
               style:
                   _textTheme.subtitle1.merge(Constants.kTextStyleFontWeight700),
             ),
-            ProductSelectionButton(),
+            ProductSelectionButton(product),
           ],
         ),
         SizedBox(
