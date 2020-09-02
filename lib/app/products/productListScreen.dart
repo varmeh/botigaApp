@@ -4,74 +4,51 @@ import 'package:expandable/expandable.dart';
 
 import '../../models/index.dart' show StoreModel;
 import 'widgets/index.dart' show StoreBrandCard, CategoryCard;
-import '../../providers/index.dart' show ProductsProvider, CartProvider;
+import '../../providers/index.dart' show ProductsProvider;
 import '../../util/index.dart' show HttpServiceExceptionWidget;
 import '../cart/cartBottomModal.dart';
 
-class ProductListScreen extends StatefulWidget {
+class ProductListScreen extends StatelessWidget {
   static String route = 'productsScreen';
   final StoreModel store;
 
   ProductListScreen([this.store]);
 
-  @override
-  _ProductListScreenState createState() => _ProductListScreenState();
-}
-
-class _ProductListScreenState extends State<ProductListScreen> {
-  @override
-  void initState() {
-    Future.delayed(Duration.zero, () {
-      Provider.of<CartProvider>(context, listen: false)
-          .selectedProductListStore = this._store;
-    });
-    super.initState();
-  }
-
-  StoreModel get _store => widget.store == null
-      ? ModalRoute.of(context).settings.arguments
-      : widget.store;
-
-  @override
-  void dispose() {
-    // Provider.of<CartProvider>(context, listen: false).selectedProductListStore =
-    //     null;
-    super.dispose();
-  }
+  StoreModel getStore(BuildContext context) =>
+      store == null ? ModalRoute.of(context).settings.arguments : store;
 
   @override
   Widget build(BuildContext context) {
-    final StoreModel store = this._store;
-    return Container(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(store.name),
-        ),
-        body: SafeArea(
-          child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5.0),
-              child: Stack(
-                alignment: Alignment.bottomCenter,
+    final StoreModel store = getStore(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(store.name),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5.0),
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Column(
                 children: [
-                  Column(
-                    children: [
-                      StoreBrandCard(store),
-                      SizedBox(height: 4.0),
-                      _futureBuilder(context, store.id),
-                    ],
-                  ),
-                  CartBottomModal()
+                  StoreBrandCard(store),
+                  SizedBox(height: 4.0),
+                  _futureBuilder(context, store),
                 ],
-              )),
+              ),
+              CartBottomModal()
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _futureBuilder(BuildContext context, String storeId) {
+  Widget _futureBuilder(BuildContext context, StoreModel store) {
     return FutureBuilder(
       future: Provider.of<ProductsProvider>(context, listen: false)
-          .getProducts(storeId),
+          .getProducts(store.id),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Expanded(
@@ -93,10 +70,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
               child: Consumer<ProductsProvider>(
                 builder: (context, provider, child) {
                   return ListView.builder(
-                    itemCount: provider.products(storeId).length,
+                    itemCount: provider.products(store.id).length,
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
-                      return CategoryCard(provider.products(storeId)[index]);
+                      return CategoryCard(
+                        store: store,
+                        category: provider.products(store.id)[index],
+                      );
                     },
                   );
                 },

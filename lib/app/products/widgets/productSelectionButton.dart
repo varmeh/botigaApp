@@ -1,15 +1,17 @@
-import 'package:botiga/models/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/index.dart' show ProductModel, StoreModel;
 import '../../../widgets/index.dart' show IncrementButton;
 import '../../../providers/index.dart' show CartProvider;
 
 class ProductSelectionButton extends StatefulWidget {
   final ProductModel product;
+  final StoreModel store;
   final bool enabled;
 
-  ProductSelectionButton(this.product, [this.enabled = true]);
+  ProductSelectionButton(
+      {@required this.store, @required this.product, this.enabled = true});
 
   @override
   _ProductSelectionButtonState createState() => _ProductSelectionButtonState();
@@ -34,7 +36,7 @@ class _ProductSelectionButtonState extends State<ProductSelectionButton> {
           ? _AddButton(
               enabled: widget.enabled,
               onPressed: () {
-                provider.addProduct(widget.product);
+                provider.addProduct(widget.store, widget.product);
                 setState(() {
                   _value++;
                 });
@@ -43,7 +45,7 @@ class _ProductSelectionButtonState extends State<ProductSelectionButton> {
           : IncrementButton(
               value: _value,
               onIncrement: () {
-                provider.addProduct(widget.product);
+                provider.addProduct(widget.store, widget.product);
                 setState(() {
                   _value++;
                 });

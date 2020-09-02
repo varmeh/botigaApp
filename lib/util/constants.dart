@@ -13,4 +13,7 @@ class Constants {
     right: 15.0,
     bottom: 10.0,
   );
+
+  // Duration
+  static const kContainerAnimationDuration = Duration(milliseconds: 900);
 }

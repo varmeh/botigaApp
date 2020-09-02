@@ -5,6 +5,8 @@ import 'package:animations/animations.dart';
 
 import '../../providers/index.dart' show CartProvider;
 import '../products/productListScreen.dart';
+import '../../util/index.dart' show Constants;
+import 'cartConfirmationScreen.dart';
 
 class CartBottomModal extends StatelessWidget {
   @override
@@ -40,24 +42,31 @@ class CartBottomModal extends StatelessWidget {
 
   Widget _cartButton(BuildContext context, CartProvider provider) {
     final _themeData = Theme.of(context);
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        color: _themeData.primaryColor,
-        child: Center(
-          child: Badge(
-            animationDuration: Duration(milliseconds: 100),
-            badgeColor: _themeData.primaryColorLight,
-            badgeContent: Text('${provider.numberOfItemsInCart}'),
-            animationType: BadgeAnimationType.scale,
-            child: Icon(
-              Icons.shopping_cart,
-              color: _themeData.cardColor,
-              size: 35,
+    return OpenContainer(
+      closedColor: _themeData.primaryColor,
+      transitionDuration: Constants.kContainerAnimationDuration,
+      closedBuilder: (context, openContainer) {
+        return GestureDetector(
+          onTap: openContainer,
+          child: Container(
+            color: _themeData.primaryColor,
+            child: Center(
+              child: Badge(
+                animationDuration: Duration(milliseconds: 100),
+                badgeColor: _themeData.primaryColorLight,
+                badgeContent: Text('${provider.numberOfItemsInCart}'),
+                animationType: BadgeAnimationType.scale,
+                child: Icon(
+                  Icons.shopping_cart,
+                  color: _themeData.cardColor,
+                  size: 35,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
+      openBuilder: (_, __) => CartConfirmationScreen(),
     );
   }
 
@@ -65,26 +74,19 @@ class CartBottomModal extends StatelessWidget {
     final _themeData = Theme.of(context);
     return OpenContainer(
       closedColor: _themeData.cardColor,
-      transitionDuration: Duration(milliseconds: 900),
+      transitionDuration: Constants.kContainerAnimationDuration,
       closedBuilder: (context, openContainer) {
         return GestureDetector(
-          onTap: () {
-            openContainer();
-          },
-          child: Row(
-            children: [
-              Expanded(
-                flex: 3,
-                child: Text(
-                  provider.cartStore.name,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+          onTap: openContainer,
+          child: Center(
+            child: Text(
+              provider.cartStore.name,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
               ),
-            ],
+            ),
           ),
         );
       },
