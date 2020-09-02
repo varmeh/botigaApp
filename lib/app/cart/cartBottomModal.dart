@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart';
+import 'package:animations/animations.dart';
 
 import '../../providers/index.dart' show CartProvider;
+import '../products/productListScreen.dart';
 
 class CartBottomModal extends StatelessWidget {
   @override
@@ -17,18 +19,18 @@ class CartBottomModal extends StatelessWidget {
   }
 
   Widget _cart(BuildContext context, CartProvider provider) {
-    final _themeData = Theme.of(context);
     return Material(
       elevation: 3.0,
       child: Container(
         height: 50,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child: _storeButton(_themeData, provider),
+              child: _storeButton(context, provider),
             ),
             Expanded(
-              child: _cartButton(_themeData, provider),
+              child: _cartButton(context, provider),
             )
           ],
         ),
@@ -36,7 +38,8 @@ class CartBottomModal extends StatelessWidget {
     );
   }
 
-  Widget _cartButton(ThemeData _themeData, CartProvider provider) {
+  Widget _cartButton(BuildContext context, CartProvider provider) {
+    final _themeData = Theme.of(context);
     return GestureDetector(
       onTap: () {},
       child: Container(
@@ -58,31 +61,34 @@ class CartBottomModal extends StatelessWidget {
     );
   }
 
-  Widget _storeButton(ThemeData _themeData, CartProvider provider) {
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        color: _themeData.cardColor,
-        padding: EdgeInsets.symmetric(vertical: 7.0, horizontal: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 3,
-              child: Text(
-                provider.cartStore.name,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
+  Widget _storeButton(BuildContext context, CartProvider provider) {
+    final _themeData = Theme.of(context);
+    return OpenContainer(
+      closedColor: _themeData.cardColor,
+      transitionDuration: Duration(milliseconds: 900),
+      closedBuilder: (context, openContainer) {
+        return GestureDetector(
+          onTap: () {
+            openContainer();
+          },
+          child: Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: Text(
+                  provider.cartStore.name,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Text('Add More'),
-            )
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      },
+      openBuilder: (_, __) => ProductListScreen(provider.cartStore),
     );
   }
 }

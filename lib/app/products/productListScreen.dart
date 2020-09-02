@@ -10,6 +10,9 @@ import '../cart/cartBottomModal.dart';
 
 class ProductListScreen extends StatefulWidget {
   static String route = 'productsScreen';
+  final StoreModel store;
+
+  ProductListScreen([this.store]);
 
   @override
   _ProductListScreenState createState() => _ProductListScreenState();
@@ -20,16 +23,49 @@ class _ProductListScreenState extends State<ProductListScreen> {
   void initState() {
     Future.delayed(Duration.zero, () {
       Provider.of<CartProvider>(context, listen: false)
-          .selectedProductListStore = ModalRoute.of(context).settings.arguments;
+          .selectedProductListStore = this._store;
     });
     super.initState();
   }
 
+  StoreModel get _store => widget.store == null
+      ? ModalRoute.of(context).settings.arguments
+      : widget.store;
+
   @override
   void dispose() {
-    Provider.of<CartProvider>(context, listen: false).selectedProductListStore =
-        null;
+    // Provider.of<CartProvider>(context, listen: false).selectedProductListStore =
+    //     null;
     super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final StoreModel store = this._store;
+    return Container(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(store.name),
+        ),
+        body: SafeArea(
+          child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5.0),
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  Column(
+                    children: [
+                      StoreBrandCard(store),
+                      SizedBox(height: 4.0),
+                      _futureBuilder(context, store.id),
+                    ],
+                  ),
+                  CartBottomModal()
+                ],
+              )),
+        ),
+      ),
+    );
   }
 
   Widget _futureBuilder(BuildContext context, String storeId) {
@@ -69,35 +105,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
           );
         }
       },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final StoreModel store = ModalRoute.of(context).settings.arguments;
-    return Container(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(store.name),
-        ),
-        body: SafeArea(
-          child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5.0),
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  Column(
-                    children: [
-                      StoreBrandCard(store),
-                      SizedBox(height: 4.0),
-                      _futureBuilder(context, store.id),
-                    ],
-                  ),
-                  CartBottomModal()
-                ],
-              )),
-        ),
-      ),
     );
   }
 }
