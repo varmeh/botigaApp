@@ -32,9 +32,15 @@ class CartProvider with ChangeNotifier {
   }
 
   void removeProduct(ProductModel product) {
-    products[product]--;
-    totalPrice -= product.price;
-    numberOfItemsInCart--;
+    if (products[product] > 0) {
+      products[product]--;
+      totalPrice -= product.price;
+      numberOfItemsInCart--;
+    }
+
+    if (products[product] == 0) {
+      products.remove(product);
+    }
     notifyListeners();
   }
 

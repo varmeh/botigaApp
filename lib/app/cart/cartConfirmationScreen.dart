@@ -1,10 +1,175 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/index.dart' show StoreModel, ProductModel;
+import '../../providers/index.dart' show CartProvider;
+import '../../widgets/index.dart' show ContactPartnerWidget, IncrementButton;
+
+const _itemPadding = EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0);
 
 class CartConfirmationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _themeData = Theme.of(context);
+    final _provider = Provider.of<CartProvider>(context);
     return Container(
-      child: Text('1'),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Cart'),
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: ListView.builder(
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                switch (index) {
+                  case 0:
+                    return _storeInformation(_themeData, _provider.cartStore);
+
+                  case 1:
+                    return _itemList(_themeData, _provider);
+
+                  case 2:
+                    return _grandBill(_themeData, _provider);
+
+                  default:
+                    return Container();
+                }
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _storeInformation(ThemeData themeData, StoreModel store) {
+    final _sizedBox = SizedBox(height: 15.0);
+
+    return Container(
+      color: themeData.cardColor,
+      padding: _itemPadding,
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  store.name,
+                  style: themeData.textTheme.headline6,
+                ),
+                _sizedBox,
+                Text(
+                  store.segments,
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ContactPartnerWidget(
+              phone: store.phone,
+              whatsapp: store.whatsapp,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _itemList(ThemeData themeData, CartProvider provider) {
+    final List<Widget> productList = [];
+    provider.products.forEach(
+      (product, quantity) {
+        productList.add(_itemTile(themeData, provider, product, quantity));
+      },
+    );
+
+    return Container(
+      color: themeData.cardColor,
+      padding: _itemPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: productList,
+      ),
+    );
+  }
+
+  Widget _itemTile(ThemeData themeData, CartProvider provider,
+      ProductModel product, int quantity) {
+    return Column(
+      children: [
+        SizedBox(height: 40),
+        Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Text(
+                '${product.name} [${product.quantity}]',
+                style: themeData.textTheme.subtitle1,
+              ),
+            ),
+            Expanded(
+              child: Center(
+                child: IncrementButton(
+                  value: quantity,
+                  onIncrement: () {
+                    provider.addProduct(provider.cartStore, product);
+                  },
+                  onDecrement: () {
+                    if (quantity > 0) {
+                      provider.removeProduct(product);
+                    }
+                  },
+                ),
+              ),
+            ),
+            Expanded(
+              child: Text(
+                '₹${(product.price * quantity).toInt()}',
+                style: themeData.textTheme.subtitle1,
+                textAlign: TextAlign.end,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _grandBill(ThemeData themeData, CartProvider provider) {
+    return Container(
+      color: themeData.cardColor,
+      padding: _itemPadding,
+      child: Column(
+        children: [
+          Divider(
+            color: themeData.dividerColor,
+            thickness: 1.0,
+          ),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Text(
+                  'Total Amount to be Paid',
+                  style: themeData.textTheme.subtitle1,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  '₹${provider.totalPrice.toInt()}',
+                  style: themeData.textTheme.subtitle1,
+                  textAlign: TextAlign.end,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
+        ],
+      ),
     );
   }
 }
