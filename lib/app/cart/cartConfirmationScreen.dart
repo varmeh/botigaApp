@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../models/index.dart' show StoreModel, ProductModel;
 import '../../providers/index.dart' show CartProvider;
 import '../../widgets/index.dart' show ContactPartnerWidget, IncrementButton;
+import 'paymentBottomModal.dart';
 
 const _itemPadding = EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0);
 
@@ -19,26 +20,35 @@ class CartConfirmationScreen extends StatelessWidget {
         ),
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
-            child: ListView.builder(
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                switch (index) {
-                  case 0:
-                    return _storeInformation(_themeData, _provider.cartStore);
+              padding: const EdgeInsets.symmetric(vertical: 5.0),
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  ListView.builder(
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      switch (index) {
+                        case 0:
+                          return _storeInformation(
+                              _themeData, _provider.cartStore);
 
-                  case 1:
-                    return _itemList(_themeData, _provider);
+                        case 1:
+                          return _itemList(_themeData, _provider);
 
-                  case 2:
-                    return _grandBill(_themeData, _provider);
+                        case 2:
+                          return _grandBill(_themeData, _provider);
 
-                  default:
-                    return Container();
-                }
-              },
-            ),
-          ),
+                        default:
+                          return Container(
+                            height: 50,
+                            color: _themeData.cardColor,
+                          );
+                      }
+                    },
+                  ),
+                  PaymentBottomModal()
+                ],
+              )),
         ),
       ),
     );
