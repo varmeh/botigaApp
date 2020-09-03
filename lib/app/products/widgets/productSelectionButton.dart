@@ -22,16 +22,9 @@ class _ProductSelectionButtonState extends State<ProductSelectionButton> {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final _borderColor =
-        widget.enabled ? themeData.primaryColor : themeData.disabledColor;
     final provider = Provider.of<CartProvider>(context);
     _value = provider.quantityInCart(widget.product);
     return Container(
-      width: 80.0,
-      height: 30.0,
-      padding: EdgeInsets.all(5),
-      decoration: BoxDecoration(border: Border.all(color: _borderColor)),
       child: _value == 0
           ? _AddButton(
               enabled: widget.enabled,
@@ -73,14 +66,23 @@ class _AddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     final _color = this.enabled ? themeData.primaryColor : themeData.hintColor;
+    final _borderColor =
+        this.enabled ? themeData.primaryColor : themeData.disabledColor;
+
     return GestureDetector(
       onTap: this.enabled ? this.onPressed : () {},
-      child: FittedBox(
-        fit: BoxFit.contain,
-        child: Text(
-          this.enabled ? 'ADD' : 'Not Available',
-          style: themeData.textTheme.subtitle2.merge(
-            TextStyle(color: _color),
+      child: Container(
+        width: 80.0,
+        height: 30.0,
+        padding: EdgeInsets.all(5),
+        decoration: BoxDecoration(border: Border.all(color: _borderColor)),
+        child: FittedBox(
+          fit: BoxFit.contain,
+          child: Text(
+            this.enabled ? 'ADD' : 'Not Available',
+            style: themeData.textTheme.subtitle2.merge(
+              TextStyle(color: _color),
+            ),
           ),
         ),
       ),

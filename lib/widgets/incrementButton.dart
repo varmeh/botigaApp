@@ -16,29 +16,36 @@ class IncrementButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final _themeData = Theme.of(context);
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        ColorIconButton(
-          icon: Icons.remove,
-          color: Theme.of(context).primaryColor,
-          onPressed: this.onDecrement,
-        ),
-        Text(
-          value.toString(),
-          style: _themeData.textTheme.subtitle1.merge(
-            TextStyle(
-              color: _themeData.primaryColor,
+    return Container(
+      width: 80.0,
+      height: 30.0,
+      padding: EdgeInsets.all(5),
+      decoration:
+          BoxDecoration(border: Border.all(color: _themeData.primaryColor)),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          ColorIconButton(
+            icon: Icons.remove,
+            color: Theme.of(context).primaryColor,
+            onPressed: this.onDecrement,
+          ),
+          Text(
+            value.toString(),
+            style: _themeData.textTheme.subtitle1.merge(
+              TextStyle(
+                color: _themeData.primaryColor,
+              ),
             ),
           ),
-        ),
-        ColorIconButton(
-          icon: Icons.add,
-          color: Theme.of(context).primaryColor,
-          onPressed: this.onIncrement,
-        ),
-      ],
+          ColorIconButton(
+            icon: Icons.add,
+            color: Theme.of(context).primaryColor,
+            onPressed: this.onIncrement,
+          ),
+        ],
+      ),
     );
   }
 }
