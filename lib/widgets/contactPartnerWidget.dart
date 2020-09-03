@@ -18,6 +18,28 @@ class ContactPartnerWidget extends StatelessWidget {
     this.whatsappIconColor = Colors.green,
   });
 
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        ColorIconButton(
+          icon: Icons.phone,
+          color: this.phoneIconColor,
+          onPressed: () => _phone(context),
+        ),
+        SizedBox(
+          height: 20.0,
+        ),
+        ColorIconButton(
+          icon: Icons.message,
+          color: this.whatsappIconColor,
+          onPressed: () => _whatsapp(context),
+        ),
+      ],
+    );
+  }
+
   void _phone(BuildContext context) async {
     final url = 'tel://$phone';
     if (await canLaunch(url)) {
@@ -63,27 +85,5 @@ class ContactPartnerWidget extends StatelessWidget {
                 )
               ],
             ));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        ColorIconButton(
-          icon: Icons.phone,
-          color: this.phoneIconColor,
-          onPressed: () => _phone(context),
-        ),
-        SizedBox(
-          height: 20.0,
-        ),
-        ColorIconButton(
-          icon: Icons.message,
-          color: this.whatsappIconColor,
-          onPressed: () => _whatsapp(context),
-        ),
-      ],
-    );
   }
 }
