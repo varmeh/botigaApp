@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "423334476252",
+    "firebase_url": "https://botiga-dev.firebaseio.com",
+    "project_id": "botiga-dev",
+    "storage_bucket": "botiga-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423334476252:android:dadc7fff788bdccb9fb719",
+        "android_client_info": {
+          "package_name": "app.botiga.botiga.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "423334476252-c74gki1tqc7g3cbdri1h82opms0n9n5l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmKXefrM2W8EjjlFWSsTBQtJMv22k1CBU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "423334476252-c74gki1tqc7g3cbdri1h82opms0n9n5l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
