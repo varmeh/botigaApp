@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
 import 'providers/index.dart'
     show StoresProvider, ProductsProvider, CartProvider;
@@ -21,6 +24,8 @@ Future<void> main() async {
     ],
   );
 
+  await Firebase.initializeApp();
+
   await Flavor.shared.init();
   runApp(
     MultiProvider(
@@ -36,6 +41,10 @@ Future<void> main() async {
 
 class BotigaApp extends StatelessWidget {
   // This widget is the root of your application.
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,6 +56,7 @@ class BotigaApp extends StatelessWidget {
         Tabbar.route: (context) => Tabbar(),
         ProductListScreen.route: (context) => ProductListScreen(),
       },
+      navigatorObservers: <NavigatorObserver>[observer],
     );
   }
 }

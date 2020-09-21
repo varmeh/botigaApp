@@ -39,6 +39,7 @@ dependencies:
   # Firebase integration
   firebase_core: ^0.5.0
   firebase_messaging: ^7.0.0
+  firebase_analytics: ^6.0.0
 
 dev_dependencies:
   flutter_test:
