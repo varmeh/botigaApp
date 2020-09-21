@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>423334476252-pi2gtout5lteh01r8nlmdqtjehpgb5s4.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.423334476252-pi2gtout5lteh01r8nlmdqtjehpgb5s4</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBMHpar6Nj90XS2SHcn3BU_kzijNZJ-LeA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>423334476252</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>app.botiga.botiga.dev</string>
+	<key>PROJECT_ID</key>
+	<string>botiga-dev</string>
+	<key>STORAGE_BUCKET</key>
+	<string>botiga-dev.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:423334476252:ios:740e25c972f1f8329fb719</string>
+	<key>DATABASE_URL</key>
+	<string>https://botiga-dev.firebaseio.com</string>
+</dict>
+</plist>
