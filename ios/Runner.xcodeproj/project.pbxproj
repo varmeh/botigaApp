@@ -155,6 +155,7 @@
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				FDDF7EEF84246D7242CB14D1 /* [CP] Embed Pods Frameworks */,
+				B95E5877251A0954004E9C90 /* Run Firebase Crashytics */,
 			);
 			buildRules = (
 			);
@@ -263,6 +264,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
+		};
+		B95E5877251A0954004E9C90 /* Run Firebase Crashytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Firebase Crashytics";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${PODS_ROOT}/FirebaseCrashlytics/run\n";
 		};
 		B9ADD39425192891003A1B97 /* Copy GoogleService-Info.plist based on flavor */ = {
 			isa = PBXShellScriptBuildPhase;
