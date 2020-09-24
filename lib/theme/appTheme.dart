@@ -6,8 +6,8 @@ final _textThemeUpdate = TextTheme(
   subtitle1: TextStyle(fontWeight: FontWeight.w500),
 );
 
-final _selectedIconTheme = IconThemeData(size: 40);
-final _unselectedIconTheme = IconThemeData(size: 30);
+final _selectedIconTheme = IconThemeData(size: 28);
+final _unselectedIconTheme = IconThemeData(size: 24);
 
 class AppTheme {
   static final light = lightTheme.copyWith(

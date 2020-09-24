@@ -9,6 +9,7 @@ import 'profile/profileListScreen.dart';
 
 import '../util/index.dart' show FlavorBanner;
 import './cart/cartBottomModal.dart';
+import '../theme/index.dart' show BotigaIcons;
 
 class Tabbar extends StatefulWidget {
   static String route = 'tabbar';
@@ -77,15 +78,15 @@ class _TabbarState extends State<Tabbar> {
         bottomNavigationBar: BottomNavigationBar(
           items: const [
             BottomNavigationBarItem(
-              icon: const Icon(Icons.store),
+              icon: const Icon(BotigaIcons.store),
               title: const Text('Botiga'),
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.receipt),
+              icon: const Icon(BotigaIcons.orders),
               title: const Text('Orders'),
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.person),
+              icon: const Icon(BotigaIcons.profile),
               title: const Text('Profile'),
             ),
           ],
