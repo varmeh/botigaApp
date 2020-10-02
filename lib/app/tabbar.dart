@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'stores/storeListScreen.dart';
 import 'orders/orderListScreen.dart';
+import 'cart/cartScreen.dart';
 import 'profile/profileListScreen.dart';
 
 import '../util/index.dart' show FlavorBanner;
@@ -24,6 +25,7 @@ class _TabbarState extends State<Tabbar> {
   static List<Widget> _selectedTab = [
     StoreListScreen(),
     OrderListScreen(),
+    CartScreen(),
     ProfileListScreen(),
   ];
 
@@ -76,14 +78,19 @@ class _TabbarState extends State<Tabbar> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           items: const [
             BottomNavigationBarItem(
-              icon: const Icon(BotigaIcons.store),
-              title: const Text('Botiga'),
+              icon: const Icon(BotigaIcons.building),
+              title: const Text('Home'),
             ),
             BottomNavigationBarItem(
               icon: const Icon(BotigaIcons.orders),
               title: const Text('Orders'),
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(BotigaIcons.basket),
+              title: const Text('Cart'),
             ),
             BottomNavigationBarItem(
               icon: const Icon(BotigaIcons.profile),
