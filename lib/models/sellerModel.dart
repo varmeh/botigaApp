@@ -15,16 +15,10 @@ class SellerModel {
 
   final bool live;
 
-  @JsonKey(name: 'contact.phone')
   final String phone;
-
-  @JsonKey(name: 'contact.whatsapp')
   final String whatsapp;
 
-  @JsonKey(name: 'delivery.message')
   final String deliveryMessage;
-
-  @JsonKey(name: 'delivery.date')
   final String deliveryDate;
 
   SellerModel({

@@ -14,10 +14,10 @@ SellerModel _$SellerModelFromJson(Map<String, dynamic> json) {
     businessCategory: json['businessCategory'] as String,
     brandImageUrl: json['brandImageUrl'] as String,
     live: json['live'] as bool,
-    phone: json['contact.phone'] as String,
-    whatsapp: json['contact.whatsapp'] as String,
-    deliveryMessage: json['delivery.message'] as String,
-    deliveryDate: json['delivery.date'] as String,
+    phone: json['phone'] as String,
+    whatsapp: json['whatsapp'] as String,
+    deliveryMessage: json['deliveryMessage'] as String,
+    deliveryDate: json['deliveryDate'] as String,
   );
 }
 
@@ -29,8 +29,8 @@ Map<String, dynamic> _$SellerModelToJson(SellerModel instance) =>
       'businessCategory': instance.businessCategory,
       'brandImageUrl': instance.brandImageUrl,
       'live': instance.live,
-      'contact.phone': instance.phone,
-      'contact.whatsapp': instance.whatsapp,
-      'delivery.message': instance.deliveryMessage,
-      'delivery.date': instance.deliveryDate,
+      'phone': instance.phone,
+      'whatsapp': instance.whatsapp,
+      'deliveryMessage': instance.deliveryMessage,
+      'deliveryDate': instance.deliveryDate,
     };
