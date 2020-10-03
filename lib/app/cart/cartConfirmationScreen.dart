@@ -29,8 +29,8 @@ class CartConfirmationScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       switch (index) {
                         case 0:
-                          return _storeInformation(
-                              _themeData, _provider.cartStore);
+                          return _sellerInformation(
+                              _themeData, _provider.cartSeller);
 
                         case 1:
                           return _itemList(_themeData, _provider);
@@ -54,7 +54,7 @@ class CartConfirmationScreen extends StatelessWidget {
     );
   }
 
-  Widget _storeInformation(ThemeData themeData, SellerModel store) {
+  Widget _sellerInformation(ThemeData themeData, SellerModel seller) {
     final _sizedBox = SizedBox(height: 15.0);
 
     return Container(
@@ -67,20 +67,20 @@ class CartConfirmationScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  store.brandName,
+                  seller.brandName,
                   style: themeData.textTheme.headline6,
                 ),
                 _sizedBox,
                 Text(
-                  store.businessCategory,
+                  seller.businessCategory,
                 ),
               ],
             ),
           ),
           Expanded(
             child: ContactPartnerWidget(
-              phone: store.phone,
-              whatsapp: store.whatsapp,
+              phone: seller.phone,
+              whatsapp: seller.whatsapp,
             ),
           )
         ],
@@ -125,7 +125,7 @@ class CartConfirmationScreen extends StatelessWidget {
                 child: IncrementButton(
                   value: quantity,
                   onIncrement: () {
-                    provider.addProduct(provider.cartStore, product);
+                    provider.addProduct(provider.cartSeller, product);
                   },
                   onDecrement: () {
                     if (quantity > 0) {

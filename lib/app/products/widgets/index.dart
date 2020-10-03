@@ -1,2 +1,2 @@
 export 'categoryCard.dart';
-export 'storeBrandCard.dart';
+export 'sellerBrandCard.dart';

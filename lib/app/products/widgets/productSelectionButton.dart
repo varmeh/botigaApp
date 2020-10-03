@@ -7,11 +7,11 @@ import '../../../providers/index.dart' show CartProvider;
 
 class ProductSelectionButton extends StatefulWidget {
   final ProductModel product;
-  final SellerModel store;
+  final SellerModel seller;
   final bool enabled;
 
   ProductSelectionButton(
-      {@required this.store, @required this.product, this.enabled = true});
+      {@required this.seller, @required this.product, this.enabled = true});
 
   @override
   _ProductSelectionButtonState createState() => _ProductSelectionButtonState();
@@ -29,7 +29,7 @@ class _ProductSelectionButtonState extends State<ProductSelectionButton> {
           ? _AddButton(
               enabled: widget.enabled,
               onPressed: () {
-                provider.addProduct(widget.store, widget.product);
+                provider.addProduct(widget.seller, widget.product);
                 setState(() {
                   _value++;
                 });
@@ -38,7 +38,7 @@ class _ProductSelectionButtonState extends State<ProductSelectionButton> {
           : IncrementButton(
               value: _value,
               onIncrement: () {
-                provider.addProduct(widget.store, widget.product);
+                provider.addProduct(widget.seller, widget.product);
                 setState(() {
                   _value++;
                 });

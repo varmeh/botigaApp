@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'storeProductsModel.dart';
+part of 'sellerProductsModel.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-StoreProductsModel _$StoreProductsModelFromJson(Map<String, dynamic> json) {
-  return StoreProductsModel(
+SellerProductsModel _$SellerProductsModelFromJson(Map<String, dynamic> json) {
+  return SellerProductsModel(
     (json['category'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
           k,
@@ -20,7 +20,8 @@ StoreProductsModel _$StoreProductsModelFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$StoreProductsModelToJson(StoreProductsModel instance) =>
+Map<String, dynamic> _$SellerProductsModelToJson(
+        SellerProductsModel instance) =>
     <String, dynamic>{
       'category': instance.category,
     };

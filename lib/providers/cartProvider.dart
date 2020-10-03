@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/index.dart' show SellerModel, ProductModel;
 
 class CartProvider with ChangeNotifier {
-  SellerModel cartStore;
+  SellerModel cartSeller;
   double totalPrice = 0.0;
   int numberOfItemsInCart = 0;
   Map<ProductModel, int> products = {};
@@ -12,18 +12,18 @@ class CartProvider with ChangeNotifier {
     totalPrice = 0.0;
     numberOfItemsInCart = 0;
     products.clear();
-    cartStore = null;
+    cartSeller = null;
   }
 
-  void addProduct(SellerModel store, ProductModel product) {
-    if (cartStore == store) {
+  void addProduct(SellerModel seller, ProductModel product) {
+    if (cartSeller == seller) {
       products[product] =
           products.containsKey(product) ? products[product] + 1 : 1;
       totalPrice += product.price;
       numberOfItemsInCart++;
     } else {
       clearCart();
-      cartStore = store;
+      cartSeller = seller;
       products[product] = 1;
       totalPrice = product.price;
       numberOfItemsInCart = 1;

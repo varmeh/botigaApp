@@ -3,10 +3,10 @@ import '../../../models/index.dart' show SellerModel;
 import '../../../util/index.dart' show Constants;
 import '../../../widgets/index.dart' show ContactPartnerWidget;
 
-class StoreBrandCard extends StatelessWidget {
-  final SellerModel store;
+class SellerBrandCard extends StatelessWidget {
+  final SellerModel seller;
 
-  StoreBrandCard(this.store);
+  SellerBrandCard(this.seller);
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +29,12 @@ class StoreBrandCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    store.tagline,
+                    seller.tagline,
                     style: _themeData.textTheme.headline6,
                   ),
                   _sizedBox,
                   Text(
-                    store.businessCategory,
+                    seller.businessCategory,
                     style: _subtitle1,
                   ),
                 ],
@@ -42,8 +42,8 @@ class StoreBrandCard extends StatelessWidget {
             ),
             Expanded(
               child: ContactPartnerWidget(
-                phone: store.phone,
-                whatsapp: store.whatsapp,
+                phone: seller.phone,
+                whatsapp: seller.whatsapp,
                 phoneIconColor: _themeData.textTheme.headline6.color,
                 whatsappIconColor: _themeData.textTheme.headline6.color,
               ),

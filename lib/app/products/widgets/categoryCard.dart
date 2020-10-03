@@ -8,9 +8,9 @@ import 'productSelectionButton.dart';
 
 class CategoryCard extends StatelessWidget {
   final CategoryModel category;
-  final SellerModel store;
+  final SellerModel seller;
 
-  CategoryCard({@required this.category, @required this.store});
+  CategoryCard({@required this.category, @required this.seller});
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +116,7 @@ class CategoryCard extends StatelessWidget {
                   _textTheme.subtitle1.merge(Constants.kTextStyleFontWeight700),
             ),
             ProductSelectionButton(
-              store: store,
+              seller: seller,
               product: product,
             ),
           ],

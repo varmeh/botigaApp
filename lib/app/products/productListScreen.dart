@@ -3,26 +3,26 @@ import 'package:provider/provider.dart';
 import 'package:expandable/expandable.dart';
 
 import '../../models/index.dart' show SellerModel;
-import 'widgets/index.dart' show StoreBrandCard, CategoryCard;
+import 'widgets/index.dart' show SellerBrandCard, CategoryCard;
 import '../../providers/index.dart' show ProductsProvider;
 import '../../util/index.dart' show HttpServiceExceptionWidget;
 import '../cart/cartBottomModal.dart';
 
 class ProductListScreen extends StatelessWidget {
   static String route = 'productsScreen';
-  final SellerModel store;
+  final SellerModel seller;
 
-  ProductListScreen([this.store]);
+  ProductListScreen([this.seller]);
 
-  SellerModel getStore(BuildContext context) =>
-      store == null ? ModalRoute.of(context).settings.arguments : store;
+  SellerModel getSeller(BuildContext context) =>
+      seller == null ? ModalRoute.of(context).settings.arguments : seller;
 
   @override
   Widget build(BuildContext context) {
-    final SellerModel store = getStore(context);
+    final SellerModel seller = getSeller(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(store.brandName),
+        title: Text(seller.brandName),
       ),
       body: SafeArea(
         child: Padding(
@@ -32,9 +32,9 @@ class ProductListScreen extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  StoreBrandCard(store),
+                  SellerBrandCard(seller),
                   SizedBox(height: 4.0),
-                  _futureBuilder(context, store),
+                  _futureBuilder(context, seller),
                 ],
               ),
               CartBottomModal()
@@ -45,10 +45,10 @@ class ProductListScreen extends StatelessWidget {
     );
   }
 
-  Widget _futureBuilder(BuildContext context, SellerModel store) {
+  Widget _futureBuilder(BuildContext context, SellerModel seller) {
     return FutureBuilder(
       future: Provider.of<ProductsProvider>(context, listen: false)
-          .getProducts(store.id),
+          .getProducts(seller.id),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Expanded(
@@ -70,12 +70,12 @@ class ProductListScreen extends StatelessWidget {
               child: Consumer<ProductsProvider>(
                 builder: (context, provider, child) {
                   return ListView.builder(
-                    itemCount: provider.products(store.id).length,
+                    itemCount: provider.products(seller.id).length,
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return CategoryCard(
-                        store: store,
-                        category: provider.products(store.id)[index],
+                        seller: seller,
+                        category: provider.products(seller.id)[index],
                       );
                     },
                   );

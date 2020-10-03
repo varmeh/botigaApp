@@ -29,7 +29,7 @@ class CartBottomModal extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child: _storeButton(context, provider),
+              child: _sellerButton(context, provider),
             ),
             Expanded(
               child: _cartButton(context, provider),
@@ -70,7 +70,7 @@ class CartBottomModal extends StatelessWidget {
     );
   }
 
-  Widget _storeButton(BuildContext context, CartProvider provider) {
+  Widget _sellerButton(BuildContext context, CartProvider provider) {
     final _themeData = Theme.of(context);
     return OpenContainer(
       closedColor: _themeData.cardColor,
@@ -80,7 +80,7 @@ class CartBottomModal extends StatelessWidget {
           onTap: openContainer,
           child: Center(
             child: Text(
-              provider.cartStore.brandName,
+              provider.cartSeller.brandName,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 17,
@@ -90,7 +90,7 @@ class CartBottomModal extends StatelessWidget {
           ),
         );
       },
-      openBuilder: (_, __) => ProductListScreen(provider.cartStore),
+      openBuilder: (_, __) => ProductListScreen(provider.cartSeller),
     );
   }
 }

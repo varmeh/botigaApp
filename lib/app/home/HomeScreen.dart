@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Provider.of<SellersProvider>(context, listen: false).getStores(),
+      future: Provider.of<SellersProvider>(context, listen: false).getSellers(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
@@ -27,16 +27,16 @@ class HomeScreen extends StatelessWidget {
           return Consumer<SellersProvider>(
             builder: (context, provider, child) {
               return ListView.builder(
-                itemCount: provider.storeList.length,
+                itemCount: provider.sellerList.length,
                 itemBuilder: (context, index) {
                   return SellerTile(
-                    title: provider.storeList[index].brandName,
-                    subTitle: provider.storeList[index].businessCategory,
+                    title: provider.sellerList[index].brandName,
+                    subTitle: provider.sellerList[index].businessCategory,
                     onTap: () {
                       Navigator.pushNamed(
                         context,
                         ProductListScreen.route,
-                        arguments: provider.storeList[index],
+                        arguments: provider.sellerList[index],
                       );
                     },
                   );
