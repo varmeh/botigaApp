@@ -44,7 +44,7 @@ class _TabbarState extends State<Tabbar> {
     }
 
     fbm.getToken().then((value) => {
-          //TODO: upload the push notification token to database
+          // TODO upload the push notification token to database
           print('Push Token: $value')
         });
 

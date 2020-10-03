@@ -1,9 +1,8 @@
+import 'package:botiga/models/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/index.dart' show SellersProvider;
-
-import 'widgets/sellerTile.dart';
 
 import '../products/productListScreen.dart';
 import '../../util/index.dart' show HttpServiceExceptionWidget;
@@ -29,23 +28,31 @@ class HomeScreen extends StatelessWidget {
               return ListView.builder(
                 itemCount: provider.sellerList.length,
                 itemBuilder: (context, index) {
-                  return SellerTile(
-                    title: provider.sellerList[index].brandName,
-                    subTitle: provider.sellerList[index].businessCategory,
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        ProductListScreen.route,
-                        arguments: provider.sellerList[index],
-                      );
-                    },
-                  );
+                  return _sellersTile(context, provider.sellerList[index]);
                 },
               );
             },
           );
         }
       },
+    );
+  }
+
+  Widget _sellersTile(BuildContext context, SellerModel seller) {
+    return Card(
+      child: ListTile(
+        leading: Icon(Icons.label),
+        title: Text(seller.brandName),
+        subtitle: Text(seller.businessCategory),
+        trailing: Icon(Icons.arrow_forward_ios),
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            ProductListScreen.route,
+            arguments: seller,
+          );
+        },
+      ),
     );
   }
 }
