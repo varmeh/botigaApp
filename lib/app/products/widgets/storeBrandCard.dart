@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../models/index.dart' show StoreModel;
+import '../../../models/index.dart' show SellerModel;
 import '../../../util/index.dart' show Constants;
 import '../../../widgets/index.dart' show ContactPartnerWidget;
 
 class StoreBrandCard extends StatelessWidget {
-  final StoreModel store;
+  final SellerModel store;
 
   StoreBrandCard(this.store);
 

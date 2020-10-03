@@ -33,6 +33,7 @@ class Flavor {
 
   String get bannerName => isProduction ? 'PROD' : 'DEV';
 
-  String get baseUrl =>
-      isProduction ? 'http://production.url' : 'https://dev.botiga.app';
+  String get baseUrl => isProduction
+      ? 'http://production.url'
+      : 'https://54e229ea-68d1-4132-817d-181640213d0a.mock.pstmn.io';
 }

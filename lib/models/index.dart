@@ -1,4 +1,4 @@
-export 'storeModel.dart';
+export 'sellerModel.dart';
 export 'productModel.dart';
 export 'storeProductsModel.dart';
 export 'categoryModel.dart';

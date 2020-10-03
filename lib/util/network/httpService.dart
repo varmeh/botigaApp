@@ -27,6 +27,9 @@ class HttpService {
       case 403:
         throw UanuthorizedException();
 
+      case 422:
+        return json.decode(response.body);
+
       case 500:
       case 503:
       case 504:

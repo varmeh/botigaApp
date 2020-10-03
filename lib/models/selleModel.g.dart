@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'storeModel.dart';
+part of 'sellerModel.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-StoreModel _$StoreModelFromJson(Map<String, dynamic> json) {
-  return StoreModel(
+SellerModel _$SellerModelFromJson(Map<String, dynamic> json) {
+  return SellerModel(
     id: json['id'] as String,
     name: json['name'] as String,
     segmentList:
@@ -18,7 +18,7 @@ StoreModel _$StoreModelFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$StoreModelToJson(StoreModel instance) =>
+Map<String, dynamic> _$SellerModelToJson(SellerModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

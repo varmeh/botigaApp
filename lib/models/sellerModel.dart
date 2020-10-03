@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'storeModel.g.dart';
+part 'selleModel.g.dart';
 
 @JsonSerializable()
-class StoreModel {
+class SellerModel {
   final String id;
   final String name;
   final String moto;
@@ -14,7 +14,7 @@ class StoreModel {
   final String phone;
   final String whatsapp;
 
-  StoreModel({
+  SellerModel({
     @required this.id,
     @required this.name,
     @required this.segmentList,
@@ -23,10 +23,10 @@ class StoreModel {
     @required this.whatsapp,
   });
 
-  factory StoreModel.fromJson(Map<String, dynamic> json) =>
-      _$StoreModelFromJson(json);
+  factory SellerModel.fromJson(Map<String, dynamic> json) =>
+      _$SellerModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StoreModelToJson(this);
+  Map<String, dynamic> toJson() => _$SellerModelToJson(this);
 
   String get segments {
     return segmentList.join(' - ');

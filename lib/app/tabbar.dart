@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import 'stores/storeListScreen.dart';
+import 'home/HomeScreen.dart';
 import 'orders/orderListScreen.dart';
 import 'cart/cartScreen.dart';
 import 'profile/profileListScreen.dart';
@@ -23,7 +23,7 @@ class _TabbarState extends State<Tabbar> {
   int _selectedIndex = 0;
 
   static List<Widget> _selectedTab = [
-    StoreListScreen(),
+    HomeScreen(),
     OrderListScreen(),
     CartScreen(),
     ProfileListScreen(),

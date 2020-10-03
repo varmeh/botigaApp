@@ -3,12 +3,12 @@ import 'package:provider/provider.dart';
 
 import '../../providers/index.dart' show StoresProvider;
 
-import 'widgets/storeCard.dart';
+import 'widgets/sellerTile.dart';
 
 import '../products/productListScreen.dart';
 import '../../util/index.dart' show HttpServiceExceptionWidget;
 
-class StoreListScreen extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -29,7 +29,7 @@ class StoreListScreen extends StatelessWidget {
               return ListView.builder(
                 itemCount: provider.storeList.length,
                 itemBuilder: (context, index) {
-                  return StoreCard(
+                  return SellerTile(
                     title: provider.storeList[index].name,
                     subTitle: provider.storeList[index].segments,
                     onTap: () {

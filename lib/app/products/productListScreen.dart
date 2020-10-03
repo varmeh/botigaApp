@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:expandable/expandable.dart';
 
-import '../../models/index.dart' show StoreModel;
+import '../../models/index.dart' show SellerModel;
 import 'widgets/index.dart' show StoreBrandCard, CategoryCard;
 import '../../providers/index.dart' show ProductsProvider;
 import '../../util/index.dart' show HttpServiceExceptionWidget;
@@ -10,16 +10,16 @@ import '../cart/cartBottomModal.dart';
 
 class ProductListScreen extends StatelessWidget {
   static String route = 'productsScreen';
-  final StoreModel store;
+  final SellerModel store;
 
   ProductListScreen([this.store]);
 
-  StoreModel getStore(BuildContext context) =>
+  SellerModel getStore(BuildContext context) =>
       store == null ? ModalRoute.of(context).settings.arguments : store;
 
   @override
   Widget build(BuildContext context) {
-    final StoreModel store = getStore(context);
+    final SellerModel store = getStore(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(store.name),
@@ -45,7 +45,7 @@ class ProductListScreen extends StatelessWidget {
     );
   }
 
-  Widget _futureBuilder(BuildContext context, StoreModel store) {
+  Widget _futureBuilder(BuildContext context, SellerModel store) {
     return FutureBuilder(
       future: Provider.of<ProductsProvider>(context, listen: false)
           .getProducts(store.id),

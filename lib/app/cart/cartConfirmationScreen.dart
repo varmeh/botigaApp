@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/index.dart' show StoreModel, ProductModel;
+import '../../models/index.dart' show SellerModel, ProductModel;
 import '../../providers/index.dart' show CartProvider;
 import '../../widgets/index.dart' show ContactPartnerWidget, IncrementButton;
 import 'paymentBottomModal.dart';
@@ -54,7 +54,7 @@ class CartConfirmationScreen extends StatelessWidget {
     );
   }
 
-  Widget _storeInformation(ThemeData themeData, StoreModel store) {
+  Widget _storeInformation(ThemeData themeData, SellerModel store) {
     final _sizedBox = SizedBox(height: 15.0);
 
     return Container(

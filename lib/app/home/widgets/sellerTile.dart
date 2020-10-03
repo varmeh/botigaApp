@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class StoreCard extends StatelessWidget {
+class SellerTile extends StatelessWidget {
   final String title;
   final String subTitle;
   final Function onTap;
 
-  StoreCard({@required this.title, @required this.subTitle, this.onTap});
+  SellerTile({@required this.title, @required this.subTitle, this.onTap});
 
   @override
   Widget build(BuildContext context) {

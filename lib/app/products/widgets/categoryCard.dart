@@ -3,12 +3,12 @@ import 'package:expandable/expandable.dart';
 
 import '../../../util/index.dart' show Constants;
 import '../../../models/index.dart'
-    show StoreModel, CategoryModel, ProductModel;
+    show SellerModel, CategoryModel, ProductModel;
 import 'productSelectionButton.dart';
 
 class CategoryCard extends StatelessWidget {
   final CategoryModel category;
-  final StoreModel store;
+  final SellerModel store;
 
   CategoryCard({@required this.category, @required this.store});
 
