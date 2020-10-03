@@ -39,19 +39,59 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _sellersTile(BuildContext context, SellerModel seller) {
-    return Card(
-      child: ListTile(
-        leading: Icon(Icons.label),
-        title: Text(seller.brandName),
-        subtitle: Text(seller.businessCategory),
-        trailing: Icon(Icons.arrow_forward_ios),
-        onTap: () {
-          Navigator.pushNamed(
-            context,
-            ProductListScreen.route,
-            arguments: seller,
-          );
-        },
+    final _themeData = Theme.of(context);
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          ProductListScreen.route,
+          arguments: seller,
+        );
+      },
+      child: Container(
+        height: 96,
+        padding: EdgeInsets.fromLTRB(10, 24, 0, 0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 28,
+              backgroundColor: _themeData.disabledColor,
+              backgroundImage: NetworkImage(
+                'https://www.spendwithpennies.com/wp-content/uploads/2015/10/Chocolate-Ganache-22.jpg',
+              ),
+            ),
+            SizedBox(
+              width: 12,
+            ),
+            Expanded(
+              flex: 4,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: _themeData.dividerColor),
+                  ),
+                ),
+                padding: const EdgeInsets.fromLTRB(2.0, 12.0, 0.0, 10.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      seller.brandName,
+                      style: _themeData.textTheme.bodyText2,
+                    ),
+                    Text(
+                      seller.businessCategory,
+                      style: _themeData.textTheme.caption,
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
