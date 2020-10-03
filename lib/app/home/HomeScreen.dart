@@ -32,8 +32,8 @@ class HomeScreen extends StatelessWidget {
                   return index < provider.sellerList.length
                       ? _sellersTile(context, provider.sellerList[index])
                       : BrandingTile(
-                          'Thriving Communities, empowering people',
-                          'made by awesome team of Botiga',
+                          'Thriving communities, empowering people',
+                          'Made by awesome team of Botiga',
                         );
                 },
               );

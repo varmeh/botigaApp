@@ -22,7 +22,7 @@ class BrandingTile extends StatelessWidget {
                 .colored(_themeData.disabledColor),
           ),
           SizedBox(
-            height: 6.0,
+            height: 10.0,
           ),
           Text(
             this.message,
