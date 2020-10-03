@@ -12,7 +12,7 @@ class BrandingTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final _themeData = Theme.of(context);
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
