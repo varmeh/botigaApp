@@ -65,9 +65,6 @@ class _TabbarState extends State<Tabbar> {
   Widget build(BuildContext context) {
     return FlavorBanner(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Botiga'),
-        ),
         body: SafeArea(
           child: Stack(
             alignment: Alignment.bottomCenter,

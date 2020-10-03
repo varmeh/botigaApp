@@ -14,7 +14,7 @@ class StoresProvider with ChangeNotifier {
     if (_storeList.length > 0) {
       return;
     } else {
-      final json = await HttpService().get('/user/stores');
+      final json = await HttpService().get('/api/user/stores');
       final _storeIterable = json['stores'].map(
         (item) => StoreModel.fromJson(item),
       );
