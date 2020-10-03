@@ -22,7 +22,7 @@ class ProductListScreen extends StatelessWidget {
     final SellerModel store = getStore(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(store.name),
+        title: Text(store.brandName),
       ),
       body: SafeArea(
         child: Padding(

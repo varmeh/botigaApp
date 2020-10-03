@@ -80,7 +80,7 @@ class CartBottomModal extends StatelessWidget {
           onTap: openContainer,
           child: Center(
             child: Text(
-              provider.cartStore.name,
+              provider.cartStore.brandName,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 17,

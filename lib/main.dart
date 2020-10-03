@@ -9,7 +9,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'providers/index.dart'
-    show StoresProvider, ProductsProvider, CartProvider;
+    show SellersProvider, ProductsProvider, CartProvider;
 import 'util/index.dart' show Flavor;
 import 'theme/appTheme.dart';
 import 'app/tabbar.dart';
@@ -45,7 +45,7 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => StoresProvider()),
+        ChangeNotifierProvider(create: (context) => SellersProvider()),
         ChangeNotifierProvider(create: (context) => ProductsProvider()),
         ChangeNotifierProvider(create: (context) => CartProvider()),
       ],

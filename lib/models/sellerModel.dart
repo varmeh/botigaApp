@@ -1,34 +1,47 @@
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'selleModel.g.dart';
+part 'sellerModel.g.dart';
 
 @JsonSerializable()
 class SellerModel {
   final String id;
-  final String name;
-  final String moto;
+  final String brandName;
+  final String tagline;
 
-  final List<String> segmentList;
+  final String businessCategory;
 
+  final String brandImageUrl;
+
+  final bool live;
+
+  @JsonKey(name: 'contact.phone')
   final String phone;
+
+  @JsonKey(name: 'contact.whatsapp')
   final String whatsapp;
+
+  @JsonKey(name: 'delivery.message')
+  final String deliveryMessage;
+
+  @JsonKey(name: 'delivery.date')
+  final String deliveryDate;
 
   SellerModel({
     @required this.id,
-    @required this.name,
-    @required this.segmentList,
-    @required this.moto,
+    @required this.brandName,
+    @required this.tagline,
+    @required this.businessCategory,
+    @required this.brandImageUrl,
+    @required this.live,
     @required this.phone,
     @required this.whatsapp,
+    @required this.deliveryMessage,
+    @required this.deliveryDate,
   });
 
   factory SellerModel.fromJson(Map<String, dynamic> json) =>
       _$SellerModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$SellerModelToJson(this);
-
-  String get segments {
-    return segmentList.join(' - ');
-  }
 }

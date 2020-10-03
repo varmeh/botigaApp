@@ -29,12 +29,12 @@ class StoreBrandCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    store.moto,
+                    store.tagline,
                     style: _themeData.textTheme.headline6,
                   ),
                   _sizedBox,
                   Text(
-                    store.segments,
+                    store.businessCategory,
                     style: _subtitle1,
                   ),
                 ],

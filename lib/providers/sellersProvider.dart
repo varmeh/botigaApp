@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../models/index.dart' show SellerModel;
 import '../util/index.dart' show HttpService;
 
-class StoresProvider with ChangeNotifier {
+class SellersProvider with ChangeNotifier {
   List<SellerModel> _storeList = [];
 
   UnmodifiableListView<SellerModel> get storeList =>

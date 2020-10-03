@@ -67,12 +67,12 @@ class CartConfirmationScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  store.name,
+                  store.brandName,
                   style: themeData.textTheme.headline6,
                 ),
                 _sizedBox,
                 Text(
-                  store.segments,
+                  store.businessCategory,
                 ),
               ],
             ),

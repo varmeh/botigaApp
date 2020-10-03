@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/index.dart' show StoresProvider;
+import '../../providers/index.dart' show SellersProvider;
 
 import 'widgets/sellerTile.dart';
 
@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Provider.of<StoresProvider>(context, listen: false).getStores(),
+      future: Provider.of<SellersProvider>(context, listen: false).getStores(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
@@ -24,14 +24,14 @@ class HomeScreen extends StatelessWidget {
         } else if (snapshot.hasError) {
           return HttpServiceExceptionWidget(snapshot.error);
         } else {
-          return Consumer<StoresProvider>(
+          return Consumer<SellersProvider>(
             builder: (context, provider, child) {
               return ListView.builder(
                 itemCount: provider.storeList.length,
                 itemBuilder: (context, index) {
                   return SellerTile(
-                    title: provider.storeList[index].name,
-                    subTitle: provider.storeList[index].segments,
+                    title: provider.storeList[index].brandName,
+                    subTitle: provider.storeList[index].businessCategory,
                     onTap: () {
                       Navigator.pushNamed(
                         context,
