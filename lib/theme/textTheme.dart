@@ -4,8 +4,8 @@ final textTheme = TextTheme(
   headline1: TextStyle(
     fontFamily: 'Montserrat',
     fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.normal,
-    fontSize: 34,
+    fontWeight: FontWeight.w800,
+    fontSize: 36,
   ),
   headline2: TextStyle(
     fontFamily: 'Montserrat',

@@ -13,7 +13,7 @@ final lightTheme = ThemeData.from(
     secondary: Color(0xff03dac6),
     secondaryVariant: Color(0xff018786),
     background: Color(0xffffffff),
-    surface: Color(0xffffffff),
+    surface: Color.fromRGBO(18, 23, 21, 0.05),
     error: Color(0xffda3030),
     onPrimary: Color(0xff121715),
     onSecondary: Color(0xffffffff),
