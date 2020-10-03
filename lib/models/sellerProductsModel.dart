@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-// import 'categoryModel.dart';
 import 'productModel.dart';
 
 part 'sellerProductsModel.g.dart';
