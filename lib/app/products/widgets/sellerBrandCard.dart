@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../models/index.dart' show SellerModel;
-import '../../../util/index.dart' show Constants;
+import '../../../theme/index.dart';
+import '../../../util/index.dart';
 import '../../../widgets/index.dart' show ContactPartnerWidget;
 
 class SellerBrandCard extends StatelessWidget {
@@ -11,8 +12,7 @@ class SellerBrandCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _themeData = Theme.of(context);
-    final _subtitle1 =
-        _themeData.textTheme.subtitle1.merge(Constants.kTextStyleFontWeight300);
+    final _subtitle1 = _themeData.textTheme.subtitle1.w400;
     final _sizedBox = SizedBox(height: 15.0);
 
     return Card(

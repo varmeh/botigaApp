@@ -5,6 +5,7 @@ import '../../../../util/index.dart' show Constants;
 import '../../../../models/index.dart'
     show SellerModel, CategoryModel, ProductModel;
 import 'productSelectionButton.dart';
+import '../../../../theme/index.dart';
 
 class CategoryCard extends StatelessWidget {
   final CategoryModel category;
@@ -112,8 +113,7 @@ class CategoryCard extends StatelessWidget {
           children: [
             Text(
               product.name,
-              style:
-                  _textTheme.subtitle1.merge(Constants.kTextStyleFontWeight700),
+              style: _textTheme.subtitle1.w700,
             ),
             ProductSelectionButton(
               seller: seller,
@@ -128,16 +128,14 @@ class CategoryCard extends StatelessWidget {
           children: [
             Text(
               '₹${product.price.toString()}',
-              style:
-                  _textTheme.subtitle2.merge(Constants.kTextStyleFontWeight600),
+              style: _textTheme.subtitle2.w600,
             ),
             SizedBox(
               width: 40,
             ),
             Text(
               product.quantity,
-              style:
-                  _textTheme.subtitle2.merge(Constants.kTextStyleFontWeight600),
+              style: _textTheme.subtitle2.w600,
             ),
           ],
         ),
@@ -152,10 +150,7 @@ class CategoryCard extends StatelessWidget {
             padding: const EdgeInsets.only(top: 10.0),
             child: Text(
               title,
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle2
-                  .merge(Constants.kTextStyleFontWeight300),
+              style: Theme.of(context).textTheme.subtitle2.w400,
             ),
           )
         : Container();

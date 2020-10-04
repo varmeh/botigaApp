@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../util/index.dart' show Constants;
+import '../../../theme/index.dart';
+import '../../../util/index.dart';
 import '../../../widgets/index.dart' show ContactPartnerWidget;
 import '../../../models/index.dart'
     show DeliveryStatus, DeliveryStatusExtension;
@@ -47,8 +48,7 @@ class OrderStandardInfoWidget extends StatelessWidget {
                   children: [
                     Text(
                       '24 Mantra',
-                      style: _textTheme.subtitle1
-                          .merge(Constants.kTextStyleFontWeight700),
+                      style: _textTheme.subtitle1.w700,
                     ),
                     deliveryStatus(_textTheme, DeliveryStatus.outfordelivery),
                   ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 
-import '../../../util/index.dart' show Constants;
+import '../../../theme/index.dart';
 
 class OrderItemizedDetailsWidget extends StatelessWidget {
   const OrderItemizedDetailsWidget({
@@ -9,8 +9,7 @@ class OrderItemizedDetailsWidget extends StatelessWidget {
   }) : super(key: key);
 
   Widget _itemizedInfo(ThemeData themeData) {
-    final _textStyle =
-        themeData.textTheme.subtitle2.merge(Constants.kTextStyleFontWeight300);
+    final _textStyle = themeData.textTheme.subtitle2.w400;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12.0),
       child: Row(
