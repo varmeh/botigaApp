@@ -2,16 +2,20 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:provider/provider.dart';
+import 'package:badges/badges.dart';
 
 import 'home/HomeScreen.dart';
 import 'orders/orderListScreen.dart';
 import 'cart/cartScreen.dart';
 import 'profile/profileListScreen.dart';
 
+import '../providers/index.dart' show CartProvider;
 import '../util/flavorBanner.dart';
-import './cart/cartBottomModal.dart';
 import '../theme/botigaIcons.dart';
 import '../theme/index.dart';
+
+// import '../widgets/badge.dart';
 
 class Tabbar extends StatefulWidget {
   static String route = 'tabbar';
@@ -65,16 +69,11 @@ class _TabbarState extends State<Tabbar> {
   @override
   Widget build(BuildContext context) {
     final _navigationTextStyle = AppTheme.textStyle.w500.size(12);
+
     return FlavorBanner(
       child: Scaffold(
         body: SafeArea(
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              _selectedTab.elementAt(_selectedIndex),
-              CartBottomModal(),
-            ],
-          ),
+          child: _selectedTab.elementAt(_selectedIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: AppTheme.backgroundColor,
@@ -98,7 +97,24 @@ class _TabbarState extends State<Tabbar> {
               ),
             ),
             BottomNavigationBarItem(
-              icon: const Icon(BotigaIcons.basket),
+              icon: Consumer<CartProvider>(
+                builder: (context, provider, child) {
+                  return provider.numberOfItemsInCart > 0 && _selectedIndex != 2
+                      ? Badge(
+                          animationDuration: Duration(milliseconds: 100),
+                          badgeColor: AppTheme.primaryColor,
+                          badgeContent: Text(
+                            '${provider.numberOfItemsInCart}',
+                            style: AppTheme.textStyle.w600
+                                .size(14)
+                                .colored(AppTheme.backgroundColor),
+                          ),
+                          animationType: BadgeAnimationType.scale,
+                          child: Icon(BotigaIcons.basket),
+                        )
+                      : Icon(BotigaIcons.basket);
+                },
+              ),
               title: Text(
                 'Cart',
                 style: _navigationTextStyle,

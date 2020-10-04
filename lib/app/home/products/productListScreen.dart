@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'widgets/index.dart' show SellerBrandContainer, CategoryList;
+import 'widgets/sellerBrandContainer.dart';
+import 'widgets/categoryList.dart';
 
 import '../../../models/index.dart' show SellerModel;
 import '../../../providers/index.dart' show ProductsProvider;
