@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../models/index.dart' show ProductModel, SellerModel;
-import '../../../widgets/index.dart' show IncrementButton;
-import '../../../providers/index.dart' show CartProvider;
+import '../../../../models/index.dart' show ProductModel, SellerModel;
+import '../../../../widgets/index.dart' show IncrementButton;
+import '../../../../providers/index.dart' show CartProvider;
 
 class ProductSelectionButton extends StatefulWidget {
   final ProductModel product;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 
-import '../../../util/index.dart' show Constants;
-import '../../../models/index.dart'
+import '../../../../util/index.dart' show Constants;
+import '../../../../models/index.dart'
     show SellerModel, CategoryModel, ProductModel;
 import 'productSelectionButton.dart';
 

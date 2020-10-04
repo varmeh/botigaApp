@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:expandable/expandable.dart';
 
-import '../../models/index.dart' show SellerModel;
-import 'widgets/index.dart' show SellerBrandCard, CategoryCard;
-import '../../providers/index.dart' show ProductsProvider;
-import '../../util/index.dart' show HttpServiceExceptionWidget;
-import '../cart/cartBottomModal.dart';
+import 'widgets/index.dart' show SellerBrandContainer, CategoryCard;
+
+import '../../../models/index.dart' show SellerModel;
+import '../../../providers/index.dart' show ProductsProvider;
+import '../../../util/index.dart' show HttpServiceExceptionWidget;
+import '../../cart/cartBottomModal.dart';
 
 class ProductListScreen extends StatelessWidget {
   static String route = 'productsScreen';
@@ -20,9 +21,20 @@ class ProductListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SellerModel seller = getSeller(context);
+    final _themeData = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(seller.brandName),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+        ),
+        backgroundColor: _themeData.backgroundColor,
+        elevation: 0.0,
       ),
       body: SafeArea(
         child: Padding(
@@ -32,8 +44,10 @@ class ProductListScreen extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  SellerBrandCard(seller),
-                  SizedBox(height: 4.0),
+                  SellerBrandContainer(seller),
+                  Divider(
+                    thickness: 4.0,
+                  ),
                   _futureBuilder(context, seller),
                 ],
               ),

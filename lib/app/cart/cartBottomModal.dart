@@ -4,7 +4,7 @@ import 'package:badges/badges.dart';
 import 'package:animations/animations.dart';
 
 import '../../providers/index.dart' show CartProvider;
-import '../products/productListScreen.dart';
+import '../home/products/productListScreen.dart';
 import '../../util/index.dart' show Constants;
 import 'cartConfirmationScreen.dart';
 

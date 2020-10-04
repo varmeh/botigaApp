@@ -16,7 +16,8 @@ class ProductsProvider with ChangeNotifier {
     if (_sellerProducts.containsKey(sellerId)) {
       return;
     } else {
-      final json = await HttpService().get('/user/products');
+      final json = await HttpService()
+          .get('/api/user/products/5f7730a57a8a7aafb139f511');
       final sellerProducts = SellerProductsModel.fromJson(json);
 
       List<CategoryModel> _sellerCategories = [];
