@@ -123,12 +123,12 @@ class CategoryList extends StatelessWidget {
                   height: 104.0,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: NetworkImage(
-                            'https://www.spendwithpennies.com/wp-content/uploads/2015/10/Chocolate-Ganache-22.jpg')),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(4.0),
+                      fit: BoxFit.fill,
+                      image: NetworkImage(
+                        'https://www.spendwithpennies.com/wp-content/uploads/2015/10/Chocolate-Ganache-22.jpg',
+                      ),
                     ),
+                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
                   ),
                 ),
                 Positioned(
@@ -138,7 +138,7 @@ class CategoryList extends StatelessWidget {
                     seller: seller,
                     product: product,
                   ),
-                )
+                ),
               ],
             ),
           ),
