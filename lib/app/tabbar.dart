@@ -99,17 +99,19 @@ class _TabbarState extends State<Tabbar> {
             BottomNavigationBarItem(
               icon: Consumer<CartProvider>(
                 builder: (context, provider, child) {
-                  return provider.numberOfItemsInCart > 0 && _selectedIndex != 2
+                  return provider.numberOfItemsInCart > 0
                       ? Badge(
-                          animationDuration: Duration(milliseconds: 100),
+                          showBadge: _selectedIndex != 2,
+                          padding: EdgeInsets.all(6),
+                          animationDuration: Duration(milliseconds: 200),
                           badgeColor: AppTheme.primaryColor,
                           badgeContent: Text(
                             '${provider.numberOfItemsInCart}',
                             style: AppTheme.textStyle.w600
-                                .size(14)
+                                .size(12)
                                 .colored(AppTheme.backgroundColor),
                           ),
-                          animationType: BadgeAnimationType.scale,
+                          animationType: BadgeAnimationType.fade,
                           child: Icon(BotigaIcons.basket),
                         )
                       : Icon(BotigaIcons.basket);
