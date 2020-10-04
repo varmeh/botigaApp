@@ -21,37 +21,40 @@ class ProductListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SellerModel seller = getSeller(context);
-    return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Icon(
-            Icons.arrow_back,
-            color: AppTheme.textColor100,
+    return Container(
+      color: AppTheme.backgroundColor, // setting status bar color to white
+      child: Scaffold(
+        appBar: AppBar(
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: AppTheme.textColor100,
+            ),
           ),
+          backgroundColor: AppTheme.backgroundColor,
+          elevation: 0.0,
         ),
-        backgroundColor: AppTheme.backgroundColor,
-        elevation: 0.0,
-      ),
-      body: SafeArea(
-        child: Container(
-          color: AppTheme.backgroundColor,
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              ListView(
-                children: [
-                  SellerBrandContainer(seller),
-                  Divider(
-                    thickness: 4.0,
-                  ),
-                  _categoryList(context, seller),
-                ],
-              ),
-              // CartBottomModal()
-            ],
+        body: SafeArea(
+          child: Container(
+            color: AppTheme.backgroundColor,
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                ListView(
+                  children: [
+                    SellerBrandContainer(seller),
+                    Divider(
+                      thickness: 4.0,
+                    ),
+                    _categoryList(context, seller),
+                  ],
+                ),
+                // CartBottomModal()
+              ],
+            ),
           ),
         ),
       ),

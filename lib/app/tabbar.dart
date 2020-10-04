@@ -77,6 +77,7 @@ class _TabbarState extends State<Tabbar> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: AppTheme.backgroundColor,
           selectedIconTheme: IconThemeData(size: 28),
           selectedItemColor: AppTheme.primaryColor,
           unselectedItemColor: AppTheme.navigationItemColor,
