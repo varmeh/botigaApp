@@ -8,9 +8,10 @@ import 'orders/orderListScreen.dart';
 import 'cart/cartScreen.dart';
 import 'profile/profileListScreen.dart';
 
-import '../util/index.dart' show FlavorBanner;
+import '../util/flavorBanner.dart';
 import './cart/cartBottomModal.dart';
-import '../theme/index.dart' show BotigaIcons;
+import '../theme/botigaIcons.dart';
+import '../theme/textTheme.dart';
 
 class Tabbar extends StatefulWidget {
   static String route = 'tabbar';
@@ -63,6 +64,7 @@ class _TabbarState extends State<Tabbar> {
 
   @override
   Widget build(BuildContext context) {
+    final _navigationTextStyle = TextStyles.montserrat.w500.size(12);
     return FlavorBanner(
       child: Scaffold(
         body: SafeArea(
@@ -76,22 +78,34 @@ class _TabbarState extends State<Tabbar> {
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          items: const [
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: const Icon(BotigaIcons.building),
-              title: const Text('Home'),
+              title: Text(
+                'Home',
+                style: _navigationTextStyle,
+              ),
             ),
             BottomNavigationBarItem(
               icon: const Icon(BotigaIcons.orders),
-              title: const Text('Orders'),
+              title: Text(
+                'Orders',
+                style: _navigationTextStyle,
+              ),
             ),
             BottomNavigationBarItem(
               icon: const Icon(BotigaIcons.basket),
-              title: const Text('Cart'),
+              title: Text(
+                'Cart',
+                style: _navigationTextStyle,
+              ),
             ),
             BottomNavigationBarItem(
               icon: const Icon(BotigaIcons.profile),
-              title: const Text('Profile'),
+              title: Text(
+                'Profile',
+                style: _navigationTextStyle,
+              ),
             ),
           ],
           currentIndex: _selectedIndex,

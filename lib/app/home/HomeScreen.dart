@@ -4,9 +4,10 @@ import 'package:provider/provider.dart';
 
 import '../../providers/index.dart' show SellersProvider;
 
-import '../products/productListScreen.dart';
+import 'products/productListScreen.dart';
 import '../../util/index.dart' show HttpServiceExceptionWidget;
 import '../../widgets/index.dart' show BrandingTile;
+import '../../theme/textTheme.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -86,11 +87,11 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     Text(
                       seller.brandName,
-                      style: _themeData.textTheme.bodyText2,
+                      style: TextStyles.montserrat.color100.w600.size(15),
                     ),
                     Text(
                       seller.businessCategory,
-                      style: _themeData.textTheme.caption,
+                      style: TextStyles.montserrat.color50.w500.size(13),
                     ),
                   ],
                 ),

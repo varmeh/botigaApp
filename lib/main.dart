@@ -14,7 +14,7 @@ import 'util/index.dart' show Flavor;
 import 'theme/appTheme.dart';
 import 'app/tabbar.dart';
 
-import 'app/products/productListScreen.dart';
+import 'app/home/products/productListScreen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

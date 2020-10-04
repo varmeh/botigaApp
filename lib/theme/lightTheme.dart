@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import './textTheme.dart';
-
 // Material Color Theme Creation
 // https://material.io/design/color/the-color-system.html#color-theme-creation
 
@@ -21,5 +19,4 @@ final lightTheme = ThemeData.from(
     onSurface: Color(0x80121715),
     onError: Color(0xffffffff),
   ),
-  textTheme: textTheme,
 );

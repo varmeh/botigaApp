@@ -1,64 +1,24 @@
 import 'package:flutter/material.dart';
 
-final textTheme = TextTheme(
-  headline1: TextStyle(
-    fontFamily: 'Montserrat',
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w800,
-    fontSize: 36,
-  ),
-  headline2: TextStyle(
-    fontFamily: 'Montserrat',
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.bold,
-    fontSize: 28,
-  ),
-  headline3: TextStyle(
-    fontFamily: 'Montserrat',
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w500,
-    fontSize: 22,
-  ),
-  headline4: TextStyle(
-    fontFamily: 'Montserrat',
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w500,
-    fontSize: 20,
-  ),
-  headline5: TextStyle(
-    fontFamily: 'Montserrat',
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w500,
-    fontSize: 17,
-  ),
-  bodyText1: TextStyle(
-    fontFamily: 'Montserrat',
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w500,
-    fontSize: 17,
-  ),
-  bodyText2: TextStyle(
-    fontFamily: 'Montserrat',
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w500,
-    fontSize: 16,
-  ),
-  subtitle1: TextStyle(
-    fontFamily: 'Montserrat',
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w500,
-    fontSize: 15,
-  ),
-  caption: TextStyle(
-    fontFamily: 'Montserrat',
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w500,
-    fontSize: 13,
-  ),
-  overline: TextStyle(
-    fontFamily: 'Montserrat',
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w500,
-    fontSize: 12,
-  ),
-);
+// https://blog.gskinner.com/archives/2020/03/flutter-tame-those-textstyles.html
+
+class TextStyles {
+  static TextStyle get montserrat => TextStyle(fontFamily: 'Montserrat');
+}
+
+extension TextStyleHelpers on TextStyle {
+  TextStyle get w400 => copyWith(fontWeight: FontWeight.w400);
+  TextStyle get w500 => copyWith(fontWeight: FontWeight.w500);
+  TextStyle get w600 => copyWith(fontWeight: FontWeight.w600);
+  TextStyle get w700 => copyWith(fontWeight: FontWeight.w700);
+  TextStyle get w800 => copyWith(fontWeight: FontWeight.w800);
+
+  TextStyle get color100 => copyWith(color: Color.fromRGBO(18, 23, 21, 1));
+  TextStyle get color50 => copyWith(color: Color.fromRGBO(18, 23, 21, 0.5));
+  TextStyle get color25 => copyWith(color: Color.fromRGBO(18, 23, 21, 0.25));
+  TextStyle get color05 => copyWith(color: Color.fromRGBO(18, 23, 21, 0.05));
+
+  TextStyle size(double value) => copyWith(fontSize: value);
+
+  TextStyle letterSpace(double value) => copyWith(letterSpacing: value);
+}
