@@ -74,7 +74,7 @@ class CategoryList extends StatelessWidget {
 
   Widget _productTile(ProductModel product) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 24),
+      padding: EdgeInsets.symmetric(vertical: 15),
       child: Row(
         children: [
           Expanded(
@@ -109,7 +109,7 @@ class CategoryList extends StatelessWidget {
                             .letterSpace(0.2)
                             .size(12),
                       )
-                    : Container(width: 0, height: 0)
+                    : Container()
               ],
             ),
           ),
@@ -118,21 +118,21 @@ class CategoryList extends StatelessWidget {
             height: 120,
             child: Stack(
               children: [
-                Container(
-                  width: 104.0,
-                  height: 104.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: NetworkImage(
-                        'https://www.spendwithpennies.com/wp-content/uploads/2015/10/Chocolate-Ganache-22.jpg',
-                      ),
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                  ),
-                ),
+                product.imageUrl != null
+                    ? Container(
+                        width: 104.0,
+                        height: 104.0,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: NetworkImage(product.imageUrl),
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                        ),
+                      )
+                    : Container(),
                 Positioned(
-                  bottom: 0,
+                  bottom: product.imageUrl != null ? 0 : 40,
                   left: 10,
                   child: ProductSelectionButton(
                     seller: seller,
