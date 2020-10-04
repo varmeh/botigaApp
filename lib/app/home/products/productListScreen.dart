@@ -95,12 +95,8 @@ class ProductListScreen extends StatelessWidget {
           return Consumer<ProductsProvider>(
             builder: (context, provider, child) {
               final categoryList = provider.products(seller.id);
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: categoryList.length,
-                itemBuilder: (context, index) {
-                  return CategoryList(categoryList[index]);
-                },
+              return Column(
+                children: [...categoryList.map((e) => CategoryList(e))],
               );
             },
           );
