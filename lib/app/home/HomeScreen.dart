@@ -7,7 +7,7 @@ import '../../providers/index.dart' show SellersProvider;
 import 'products/productListScreen.dart';
 import '../../util/index.dart' show HttpServiceExceptionWidget;
 import '../../widgets/index.dart' show BrandingTile;
-import '../../theme/textTheme.dart';
+import '../../theme/index.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -87,11 +87,11 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     Text(
                       seller.brandName,
-                      style: TextStyles.fontFamily.color100.w600.size(15),
+                      style: AppTheme.textStyle.color100.w600.size(15),
                     ),
                     Text(
                       seller.businessCategory,
-                      style: TextStyles.fontFamily.color50.w500.size(13),
+                      style: AppTheme.textStyle.color50.w500.size(13),
                     ),
                   ],
                 ),

@@ -11,7 +11,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'providers/index.dart'
     show SellersProvider, ProductsProvider, CartProvider;
 import 'util/index.dart' show Flavor;
-import 'theme/appTheme.dart';
 import 'app/tabbar.dart';
 
 import 'app/home/products/productListScreen.dart';
@@ -65,7 +64,6 @@ class BotigaApp extends StatelessWidget {
     return MaterialApp(
       themeMode: ThemeMode.light,
       title: 'Botiga',
-      theme: AppTheme.light,
       initialRoute: Tabbar.route,
       routes: {
         Tabbar.route: (context) => Tabbar(),

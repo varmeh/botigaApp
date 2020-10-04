@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/textTheme.dart'; // required to access extensions
+import '../theme/index.dart'; // required to access extensions
 
 class BrandingTile extends StatelessWidget {
   final String quote;
@@ -17,14 +17,14 @@ class BrandingTile extends StatelessWidget {
         children: [
           Text(
             this.quote,
-            style: TextStyles.fontFamily.w800.color05.size(36),
+            style: AppTheme.textStyle.w800.color05.size(36),
           ),
           SizedBox(
             height: 10.0,
           ),
           Text(
             this.message,
-            style: TextStyles.fontFamily.w500.color25.size(13),
+            style: AppTheme.textStyle.w500.color25.size(13),
           )
         ],
       ),

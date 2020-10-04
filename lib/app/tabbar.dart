@@ -11,7 +11,7 @@ import 'profile/profileListScreen.dart';
 import '../util/flavorBanner.dart';
 import './cart/cartBottomModal.dart';
 import '../theme/botigaIcons.dart';
-import '../theme/textTheme.dart';
+import '../theme/index.dart';
 
 class Tabbar extends StatefulWidget {
   static String route = 'tabbar';
@@ -64,7 +64,7 @@ class _TabbarState extends State<Tabbar> {
 
   @override
   Widget build(BuildContext context) {
-    final _navigationTextStyle = TextStyles.fontFamily.w500.size(12);
+    final _navigationTextStyle = AppTheme.textStyle.w500.size(12);
     return FlavorBanner(
       child: Scaffold(
         body: SafeArea(
@@ -77,6 +77,9 @@ class _TabbarState extends State<Tabbar> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          selectedIconTheme: IconThemeData(size: 28),
+          selectedItemColor: AppTheme.primaryColor,
+          unselectedItemColor: AppTheme.navigationItemColor,
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(

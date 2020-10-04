@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
 // https://blog.gskinner.com/archives/2020/03/flutter-tame-those-textstyles.html
-
-class TextStyles {
-  static TextStyle get fontFamily => TextStyle(fontFamily: 'Montserrat');
-}
-
 extension TextStyleHelpers on TextStyle {
   TextStyle get w400 => copyWith(fontWeight: FontWeight.w400);
   TextStyle get w500 => copyWith(fontWeight: FontWeight.w500);

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../models/index.dart' show SellerModel;
-import '../../../../theme/botigaIcons.dart';
-import '../../../../theme/textTheme.dart';
+import '../../../../theme/index.dart';
 
 class SellerBrandContainer extends StatelessWidget {
   final SellerModel seller;
@@ -37,11 +36,11 @@ class SellerBrandContainer extends StatelessWidget {
             children: [
               Text(
                 seller.brandName,
-                style: TextStyles.fontFamily.w700.color100.size(17),
+                style: AppTheme.textStyle.w700.color100.size(17),
               ),
               Text(
                 seller.businessCategory,
-                style: TextStyles.fontFamily.w500.color50.size(13),
+                style: AppTheme.textStyle.w500.color50.size(13),
               ),
             ],
           ),
@@ -67,7 +66,7 @@ class SellerBrandContainer extends StatelessWidget {
         SizedBox(width: 6.0),
         Text(
           info,
-          style: TextStyles.fontFamily.w500.color100.size(13),
+          style: AppTheme.textStyle.w500.color100.size(13),
         ),
       ],
     );
