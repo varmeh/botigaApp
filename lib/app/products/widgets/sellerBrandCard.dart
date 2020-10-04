@@ -44,8 +44,6 @@ class SellerBrandCard extends StatelessWidget {
               child: ContactPartnerWidget(
                 phone: seller.phone,
                 whatsapp: seller.whatsapp,
-                phoneIconColor: _themeData.textTheme.headline6.color,
-                whatsappIconColor: _themeData.textTheme.headline6.color,
               ),
             ),
           ],

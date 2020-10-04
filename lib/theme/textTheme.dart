@@ -15,6 +15,8 @@ extension TextStyleHelpers on TextStyle {
   TextStyle get color25 => copyWith(color: AppTheme.textColor25);
   TextStyle get color05 => copyWith(color: AppTheme.textColor05);
 
+  TextStyle colored(Color value) => copyWith(color: value);
+
   TextStyle size(double value) => copyWith(fontSize: value);
 
   TextStyle letterSpace(double value) => copyWith(letterSpacing: value);

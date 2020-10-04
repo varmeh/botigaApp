@@ -1,42 +1,66 @@
 import 'dart:io';
+import 'package:botiga/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'colorIconButton.dart';
+import '../theme/botigaIcons.dart';
 
 class ContactPartnerWidget extends StatelessWidget {
   final String phone;
   final String whatsapp;
 
-  final Color phoneIconColor;
-  final Color whatsappIconColor;
-
-  ContactPartnerWidget({
-    @required this.phone,
-    @required this.whatsapp,
-    this.phoneIconColor = Colors.blue,
-    this.whatsappIconColor = Colors.green,
-  });
+  ContactPartnerWidget({@required this.phone, @required this.whatsapp});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        ColorIconButton(
-          icon: Icons.phone,
-          color: this.phoneIconColor,
-          onPressed: () => _phone(context),
-        ),
-        SizedBox(
-          height: 20.0,
-        ),
-        ColorIconButton(
-          icon: Icons.message,
-          color: this.whatsappIconColor,
-          onPressed: () => _whatsapp(context),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 24, bottom: 24),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Container(
+              height: 44,
+              child: FlatButton.icon(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                icon: Icon(
+                  BotigaIcons.call,
+                  color: AppTheme.textColor100,
+                  size: 18,
+                ),
+                onPressed: () => _phone(context),
+                color: AppTheme.dividerColor,
+                label: Text(
+                  'Call',
+                  style: AppTheme.textStyle.w500.color100.size(15),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 13,
+          ),
+          Expanded(
+            child: Container(
+              height: 44,
+              child: FlatButton.icon(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                icon: Image.asset('assets/images/whatsapp.png'),
+                onPressed: () => _whatsapp(context),
+                color: AppTheme.dividerColor,
+                label: Text(
+                  'Whatsapp',
+                  style: AppTheme.textStyle.w500.color100.size(15),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -72,18 +96,28 @@ class ContactPartnerWidget extends StatelessWidget {
   void _showDialogUrlNotSupported(
       BuildContext context, String title, String message) {
     showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              title: Text(title),
-              content: Text(message),
-              actions: [
-                FlatButton(
-                  child: Text('Close'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-              ],
-            ));
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          title,
+          style: AppTheme.textStyle.w500.color100,
+        ),
+        content: Text(
+          message,
+          style: AppTheme.textStyle.w400.color100,
+        ),
+        actions: [
+          FlatButton(
+            child: Text(
+              'Close',
+              style: AppTheme.textStyle.w600.colored(AppTheme.primaryColor),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
+      ),
+    );
   }
 }

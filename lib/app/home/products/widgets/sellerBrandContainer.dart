@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../models/index.dart' show SellerModel;
 import '../../../../theme/index.dart';
+import '../../../../widgets/contactPartnerWidget.dart';
 
 class SellerBrandContainer extends StatelessWidget {
   final SellerModel seller;
@@ -15,9 +16,15 @@ class SellerBrandContainer extends StatelessWidget {
       child: Column(
         children: [
           _brandInfo(context),
-          _iconInfo(context, BotigaIcons.shop, seller.businessCategory),
-          SizedBox(height: 8.0),
-          _iconInfo(context, BotigaIcons.pin, seller.deliveryMessage),
+          SizedBox(height: 10.0),
+          _iconInfo(context, 'assets/images/shop.png', seller.businessCategory),
+          SizedBox(height: 10.0),
+          _iconInfo(context, 'assets/images/pin.png', seller.deliveryMessage),
+          SizedBox(height: 10.0),
+          ContactPartnerWidget(
+            phone: seller.phone,
+            whatsapp: seller.whatsapp,
+          )
         ],
       ),
     );
@@ -39,7 +46,7 @@ class SellerBrandContainer extends StatelessWidget {
                 style: AppTheme.textStyle.w700.color100.size(17),
               ),
               Text(
-                seller.businessCategory,
+                seller.businessCategory, //TODO: change to tagline
                 style: AppTheme.textStyle.w500.color50.size(13),
               ),
             ],
@@ -59,14 +66,15 @@ class SellerBrandContainer extends StatelessWidget {
     );
   }
 
-  Widget _iconInfo(BuildContext context, IconData iconData, String info) {
+  Widget _iconInfo(BuildContext context, String image, String info) {
     return Row(
       children: [
-        Icon(iconData),
+        Image.asset(image),
         SizedBox(width: 6.0),
         Text(
           info,
-          style: AppTheme.textStyle.w500.color100.size(13),
+          style: AppTheme.textStyle.w500.color100.size(14),
+          textAlign: TextAlign.justify,
         ),
       ],
     );
