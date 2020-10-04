@@ -1,11 +1,14 @@
 import 'package:botiga/models/index.dart';
 import 'package:flutter/material.dart';
+
 import '../../../../theme/index.dart';
+import 'productSelectionButton.dart';
 
 class CategoryList extends StatelessWidget {
   final CategoryModel category;
+  final SellerModel seller;
 
-  CategoryList(this.category);
+  CategoryList(this.category, this.seller);
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +58,8 @@ class CategoryList extends StatelessWidget {
                       indent: 0,
                       endIndent: 300,
                     ),
-                    SizedBox(height: 20),
                     // List all the products
-                    ...category.products.map((product) => ProductTile(product))
+                    ...category.products.map((product) => _productTile(product))
                   ],
                 )
               ],
@@ -69,15 +71,8 @@ class CategoryList extends StatelessWidget {
       ],
     );
   }
-}
 
-class ProductTile extends StatelessWidget {
-  final ProductModel product;
-
-  ProductTile(this.product);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _productTile(ProductModel product) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 24),
       child: Row(
@@ -118,17 +113,33 @@ class ProductTile extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            width: 104.0,
-            height: 104.0,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(
-                      'https://www.spendwithpennies.com/wp-content/uploads/2015/10/Chocolate-Ganache-22.jpg')),
-              borderRadius: BorderRadius.all(
-                Radius.circular(4.0),
-              ),
+          SizedBox(
+            width: 100,
+            height: 120,
+            child: Stack(
+              children: [
+                Container(
+                  width: 104.0,
+                  height: 104.0,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: NetworkImage(
+                            'https://www.spendwithpennies.com/wp-content/uploads/2015/10/Chocolate-Ganache-22.jpg')),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(4.0),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 10,
+                  child: ProductSelectionButton(
+                    seller: seller,
+                    product: product,
+                  ),
+                )
+              ],
             ),
           ),
         ],

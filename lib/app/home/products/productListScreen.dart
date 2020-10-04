@@ -96,7 +96,10 @@ class ProductListScreen extends StatelessWidget {
             builder: (context, provider, child) {
               final categoryList = provider.products(seller.id);
               return Column(
-                children: [...categoryList.map((e) => CategoryList(e))],
+                children: [
+                  ...categoryList
+                      .map((category) => CategoryList(category, seller))
+                ],
               );
             },
           );

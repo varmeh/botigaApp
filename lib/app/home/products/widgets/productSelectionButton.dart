@@ -1,3 +1,4 @@
+import 'package:botiga/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,35 +25,33 @@ class _ProductSelectionButtonState extends State<ProductSelectionButton> {
   Widget build(BuildContext context) {
     final provider = Provider.of<CartProvider>(context);
     _value = provider.quantityInCart(widget.product);
-    return Container(
-      child: _value == 0
-          ? _AddButton(
-              enabled: widget.enabled,
-              onPressed: () {
-                provider.addProduct(widget.seller, widget.product);
+    return _value == 0
+        ? _AddButton(
+            enabled: widget.enabled,
+            onPressed: () {
+              provider.addProduct(widget.seller, widget.product);
+              setState(() {
+                _value++;
+              });
+            },
+          )
+        : IncrementButton(
+            value: _value,
+            onIncrement: () {
+              provider.addProduct(widget.seller, widget.product);
+              setState(() {
+                _value++;
+              });
+            },
+            onDecrement: () {
+              if (_value > 0) {
+                provider.removeProduct(widget.product);
                 setState(() {
-                  _value++;
+                  _value--;
                 });
-              },
-            )
-          : IncrementButton(
-              value: _value,
-              onIncrement: () {
-                provider.addProduct(widget.seller, widget.product);
-                setState(() {
-                  _value++;
-                });
-              },
-              onDecrement: () {
-                if (_value > 0) {
-                  provider.removeProduct(widget.product);
-                  setState(() {
-                    _value--;
-                  });
-                }
-              },
-            ),
-    );
+              }
+            },
+          );
   }
 }
 
@@ -64,25 +63,25 @@ class _AddButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final _color = this.enabled ? themeData.primaryColor : themeData.hintColor;
-    final _borderColor =
-        this.enabled ? themeData.primaryColor : themeData.disabledColor;
+    final color = this.enabled ? AppTheme.primaryColor : AppTheme.textColor50;
 
     return GestureDetector(
       onTap: this.enabled ? this.onPressed : () {},
       child: Container(
         width: 80.0,
-        height: 30.0,
-        padding: EdgeInsets.all(5),
-        decoration: BoxDecoration(border: Border.all(color: _borderColor)),
+        height: 40.0,
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+        decoration: BoxDecoration(
+          color: AppTheme.backgroundColor,
+          border: Border.all(color: AppTheme.buttonBorderColor),
+          borderRadius: BorderRadius.all(Radius.circular(6.0)),
+        ),
         child: FittedBox(
           fit: BoxFit.contain,
           child: Text(
             this.enabled ? 'ADD' : 'Not Available',
-            style: themeData.textTheme.subtitle2.merge(
-              TextStyle(color: _color),
-            ),
+            style:
+                AppTheme.textStyle.w600.size(15).lineHeight(1.2).colored(color),
           ),
         ),
       ),

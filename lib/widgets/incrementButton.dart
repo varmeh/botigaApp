@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'colorIconButton.dart';
+import '../theme/index.dart';
 
 class IncrementButton extends StatelessWidget {
   final int value;
@@ -14,34 +15,32 @@ class IncrementButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _themeData = Theme.of(context);
-
     return Container(
       width: 80.0,
-      height: 30.0,
-      padding: EdgeInsets.all(5),
-      decoration:
-          BoxDecoration(border: Border.all(color: _themeData.primaryColor)),
+      height: 40.0,
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+      decoration: BoxDecoration(
+        color: AppTheme.backgroundColor,
+        border: Border.all(color: AppTheme.buttonBorderColor),
+        borderRadius: BorderRadius.all(Radius.circular(6.0)),
+      ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           ColorIconButton(
             icon: Icons.remove,
-            color: Theme.of(context).primaryColor,
+            color: AppTheme.primaryColor,
             onPressed: this.onDecrement,
           ),
           Text(
             value.toString(),
-            style: _themeData.textTheme.subtitle1.merge(
-              TextStyle(
-                color: _themeData.primaryColor,
-              ),
-            ),
+            style:
+                AppTheme.textStyle.w600.size(15).colored(AppTheme.primaryColor),
           ),
           ColorIconButton(
             icon: Icons.add,
-            color: Theme.of(context).primaryColor,
+            color: AppTheme.primaryColor,
             onPressed: this.onIncrement,
           ),
         ],
