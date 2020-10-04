@@ -116,7 +116,7 @@ class CartConfirmationScreen extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Text(
-                '${product.name} [${product.quantity}]',
+                '${product.name} [${product.size}]',
                 style: themeData.textTheme.subtitle1,
               ),
             ),

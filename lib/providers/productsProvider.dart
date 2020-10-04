@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/index.dart' show SellerProductsModel, CategoryModel;
+import '../models/index.dart' show CategoryModel;
 import '../util/index.dart' show HttpService;
 
 class ProductsProvider with ChangeNotifier {
@@ -9,7 +9,7 @@ class ProductsProvider with ChangeNotifier {
   List<CategoryModel> products(String sellerId) {
     return _sellerProducts.containsKey(sellerId)
         ? _sellerProducts[sellerId]
-        : {};
+        : [];
   }
 
   Future<void> getProducts(String sellerId) async {
@@ -18,17 +18,13 @@ class ProductsProvider with ChangeNotifier {
     } else {
       final json = await HttpService()
           .get('/api/user/products/5f7730a57a8a7aafb139f511');
-      final sellerProducts = SellerProductsModel.fromJson(json);
-
-      List<CategoryModel> _sellerCategories = [];
-      sellerProducts.category.forEach(
-        (category, products) => _sellerCategories.add(
-          CategoryModel(
-            category: category,
-            products: products,
-          ),
-        ),
-      );
+      // List<CategoryModel> _sellerCategoryList = [];
+      List<CategoryModel> _sellerCategories = json
+          .map(
+            (item) => CategoryModel.fromJson(item),
+          )
+          .cast<CategoryModel>()
+          .toList();
 
       _sellerProducts[sellerId] = _sellerCategories;
     }

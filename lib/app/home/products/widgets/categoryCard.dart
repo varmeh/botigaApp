@@ -16,36 +16,34 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _textTheme = Theme.of(context).textTheme;
-    return ExpandableNotifier(
-      child: Card(
-        child: Container(
-          padding: Constants.kEdgeInsetsCard,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    category.category,
-                    style: _textTheme.headline6,
+    return Card(
+      child: Container(
+        padding: Constants.kEdgeInsetsCard,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  category.categoryId,
+                  style: _textTheme.headline6,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Text(
+                    category.products.length.toString(),
+                    style: _textTheme.bodyText2,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: Text(
-                      category.products.length.toString(),
-                      style: _textTheme.bodyText2,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              _productList(context),
-            ],
-          ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            _productList(context),
+          ],
         ),
       ),
     );
@@ -134,7 +132,7 @@ class CategoryCard extends StatelessWidget {
               width: 40,
             ),
             Text(
-              product.quantity,
+              product.size,
               style: _textTheme.subtitle2.w600,
             ),
           ],

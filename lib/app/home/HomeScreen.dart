@@ -18,8 +18,7 @@ class HomeScreen extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: CircularProgressIndicator(
-              valueColor:
-                  AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+              valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primaryColor),
             ),
           );
         } else if (snapshot.hasError) {

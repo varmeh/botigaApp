@@ -8,10 +8,11 @@ part of 'productModel.dart';
 
 ProductModel _$ProductModelFromJson(Map<String, dynamic> json) {
   return ProductModel(
-    name: json['name'] as String,
     id: json['id'] as String,
+    name: json['name'] as String,
     price: (json['price'] as num)?.toDouble(),
-    quantity: json['quantity'] as String,
+    size: json['size'] as String,
+    available: json['available'] as bool,
     description: json['description'] as String,
     imageUrl: json['imageUrl'] as String,
   );
@@ -22,7 +23,8 @@ Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
       'id': instance.id,
       'name': instance.name,
       'price': instance.price,
-      'quantity': instance.quantity,
+      'size': instance.size,
+      'available': instance.available,
       'description': instance.description,
       'imageUrl': instance.imageUrl,
     };

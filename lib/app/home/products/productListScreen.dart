@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:expandable/expandable.dart';
 
-import 'widgets/index.dart' show SellerBrandContainer, CategoryCard;
+import 'widgets/index.dart' show SellerBrandContainer, CategoryList;
 
 import '../../../models/index.dart' show SellerModel;
 import '../../../providers/index.dart' show ProductsProvider;
 import '../../../util/index.dart' show HttpServiceExceptionWidget;
-import '../../cart/cartBottomModal.dart';
+// import '../../cart/cartBottomModal.dart';
 import '../../../theme/index.dart';
 
 class ProductListScreen extends StatelessWidget {
@@ -39,20 +38,19 @@ class ProductListScreen extends StatelessWidget {
       body: SafeArea(
         child: Container(
           color: AppTheme.backgroundColor,
-          padding: const EdgeInsets.symmetric(vertical: 5.0),
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [
-              Column(
+              ListView(
                 children: [
                   SellerBrandContainer(seller),
                   Divider(
                     thickness: 4.0,
                   ),
-                  _futureBuilder(context, seller),
+                  _categoryList(context, seller),
                 ],
               ),
-              CartBottomModal()
+              // CartBottomModal()
             ],
           ),
         ),
@@ -60,43 +58,48 @@ class ProductListScreen extends StatelessWidget {
     );
   }
 
-  Widget _futureBuilder(BuildContext context, SellerModel seller) {
+  Widget _categoryList(BuildContext context, SellerModel seller) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            'Categories',
+            style: AppTheme.textStyle.w700.color100.size(17),
+          ),
+          SizedBox(height: 20),
+          _productList(context, seller),
+        ],
+      ),
+    );
+  }
+
+  Widget _productList(BuildContext context, SellerModel seller) {
     return FutureBuilder(
       future: Provider.of<ProductsProvider>(context, listen: false)
           .getProducts(seller.id),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Expanded(
-            child: Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                    Theme.of(context).primaryColor),
-              ),
+          return Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primaryColor),
             ),
           );
         } else if (snapshot.hasError) {
           return HttpServiceExceptionWidget(snapshot.error);
         } else {
-          return ExpandableTheme(
-            data: ExpandableThemeData(
-              useInkWell: true,
-            ),
-            child: Expanded(
-              child: Consumer<ProductsProvider>(
-                builder: (context, provider, child) {
-                  return ListView.builder(
-                    itemCount: provider.products(seller.id).length,
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return CategoryCard(
-                        seller: seller,
-                        category: provider.products(seller.id)[index],
-                      );
-                    },
-                  );
+          return Consumer<ProductsProvider>(
+            builder: (context, provider, child) {
+              final categoryList = provider.products(seller.id);
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: categoryList.length,
+                itemBuilder: (context, index) {
+                  return CategoryList(categoryList[index]);
                 },
-              ),
-            ),
+              );
+            },
           );
         }
       },
