@@ -87,11 +87,11 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     Text(
                       seller.brandName,
-                      style: TextStyles.montserrat.color100.w600.size(15),
+                      style: TextStyles.fontFamily.color100.w600.size(15),
                     ),
                     Text(
                       seller.businessCategory,
-                      style: TextStyles.montserrat.color50.w500.size(13),
+                      style: TextStyles.fontFamily.color50.w500.size(13),
                     ),
                   ],
                 ),

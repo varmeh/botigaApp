@@ -64,7 +64,7 @@ class _TabbarState extends State<Tabbar> {
 
   @override
   Widget build(BuildContext context) {
-    final _navigationTextStyle = TextStyles.montserrat.w500.size(12);
+    final _navigationTextStyle = TextStyles.fontFamily.w500.size(12);
     return FlavorBanner(
       child: Scaffold(
         body: SafeArea(

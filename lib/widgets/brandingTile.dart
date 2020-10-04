@@ -17,14 +17,14 @@ class BrandingTile extends StatelessWidget {
         children: [
           Text(
             this.quote,
-            style: TextStyles.montserrat.w800.color05.size(36),
+            style: TextStyles.fontFamily.w800.color05.size(36),
           ),
           SizedBox(
             height: 10.0,
           ),
           Text(
             this.message,
-            style: TextStyles.montserrat.w500.color25.size(13),
+            style: TextStyles.fontFamily.w500.color25.size(13),
           )
         ],
       ),

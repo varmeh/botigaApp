@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // https://blog.gskinner.com/archives/2020/03/flutter-tame-those-textstyles.html
 
 class TextStyles {
-  static TextStyle get montserrat => TextStyle(fontFamily: 'Montserrat');
+  static TextStyle get fontFamily => TextStyle(fontFamily: 'Montserrat');
 }
 
 extension TextStyleHelpers on TextStyle {

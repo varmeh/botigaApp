@@ -37,11 +37,11 @@ class SellerBrandContainer extends StatelessWidget {
             children: [
               Text(
                 seller.brandName,
-                style: TextStyles.montserrat.w700.color100.size(17),
+                style: TextStyles.fontFamily.w700.color100.size(17),
               ),
               Text(
                 seller.businessCategory,
-                style: TextStyles.montserrat.w500.color50.size(13),
+                style: TextStyles.fontFamily.w500.color50.size(13),
               ),
             ],
           ),
@@ -67,7 +67,7 @@ class SellerBrandContainer extends StatelessWidget {
         SizedBox(width: 6.0),
         Text(
           info,
-          style: TextStyles.montserrat.w500.color100.size(13),
+          style: TextStyles.fontFamily.w500.color100.size(13),
         ),
       ],
     );
