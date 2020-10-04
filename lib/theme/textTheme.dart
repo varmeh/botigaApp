@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'appTheme.dart';
+
 // https://blog.gskinner.com/archives/2020/03/flutter-tame-those-textstyles.html
 extension TextStyleHelpers on TextStyle {
   TextStyle get w400 => copyWith(fontWeight: FontWeight.w400);
@@ -8,10 +10,10 @@ extension TextStyleHelpers on TextStyle {
   TextStyle get w700 => copyWith(fontWeight: FontWeight.w700);
   TextStyle get w800 => copyWith(fontWeight: FontWeight.w800);
 
-  TextStyle get color100 => copyWith(color: Color.fromRGBO(18, 23, 21, 1));
-  TextStyle get color50 => copyWith(color: Color.fromRGBO(18, 23, 21, 0.5));
-  TextStyle get color25 => copyWith(color: Color.fromRGBO(18, 23, 21, 0.25));
-  TextStyle get color05 => copyWith(color: Color.fromRGBO(18, 23, 21, 0.05));
+  TextStyle get color100 => copyWith(color: AppTheme.textColor100);
+  TextStyle get color50 => copyWith(color: AppTheme.textColor50);
+  TextStyle get color25 => copyWith(color: AppTheme.textColor25);
+  TextStyle get color05 => copyWith(color: AppTheme.textColor05);
 
   TextStyle size(double value) => copyWith(fontSize: value);
 

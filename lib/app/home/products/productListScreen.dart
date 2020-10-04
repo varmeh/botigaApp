@@ -8,6 +8,7 @@ import '../../../models/index.dart' show SellerModel;
 import '../../../providers/index.dart' show ProductsProvider;
 import '../../../util/index.dart' show HttpServiceExceptionWidget;
 import '../../cart/cartBottomModal.dart';
+import '../../../theme/index.dart';
 
 class ProductListScreen extends StatelessWidget {
   static String route = 'productsScreen';
@@ -21,7 +22,6 @@ class ProductListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SellerModel seller = getSeller(context);
-    final _themeData = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -30,14 +30,15 @@ class ProductListScreen extends StatelessWidget {
           },
           child: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: AppTheme.textColor100,
           ),
         ),
-        backgroundColor: _themeData.backgroundColor,
+        backgroundColor: AppTheme.backgroundColor,
         elevation: 0.0,
       ),
       body: SafeArea(
-        child: Padding(
+        child: Container(
+          color: AppTheme.backgroundColor,
           padding: const EdgeInsets.symmetric(vertical: 5.0),
           child: Stack(
             alignment: Alignment.bottomCenter,
