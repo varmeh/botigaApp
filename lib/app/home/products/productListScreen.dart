@@ -7,7 +7,7 @@ import 'widgets/categoryList.dart';
 import '../../../models/index.dart' show SellerModel;
 import '../../../providers/index.dart' show ProductsProvider;
 import '../../../util/index.dart' show HttpServiceExceptionWidget;
-// import '../../cart/cartBottomModal.dart';
+import '../../cart/cartBottomModal.dart';
 import '../../../theme/index.dart';
 
 class ProductListScreen extends StatelessWidget {
@@ -53,7 +53,7 @@ class ProductListScreen extends StatelessWidget {
                     _categoryList(context, seller),
                   ],
                 ),
-                // CartBottomModal()
+                CartBottomModal()
               ],
             ),
           ),

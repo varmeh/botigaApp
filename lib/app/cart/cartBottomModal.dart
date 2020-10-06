@@ -1,11 +1,11 @@
+import 'package:botiga/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:badges/badges.dart';
 import 'package:animations/animations.dart';
 
 import '../../providers/index.dart' show CartProvider;
-import '../home/products/productListScreen.dart';
 import '../../util/index.dart' show Constants;
+import '../../theme/appTheme.dart';
 import 'cartConfirmationScreen.dart';
 
 class CartBottomModal extends StatelessWidget {
@@ -23,74 +23,74 @@ class CartBottomModal extends StatelessWidget {
   Widget _cart(BuildContext context, CartProvider provider) {
     return Material(
       elevation: 3.0,
+      color: Colors.transparent,
+      shadowColor: Colors.transparent,
       child: Container(
-        height: 50,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: _sellerButton(context, provider),
-            ),
-            Expanded(
-              child: _cartButton(context, provider),
-            )
-          ],
+        height: 56,
+        width: MediaQuery.of(context).size.width - 40,
+        decoration: BoxDecoration(
+          color: AppTheme.primaryColor,
+          borderRadius: new BorderRadius.only(
+            topLeft: const Radius.circular(16.0),
+            topRight: const Radius.circular(16.0),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    BotigaIcons.basket,
+                    color: AppTheme.backgroundColor,
+                  ),
+                  SizedBox(width: 16.0),
+                  Text(
+                    '${provider.numberOfItemsInCart} Item${provider.numberOfItemsInCart > 1 ? 's' : ''}',
+                    style: AppTheme.textStyle.w600
+                        .size(15)
+                        .colored(AppTheme.backgroundColor),
+                  ),
+                ],
+              ),
+              Text(
+                'Rs. ${provider.totalPrice}',
+                style: AppTheme.textStyle.w600
+                    .size(15)
+                    .colored(AppTheme.backgroundColor),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-
-  Widget _cartButton(BuildContext context, CartProvider provider) {
-    final _themeData = Theme.of(context);
-    return OpenContainer(
-      closedColor: _themeData.primaryColor,
-      transitionDuration: Constants.kContainerAnimationDuration,
-      closedBuilder: (context, openContainer) {
-        return GestureDetector(
-          onTap: openContainer,
-          child: Container(
-            color: _themeData.primaryColor,
-            child: Center(
-              child: Badge(
-                animationDuration: Duration(milliseconds: 100),
-                badgeColor: _themeData.primaryColorLight,
-                badgeContent: Text('${provider.numberOfItemsInCart}'),
-                animationType: BadgeAnimationType.scale,
-                child: Icon(
-                  Icons.shopping_cart,
-                  color: _themeData.cardColor,
-                  size: 35,
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-      openBuilder: (_, __) => CartConfirmationScreen(),
-    );
-  }
-
-  Widget _sellerButton(BuildContext context, CartProvider provider) {
-    final _themeData = Theme.of(context);
-    return OpenContainer(
-      closedColor: _themeData.cardColor,
-      transitionDuration: Constants.kContainerAnimationDuration,
-      closedBuilder: (context, openContainer) {
-        return GestureDetector(
-          onTap: openContainer,
-          child: Center(
-            child: Text(
-              provider.cartSeller.brandName,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        );
-      },
-      openBuilder: (_, __) => ProductListScreen(provider.cartSeller),
-    );
-  }
 }
+
+// OpenContainer(
+//   closedColor: AppTheme.primaryColor,
+//   transitionDuration: Constants.kContainerAnimationDuration,
+//   closedBuilder: (context, openContainer) {
+//     return GestureDetector(
+//       onTap: openContainer,
+//       child: Container(
+//         child: Center(
+//           child: Badge(
+//             animationDuration: Duration(milliseconds: 100),
+//             badgeColor: AppTheme.backgroundColor,
+//             badgeContent: Text('${provider.numberOfItemsInCart}'),
+//             animationType: BadgeAnimationType.scale,
+//             child: Icon(
+//               Icons.shopping_cart,
+//               color: AppTheme.backgroundColor,
+//               size: 35,
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   },
+//   openBuilder: (_, __) => CartConfirmationScreen(),
+// ),
