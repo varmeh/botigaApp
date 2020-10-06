@@ -68,8 +68,6 @@ class _TabbarState extends State<Tabbar> {
 
   @override
   Widget build(BuildContext context) {
-    final _navigationTextStyle = AppTheme.textStyle.w500.size(12);
-
     return FlavorBanner(
       child: Scaffold(
         body: SafeArea(
@@ -79,22 +77,18 @@ class _TabbarState extends State<Tabbar> {
           backgroundColor: AppTheme.backgroundColor,
           selectedIconTheme: IconThemeData(size: 28),
           selectedItemColor: AppTheme.primaryColor,
+          selectedLabelStyle: AppTheme.textStyle.w500.size(12),
+          unselectedLabelStyle: AppTheme.textStyle.w500.size(13),
           unselectedItemColor: AppTheme.navigationItemColor,
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: const Icon(BotigaIcons.building),
-              title: Text(
-                'Home',
-                style: _navigationTextStyle,
-              ),
+              label: 'Home',
             ),
             BottomNavigationBarItem(
               icon: const Icon(BotigaIcons.orders),
-              title: Text(
-                'Orders',
-                style: _navigationTextStyle,
-              ),
+              label: 'Orders',
             ),
             BottomNavigationBarItem(
               icon: Consumer<CartProvider>(
@@ -116,17 +110,11 @@ class _TabbarState extends State<Tabbar> {
                   );
                 },
               ),
-              title: Text(
-                'Cart',
-                style: _navigationTextStyle,
-              ),
+              label: 'Cart',
             ),
             BottomNavigationBarItem(
               icon: const Icon(BotigaIcons.profile),
-              title: Text(
-                'Profile',
-                style: _navigationTextStyle,
-              ),
+              label: 'Profile',
             ),
           ],
           currentIndex: _selectedIndex,
