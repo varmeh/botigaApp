@@ -42,7 +42,7 @@ class CartBottomModal extends StatelessWidget {
                 ],
               ),
             ),
-            onTap: () => CartConfirmationScreen(),
+            openOnTap: () => CartConfirmationScreen(),
           );
         }
       },

@@ -5,9 +5,12 @@ import '../theme/index.dart';
 
 class OpenContainerBottomModal extends StatelessWidget {
   final Widget child;
-  final Function onTap;
+  final Function openOnTap;
 
-  OpenContainerBottomModal({@required this.child, @required this.onTap});
+  OpenContainerBottomModal({
+    @required this.child,
+    @required this.openOnTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,7 @@ class OpenContainerBottomModal extends StatelessWidget {
               child: this.child,
             );
           },
-          openBuilder: (_, __) => this.onTap(),
+          openBuilder: (_, __) => this.openOnTap(),
         ),
       ),
     );
