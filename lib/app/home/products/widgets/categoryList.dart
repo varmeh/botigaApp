@@ -114,14 +114,14 @@ class CategoryList extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: 100,
-            height: 120,
+            width: 120,
+            height: 110,
             child: Stack(
               children: [
                 product.imageUrl != null
                     ? Container(
-                        width: 104.0,
-                        height: 104.0,
+                        width: 120.0,
+                        height: 90.0,
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.fill,
@@ -133,7 +133,7 @@ class CategoryList extends StatelessWidget {
                     : Container(),
                 Positioned(
                   bottom: product.imageUrl != null ? 0 : 40,
-                  left: 10,
+                  left: 20,
                   child: ProductSelectionButton(
                     seller: seller,
                     product: product,
