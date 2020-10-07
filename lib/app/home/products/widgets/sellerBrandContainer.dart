@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../models/index.dart' show SellerModel;
 import '../../../../theme/index.dart';
-import '../../../../widgets/contactPartnerWidget.dart';
+import '../../../../widgets/index.dart'
+    show ContactPartnerWidget, CircleNetworkAvatar;
 
 class SellerBrandContainer extends StatelessWidget {
   final SellerModel seller;
@@ -55,12 +56,10 @@ class SellerBrandContainer extends StatelessWidget {
         SizedBox(
           width: 12,
         ),
-        CircleAvatar(
-          radius: 32,
-          backgroundColor: AppTheme.dividerColor,
-          backgroundImage: NetworkImage(
-            'https://www.spendwithpennies.com/wp-content/uploads/2015/10/Chocolate-Ganache-22.jpg',
-          ),
+        CircleNetworkAvatar(
+          imageUrl:
+              'https://www.spendwithpennies.com/wp-content/uploads/2015/10/Chocolate-Ganache-22.jpg',
+          radius: 32.0,
         ),
       ],
     );

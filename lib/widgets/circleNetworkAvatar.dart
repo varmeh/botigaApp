@@ -21,7 +21,7 @@ class CircleNetworkAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return imageUrl == null ? _assetImage() : _networkImage();
+    return imageUrl == null ? _placeholderImage() : _networkImage();
   }
 
   Widget _networkImage() {
@@ -31,15 +31,15 @@ class CircleNetworkAvatar extends StatelessWidget {
         fit: BoxFit.cover,
         width: this.radius * 2,
         height: this.radius * 2,
-        placeholder: (_, __) => Image.asset(this.imagePlaceholder),
+        placeholder: (_, __) => _placeholderImage(),
         imageUrl: this.imageUrl,
       ),
     );
   }
 
-  Widget _assetImage() {
+  Widget _placeholderImage() {
     return CircleAvatar(
-      backgroundColor: AppTheme.color05,
+      backgroundColor: Colors.blue,
       backgroundImage: AssetImage(this.imagePlaceholder),
       radius: this.radius,
     );
