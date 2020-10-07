@@ -2,11 +2,11 @@ import 'package:botiga/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/index.dart' show SellerModel, ProductModel;
+import '../../models/index.dart' show ProductModel;
 import '../../providers/index.dart' show CartProvider;
 import '../../widgets/index.dart' show IncrementButton;
 
-const _itemPadding = EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0);
+import 'widgets/cartDeliveryInfo.dart';
 
 class CartScreen extends StatelessWidget {
   final String route = 'cartScreen';
@@ -18,62 +18,62 @@ class CartScreen extends StatelessWidget {
     return Container(
       color: AppTheme.backgroundColor,
       child: Scaffold(
+        appBar: AppBar(
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: AppTheme.textColor100,
+            ),
+          ),
+          backgroundColor: AppTheme.backgroundColor,
+          elevation: 0.0,
+        ),
         body: SafeArea(
           child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 5.0),
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  ListView.builder(
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      switch (index) {
-                        case 0:
-                          return _sellerInformation(_provider.cartSeller);
-
-                        case 1:
-                          return _itemList(_provider);
-
-                        case 2:
-                          return _grandBill(_provider);
-
-                        default:
-                          return Container();
-                      }
-                    },
-                  ),
-                  // PaymentBottomModal()
-                ],
-              )),
+            color: AppTheme.backgroundColor,
+            child: _provider.numberOfItemsInCart > 0
+                ? _cartDetails(_provider)
+                : _cartEmpty(),
+          ),
         ),
       ),
     );
   }
 
-  Widget _sellerInformation(SellerModel seller) {
-    final _sizedBox = SizedBox(height: 15.0);
+  Widget _cartEmpty() {
+    return Center(
+      child: Text('Empty'),
+    );
+  }
 
-    return Container(
-      padding: _itemPadding,
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  seller.brandName,
-                  style: AppTheme.textStyle.w500,
-                ),
-                _sizedBox,
-                Text(
-                  seller.businessCategory,
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
+  Widget _cartDetails(CartProvider provider) {
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: 3,
+          itemBuilder: (context, index) {
+            switch (index) {
+              case 0:
+                return CartDeliveryInfo(provider.cartSeller);
+
+              case 1:
+                return _itemList(provider);
+
+              case 2:
+                return _totalPrice(provider.totalPrice);
+
+              default:
+                return Container();
+            }
+          },
+        ),
+        // PaymentBottomModal()
+      ],
     );
   }
 
@@ -86,7 +86,7 @@ class CartScreen extends StatelessWidget {
     );
 
     return Container(
-      padding: _itemPadding,
+      padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: productList,
@@ -135,9 +135,9 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _grandBill(CartProvider provider) {
+  Widget _totalPrice(double totalPrice) {
     return Container(
-      padding: _itemPadding,
+      padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
       child: Column(
         children: [
           Divider(
@@ -156,7 +156,7 @@ class CartScreen extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  '₹${provider.totalPrice.toInt()}',
+                  '₹${totalPrice.toString()}',
                   style: AppTheme.textStyle.w600.color100.size(13),
                   textAlign: TextAlign.end,
                 ),

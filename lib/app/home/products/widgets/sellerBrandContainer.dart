@@ -57,7 +57,7 @@ class SellerBrandContainer extends StatelessWidget {
         ),
         CircleAvatar(
           radius: 32,
-          backgroundColor: Theme.of(context).disabledColor,
+          backgroundColor: AppTheme.dividerColor,
           backgroundImage: NetworkImage(
             'https://www.spendwithpennies.com/wp-content/uploads/2015/10/Chocolate-Ganache-22.jpg',
           ),
