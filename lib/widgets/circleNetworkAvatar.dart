@@ -1,3 +1,4 @@
+import 'package:botiga/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -15,11 +16,15 @@ class CircleNetworkAvatar extends StatelessWidget {
   CircleNetworkAvatar({
     @required this.imageUrl,
     this.imagePlaceholder = 'assets/images/avatar.png',
-    this.radius = 25.0,
+    this.radius = 24.0,
   });
 
   @override
   Widget build(BuildContext context) {
+    return imageUrl == null ? _assetImage() : _networkImage();
+  }
+
+  Widget _networkImage() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(this.radius),
       child: CachedNetworkImage(
@@ -27,8 +32,16 @@ class CircleNetworkAvatar extends StatelessWidget {
         width: this.radius * 2,
         height: this.radius * 2,
         placeholder: (_, __) => Image.asset(this.imagePlaceholder),
-        imageUrl: this.imageUrl != null ? this.imageUrl : '',
+        imageUrl: this.imageUrl,
       ),
+    );
+  }
+
+  Widget _assetImage() {
+    return CircleAvatar(
+      backgroundColor: AppTheme.color05,
+      backgroundImage: AssetImage(this.imagePlaceholder),
+      radius: this.radius,
     );
   }
 }
