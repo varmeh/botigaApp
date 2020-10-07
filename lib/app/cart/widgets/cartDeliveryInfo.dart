@@ -1,8 +1,12 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '../../../models/sellerModel.dart';
 import '../../../theme/index.dart';
-import '../../../widgets/circleNetworkAvatar.dart';
+import '../../../widgets/index.dart' show CircleNetworkAvatar, DottedTimeline;
+
+const _horizontalPadding = 20.0;
+const _avatarRadius = 24.0;
 
 class CartDeliveryInfo extends StatelessWidget {
   final SellerModel seller;
@@ -12,6 +16,7 @@ class CartDeliveryInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _info(
           seller.brandName,
@@ -19,7 +24,8 @@ class CartDeliveryInfo extends StatelessWidget {
           'https://www.spendwithpennies.com/wp-content/uploads/2015/10/Chocolate-Ganache-22.jpg',
           true,
         ),
-        SizedBox(height: 32),
+        DottedTimeline(
+            start: Point(_horizontalPadding + _avatarRadius, 0), height: 32),
         _info('Deliver to', 'V503, T5, APR', null, false),
         SizedBox(height: 32),
         Divider(
@@ -36,13 +42,13 @@ class CartDeliveryInfo extends StatelessWidget {
         : 'assets/images/buildingAvatar.png';
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
       child: Row(
         children: [
           CircleNetworkAvatar(
             imageUrl: imageUrl,
             imagePlaceholder: placeholder,
-            radius: 24.0,
+            radius: _avatarRadius,
           ),
           SizedBox(width: 16.0),
           Column(
