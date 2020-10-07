@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/index.dart' show CartProvider;
 import '../../widgets/openContainerBottomModal.dart';
-import 'cartConfirmationScreen.dart';
+import 'cartScreen.dart';
 
 class CartBottomModal extends StatelessWidget {
   @override
@@ -42,7 +42,7 @@ class CartBottomModal extends StatelessWidget {
                 ],
               ),
             ),
-            openOnTap: () => CartConfirmationScreen(),
+            openOnTap: () => CartScreen(),
           );
         }
       },
