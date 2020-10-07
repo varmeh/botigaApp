@@ -15,29 +15,27 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _provider = Provider.of<CartProvider>(context);
 
-    return Container(
-      color: AppTheme.backgroundColor,
-      child: Scaffold(
-        appBar: AppBar(
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back,
-              color: AppTheme.color100,
-            ),
+    return Scaffold(
+      backgroundColor: AppTheme.backgroundColor,
+      appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: AppTheme.color100,
           ),
-          backgroundColor: AppTheme.backgroundColor,
-          elevation: 0.0,
         ),
-        body: SafeArea(
-          child: Container(
-            color: AppTheme.backgroundColor,
-            child: _provider.numberOfItemsInCart > 0
-                ? _cartDetails(_provider)
-                : _cartEmpty(),
-          ),
+        backgroundColor: AppTheme.backgroundColor,
+        elevation: 0.0,
+      ),
+      body: Container(
+        color: AppTheme.backgroundColor,
+        child: SafeArea(
+          child: _provider.numberOfItemsInCart > 0
+              ? _cartDetails(_provider)
+              : _cartEmpty(),
         ),
       ),
     );
@@ -85,59 +83,66 @@ class CartScreen extends StatelessWidget {
       },
     );
 
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: productList,
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(height: 8),
+        ...productList,
+      ],
     );
   }
 
   Widget _itemTile(CartProvider provider, ProductModel product, int quantity) {
-    return Column(
-      children: [
-        SizedBox(height: 40),
-        Row(
-          children: [
-            Expanded(
-              flex: 2,
-              child: Text(
-                '${product.name} [${product.size}]',
-                style: AppTheme.textStyle.w500,
-              ),
-            ),
-            Expanded(
-              child: Center(
-                child: IncrementButton(
-                  value: quantity,
-                  onIncrement: () {
-                    provider.addProduct(provider.cartSeller, product);
-                  },
-                  onDecrement: () {
-                    if (quantity > 0) {
-                      provider.removeProduct(product);
-                    }
-                  },
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 20.0),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 4,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${product.name}',
+                  style:
+                      AppTheme.textStyle.w500.color100.size(15).lineHeight(1.4),
                 ),
-              ),
+                Text(
+                  '${product.size}',
+                  style:
+                      AppTheme.textStyle.w500.color50.size(13).lineHeight(1.6),
+                )
+              ],
             ),
-            Expanded(
-              child: Text(
-                '₹${(product.price * quantity).toInt()}',
-                style: AppTheme.textStyle,
-                textAlign: TextAlign.end,
-              ),
+          ),
+          Center(
+            child: IncrementButton(
+              value: quantity,
+              onIncrement: () {
+                provider.addProduct(provider.cartSeller, product);
+              },
+              onDecrement: () {
+                if (quantity > 0) {
+                  provider.removeProduct(product);
+                }
+              },
             ),
-          ],
-        ),
-      ],
+          ),
+          Expanded(
+            child: Text(
+              '₹${(product.price * quantity).toInt()}',
+              style: AppTheme.textStyle.w500.color100.size(13).lineHeight(1.6),
+              textAlign: TextAlign.end,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _totalPrice(double totalPrice) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+      padding: const EdgeInsets.all(20.0),
       child: Column(
         children: [
           Divider(
@@ -151,13 +156,15 @@ class CartScreen extends StatelessWidget {
                 flex: 2,
                 child: Text(
                   'Total to pay',
-                  style: AppTheme.textStyle.w600.color100.size(13),
+                  style:
+                      AppTheme.textStyle.w600.color100.size(13).lineHeight(1.6),
                 ),
               ),
               Expanded(
                 child: Text(
                   '₹${totalPrice.toString()}',
-                  style: AppTheme.textStyle.w600.color100.size(13),
+                  style:
+                      AppTheme.textStyle.w600.color100.size(13).lineHeight(1.6),
                   textAlign: TextAlign.end,
                 ),
               ),
