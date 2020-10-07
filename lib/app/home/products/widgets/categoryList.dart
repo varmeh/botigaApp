@@ -13,9 +13,9 @@ class CategoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).copyWith(
-      accentColor: AppTheme.textColor100,
+      accentColor: AppTheme.color100,
       dividerColor: Colors.transparent,
-      unselectedWidgetColor: AppTheme.textColor100,
+      unselectedWidgetColor: AppTheme.color100,
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
     );
@@ -53,7 +53,7 @@ class CategoryList extends StatelessWidget {
                 Column(
                   children: [
                     Divider(
-                      color: AppTheme.textColor100,
+                      color: AppTheme.color100,
                       thickness: 1,
                       indent: 0,
                       endIndent: 300,

@@ -25,7 +25,7 @@ class CartScreen extends StatelessWidget {
             },
             child: Icon(
               Icons.arrow_back,
-              color: AppTheme.textColor100,
+              color: AppTheme.color100,
             ),
           ),
           backgroundColor: AppTheme.backgroundColor,

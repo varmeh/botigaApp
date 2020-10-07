@@ -63,7 +63,7 @@ class _AddButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = this.enabled ? AppTheme.primaryColor : AppTheme.textColor50;
+    final color = this.enabled ? AppTheme.primaryColor : AppTheme.color50;
 
     return GestureDetector(
       onTap: this.enabled ? this.onPressed : () {},

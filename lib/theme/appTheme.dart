@@ -11,8 +11,8 @@ class AppTheme {
 
   static final textStyle = TextStyle(fontFamily: 'Montserrat');
 
-  static final textColor100 = Color.fromRGBO(18, 23, 21, 1.0);
-  static final textColor50 = Color.fromRGBO(18, 23, 21, 0.5);
-  static final textColor25 = Color.fromRGBO(18, 23, 21, 0.25);
-  static final textColor05 = Color.fromRGBO(18, 23, 21, 0.05);
+  static final color100 = Color.fromRGBO(18, 23, 21, 1.0);
+  static final color50 = Color.fromRGBO(18, 23, 21, 0.5);
+  static final color25 = Color.fromRGBO(18, 23, 21, 0.25);
+  static final color05 = Color.fromRGBO(18, 23, 21, 0.05);
 }

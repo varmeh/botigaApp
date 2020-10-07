@@ -27,7 +27,7 @@ class ContactPartnerWidget extends StatelessWidget {
                 ),
                 icon: Icon(
                   BotigaIcons.call,
-                  color: AppTheme.textColor100,
+                  color: AppTheme.color100,
                   size: 18,
                 ),
                 onPressed: () => _phone(context),

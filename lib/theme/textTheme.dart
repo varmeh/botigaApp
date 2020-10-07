@@ -10,10 +10,10 @@ extension TextStyleHelpers on TextStyle {
   TextStyle get w700 => copyWith(fontWeight: FontWeight.w700);
   TextStyle get w800 => copyWith(fontWeight: FontWeight.w800);
 
-  TextStyle get color100 => copyWith(color: AppTheme.textColor100);
-  TextStyle get color50 => copyWith(color: AppTheme.textColor50);
-  TextStyle get color25 => copyWith(color: AppTheme.textColor25);
-  TextStyle get color05 => copyWith(color: AppTheme.textColor05);
+  TextStyle get color100 => copyWith(color: AppTheme.color100);
+  TextStyle get color50 => copyWith(color: AppTheme.color50);
+  TextStyle get color25 => copyWith(color: AppTheme.color25);
+  TextStyle get color05 => copyWith(color: AppTheme.color05);
 
   TextStyle colored(Color value) => copyWith(color: value);
 
