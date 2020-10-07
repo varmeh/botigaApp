@@ -39,7 +39,7 @@ class CircleNetworkAvatar extends StatelessWidget {
 
   Widget _placeholderImage() {
     return CircleAvatar(
-      backgroundColor: Colors.blue,
+      backgroundColor: AppTheme.color05,
       backgroundImage: AssetImage(this.imagePlaceholder),
       radius: this.radius,
     );
