@@ -97,14 +97,16 @@ class CategoryList extends StatelessWidget {
                 SizedBox(height: 3),
                 Text(
                   '₹${product.price}',
-                  style:
-                      AppTheme.textStyle.w500.color100.lineHeight(1.6).size(13),
+                  style: AppTheme.textStyle.w500.color100
+                      .lineHeight(1.6)
+                      .size(13)
+                      .letterSpace(0.5),
                 ),
                 SizedBox(height: 5),
                 product.description != null
                     ? Text(
                         product.description,
-                        style: AppTheme.textStyle.w500.color100
+                        style: AppTheme.textStyle.w500.color50
                             .lineHeight(1.3)
                             .letterSpace(0.2)
                             .size(12),
