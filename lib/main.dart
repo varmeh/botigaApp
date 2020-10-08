@@ -9,7 +9,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'providers/index.dart'
-    show SellersProvider, ProductsProvider, CartProvider;
+    show SellersProvider, ProductsProvider, CartProvider, OrdersProvider;
 import 'util/index.dart' show Flavor;
 import 'app/tabbar.dart';
 
@@ -47,6 +47,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => SellersProvider()),
         ChangeNotifierProvider(create: (context) => ProductsProvider()),
         ChangeNotifierProvider(create: (context) => CartProvider()),
+        ChangeNotifierProvider(create: (context) => OrdersProvider()),
       ],
       child: BotigaApp(),
     ),

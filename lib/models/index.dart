@@ -1,4 +1,5 @@
+export 'enum/deliveryStatusEnum.dart';
 export 'sellerModel.dart';
 export 'productModel.dart';
 export 'categoryModel.dart';
-export 'enum/deliveryStatusEnum.dart';
+export 'orderModel.dart';
