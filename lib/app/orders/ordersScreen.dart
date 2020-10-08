@@ -43,17 +43,46 @@ class OrderListScreen extends StatelessWidget {
   }
 
   Widget _orderList(OrdersProvider provider) {
+    final addButtonForMoreOrders =
+        provider.currentPage < provider.pages - 1 ? 1 : 0;
     return Container(
       padding: EdgeInsets.all(20.0),
       child: ListView.builder(
-        itemCount: provider.orders.length + 1,
+        itemCount: provider.orders.length + 1 + addButtonForMoreOrders,
         itemBuilder: (context, index) {
-          return index == 0
-              ? Text(
-                  'Orders',
-                  style: AppTheme.textStyle.w700.size(22).lineHeight(1.4),
-                )
-              : _orderTile(provider.orders[index - 1]);
+          if (index == 0) {
+            return Text(
+              'Orders',
+              style: AppTheme.textStyle.w700.size(22).lineHeight(1.4),
+            );
+          } else if (index <= provider.orders.length) {
+            return _orderTile(provider.orders[index - 1]);
+          } else {
+            return Container(
+              padding: EdgeInsets.symmetric(vertical: 24.0),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: AppTheme.dividerColor,
+                  ),
+                ),
+              ),
+              child: Center(
+                child: GestureDetector(
+                  onTap: () {
+                    // TODO: provider to load next
+                  },
+                  child: Text(
+                    'View Past Orders',
+                    style: AppTheme.textStyle.w600
+                        .size(15)
+                        .lineHeight(1.3)
+                        .colored(AppTheme.primaryColor),
+                  ),
+                ),
+              ),
+            );
+          }
         },
       ),
     );
