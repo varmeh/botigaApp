@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 
 import '../../models/index.dart' show ProductModel;
 import '../../providers/index.dart' show CartProvider;
-import '../../widgets/index.dart' show IncrementButton;
+import '../../widgets/index.dart'
+    show IncrementButton, OpenContainerBottomModal;
 
 import 'widgets/cartDeliveryInfo.dart';
 
@@ -43,7 +44,7 @@ class CartScreen extends StatelessWidget {
 
   Widget _cartEmpty() {
     return Center(
-      child: Text('Empty'),
+      child: Text('Empty'), //TODO: implement empty screen
     );
   }
 
@@ -51,26 +52,44 @@ class CartScreen extends StatelessWidget {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: 3,
-          itemBuilder: (context, index) {
-            switch (index) {
-              case 0:
-                return CartDeliveryInfo(provider.cartSeller);
+        Positioned.fill(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              switch (index) {
+                case 0:
+                  return CartDeliveryInfo(provider.cartSeller);
 
-              case 1:
-                return _itemList(provider);
+                case 1:
+                  return _itemList(provider);
 
-              case 2:
-                return _totalPrice(provider.totalPrice);
+                case 2:
+                  return _totalPrice(provider.totalPrice);
 
-              default:
-                return Container();
-            }
-          },
+                default:
+                  return Container();
+              }
+            },
+          ),
         ),
-        // PaymentBottomModal()
+        Positioned(
+          bottom: 0,
+          child: OpenContainerBottomModal(
+            child: Center(
+              child: Text(
+                'Proceed to pay',
+                style: AppTheme.textStyle.w700
+                    .colored(AppTheme.backgroundColor)
+                    .size(13)
+                    .lineHeight(1.6),
+              ),
+            ),
+            openOnTap: () => Center(
+              child: Text('Payment Screen'),
+            ),
+          ),
+        )
       ],
     );
   }

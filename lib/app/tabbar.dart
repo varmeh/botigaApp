@@ -70,6 +70,7 @@ class _TabbarState extends State<Tabbar> {
   Widget build(BuildContext context) {
     return FlavorBanner(
       child: Scaffold(
+        backgroundColor: AppTheme.backgroundColor,
         body: SafeArea(
           child: _selectedTab.elementAt(_selectedIndex),
         ),
