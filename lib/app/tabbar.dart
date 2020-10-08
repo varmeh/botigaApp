@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:badges/badges.dart';
 
 import 'home/HomeScreen.dart';
-import 'orders/orderListScreen.dart';
+import 'orders/ordersScreen.dart';
 import 'cart/cartScreen.dart';
 import 'profile/profileListScreen.dart';
 

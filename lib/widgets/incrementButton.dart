@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'colorIconButton.dart';
 import '../theme/index.dart';
 
 class IncrementButton extends StatelessWidget {
@@ -28,22 +27,25 @@ class IncrementButton extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ColorIconButton(
-            icon: Icons.remove,
-            color: AppTheme.primaryColor,
-            onPressed: this.onDecrement,
-          ),
+          _iconButton(Icons.remove, AppTheme.primaryColor, this.onDecrement),
           Text(
             value.toString(),
             style:
                 AppTheme.textStyle.w600.size(15).colored(AppTheme.primaryColor),
           ),
-          ColorIconButton(
-            icon: Icons.add,
-            color: AppTheme.primaryColor,
-            onPressed: this.onIncrement,
-          ),
+          _iconButton(Icons.add, AppTheme.primaryColor, this.onIncrement),
         ],
+      ),
+    );
+  }
+
+  Widget _iconButton(IconData icon, Color color, Function onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Icon(
+        icon,
+        color: color,
+        size: 20,
       ),
     );
   }
