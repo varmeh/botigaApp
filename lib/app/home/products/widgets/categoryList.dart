@@ -136,10 +136,8 @@ class CategoryList extends StatelessWidget {
                 Positioned(
                   bottom: product.imageUrl != null ? 0 : 40,
                   left: 20,
-                  child: ProductSelectionButton(
-                    seller: seller,
-                    product: product,
-                  ),
+                  child:
+                      ProductSelectionButton(seller: seller, product: product),
                 ),
               ],
             ),
