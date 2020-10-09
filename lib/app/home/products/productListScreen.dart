@@ -44,15 +44,21 @@ class ProductListScreen extends StatelessWidget {
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
-                // TODO: convert to ListViewBuilder
-                ListView(
-                  children: [
-                    SellerBrandContainer(seller),
-                    Divider(
-                      thickness: 4.0,
-                    ),
-                    _categoryList(context, seller),
-                  ],
+                ListView.builder(
+                  itemCount: 4,
+                  itemBuilder: (context, index) {
+                    if (index == 0) {
+                      return SellerBrandContainer(seller);
+                    } else if (index == 1) {
+                      return Divider(
+                        thickness: 4.0,
+                      );
+                    } else if (index == 2) {
+                      return _categoryList(context, seller);
+                    } else {
+                      return SizedBox(height: 60.0);
+                    }
+                  },
                 ),
                 CartBottomModal()
               ],

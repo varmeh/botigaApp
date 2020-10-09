@@ -88,6 +88,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   }
 
   Widget _cancelButton(BuildContext context) {
+    // TODO: order cancellation api pending
     return widget.order.status == 'open' || widget.order.status == 'delay'
         ? GestureDetector(
             onTap: () {
