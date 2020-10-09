@@ -34,6 +34,9 @@ class OrderDetailScreen extends StatelessWidget {
               color: AppTheme.color100,
             ),
           ),
+          actions: [
+            _cancelButton(),
+          ],
         ),
         body: SafeArea(
           child: Container(
@@ -58,9 +61,29 @@ class OrderDetailScreen extends StatelessWidget {
     );
   }
 
+  Widget _cancelButton() {
+    return order.status == 'open' || order.status == 'delay'
+        ? GestureDetector(
+            onTap: () {},
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: Text(
+                  'Cancel order',
+                  style: AppTheme.textStyle.w500
+                      .size(15)
+                      .lineHeight(1.3)
+                      .colored(AppTheme.errorColor),
+                ),
+              ),
+            ),
+          )
+        : Container();
+  }
+
   Widget _sellerInfo() {
     final sizedBox = SizedBox(height: 6.0);
-    final dateFormat = DateFormat('d MMM, y hh:mm a');
+    final dateFormat = DateFormat('d MMM, y h:mm a');
 
     return Container(
       padding: EdgeInsets.fromLTRB(20.0, 0, 20.0, 24.0),

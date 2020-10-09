@@ -6,6 +6,7 @@ class AppTheme {
   static final dividerColor = Color.fromRGBO(18, 23, 21, 0.05);
   static final backgroundColor = Colors.white;
   static final buttonBorderColor = Color.fromRGBO(18, 23, 21, 0.12);
+  static final errorColor = Color.fromRGBO(218, 48, 48, 1);
 
   static final navigationItemColor = Color.fromRGBO(18, 23, 21, 0.25);
 
