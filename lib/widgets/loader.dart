@@ -10,6 +10,5 @@ class Loader extends StatelessWidget {
         valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primaryColor),
       ),
     );
-    ;
   }
 }
