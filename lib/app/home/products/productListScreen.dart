@@ -44,6 +44,7 @@ class ProductListScreen extends StatelessWidget {
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
+                // TODO: convert to ListViewBuilder
                 ListView(
                   children: [
                     SellerBrandContainer(seller),

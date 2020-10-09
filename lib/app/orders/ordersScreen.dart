@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:animations/animations.dart';
 
 import '../../models/orderModel.dart';
 import '../../util/index.dart' show HttpServiceExceptionWidget;
 import '../../providers/ordersProvider.dart';
 import '../../theme/index.dart';
 import '../../widgets/loader.dart';
+
+import 'orderDetailScreen.dart';
 
 class OrderListScreen extends StatefulWidget {
   @override
@@ -106,67 +109,75 @@ class _OrderListScreenState extends State<OrderListScreen> {
 
   Widget _orderTile(OrderModel order) {
     final dateFormat = DateFormat('d MMM, y hh:mm a');
-    return GestureDetector(
-      onTap: () {
-        //TODO: open order detail view
-      },
-      child: Container(
-        padding: EdgeInsets.only(top: 20.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return OpenContainer(
+      closedElevation: 0.0,
+      transitionDuration: Duration(milliseconds: 500),
+      closedBuilder: (context, openContainer) {
+        return GestureDetector(
+          onTap: openContainer,
+          child: Container(
+            padding: EdgeInsets.only(top: 20.0),
+            child: Column(
               children: [
-                Text(
-                  order.seller.brandName,
-                  style:
-                      AppTheme.textStyle.w600.color100.size(15).lineHeight(1.3),
-                ),
-                Text(
-                  '₹${order.totalAmount.toString()}',
-                  style:
-                      AppTheme.textStyle.w600.color100.size(13).lineHeight(1.5),
-                )
-              ],
-            ),
-            SizedBox(height: 4),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  dateFormat.format(order.orderDate),
-                  style:
-                      AppTheme.textStyle.w500.color50.size(12).lineHeight(1.3),
-                ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      order.statusMessage,
+                      order.seller.brandName,
+                      style: AppTheme.textStyle.w600.color100
+                          .size(15)
+                          .lineHeight(1.3),
+                    ),
+                    Text(
+                      '₹${order.totalAmount.toString()}',
+                      style: AppTheme.textStyle.w600.color100
+                          .size(13)
+                          .lineHeight(1.5),
+                    )
+                  ],
+                ),
+                SizedBox(height: 4),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      dateFormat.format(order.orderDate),
                       style: AppTheme.textStyle.w500.color50
                           .size(12)
                           .lineHeight(1.3),
                     ),
-                    SizedBox(width: 4.0),
-                    Container(
-                      width: 12.0,
-                      height: 12.0,
-                      decoration: BoxDecoration(
-                        color: order.statusColor,
-                        shape: BoxShape.circle,
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          order.statusMessage,
+                          style: AppTheme.textStyle.w500.color50
+                              .size(12)
+                              .lineHeight(1.3),
+                        ),
+                        SizedBox(width: 4.0),
+                        Container(
+                          width: 12.0,
+                          height: 12.0,
+                          decoration: BoxDecoration(
+                            color: order.statusColor,
+                            shape: BoxShape.circle,
+                          ),
+                        )
+                      ],
                     )
                   ],
+                ),
+                SizedBox(height: 20.0),
+                Divider(
+                  thickness: 1.0,
+                  color: AppTheme.dividerColor,
                 )
               ],
             ),
-            SizedBox(height: 20.0),
-            Divider(
-              thickness: 1.0,
-              color: AppTheme.dividerColor,
-            )
-          ],
-        ),
-      ),
+          ),
+        );
+      },
+      openBuilder: (_, __) => OrderDetailScreen(order),
     );
   }
 }
