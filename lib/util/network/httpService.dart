@@ -5,15 +5,11 @@ import '../flavor.dart';
 import 'httpExceptions.dart';
 
 class HttpService {
-  final _baseUrl = Flavor.shared.baseUrl;
-
-  Future<dynamic> get(String url) async {
-    // Propogate errors to parent for effective UI management
-    final response = await http.get(_baseUrl + url);
-    return _returnResponse(response);
+  static String url(String url) {
+    return '${Flavor.shared.baseUrl}$url';
   }
 
-  dynamic _returnResponse(http.Response response) {
+  static dynamic parse(http.Response response) {
     switch (response.statusCode) {
       case 200:
       case 201:

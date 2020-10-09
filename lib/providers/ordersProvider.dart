@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import '../models/index.dart' show OrderModel;
 import '../util/index.dart' show HttpService;
@@ -16,8 +17,11 @@ class OrdersProvider with ChangeNotifier {
     if (_orders.length > 0) {
       return;
     } else {
-      final json = await HttpService()
-          .get('/api/user/orders?limit=10&page=$currentPage');
+      final response = await http.get(
+        HttpService.url('/api/user/orders?limit=10&page=$currentPage'),
+      );
+
+      final json = HttpService.parse(response);
 
       pages = json['pages'];
       currentPage = json['currentPage'];
@@ -31,8 +35,11 @@ class OrdersProvider with ChangeNotifier {
 
   Future<void> nextOrders() async {
     if (currentPage + 1 < pages) {
-      final json = await HttpService()
-          .get('/api/user/orders?limit=10&page=${currentPage + 1}');
+      final response = await http.get(
+        HttpService.url('/api/user/orders?limit=10&page=${currentPage + 1}'),
+      );
+
+      final json = HttpService.parse(response);
 
       currentPage += 1;
 
@@ -41,4 +48,6 @@ class OrdersProvider with ChangeNotifier {
       });
     }
   }
+
+  Future<void> cancelOrder(String orderId) {}
 }

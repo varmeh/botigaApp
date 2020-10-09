@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import '../models/index.dart' show CategoryModel;
 import '../util/index.dart' show HttpService;
@@ -16,9 +17,12 @@ class ProductsProvider with ChangeNotifier {
     if (_sellerProducts.containsKey(sellerId)) {
       return;
     } else {
-      final json = await HttpService()
-          .get('/api/user/products/5f7730a57a8a7aafb139f511');
-      // List<CategoryModel> _sellerCategoryList = [];
+      final response = await http.get(
+        HttpService.url('/api/user/products/5f7730a57a8a7aafb139f511'),
+      );
+
+      final json = HttpService.parse(response);
+
       List<CategoryModel> _sellerCategories = json
           .map(
             (item) => CategoryModel.fromJson(item),
