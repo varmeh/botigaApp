@@ -13,54 +13,51 @@ class ContactPartnerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 24, bottom: 24),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Container(
-              height: 44,
-              child: FlatButton.icon(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                icon: Icon(
-                  BotigaIcons.call,
-                  color: AppTheme.color100,
-                  size: 18,
-                ),
-                onPressed: () => _phone(context),
-                color: AppTheme.dividerColor,
-                label: Text(
-                  'Call',
-                  style: AppTheme.textStyle.w500.color100.size(15),
-                ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Container(
+            height: 44,
+            child: FlatButton.icon(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              icon: Icon(
+                BotigaIcons.call,
+                color: AppTheme.color100,
+                size: 18,
+              ),
+              onPressed: () => _phone(context),
+              color: AppTheme.dividerColor,
+              label: Text(
+                'Call',
+                style: AppTheme.textStyle.w500.color100.size(15),
               ),
             ),
           ),
-          SizedBox(
-            width: 13,
-          ),
-          Expanded(
-            child: Container(
-              height: 44,
-              child: FlatButton.icon(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                icon: Image.asset('assets/images/whatsapp.png'),
-                onPressed: () => _whatsapp(context),
-                color: AppTheme.dividerColor,
-                label: Text(
-                  'Whatsapp',
-                  style: AppTheme.textStyle.w500.color100.size(15),
-                ),
+        ),
+        SizedBox(
+          width: 13,
+        ),
+        Expanded(
+          child: Container(
+            height: 44,
+            child: FlatButton.icon(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              icon: Image.asset('assets/images/whatsapp.png'),
+              onPressed: () => _whatsapp(context),
+              color: AppTheme.dividerColor,
+              label: Text(
+                'Whatsapp',
+                style: AppTheme.textStyle.w500.color100.size(15),
               ),
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 

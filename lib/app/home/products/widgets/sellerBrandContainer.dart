@@ -13,7 +13,7 @@ class SellerBrandContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(20, 0, 32, 0),
+      padding: EdgeInsets.fromLTRB(20, 0, 32, 24),
       child: Column(
         children: [
           _brandInfo(context),
@@ -21,7 +21,7 @@ class SellerBrandContainer extends StatelessWidget {
           _iconInfo(context, 'assets/images/shop.png', seller.businessCategory),
           SizedBox(height: 10.0),
           _iconInfo(context, 'assets/images/pin.png', seller.deliveryMessage),
-          SizedBox(height: 10.0),
+          SizedBox(height: 24.0),
           ContactPartnerWidget(
             phone: seller.phone,
             whatsapp: seller.whatsapp,

@@ -162,16 +162,16 @@ class _OrderListScreenState extends State<OrderListScreen> {
                             color: order.statusColor,
                             shape: BoxShape.circle,
                           ),
-                        )
+                        ),
                       ],
-                    )
+                    ),
                   ],
                 ),
                 SizedBox(height: 20.0),
                 Divider(
                   thickness: 1.0,
                   color: AppTheme.dividerColor,
-                )
+                ),
               ],
             ),
           ),
