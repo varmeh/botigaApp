@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -49,5 +50,20 @@ class OrdersProvider with ChangeNotifier {
     }
   }
 
-  Future<void> cancelOrder(String orderId) {}
+  Future<void> cancelOrder(String orderId) async {
+    final response = await http.post(
+      HttpService.url('/api/user/orders/cancel'),
+      headers: {HttpHeaders.authorizationHeader: 'dummy-value'},
+      body: {'orderId': '5f74502b2fff00721617b063'},
+    );
+
+    if (response.statusCode == 200) {
+      // Update order information
+      // for (int i = 0; i < _orders.length; i++) {
+      //   if (_orders[i].id == orderId) {
+      //     _orders[i].status = 'cancelled';
+      //   }
+      // }
+    }
+  }
 }

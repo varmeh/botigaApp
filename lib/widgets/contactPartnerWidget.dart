@@ -91,7 +91,10 @@ class ContactPartnerWidget extends StatelessWidget {
   }
 
   void _showDialogUrlNotSupported(
-      BuildContext context, String title, String message) {
+    BuildContext context,
+    String title,
+    String message,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(

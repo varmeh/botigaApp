@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/ordersProvider.dart';
 import '../../theme/index.dart';
 import '../../models/orderModel.dart';
-import '../../widgets/contactPartnerWidget.dart';
+import '../../widgets/index.dart' show ContactPartnerWidget, Loader;
+import '../../util/index.dart' show HttpServiceExceptionWidget;
 
-class OrderDetailScreen extends StatelessWidget {
+class OrderDetailScreen extends StatefulWidget {
   static const route = 'orderDetails';
 
   final OrderModel order;
 
   OrderDetailScreen(this.order);
+
+  @override
+  _OrderDetailScreenState createState() => _OrderDetailScreenState();
+}
+
+class _OrderDetailScreenState extends State<OrderDetailScreen> {
+  bool initiateCancellation = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,25 +45,41 @@ class OrderDetailScreen extends StatelessWidget {
             ),
           ),
           actions: [
-            _cancelButton(),
+            _cancelButton(context),
           ],
         ),
         body: SafeArea(
           child: Container(
             color: AppTheme.backgroundColor,
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                ListView(
-                  children: [
-                    _sellerInfo(),
-                    divider,
-                    _deliveryStatus(),
-                    divider,
-                    _itemizedBill()
-                  ],
-                )
-              ],
+            child: FutureBuilder(
+              future: initiateCancellation
+                  ? Provider.of<OrdersProvider>(context)
+                      .cancelOrder(widget.order.id)
+                  : null,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return HttpServiceExceptionWidget(snapshot.error);
+                } else {
+                  return Stack(
+                    children: [
+                      ListView(
+                        children: [
+                          _sellerInfo(),
+                          divider,
+                          _deliveryStatus(),
+                          divider,
+                          _itemizedBill()
+                        ],
+                      ),
+                      snapshot.connectionState == ConnectionState.waiting
+                          ? Center(
+                              child: Loader(),
+                            )
+                          : Container(),
+                    ],
+                  );
+                }
+              },
             ),
           ),
         ),
@@ -61,10 +87,39 @@ class OrderDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _cancelButton() {
-    return order.status == 'open' || order.status == 'delay'
+  Widget _cancelButton(BuildContext context) {
+    return widget.order.status == 'open' || widget.order.status == 'delay'
         ? GestureDetector(
-            onTap: () {},
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text(
+                    'Cancel Order',
+                    style: AppTheme.textStyle.w500.color100,
+                  ),
+                  content: Text(
+                    'Are you sure you want to cancel this order?',
+                    style: AppTheme.textStyle.w400.color100,
+                  ),
+                  actions: [
+                    FlatButton(
+                      child: Text(
+                        'Confirm',
+                        style: AppTheme.textStyle.w600
+                            .colored(AppTheme.errorColor),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        setState(() {
+                          initiateCancellation = true;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.only(right: 20.0),
@@ -91,12 +146,12 @@ class OrderDetailScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            order.seller.brandName,
+            widget.order.seller.brandName,
             style: AppTheme.textStyle.w600.color100.size(15.0).lineHeight(1.4),
           ),
           sizedBox,
           Text(
-            dateFormat.format(order.orderDate),
+            dateFormat.format(widget.order.orderDate),
             style: AppTheme.textStyle.w500.color50.size(12.0).lineHeight(1.3),
           ),
           sizedBox,
@@ -105,7 +160,7 @@ class OrderDetailScreen extends StatelessWidget {
             children: [
               RichText(
                 text: TextSpan(
-                  text: '#${order.number}',
+                  text: '#${widget.order.number}',
                   style: AppTheme.textStyle.w500.color100
                       .size(13.0)
                       .lineHeight(1.5),
@@ -113,7 +168,7 @@ class OrderDetailScreen extends StatelessWidget {
                     TextSpan(text: '・'),
                     TextSpan(
                       text:
-                          '${order.products.length} ITEM${order.products.length > 1 ? 'S' : ''}',
+                          '${widget.order.products.length} ITEM${widget.order.products.length > 1 ? 'S' : ''}',
                     ),
                   ],
                 ),
@@ -126,7 +181,7 @@ class OrderDetailScreen extends StatelessWidget {
                       .lineHeight(1.5),
                   children: [
                     TextSpan(
-                      text: order.totalAmount.toString(),
+                      text: widget.order.totalAmount.toString(),
                       style: AppTheme.textStyle.w600.color100
                           .size(13.0)
                           .lineHeight(1.5),
@@ -138,8 +193,8 @@ class OrderDetailScreen extends StatelessWidget {
           ),
           SizedBox(height: 24.0),
           ContactPartnerWidget(
-            phone: order.seller.phone,
-            whatsapp: order.seller.whatsapp,
+            phone: widget.order.seller.phone,
+            whatsapp: widget.order.seller.whatsapp,
           )
         ],
       ),
@@ -151,15 +206,15 @@ class OrderDetailScreen extends StatelessWidget {
 
     String message;
 
-    if (order.status == 'cancelled') {
+    if (widget.order.status == 'cancelled') {
       message =
-          'Order Cancelled on ${dateFormat.format(order.actualDeliveryDate)}';
-    } else if (order.status == 'delivered') {
+          'Order Cancelled on ${dateFormat.format(widget.order.actualDeliveryDate)}';
+    } else if (widget.order.status == 'delivered') {
       message =
-          'Order delivered on ${dateFormat.format(order.actualDeliveryDate)}';
+          'Order delivered on ${dateFormat.format(widget.order.actualDeliveryDate)}';
     } else {
       message =
-          'Delivery expected on ${DateFormat('d MMMM').format(order.expectedDeliveryDate)}';
+          'Delivery expected on ${DateFormat('d MMMM').format(widget.order.expectedDeliveryDate)}';
     }
 
     return Container(
@@ -173,7 +228,7 @@ class OrderDetailScreen extends StatelessWidget {
             width: 12.0,
             height: 12.0,
             decoration: BoxDecoration(
-              color: order.statusColor,
+              color: widget.order.statusColor,
               shape: BoxShape.circle,
             ),
           ),
@@ -192,7 +247,7 @@ class OrderDetailScreen extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
       child: Column(
         children: [
-          ...order.products.map((product) => _productDetails(product)),
+          ...widget.order.products.map((product) => _productDetails(product)),
           SizedBox(height: 16.0),
           Divider(
             thickness: 1,
@@ -268,7 +323,7 @@ class OrderDetailScreen extends StatelessWidget {
             style: AppTheme.textStyle.w400.color100.size(13.0).lineHeight(1.6),
             children: [
               TextSpan(
-                text: order.totalAmount.toString(),
+                text: widget.order.totalAmount.toString(),
                 style: style,
               ),
             ],
