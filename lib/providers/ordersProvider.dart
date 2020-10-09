@@ -23,13 +23,22 @@ class OrdersProvider with ChangeNotifier {
       currentPage = json['currentPage'];
       totalOrders = json['totalOrders'];
 
-      final _orderIterable = json['orders'].map(
-        (item) => OrderModel.fromJson(item),
-      );
+      json['orders'].forEach((item) {
+        _orders.add(OrderModel.fromJson(item));
+      });
+    }
+  }
 
-      // Iterable returned above is of type of dynamic
-      // Below method is used to convert supertype list to subtype list
-      _orders = List<OrderModel>.from(_orderIterable);
+  Future<void> nextOrders() async {
+    if (currentPage + 1 < pages) {
+      final json = await HttpService()
+          .get('/api/user/orders?limit=10&page=${currentPage + 1}');
+
+      currentPage += 1;
+
+      json['orders'].forEach((item) {
+        _orders.add(OrderModel.fromJson(item));
+      });
     }
   }
 }

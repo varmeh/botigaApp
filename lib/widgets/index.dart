@@ -4,3 +4,4 @@ export 'brandingTile.dart';
 export 'openContainerBottomModal.dart';
 export 'circleNetworkAvatar.dart';
 export 'dottedTimeline.dart';
+export 'loader.dart';
