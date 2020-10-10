@@ -6,7 +6,7 @@ import '../../providers/index.dart' show SellersProvider;
 
 import 'products/productListScreen.dart';
 import '../../util/index.dart' show HttpServiceExceptionWidget;
-import '../../widgets/index.dart' show BrandingTile;
+import '../../widgets/index.dart' show BrandingTile, InviteTile;
 import '../../theme/index.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -27,14 +27,21 @@ class HomeScreen extends StatelessWidget {
           return Consumer<SellersProvider>(
             builder: (context, provider, child) {
               return ListView.builder(
-                itemCount: provider.sellerList.length + 1,
+                itemCount: provider.sellerList.length + 2,
                 itemBuilder: (context, index) {
-                  return index < provider.sellerList.length
-                      ? _sellersTile(context, provider.sellerList[index])
-                      : BrandingTile(
-                          'Thriving communities, empowering people',
-                          'Made by awesome team of Botiga',
-                        );
+                  if (index < provider.sellerList.length) {
+                    return _sellersTile(context, provider.sellerList[index]);
+                  } else if (index == provider.sellerList.length) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 24.0),
+                      child: InviteTile(),
+                    );
+                  } else {
+                    return BrandingTile(
+                      'Thriving communities, empowering people',
+                      'Made by awesome team of Botiga',
+                    );
+                  }
                 },
               );
             },
