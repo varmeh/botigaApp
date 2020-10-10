@@ -12,42 +12,46 @@ import '../../theme/index.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Provider.of<SellersProvider>(context, listen: false).getSellers(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primaryColor),
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return HttpServiceExceptionWidget(snapshot.error);
-        } else {
-          return Consumer<SellersProvider>(
-            builder: (context, provider, child) {
-              return ListView.builder(
-                itemCount: provider.sellerList.length + 2,
-                itemBuilder: (context, index) {
-                  if (index < provider.sellerList.length) {
-                    return _sellersTile(context, provider.sellerList[index]);
-                  } else if (index == provider.sellerList.length) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 24.0),
-                      child: InviteTile(),
-                    );
-                  } else {
-                    return BrandingTile(
-                      'Thriving communities, empowering people',
-                      'Made by awesome team of Botiga',
-                    );
-                  }
-                },
-              );
-            },
-          );
-        }
-      },
+    return SafeArea(
+      child: FutureBuilder(
+        future:
+            Provider.of<SellersProvider>(context, listen: false).getSellers(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(
+                valueColor:
+                    AlwaysStoppedAnimation<Color>(AppTheme.primaryColor),
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return HttpServiceExceptionWidget(snapshot.error);
+          } else {
+            return Consumer<SellersProvider>(
+              builder: (context, provider, child) {
+                return ListView.builder(
+                  itemCount: provider.sellerList.length + 2,
+                  itemBuilder: (context, index) {
+                    if (index < provider.sellerList.length) {
+                      return _sellersTile(context, provider.sellerList[index]);
+                    } else if (index == provider.sellerList.length) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 24.0),
+                        child: InviteTile(),
+                      );
+                    } else {
+                      return BrandingTile(
+                        'Thriving communities, empowering people',
+                        'Made by awesome team of Botiga',
+                      );
+                    }
+                  },
+                );
+              },
+            );
+          }
+        },
+      ),
     );
   }
 

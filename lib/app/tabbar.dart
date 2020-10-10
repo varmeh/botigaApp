@@ -83,9 +83,7 @@ class _TabbarState extends State<Tabbar> {
     return FlavorBanner(
       child: Scaffold(
         backgroundColor: AppTheme.backgroundColor,
-        body: SafeArea(
-          child: _selectedTab.elementAt(_selectedIndex),
-        ),
+        body: _selectedTab.elementAt(_selectedIndex),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: AppTheme.backgroundColor,
           selectedIconTheme: IconThemeData(size: 28),

@@ -10,9 +10,11 @@ class ProfileListScreen extends StatefulWidget {
 class _ProfileListScreenState extends State<ProfileListScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text('Profile'),
+    return SafeArea(
+      child: Container(
+        child: Center(
+          child: Text('Profile'),
+        ),
       ),
     );
   }

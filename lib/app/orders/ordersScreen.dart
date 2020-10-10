@@ -24,32 +24,34 @@ class _OrderListScreenState extends State<OrderListScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<OrdersProvider>(context);
-    return FutureBuilder(
-      future: initialLoad ? provider.getOrders() : provider.nextOrders(),
-      builder: (context, snapshot) {
-        // Show central level loading on empty screen
-        if (snapshot.connectionState == ConnectionState.waiting &&
-            initialLoad) {
-          return Loader();
-        } else if (snapshot.hasError) {
-          return HttpServiceExceptionWidget(snapshot.error);
-        } else {
-          return Stack(
-            children: [
-              Consumer<OrdersProvider>(
-                builder: (context, provider, child) {
-                  return provider.orders.length > 0
-                      ? _orderList(provider)
-                      : _noOrders();
-                },
-              ),
-              snapshot.connectionState == ConnectionState.waiting
-                  ? Loader()
-                  : Container()
-            ],
-          );
-        }
-      },
+    return SafeArea(
+					child: FutureBuilder(
+        future: initialLoad ? provider.getOrders() : provider.nextOrders(),
+        builder: (context, snapshot) {
+          // Show central level loading on empty screen
+          if (snapshot.connectionState == ConnectionState.waiting &&
+              initialLoad) {
+            return Loader();
+          } else if (snapshot.hasError) {
+            return HttpServiceExceptionWidget(snapshot.error);
+          } else {
+            return Stack(
+              children: [
+                Consumer<OrdersProvider>(
+                  builder: (context, provider, child) {
+                    return provider.orders.length > 0
+                        ? _orderList(provider)
+                        : _noOrders();
+                  },
+                ),
+                snapshot.connectionState == ConnectionState.waiting
+                    ? Loader()
+                    : Container()
+              ],
+            );
+          }
+        },
+      ),
     );
   }
 
