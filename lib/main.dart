@@ -67,7 +67,7 @@ class BotigaApp extends StatelessWidget {
       title: 'Botiga',
       initialRoute: Tabbar.route,
       routes: {
-        Tabbar.route: (context) => Tabbar(),
+        Tabbar.route: (context) => Tabbar(index: 0),
         ProductListScreen.route: (context) => ProductListScreen(),
       },
       navigatorObservers: <NavigatorObserver>[observer],

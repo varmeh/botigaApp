@@ -20,23 +20,35 @@ import '../theme/index.dart';
 class Tabbar extends StatefulWidget {
   static String route = 'tabbar';
 
+  final int index;
+
+  Tabbar({@required this.index});
+
   @override
   _TabbarState createState() => _TabbarState();
 }
 
 class _TabbarState extends State<Tabbar> {
-  int _selectedIndex = 0;
+  int _selectedIndex;
 
-  static List<Widget> _selectedTab = [
+  List<Widget> _selectedTab = [
     HomeScreen(),
     OrderListScreen(),
     CartScreen(),
     ProfileListScreen(),
   ];
 
+  void changeTab(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+
+    _selectedIndex = widget.index;
 
     final fbm = FirebaseMessaging();
 
@@ -119,11 +131,7 @@ class _TabbarState extends State<Tabbar> {
             ),
           ],
           currentIndex: _selectedIndex,
-          onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
+          onTap: changeTab,
         ),
       ),
     );
