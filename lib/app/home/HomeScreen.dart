@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
                   } else if (index == provider.sellerList.length + 1) {
                     return Container(
                       color: AppTheme.backgroundColor,
-                      // padding: const EdgeInsets.only(top: 24.0),
+                      padding: const EdgeInsets.only(top: 24.0),
                       child: InviteTile(),
                     );
                   } else {
