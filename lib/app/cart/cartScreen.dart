@@ -20,15 +20,17 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Icon(
-            Icons.arrow_back,
-            color: AppTheme.color100,
-          ),
-        ),
+        leading: Navigator.canPop(context)
+            ? GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back,
+                  color: AppTheme.color100,
+                ),
+              )
+            : Container(),
         backgroundColor: AppTheme.backgroundColor,
         elevation: 0.0,
       ),
