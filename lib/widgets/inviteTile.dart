@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 
 import '../theme/index.dart';
 
@@ -160,7 +161,9 @@ class InviteTile extends StatelessWidget {
                         const EdgeInsets.only(left: 13, top: 13, bottom: 13),
                     child: Image.asset('assets/images/whatsapp.png'),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Share.share('Test text');
+                  },
                   color: AppTheme.color100,
                   label: Padding(
                     padding: const EdgeInsets.only(
