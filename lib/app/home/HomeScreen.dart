@@ -26,30 +26,28 @@ class HomeScreen extends StatelessWidget {
         } else {
           return Consumer<SellersProvider>(
             builder: (context, provider, child) {
-              return Container(
-                color: AppTheme.primaryColor,
-                child: ListView.builder(
-                  itemCount: provider.sellerList.length + 3,
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return appBar(context, provider.sellerList.length);
-                    } else if (index <= provider.sellerList.length) {
-                      return _sellersTile(
-                          context, provider.sellerList[index - 1]);
-                    } else if (index == provider.sellerList.length + 1) {
-                      return Container(
-                        color: AppTheme.backgroundColor,
-                        padding: const EdgeInsets.only(top: 24.0),
-                        child: InviteTile(),
-                      );
-                    } else {
-                      return BrandingTile(
-                        'Thriving communities, empowering people',
-                        'Made by awesome team of Botiga',
-                      );
-                    }
-                  },
-                ),
+              return ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: provider.sellerList.length + 3,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return appBar(context, provider.sellerList.length);
+                  } else if (index <= provider.sellerList.length) {
+                    return _sellersTile(
+                        context, provider.sellerList[index - 1]);
+                  } else if (index == provider.sellerList.length + 1) {
+                    return Container(
+                      color: AppTheme.backgroundColor,
+                      // padding: const EdgeInsets.only(top: 24.0),
+                      child: InviteTile(),
+                    );
+                  } else {
+                    return BrandingTile(
+                      'Thriving communities, empowering people',
+                      'Made by awesome team of Botiga',
+                    );
+                  }
+                },
               );
             },
           );
@@ -62,7 +60,7 @@ class HomeScreen extends StatelessWidget {
     return Material(
       child: Container(
         width: double.infinity,
-        height: 122,
+        height: 142,
         child: Container(
           decoration: BoxDecoration(
             color: AppTheme.primaryColor,
@@ -70,8 +68,12 @@ class HomeScreen extends StatelessWidget {
               bottomLeft: const Radius.circular(16.0),
               bottomRight: const Radius.circular(16.0),
             ),
+            image: DecorationImage(
+              image: AssetImage('assets/images/background.png'),
+              fit: BoxFit.cover,
+            ),
           ),
-          padding: EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 32),
+          padding: EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 32),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
