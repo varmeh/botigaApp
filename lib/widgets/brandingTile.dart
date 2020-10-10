@@ -11,6 +11,7 @@ class BrandingTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: AppTheme.backgroundColor,
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

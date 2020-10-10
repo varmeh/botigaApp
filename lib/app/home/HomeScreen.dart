@@ -1,41 +1,44 @@
-import 'package:botiga/models/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/sellerModel.dart';
 import '../../providers/index.dart' show SellersProvider;
 
-import 'products/productListScreen.dart';
 import '../../util/index.dart' show HttpServiceExceptionWidget;
 import '../../widgets/index.dart' show BrandingTile, InviteTile;
 import '../../theme/index.dart';
+import 'products/productListScreen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: FutureBuilder(
-        future:
-            Provider.of<SellersProvider>(context, listen: false).getSellers(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(
-                valueColor:
-                    AlwaysStoppedAnimation<Color>(AppTheme.primaryColor),
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return HttpServiceExceptionWidget(snapshot.error);
-          } else {
-            return Consumer<SellersProvider>(
-              builder: (context, provider, child) {
-                return ListView.builder(
-                  itemCount: provider.sellerList.length + 2,
+    return FutureBuilder(
+      future: Provider.of<SellersProvider>(context, listen: false).getSellers(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primaryColor),
+            ),
+          );
+        } else if (snapshot.hasError) {
+          return HttpServiceExceptionWidget(snapshot.error);
+        } else {
+          return Consumer<SellersProvider>(
+            builder: (context, provider, child) {
+              return Container(
+                color: AppTheme.primaryColor,
+                child: ListView.builder(
+                  itemCount: provider.sellerList.length + 3,
                   itemBuilder: (context, index) {
-                    if (index < provider.sellerList.length) {
-                      return _sellersTile(context, provider.sellerList[index]);
-                    } else if (index == provider.sellerList.length) {
-                      return Padding(
+                    if (index == 0) {
+                      return appBar(context, provider.sellerList.length);
+                    } else if (index <= provider.sellerList.length) {
+                      return _sellersTile(
+                          context, provider.sellerList[index - 1]);
+                    } else if (index == provider.sellerList.length + 1) {
+                      return Container(
+                        color: AppTheme.backgroundColor,
                         padding: const EdgeInsets.only(top: 24.0),
                         child: InviteTile(),
                       );
@@ -46,11 +49,49 @@ class HomeScreen extends StatelessWidget {
                       );
                     }
                   },
-                );
-              },
-            );
-          }
-        },
+                ),
+              );
+            },
+          );
+        }
+      },
+    );
+  }
+
+  Widget appBar(BuildContext context, int numberOfVendors) {
+    return Material(
+      child: Container(
+        width: double.infinity,
+        height: 122,
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppTheme.primaryColor,
+            borderRadius: BorderRadius.only(
+              bottomLeft: const Radius.circular(16.0),
+              bottomRight: const Radius.circular(16.0),
+            ),
+          ),
+          padding: EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 32),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Hi Varun',
+                style: AppTheme.textStyle.w700
+                    .size(22.0)
+                    .lineHeight(1.2)
+                    .colored(AppTheme.backgroundColor),
+              ),
+              Text(
+                '$numberOfVendors vendors delivering',
+                style: AppTheme.textStyle.w700
+                    .size(13.0)
+                    .lineHeight(1.5)
+                    .colored(AppTheme.backgroundColor),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -68,6 +109,7 @@ class HomeScreen extends StatelessWidget {
       child: Container(
         height: 96,
         padding: EdgeInsets.fromLTRB(10, 24, 0, 0),
+        color: AppTheme.backgroundColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
