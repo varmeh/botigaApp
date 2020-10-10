@@ -1,6 +1,7 @@
 import 'package:botiga/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../models/index.dart' show ProductModel;
 import '../../providers/index.dart' show CartProvider;
@@ -44,7 +45,12 @@ class CartScreen extends StatelessWidget {
 
   Widget _cartEmpty() {
     return Center(
-      child: Text('Empty'), //TODO: implement empty screen
+      child: Lottie.asset(
+        'assets/lotties/windMill.json',
+        width: 200,
+        height: 200,
+        fit: BoxFit.fill,
+      ), //TODO: implement empty screen
     );
   }
 
