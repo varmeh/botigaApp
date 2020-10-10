@@ -84,7 +84,7 @@ class InviteTile extends StatelessWidget {
     );
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.45,
+      height: 350,
       padding: EdgeInsets.only(left: 22, right: 22, top: 32),
       decoration: BoxDecoration(
         color: Color(0xfff3f3f3),
