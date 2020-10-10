@@ -60,7 +60,7 @@ class HomeScreen extends StatelessWidget {
     return Material(
       child: Container(
         width: double.infinity,
-        height: 142,
+        height: 145,
         child: Container(
           decoration: BoxDecoration(
             color: AppTheme.primaryColor,
@@ -78,12 +78,13 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Hi Varun',
+                'Hi Varun', //TODO: remove name hard coding
                 style: AppTheme.textStyle.w700
                     .size(22.0)
                     .lineHeight(1.2)
                     .colored(AppTheme.backgroundColor),
               ),
+              SizedBox(height: 4.0),
               Text(
                 '$numberOfVendors vendors delivering',
                 style: AppTheme.textStyle.w700
@@ -150,7 +151,7 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
