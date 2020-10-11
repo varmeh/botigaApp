@@ -148,9 +148,9 @@ class InviteTile extends StatelessWidget {
                   onPressed: () {
                     FlutterClipboard.copy(text).then((_) {
                       Toast(
-                              message: 'Copied to Clipboard',
-                              iconData: Icons.content_copy_outlined)
-                          .show(context);
+                        message: 'Copied to Clipboard',
+                        iconData: Icons.content_copy_outlined,
+                      ).show(context);
                     }).catchError((_, __) => null);
                   },
                   color: AppTheme.color100,
