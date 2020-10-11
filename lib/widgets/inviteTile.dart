@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
+import 'package:clipboard/clipboard.dart';
 
 import '../theme/index.dart';
+import 'toast.dart';
 
 class InviteTile extends StatelessWidget {
   @override
@@ -83,6 +85,10 @@ class InviteTile extends StatelessWidget {
       topLeft: const Radius.circular(16.0),
       topRight: const Radius.circular(16.0),
     );
+
+    const text =
+        'Hi, I am placing orders to all my vendors using Botiga. Why don’t you try it out. it just takes 3 mins to register and start selling. Download Botiga app now. https://botiga.app/xcGha';
+
     return Container(
       width: double.infinity,
       height: 350,
@@ -102,7 +108,7 @@ class InviteTile extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                "SHARE WITH YOUR CUSTOMERS",
+                "SHARE WITH YOUR VENDORS",
                 style: AppTheme.textStyle.w700
                     .size(12)
                     .lineHeight(1.4)
@@ -124,7 +130,7 @@ class InviteTile extends StatelessWidget {
                 vertical: 24.0,
               ),
               child: Text(
-                "Hi, I am placing orders to all my vendors using Botiga. Why don’t you try it out. it just takes 3 mins to register and start selling. Download Botiga app now. https://botiga.app/xcGha",
+                text,
                 style:
                     AppTheme.textStyle.w500.color100.size(15).lineHeight(1.3),
               ),
@@ -139,7 +145,14 @@ class InviteTile extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(6.0),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    FlutterClipboard.copy(text).then((_) {
+                      Toast(
+                              message: 'Copied to Clipboard',
+                              iconData: Icons.content_copy_outlined)
+                          .show(context);
+                    }).catchError((_, __) => null);
+                  },
                   color: AppTheme.color100,
                   child: Padding(
                     padding: const EdgeInsets.all(13.0),
@@ -162,7 +175,9 @@ class InviteTile extends StatelessWidget {
                     child: Image.asset('assets/images/whatsapp.png'),
                   ),
                   onPressed: () {
-                    Share.share('Test text');
+                    Navigator.pop(context);
+                    Share.share(text)
+                        .catchError((_, __) => null); //catch error do nothing
                   },
                   color: AppTheme.color100,
                   label: Padding(
