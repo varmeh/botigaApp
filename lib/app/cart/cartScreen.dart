@@ -50,7 +50,7 @@ class CartScreen extends StatelessWidget {
       json: 'assets/lotties/windMill.json',
       message: 'Nothing here',
       description: 'Look around, you will find something you love',
-      buttonTitle: 'Browse Vendors',
+      buttonTitle: 'Browse Merchants',
       onTap: () {
         // Remove all the screens on stack when in product detail screen cart
         if (Navigator.canPop(context)) {

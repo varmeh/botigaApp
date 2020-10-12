@@ -23,7 +23,7 @@ class InviteTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Don\'t see your favorite vendor?',
+                      'Don\'t see your favorite merchant?',
                       style: AppTheme.textStyle.w600
                           .size(15.0)
                           .lineHeight(1.3)
@@ -33,7 +33,7 @@ class InviteTile extends StatelessWidget {
                     ),
                     SizedBox(height: 8.0),
                     Text(
-                      'Invite vendors to botiga by sharing the following link with them.',
+                      'Invite merchants to botiga by sharing the following link with them.',
                       style: AppTheme.textStyle.w600
                           .size(13.0)
                           .lineHeight(1.5)
@@ -62,7 +62,7 @@ class InviteTile extends StatelessWidget {
               );
             },
             child: Text(
-              'Invite vendor',
+              'Invite merchant',
               style: AppTheme.textStyle.w500
                   .size(15)
                   .lineHeight(1.5)
@@ -87,7 +87,7 @@ class InviteTile extends StatelessWidget {
     );
 
     const text =
-        'Hi, I am placing orders to all my vendors using Botiga. Why don’t you try it out. it just takes 3 mins to register and start selling. Download Botiga app now. https://botiga.app/xcGha';
+        'Hi, I am placing orders to all my merchants using Botiga. Why don’t you try it out. it just takes 3 mins to register and start selling. Download Botiga app now. https://botiga.app/xcGha';
 
     return Container(
       width: double.infinity,
@@ -108,7 +108,7 @@ class InviteTile extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                "SHARE WITH YOUR VENDORS",
+                "SHARE WITH YOUR MERCHANTS",
                 style: AppTheme.textStyle.w700
                     .size(12)
                     .lineHeight(1.4)
@@ -175,8 +175,8 @@ class InviteTile extends StatelessWidget {
                     child: Image.asset('assets/images/whatsapp.png'),
                   ),
                   onPressed: () {
-                    Navigator.pop(context);
                     Share.share(text)
+                        .then((_) => Navigator.pop(context))
                         .catchError((_, __) => null); //catch error do nothing
                   },
                   color: AppTheme.color100,

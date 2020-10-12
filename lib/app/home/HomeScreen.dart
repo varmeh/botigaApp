@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget appBar(BuildContext context, int numberOfVendors) {
+  Widget appBar(BuildContext context, int numberOfMerchants) {
     return Material(
       child: Container(
         width: double.infinity,
@@ -100,7 +100,7 @@ class HomeScreen extends StatelessWidget {
               ),
               SizedBox(height: 4.0),
               Text(
-                '$numberOfVendors vendors delivering',
+                '$numberOfMerchants merchants delivering',
                 style: AppTheme.textStyle.w700
                     .size(13.0)
                     .lineHeight(1.5)
