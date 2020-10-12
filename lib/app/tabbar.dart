@@ -8,7 +8,7 @@ import 'package:badges/badges.dart';
 import 'home/HomeScreen.dart';
 import 'orders/ordersScreen.dart';
 import 'cart/cartScreen.dart';
-import 'profile/profileListScreen.dart';
+import 'profile/profileScreen.dart';
 
 import '../providers/index.dart' show CartProvider;
 import '../util/flavorBanner.dart';
@@ -35,7 +35,7 @@ class _TabbarState extends State<Tabbar> {
     HomeScreen(),
     OrderListScreen(),
     CartScreen(),
-    ProfileListScreen(),
+    ProfileScreen(),
   ];
 
   void changeTab(int index) {
