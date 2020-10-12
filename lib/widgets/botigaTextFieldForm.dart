@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../theme/index.dart';
 
@@ -21,12 +22,14 @@ class BotigaTextFieldForm extends StatelessWidget {
   final Function(String) onFieldSubmitted;
   final TextEditingController textEditingController;
   final Function(String) onChange;
+  final TextInputFormatter maskFormatter;
 
   BotigaTextFieldForm({
     @required this.formKey,
     @required this.focusNode,
     @required this.labelText,
-    @required this.validator,
+    this.validator,
+    this.maskFormatter,
     this.keyboardType = TextInputType.text,
     this.textInputAction = TextInputAction.done,
     this.maxLines = 1,
@@ -43,6 +46,7 @@ class BotigaTextFieldForm extends StatelessWidget {
       key: formKey,
       child: TextFormField(
         // showCursor: false,
+        inputFormatters: [maskFormatter],
         validator: validator,
         keyboardType: maxLines > 1 ? TextInputType.multiline : keyboardType,
         textInputAction: textInputAction,

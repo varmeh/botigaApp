@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../theme/index.dart';
 import '../../widgets/botigaTextFieldForm.dart';
@@ -17,6 +18,10 @@ class PhoneScreen extends StatefulWidget {
 class _PhoneScreenState extends State<PhoneScreen> {
   GlobalKey<FormState> _phoneFormKey;
   FocusNode _phoneFocusNode;
+  final _phoneMaskFormatter = new MaskTextInputFormatter(
+    mask: '+91 #####-#####',
+    filter: {"#": RegExp(r'[0-9]')},
+  );
 
   void _phoneListener() {
     if (!_phoneFocusNode.hasFocus) {
@@ -62,21 +67,15 @@ class _PhoneScreenState extends State<PhoneScreen> {
         formKey: _phoneFormKey,
         focusNode: _phoneFocusNode,
         labelText: 'Phone Number',
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Required';
-          } else if (value.length != 10) {
-            return 'Phone number should have 10 digits';
-          }
-          return null;
-        },
         keyboardType: TextInputType.number,
         onChange: (val) {
-          if (val.length == 10) {
+          print(val);
+          if (_phoneMaskFormatter.getUnmaskedText().length == 10) {
             // hide keyboard as there is no done button on number keyboard
             FocusScope.of(context).unfocus();
           }
         },
+        maskFormatter: _phoneMaskFormatter,
       ),
     );
   }
@@ -89,9 +88,10 @@ class _PhoneScreenState extends State<PhoneScreen> {
           borderRadius: new BorderRadius.circular(8.0),
         ),
         onPressed: () {
-          if (_phoneFormKey.currentState.validate()) {}
-          // Navigator.of(context)
-          //     .pushNamed(SignUpOtp.routeName);
+          if (_phoneFormKey.currentState.validate()) {
+            // Navigator.of(context)
+            //     .pushNamed(SignUpOtp.routeName);
+          }
         },
         color: AppTheme.primaryColor,
         child: Padding(
