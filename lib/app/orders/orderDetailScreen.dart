@@ -58,7 +58,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   : null,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  return HttpServiceExceptionWidget(snapshot.error);
+                  return HttpServiceExceptionWidget(
+                    exception: snapshot.error,
+                    onTap: () {},
+                  );
                 } else {
                   return Stack(
                     children: [

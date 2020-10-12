@@ -25,7 +25,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
   Widget build(BuildContext context) {
     final provider = Provider.of<OrdersProvider>(context);
     return SafeArea(
-					child: FutureBuilder(
+      child: FutureBuilder(
         future: initialLoad ? provider.getOrders() : provider.nextOrders(),
         builder: (context, snapshot) {
           // Show central level loading on empty screen
@@ -33,7 +33,10 @@ class _OrderListScreenState extends State<OrderListScreen> {
               initialLoad) {
             return Loader();
           } else if (snapshot.hasError) {
-            return HttpServiceExceptionWidget(snapshot.error);
+            return HttpServiceExceptionWidget(
+              exception: snapshot.error,
+              onTap: () {},
+            );
           } else {
             return Stack(
               children: [

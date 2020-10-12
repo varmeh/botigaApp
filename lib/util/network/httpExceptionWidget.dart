@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 import '../../widgets/lottieScreen.dart';
 
 class HttpServiceExceptionWidget extends StatelessWidget {
-  final exception;
+  final Exception exception;
+  final Function onTap;
 
-  HttpServiceExceptionWidget(this.exception);
+  HttpServiceExceptionWidget({
+    @required this.exception,
+    @required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +21,7 @@ class HttpServiceExceptionWidget extends StatelessWidget {
         description:
             'We are unable to connect to network.\nPlease check your internet connection',
         buttonTitle: 'Retry',
-        onTap: () {},
+        onTap: onTap,
       );
     } else {
       return LottieScreen(
@@ -26,7 +30,7 @@ class HttpServiceExceptionWidget extends StatelessWidget {
         description:
             'Our teams are working hard to fix it.\nPlease try again after sometime',
         buttonTitle: 'Retry',
-        onTap: () {},
+        onTap: onTap,
       );
     }
   }

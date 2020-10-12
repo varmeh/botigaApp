@@ -9,6 +9,8 @@ import '../../widgets/index.dart' show BrandingTile, InviteTile;
 import '../../theme/index.dart';
 import 'products/productListScreen.dart';
 
+import '../tabbar.dart';
+
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,10 @@ class HomeScreen extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasError) {
-          return HttpServiceExceptionWidget(snapshot.error);
+          return HttpServiceExceptionWidget(
+            exception: snapshot.error,
+            onTap: () {},
+          );
         } else {
           return Consumer<SellersProvider>(
             builder: (context, provider, child) {
