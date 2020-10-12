@@ -1,13 +1,12 @@
 import 'package:botiga/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:lottie/lottie.dart';
 
 import '../tabbar.dart';
 import '../../models/index.dart' show ProductModel;
 import '../../providers/index.dart' show CartProvider;
 import '../../widgets/index.dart'
-    show IncrementButton, OpenContainerBottomModal;
+    show IncrementButton, OpenContainerBottomModal, LottieScreen;
 
 import 'widgets/cartDeliveryInfo.dart';
 
@@ -47,61 +46,24 @@ class CartScreen extends StatelessWidget {
   }
 
   Widget _cartEmpty(BuildContext context) {
-    const sizedBox = SizedBox(height: 24);
-    return Padding(
-      padding: const EdgeInsets.only(top: 100),
-      child: Center(
-        child: Column(
-          children: [
-            Lottie.asset(
-              'assets/lotties/windMill.json',
-              width: 200,
-              height: 200,
-              fit: BoxFit.fill,
-            ),
-            sizedBox,
-            Text(
-              'Nothing here',
-              style: AppTheme.textStyle.w700.color100.size(16).lineHeight(1.4),
-            ),
-            SizedBox(height: 8.0),
-            Text(
-              'Look around, you will find something you love',
-              style: AppTheme.textStyle.w500.color50
-                  .size(12)
-                  .lineHeight(1.4)
-                  .letterSpace(0.2),
-            ),
-            sizedBox,
-            FlatButton(
-              onPressed: () {
-                // Remove all the screens on stack when in product detail screen cart
-                if (Navigator.canPop(context)) {
-                  Navigator.popUntil(context, (route) => route.isFirst);
-                }
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (_, __, ___) => Tabbar(index: 0),
-                    transitionDuration: Duration.zero,
-                  ),
-                );
-              },
-              child: Text(
-                'Browse Vendors',
-                style:
-                    AppTheme.textStyle.w500.color100.size(15).lineHeight(1.5),
-              ),
-              color: AppTheme.color05,
-              height: 44.0,
-              minWidth: 188.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-            )
-          ],
-        ),
-      ),
+    return LottieScreen(
+      json: 'assets/lotties/windMill.json',
+      message: 'Nothing here',
+      description: 'Look around, you will find something you love',
+      buttonTitle: 'Browse Vendors',
+      onTap: () {
+        // Remove all the screens on stack when in product detail screen cart
+        if (Navigator.canPop(context)) {
+          Navigator.popUntil(context, (route) => route.isFirst);
+        }
+        Navigator.pushReplacement(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (_, __, ___) => Tabbar(index: 0),
+            transitionDuration: Duration.zero,
+          ),
+        );
+      },
     );
   }
 
