@@ -1,29 +1,33 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 
-import 'httpExceptions.dart';
+import '../../widgets/lottieScreen.dart';
 
 class HttpServiceExceptionWidget extends StatelessWidget {
   final exception;
 
   HttpServiceExceptionWidget(this.exception);
 
-  Widget _exceptionMessage(String message) {
-    return Center(
-      child: Text(message),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     if (exception is SocketException) {
-      return _exceptionMessage('No Internet connection 😑');
-    } else if (exception is FormatException) {
-      return _exceptionMessage('Bad response format 👎');
-    } else if (exception is UanuthorizedException) {
-      return _exceptionMessage(exception.toString());
+      return LottieScreen(
+        json: 'assets/lotties/tower.json',
+        message: 'Internet Unavailable',
+        description:
+            'We are unable to connect to network.\nPlease check your internet connection',
+        buttonTitle: 'Retry',
+        onTap: () {},
+      );
     } else {
-      return _exceptionMessage(exception.toString());
+      return LottieScreen(
+        json: 'assets/lotties/fish.json',
+        message: 'Something went wrong',
+        description:
+            'Our teams are working hard to fix it.\nPlease try again after sometime',
+        buttonTitle: 'Retry',
+        onTap: () {},
+      );
     }
   }
 }
