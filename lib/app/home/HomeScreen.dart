@@ -26,7 +26,16 @@ class HomeScreen extends StatelessWidget {
         } else if (snapshot.hasError) {
           return HttpServiceExceptionWidget(
             exception: snapshot.error,
-            onTap: () {},
+            onTap: () {
+              // Rebuild screen
+              Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => Tabbar(index: 0),
+                  transitionDuration: Duration.zero,
+                ),
+              );
+            },
           );
         } else {
           return Consumer<SellersProvider>(

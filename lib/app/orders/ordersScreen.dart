@@ -9,6 +9,7 @@ import '../../providers/ordersProvider.dart';
 import '../../theme/index.dart';
 import '../../widgets/loader.dart';
 
+import '../tabbar.dart';
 import 'orderDetailScreen.dart';
 
 class OrderListScreen extends StatefulWidget {
@@ -35,7 +36,15 @@ class _OrderListScreenState extends State<OrderListScreen> {
           } else if (snapshot.hasError) {
             return HttpServiceExceptionWidget(
               exception: snapshot.error,
-              onTap: () {},
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => Tabbar(index: 1),
+                    transitionDuration: Duration.zero,
+                  ),
+                );
+              },
             );
           } else {
             return Stack(

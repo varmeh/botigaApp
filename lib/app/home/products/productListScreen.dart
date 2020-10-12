@@ -100,7 +100,15 @@ class ProductListScreen extends StatelessWidget {
         } else if (snapshot.hasError) {
           return HttpServiceExceptionWidget(
             exception: snapshot.error,
-            onTap: () {},
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => ProductListScreen(seller),
+                  transitionDuration: Duration.zero,
+                ),
+              );
+            },
           );
         } else {
           return Consumer<ProductsProvider>(

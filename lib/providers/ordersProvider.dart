@@ -57,6 +57,8 @@ class OrdersProvider with ChangeNotifier {
       body: {'orderId': '5f74502b2fff00721617b063'},
     );
 
+    final json = HttpService.parse(response);
+
     if (response.statusCode == 200) {
       // Update order information
       // for (int i = 0; i < _orders.length; i++) {

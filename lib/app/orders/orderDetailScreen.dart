@@ -60,7 +60,16 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 if (snapshot.hasError) {
                   return HttpServiceExceptionWidget(
                     exception: snapshot.error,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) =>
+                              OrderDetailScreen(widget.order),
+                          transitionDuration: Duration.zero,
+                        ),
+                      );
+                    },
                   );
                 } else {
                   return Stack(
