@@ -103,7 +103,7 @@ class _SetPinScreenState extends State<SetPinScreen>
             _form.currentState.save(); //value saved in pinValue
             showModalBottomSheet(
               context: context,
-              isDismissible: true,
+              isDismissible: false,
               builder: (context) {
                 return setPinSuccessful(context);
               },
@@ -133,8 +133,8 @@ class _SetPinScreenState extends State<SetPinScreen>
 
     return Container(
       width: double.infinity,
-      height: 350,
-      padding: EdgeInsets.only(left: 22, right: 22, top: 32),
+      height: MediaQuery.of(context).size.height,
+      padding: EdgeInsets.only(left: 22, right: 22, top: 42),
       decoration: BoxDecoration(
         color: AppTheme.dividerColor,
         borderRadius: borderRadius,
@@ -142,18 +142,16 @@ class _SetPinScreenState extends State<SetPinScreen>
       child: Column(
         children: [
           Lottie.asset(
-            'assets/lotties/tower.json',
+            'assets/lotties/checkSuccess.json',
             width: 160.0,
             height: 160.0,
             fit: BoxFit.fill,
-            // animate: true,
-            // repeat: false,
             controller: _controller,
             onLoaded: (composition) {
               // Configure the AnimationController with the duration of the
               // Lottie file and start the animation.
 
-              _controller.duration = composition.duration;
+              _controller.duration = composition.duration * 2;
               _controller.reset();
               _controller.forward();
             },
@@ -162,7 +160,7 @@ class _SetPinScreenState extends State<SetPinScreen>
           Text(
             'Pin Set Successfuly',
             style: AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
-          )
+          ),
         ],
       ),
     );

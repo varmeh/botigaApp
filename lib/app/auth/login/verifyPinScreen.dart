@@ -67,7 +67,8 @@ class _VerifyPinScreenState extends State<VerifyPinScreen> {
         onPressed: () {
           if (_form.currentState.validate()) {
             _form.currentState.save(); //value saved in pinValue
-            Navigator.of(context).pushNamed(Tabbar.route);
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil(Tabbar.route, (route) => false);
           }
         },
         color: AppTheme.primaryColor,
