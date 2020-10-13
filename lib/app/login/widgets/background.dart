@@ -5,8 +5,13 @@ import '../../../theme/index.dart';
 class Background extends StatelessWidget {
   final String title;
   final Widget child;
+  final bool backNavigation;
 
-  Background({@required this.title, @required this.child});
+  Background({
+    @required this.title,
+    @required this.child,
+    this.backNavigation = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +30,29 @@ class Background extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              child: Text(
-                title,
-                textAlign: TextAlign.start,
-                style: AppTheme.textStyle.w600
-                    .size(20.0)
-                    .lineHeight(1.25)
-                    .colored(AppTheme.backgroundColor),
+              child: Row(
+                children: [
+                  backNavigation
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.only(right: 10.0),
+                            child: Icon(Icons.arrow_back_ios,
+                                color: AppTheme.backgroundColor),
+                          ),
+                        )
+                      : Container(),
+                  Text(
+                    title,
+                    textAlign: TextAlign.start,
+                    style: AppTheme.textStyle.w600
+                        .size(20.0)
+                        .lineHeight(1.25)
+                        .colored(AppTheme.backgroundColor),
+                  ),
+                ],
               ),
             ),
             Expanded(

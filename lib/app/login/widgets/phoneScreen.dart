@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-import '../../theme/index.dart';
-import '../../widgets/botigaTextFieldForm.dart';
+import '../../../theme/index.dart';
+import '../../../widgets/botigaTextFieldForm.dart';
 
-import 'widgets/background.dart';
+import 'background.dart';
 
 class PhoneScreen extends StatefulWidget {
   final String title;
+  final Function navigate;
 
-  PhoneScreen(this.title);
+  PhoneScreen({@required this.title, @required this.navigate});
 
   @override
   _PhoneScreenState createState() => _PhoneScreenState();
@@ -91,6 +92,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
           if (_phoneFormKey.currentState.validate()) {
             // Navigator.of(context)
             //     .pushNamed(SignUpOtp.routeName);
+            widget.navigate();
           }
         },
         color: AppTheme.primaryColor,

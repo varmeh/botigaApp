@@ -12,7 +12,7 @@ import 'providers/index.dart'
     show SellersProvider, ProductsProvider, CartProvider, OrdersProvider;
 import 'util/index.dart' show Flavor;
 import 'app/tabbar.dart';
-import 'app/login/phoneScreen.dart';
+import 'app/login/index.dart';
 
 import 'app/home/products/productListScreen.dart';
 
@@ -66,9 +66,11 @@ class BotigaApp extends StatelessWidget {
     return MaterialApp(
       themeMode: ThemeMode.light,
       title: 'Botiga',
-      initialRoute: 'welcome',
+      initialRoute: WelcomeScreen.route,
       routes: {
-        'welcome': (context) => PhoneScreen('Welcome to Botiga'),
+        WelcomeScreen.route: (context) => WelcomeScreen(),
+        LoginScreen.route: (context) => LoginScreen(),
+        VerifyOtpScreen.route: (context) => VerifyOtpScreen(),
         Tabbar.route: (context) => Tabbar(index: 0),
         ProductListScreen.route: (context) => ProductListScreen(),
       },
