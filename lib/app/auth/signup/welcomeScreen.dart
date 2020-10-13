@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/phoneScreen.dart';
 import '../model/otpSessionModel.dart';
-import '../verifyOtpScreen.dart';
+import '../common/verifyOtpScreen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static final route = 'welcome';

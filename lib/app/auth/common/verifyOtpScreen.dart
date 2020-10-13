@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-import '../../theme/index.dart';
-import '../../widgets/index.dart';
+import '../../../theme/index.dart';
+import '../../../widgets/index.dart';
 
-import './widgets/index.dart';
-import 'model/otpSessionModel.dart';
+import '../widgets/index.dart';
+import '../model/otpSessionModel.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
   static final route = 'otp';

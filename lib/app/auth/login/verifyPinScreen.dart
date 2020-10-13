@@ -6,8 +6,8 @@ import '../../tabbar.dart';
 
 import '../widgets/index.dart';
 import '../model/otpSessionModel.dart';
-import '../verifyOtpScreen.dart';
-import 'setPinScreen.dart';
+import '../common/verifyOtpScreen.dart';
+import '../common/setPinScreen.dart';
 
 class VerifyPinScreen extends StatefulWidget {
   static final route = 'verifyPin';
