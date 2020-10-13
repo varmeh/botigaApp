@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../theme/index.dart';
 
 import 'widgets/index.dart';
+import 'model/otpSessionModel.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
   static final route = 'otp';
@@ -34,6 +35,8 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   @override
   Widget build(BuildContext context) {
     const sizedBox = SizedBox(height: 32);
+    final OtpSessionModel otpSessionModel =
+        ModalRoute.of(context).settings.arguments;
 
     return Background(
       title: 'Verify OTP',
@@ -42,7 +45,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
         children: [
           sizedBox,
           Text(
-            'Please enter OTP sent to your phone number 99999-99999',
+            'Please enter OTP sent to your phone number ${otpSessionModel.phone}',
             style: AppTheme.textStyle.w500.color100.size(15).lineHeight(1.3),
           ),
           sizedBox,
