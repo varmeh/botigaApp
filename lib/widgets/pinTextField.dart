@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-import '../../../theme/index.dart';
+import '../theme/index.dart';
 
 class PinTextField extends StatelessWidget {
   final int pins;

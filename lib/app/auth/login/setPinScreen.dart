@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../theme/index.dart';
-import '../widgets/index.dart';
+import '../../../widgets/index.dart';
 
 class SetPinScreen extends StatefulWidget {
   static final route = 'setPin';
