@@ -70,11 +70,18 @@ class _PhoneScreenState extends State<PhoneScreen> {
         labelText: 'Phone Number',
         keyboardType: TextInputType.number,
         onChange: (val) {
-          print(val);
           if (_phoneMaskFormatter.getUnmaskedText().length == 10) {
             // hide keyboard as there is no done button on number keyboard
             FocusScope.of(context).unfocus();
           }
+        },
+        validator: (val) {
+          if (_phoneMaskFormatter.getUnmaskedText().isEmpty) {
+            return 'Required';
+          } else if (_phoneMaskFormatter.getUnmaskedText().length != 10) {
+            return 'Please provide a valid 10 digit Mobile Number';
+          }
+          return null;
         },
         maskFormatter: _phoneMaskFormatter,
       ),
@@ -92,7 +99,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
           if (_phoneFormKey.currentState.validate()) {
             // Navigator.of(context)
             //     .pushNamed(SignUpOtp.routeName);
-            widget.navigate();
+            widget.navigate(_phoneMaskFormatter.getUnmaskedText());
           }
         },
         color: AppTheme.primaryColor,

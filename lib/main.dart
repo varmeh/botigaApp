@@ -1,3 +1,4 @@
+import 'package:botiga/app/login/verifyPin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kReleaseMode;
@@ -66,11 +67,12 @@ class BotigaApp extends StatelessWidget {
     return MaterialApp(
       themeMode: ThemeMode.light,
       title: 'Botiga',
-      initialRoute: WelcomeScreen.route,
+      initialRoute: LoginScreen.route,
       routes: {
         WelcomeScreen.route: (context) => WelcomeScreen(),
         LoginScreen.route: (context) => LoginScreen(),
         VerifyOtpScreen.route: (context) => VerifyOtpScreen(),
+        VerifyPinScreen.route: (context) => VerifyPinScreen(),
         Tabbar.route: (context) => Tabbar(index: 0),
         ProductListScreen.route: (context) => ProductListScreen(),
       },
