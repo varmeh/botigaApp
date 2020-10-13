@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/index.dart';
-import '../tabbar.dart';
+import '../../../theme/index.dart';
+import '../../tabbar.dart';
 
-import 'widgets/index.dart';
-import 'model/otpSessionModel.dart';
-import 'verifyOtp.dart';
+import '../widgets/index.dart';
+import '../model/otpSessionModel.dart';
+import '../verifyOtpScreen.dart';
+import 'setPinScreen.dart';
 
 class VerifyPinScreen extends StatefulWidget {
   static final route = 'verifyPin';
@@ -36,7 +37,7 @@ class _VerifyPinScreenState extends State<VerifyPinScreen> {
           sizedBox,
           pinTextField(),
           sizedBox,
-          formButton(),
+          continueButton(),
           sizedBox,
           forgotButton(context, phoneNumber),
         ],
@@ -55,7 +56,7 @@ class _VerifyPinScreenState extends State<VerifyPinScreen> {
     );
   }
 
-  Container formButton() {
+  Container continueButton() {
     return Container(
       width: double.infinity,
       child: FlatButton(
@@ -86,11 +87,18 @@ class _VerifyPinScreenState extends State<VerifyPinScreen> {
   GestureDetector forgotButton(BuildContext context, String phoneNumber) {
     return GestureDetector(
       onTap: () {
+        // TODO: api call for otp required
         Navigator.of(context).pushNamed(
           VerifyOtpScreen.route,
           arguments: OtpSessionModel(
             phone: phoneNumber,
             sessionId: '0f91ca0f-9eac-4ce2-8bba-bb943e78d421',
+            onVerification: () {
+              Navigator.of(context).pushNamed(
+                SetPinScreen.route,
+                arguments: 'Set PIN for faster login next time',
+              );
+            },
           ),
         );
       },

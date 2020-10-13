@@ -49,37 +49,44 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
             style: AppTheme.textStyle.w500.color100.size(15).lineHeight(1.3),
           ),
           sizedBox,
-          Form(
-            key: _form,
-            child: PinTextField(
-              pins: 6,
-              onSaved: (val) => pinValue = val,
-            ),
-          ),
+          otpForm(),
           SizedBox(height: 12),
-          _start > 0
-              ? Text(
-                  'Resend OTP in ${_start}s',
-                  style:
-                      AppTheme.textStyle.w500.color50.size(13).lineHeight(1.5),
-                )
-              : GestureDetector(
-                  onTap: () {
-                    startTimer();
-                  },
-                  child: Text(
-                    'Resend OTP',
-                    style: AppTheme.textStyle.w500
-                        .colored(AppTheme.primaryColor)
-                        .size(13)
-                        .lineHeight(1.5),
-                  ),
-                ),
+          resendWidget(),
           SizedBox(height: 16),
-          formButton(),
+          verifyButton(otpSessionModel.onVerification),
         ],
       ),
     );
+  }
+
+  Form otpForm() {
+    return Form(
+      key: _form,
+      child: PinTextField(
+        pins: 6,
+        onSaved: (val) => pinValue = val,
+      ),
+    );
+  }
+
+  StatelessWidget resendWidget() {
+    return _start > 0
+        ? Text(
+            'Resend OTP in ${_start}s',
+            style: AppTheme.textStyle.w500.color50.size(13).lineHeight(1.5),
+          )
+        : GestureDetector(
+            onTap: () {
+              startTimer();
+            },
+            child: Text(
+              'Resend OTP',
+              style: AppTheme.textStyle.w500
+                  .colored(AppTheme.primaryColor)
+                  .size(13)
+                  .lineHeight(1.5),
+            ),
+          );
   }
 
   void startTimer() {
@@ -92,7 +99,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     );
   }
 
-  Container formButton() {
+  Container verifyButton(Function onVerification) {
     return Container(
       width: double.infinity,
       child: FlatButton(
@@ -102,6 +109,9 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
         onPressed: () {
           if (_form.currentState.validate()) {
             _form.currentState.save(); //value saved in pinValue
+            // TODO: verify pin
+
+            onVerification();
           }
         },
         color: AppTheme.primaryColor,

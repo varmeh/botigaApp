@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'widgets/phoneScreen.dart';
-import 'model/index.dart';
-import 'verifyOtp.dart';
+import '../widgets/phoneScreen.dart';
+import '../model/otpSessionModel.dart';
+import '../verifyOtpScreen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static final route = 'welcome';
@@ -17,6 +17,7 @@ class WelcomeScreen extends StatelessWidget {
           arguments: OtpSessionModel(
             phone: '9910057232',
             sessionId: '0f91ca0f-9eac-4ce2-8bba-bb943e78d421',
+            onVerification: () {},
           ),
         );
       },

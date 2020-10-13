@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'widgets/phoneScreen.dart';
-import 'verifyPin.dart';
+import '../widgets/phoneScreen.dart';
+import 'verifyPinScreen.dart';
 
 class LoginScreen extends StatelessWidget {
   static final route = 'login';

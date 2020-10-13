@@ -1,4 +1,3 @@
-import 'package:botiga/app/login/verifyPin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kReleaseMode;
@@ -13,7 +12,7 @@ import 'providers/index.dart'
     show SellersProvider, ProductsProvider, CartProvider, OrdersProvider;
 import 'util/index.dart' show Flavor;
 import 'app/tabbar.dart';
-import 'app/login/index.dart';
+import 'app/auth/index.dart';
 
 import 'app/home/products/productListScreen.dart';
 
@@ -73,6 +72,7 @@ class BotigaApp extends StatelessWidget {
         LoginScreen.route: (context) => LoginScreen(),
         VerifyOtpScreen.route: (context) => VerifyOtpScreen(),
         VerifyPinScreen.route: (context) => VerifyPinScreen(),
+        SetPinScreen.route: (context) => SetPinScreen(),
         Tabbar.route: (context) => Tabbar(index: 0),
         ProductListScreen.route: (context) => ProductListScreen(),
       },
