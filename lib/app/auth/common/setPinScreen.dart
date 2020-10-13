@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../theme/index.dart';
 import '../../../widgets/index.dart';
+
+import '../../tabbar.dart';
 
 class SetPinScreen extends StatefulWidget {
   static final route = 'setPin';
@@ -10,9 +13,25 @@ class SetPinScreen extends StatefulWidget {
   _SetPinScreenState createState() => _SetPinScreenState();
 }
 
-class _SetPinScreenState extends State<SetPinScreen> {
+class _SetPinScreenState extends State<SetPinScreen>
+    with TickerProviderStateMixin {
   GlobalKey<FormState> _form = GlobalKey();
   String pinValue = '';
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this);
+    _controller.addStatusListener(loadTabbarAfterAnimationCompletion);
+  }
+
+  @override
+  void dispose() {
+    _controller.removeStatusListener(loadTabbarAfterAnimationCompletion);
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +72,7 @@ class _SetPinScreenState extends State<SetPinScreen> {
               sizedBox,
               pinTextField(),
               sizedBox,
-              setPinButton(),
+              setPinButton(context),
             ],
           ),
         ),
@@ -72,7 +91,7 @@ class _SetPinScreenState extends State<SetPinScreen> {
     );
   }
 
-  Container setPinButton() {
+  Container setPinButton(BuildContext context) {
     return Container(
       width: 160,
       child: FlatButton(
@@ -82,7 +101,13 @@ class _SetPinScreenState extends State<SetPinScreen> {
         onPressed: () {
           if (_form.currentState.validate()) {
             _form.currentState.save(); //value saved in pinValue
-            Navigator.of(context).pushNamed('');
+            showModalBottomSheet(
+              context: context,
+              isDismissible: true,
+              builder: (context) {
+                return setPinSuccessful(context);
+              },
+            );
           }
         },
         color: AppTheme.primaryColor,
@@ -98,5 +123,55 @@ class _SetPinScreenState extends State<SetPinScreen> {
         ),
       ),
     );
+  }
+
+  Widget setPinSuccessful(BuildContext context) {
+    const borderRadius = BorderRadius.only(
+      topLeft: const Radius.circular(16.0),
+      topRight: const Radius.circular(16.0),
+    );
+
+    return Container(
+      width: double.infinity,
+      height: 350,
+      padding: EdgeInsets.only(left: 22, right: 22, top: 32),
+      decoration: BoxDecoration(
+        color: AppTheme.dividerColor,
+        borderRadius: borderRadius,
+      ),
+      child: Column(
+        children: [
+          Lottie.asset(
+            'assets/lotties/tower.json',
+            width: 160.0,
+            height: 160.0,
+            fit: BoxFit.fill,
+            // animate: true,
+            // repeat: false,
+            controller: _controller,
+            onLoaded: (composition) {
+              // Configure the AnimationController with the duration of the
+              // Lottie file and start the animation.
+
+              _controller.duration = composition.duration;
+              _controller.reset();
+              _controller.forward();
+            },
+          ),
+          SizedBox(height: 24.0),
+          Text(
+            'Pin Set Successfuly',
+            style: AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
+          )
+        ],
+      ),
+    );
+  }
+
+  void loadTabbarAfterAnimationCompletion(AnimationStatus status) {
+    if (status == AnimationStatus.completed) {
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(Tabbar.route, (route) => false);
+    }
   }
 }
