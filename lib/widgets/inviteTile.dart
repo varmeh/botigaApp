@@ -94,7 +94,7 @@ class InviteTile extends StatelessWidget {
       height: 350,
       padding: EdgeInsets.only(left: 22, right: 22, top: 32),
       decoration: BoxDecoration(
-        color: AppTheme.dividerColor,
+        color: Color(0xffF3F3F3),
         borderRadius: borderRadius,
       ),
       child: Column(
