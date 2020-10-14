@@ -5,7 +5,7 @@ import '../../models/sellerModel.dart';
 import '../../providers/index.dart' show SellersProvider;
 
 import '../../util/index.dart' show HttpServiceExceptionWidget;
-import '../../widgets/index.dart' show BrandingTile, InviteTile;
+import '../../widgets/index.dart' show BrandingTile, InviteTile, Loader;
 import '../../theme/index.dart';
 import 'products/productListScreen.dart';
 
@@ -18,11 +18,7 @@ class HomeScreen extends StatelessWidget {
       future: Provider.of<SellersProvider>(context, listen: false).getSellers(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primaryColor),
-            ),
-          );
+          return Loader();
         } else if (snapshot.hasError) {
           return HttpServiceExceptionWidget(
             exception: snapshot.error,

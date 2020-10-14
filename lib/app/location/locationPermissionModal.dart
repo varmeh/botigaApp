@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/index.dart';
+import 'selectCityScreen.dart';
 
 class LocationPermissionModal extends StatelessWidget {
   @override
@@ -45,7 +46,9 @@ class LocationPermissionModal extends StatelessWidget {
                 FlatButton(
                   minWidth: 150,
                   height: 50,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, SelectCityScreen.route);
+                  },
                   color: AppTheme.color05,
                   child: Text(
                     'Deny',
