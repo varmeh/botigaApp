@@ -1,3 +1,4 @@
+import 'package:botiga/app/profile/profileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -68,8 +69,23 @@ class _OrderListScreenState extends State<OrderListScreen> {
   }
 
   Widget _noOrders() {
-    return Center(
-      child: Text('No Orders'),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'No orders placed yet!',
+            style: AppTheme.textStyle.w800.color05.size(72.0),
+          ),
+          sizedBox24,
+          Text(
+            'Many amazing products to purchase',
+            style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
+          ),
+        ],
+      ),
     );
   }
 
