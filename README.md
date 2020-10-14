@@ -1,6 +1,11 @@
 # Botiga
 
-A new Flutter project.
+Botiga eCommerce Platform hosts 2 mobile apps:
+
+-   A Customer app (this one)
+-   A Merchant app
+
+These apps essentially covers the 2 aspects of marketplace - `supply` & `demand`
 
 ## Custom Icons
 
