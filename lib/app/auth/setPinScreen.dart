@@ -136,7 +136,7 @@ class _SetPinScreenState extends State<SetPinScreen>
       height: MediaQuery.of(context).size.height,
       padding: EdgeInsets.only(left: 22, right: 22, top: 42),
       decoration: BoxDecoration(
-        color: AppTheme.dividerColor,
+        color: AppTheme.backgroundColor,
         borderRadius: borderRadius,
       ),
       child: Column(
