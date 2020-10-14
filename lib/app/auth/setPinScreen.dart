@@ -39,25 +39,7 @@ class _SetPinScreenState extends State<SetPinScreen>
     const sizedBox = SizedBox(height: 32);
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        titleSpacing: 0.0,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Icon(
-            Icons.arrow_back,
-            color: AppTheme.color100,
-          ),
-        ),
-        title: Text(
-          'Set PIN',
-          style: AppTheme.textStyle.w600.color100.size(20).lineHeight(1.25),
-        ),
-        backgroundColor: AppTheme.backgroundColor,
-        elevation: 0.0,
-      ),
+      appBar: BotigaAppBar('Set PIN'),
       body: SafeArea(
         child: Container(
           color: AppTheme.backgroundColor,

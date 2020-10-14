@@ -7,9 +7,6 @@ class LocationPermissionModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const sizedBox24 = SizedBox(height: 24);
-    final buttonShape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8.0),
-    );
 
     return Container(
       height: 400,
@@ -40,43 +37,49 @@ class LocationPermissionModal extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             sizedBox24,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FlatButton(
-                  minWidth: 150,
-                  height: 50,
-                  onPressed: () {
-                    Navigator.pushNamed(context, SelectCityScreen.route);
-                  },
-                  color: AppTheme.color05,
-                  child: Text(
-                    'Deny',
-                    style: AppTheme.textStyle.w600.color100
-                        .size(15.0)
-                        .lineHeight(1.5),
-                  ),
-                  shape: buttonShape,
-                ),
-                FlatButton(
-                  minWidth: 150,
-                  height: 50,
-                  onPressed: () {},
-                  color: AppTheme.primaryColor,
-                  child: Text(
-                    'Grant Access',
-                    style: AppTheme.textStyle.w600
-                        .size(15.0)
-                        .lineHeight(1.5)
-                        .colored(AppTheme.backgroundColor),
-                  ),
-                  shape: buttonShape,
-                ),
-              ],
-            )
+            _buttonRow(context),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buttonRow(BuildContext context) {
+    final buttonShape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8.0),
+    );
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        FlatButton(
+          minWidth: 150,
+          height: 50,
+          onPressed: () {
+            Navigator.pushNamed(context, SelectCityScreen.route);
+          },
+          color: AppTheme.color05,
+          child: Text(
+            'Deny',
+            style: AppTheme.textStyle.w600.color100.size(15.0).lineHeight(1.5),
+          ),
+          shape: buttonShape,
+        ),
+        FlatButton(
+          minWidth: 150,
+          height: 50,
+          onPressed: () {},
+          color: AppTheme.primaryColor,
+          child: Text(
+            'Grant Access',
+            style: AppTheme.textStyle.w600
+                .size(15.0)
+                .lineHeight(1.5)
+                .colored(AppTheme.backgroundColor),
+          ),
+          shape: buttonShape,
+        ),
+      ],
     );
   }
 }

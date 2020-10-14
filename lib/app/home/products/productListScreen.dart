@@ -1,3 +1,4 @@
+import 'package:botiga/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,19 +26,7 @@ class ProductListScreen extends StatelessWidget {
     return Container(
       color: AppTheme.backgroundColor, // setting status bar color to white
       child: Scaffold(
-        appBar: AppBar(
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back,
-              color: AppTheme.color100,
-            ),
-          ),
-          backgroundColor: AppTheme.backgroundColor,
-          elevation: 0.0,
-        ),
+        appBar: BotigaAppBar(''),
         body: SafeArea(
           child: Container(
             color: AppTheme.backgroundColor,

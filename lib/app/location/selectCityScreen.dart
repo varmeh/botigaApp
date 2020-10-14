@@ -13,25 +13,7 @@ class SelectCityScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
-      appBar: AppBar(
-        centerTitle: false,
-        titleSpacing: 0.0,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Icon(
-            Icons.arrow_back,
-            color: AppTheme.color100,
-          ),
-        ),
-        title: Text(
-          'Select City',
-          style: AppTheme.textStyle.w600.color100.size(20).lineHeight(1.25),
-        ),
-        backgroundColor: AppTheme.backgroundColor,
-        elevation: 0.0,
-      ),
+      appBar: BotigaAppBar('Select City'),
       body: SafeArea(
         child: Container(
           color: AppTheme.backgroundColor,

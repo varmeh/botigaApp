@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 import '../../providers/ordersProvider.dart';
 import '../../theme/index.dart';
 import '../../models/orderModel.dart';
-import '../../widgets/index.dart' show ContactPartnerWidget, Loader;
+import '../../widgets/index.dart'
+    show ContactPartnerWidget, Loader, BotigaAppBar;
 import '../../util/index.dart' show HttpServiceExceptionWidget;
 
 class OrderDetailScreen extends StatefulWidget {
@@ -32,22 +33,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     return Container(
       color: AppTheme.backgroundColor, // setting status bar color to white
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppTheme.backgroundColor,
-          elevation: 0.0,
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back,
-              color: AppTheme.color100,
-            ),
-          ),
-          actions: [
-            _cancelButton(context),
-          ],
-        ),
+        appBar: BotigaAppBar('', actions: [_cancelButton(context)]),
         body: SafeArea(
           child: Container(
             color: AppTheme.backgroundColor,

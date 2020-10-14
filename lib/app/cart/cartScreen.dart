@@ -6,7 +6,7 @@ import '../tabbar.dart';
 import '../../models/index.dart' show ProductModel;
 import '../../providers/index.dart' show CartProvider;
 import '../../widgets/index.dart'
-    show IncrementButton, OpenContainerBottomModal, LottieScreen;
+    show IncrementButton, OpenContainerBottomModal, LottieScreen, BotigaAppBar;
 
 import 'widgets/cartDeliveryInfo.dart';
 
@@ -19,21 +19,7 @@ class CartScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
-      appBar: AppBar(
-        leading: Navigator.canPop(context)
-            ? GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back,
-                  color: AppTheme.color100,
-                ),
-              )
-            : Container(),
-        backgroundColor: AppTheme.backgroundColor,
-        elevation: 0.0,
-      ),
+      appBar: BotigaAppBar(''),
       body: Container(
         color: AppTheme.backgroundColor,
         child: SafeArea(
