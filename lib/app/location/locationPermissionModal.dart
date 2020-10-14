@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../../theme/index.dart';
 import 'selectCityScreen.dart';
@@ -68,7 +69,9 @@ class LocationPermissionModal extends StatelessWidget {
         FlatButton(
           minWidth: 150,
           height: 50,
-          onPressed: () {},
+          onPressed: () {
+            _accessLocation();
+          },
           color: AppTheme.primaryColor,
           child: Text(
             'Grant Access',
@@ -81,5 +84,20 @@ class LocationPermissionModal extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void _accessLocation() {
+    requestPermission().then((permission) {
+      if (permission == LocationPermission.whileInUse) {
+        getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high,
+          timeLimit: Duration(seconds: 5),
+        ).then((position) {
+          print(position);
+        }).catchError((error) {
+          print(error);
+        });
+      }
+    });
   }
 }
