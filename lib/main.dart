@@ -66,12 +66,13 @@ class BotigaApp extends StatelessWidget {
     return MaterialApp(
       themeMode: ThemeMode.light,
       title: 'Botiga',
-      initialRoute: LoginScreen.route,
+      initialRoute: WelcomeScreen.route,
       routes: {
         WelcomeScreen.route: (context) => WelcomeScreen(),
+        SignupOtpScreen.route: (context) => SignupOtpScreen(),
         LoginScreen.route: (context) => LoginScreen(),
-        VerifyOtpScreen.route: (context) => VerifyOtpScreen(),
-        VerifyPinScreen.route: (context) => VerifyPinScreen(),
+        LoginOtpScreen.route: (context) => LoginOtpScreen(),
+        LoginPinScreen.route: (context) => LoginPinScreen(),
         SetPinScreen.route: (context) => SetPinScreen(),
         Tabbar.route: (context) => Tabbar(index: 0),
         ProductListScreen.route: (context) => ProductListScreen(),

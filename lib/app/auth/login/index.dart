@@ -1,2 +1,3 @@
 export 'loginScreen.dart';
-export 'verifyPinScreen.dart';
+export 'loginPinScreen.dart';
+export 'loginOtpScreen.dart';

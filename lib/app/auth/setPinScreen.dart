@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../theme/index.dart';
-import '../../../widgets/index.dart';
+import '../../theme/index.dart';
+import '../../widgets/index.dart';
 
-import '../../tabbar.dart';
+import '../tabbar.dart';
 
 class SetPinScreen extends StatefulWidget {
   static final route = 'setPin';

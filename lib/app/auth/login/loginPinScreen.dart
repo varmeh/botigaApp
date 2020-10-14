@@ -1,3 +1,4 @@
+import 'package:botiga/app/auth/login/loginOtpScreen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../widgets/index.dart';
@@ -6,17 +7,16 @@ import '../../tabbar.dart';
 
 import '../widgets/index.dart';
 import '../model/otpSessionModel.dart';
-import '../common/verifyOtpScreen.dart';
-import '../common/setPinScreen.dart';
+import 'loginOtpScreen.dart';
 
-class VerifyPinScreen extends StatefulWidget {
+class LoginPinScreen extends StatefulWidget {
   static final route = 'verifyPin';
 
   @override
-  _VerifyPinScreenState createState() => _VerifyPinScreenState();
+  _LoginPinScreenState createState() => _LoginPinScreenState();
 }
 
-class _VerifyPinScreenState extends State<VerifyPinScreen> {
+class _LoginPinScreenState extends State<LoginPinScreen> {
   GlobalKey<FormState> _form = GlobalKey();
   String pinValue = '';
 
@@ -91,16 +91,10 @@ class _VerifyPinScreenState extends State<VerifyPinScreen> {
       onTap: () {
         // TODO: api call for otp required
         Navigator.of(context).pushNamed(
-          VerifyOtpScreen.route,
+          LoginOtpScreen.route,
           arguments: OtpSessionModel(
             phone: phoneNumber,
             sessionId: '0f91ca0f-9eac-4ce2-8bba-bb943e78d421',
-            onVerification: () {
-              Navigator.of(context).pushNamed(
-                SetPinScreen.route,
-                arguments: 'Set PIN for faster login next time',
-              );
-            },
           ),
         );
       },

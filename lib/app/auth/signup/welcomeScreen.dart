@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/phoneScreen.dart';
 import '../model/otpSessionModel.dart';
-import '../common/verifyOtpScreen.dart';
+import 'signupOtpScreen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static final route = 'welcome';
@@ -11,13 +11,12 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return PhoneScreen(
       title: 'Welcome to Botiga',
-      navigate: () {
+      navigate: (String phoneNumber) {
         Navigator.of(context).pushNamed(
-          VerifyOtpScreen.route,
+          SignupOtpScreen.route,
           arguments: OtpSessionModel(
-            phone: '9910057232',
+            phone: phoneNumber,
             sessionId: '0f91ca0f-9eac-4ce2-8bba-bb943e78d421',
-            onVerification: () {},
           ),
         );
       },

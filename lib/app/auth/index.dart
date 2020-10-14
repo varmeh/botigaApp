@@ -1,3 +1,3 @@
-export 'signup/welcomeScreen.dart';
+export 'signup/index.dart';
 export 'login/index.dart';
-export 'common/index.dart';
+export 'setPinScreen.dart';
