@@ -79,7 +79,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
             'No orders placed yet!',
             style: AppTheme.textStyle.w800.color05.size(72.0),
           ),
-          sizedBox24,
+          SizedBox(height: 24.0),
           Text(
             'Many amazing products to purchase',
             style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),

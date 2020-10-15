@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import '../../theme/index.dart';
 import '../../widgets/contactPartnerWidget.dart';
 
-const sizedBox24 = SizedBox(height: 24.0);
-const sizedBox8 = SizedBox(height: 8.0);
-
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key key}) : super(key: key);
 
@@ -14,6 +11,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final sizedBox24 = SizedBox(height: 24.0);
+  final sizedBox8 = SizedBox(height: 8.0);
+
   @override
   Widget build(BuildContext context) {
     final divider = Divider(
