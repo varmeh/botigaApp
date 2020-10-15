@@ -186,6 +186,7 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
             formKey: null,
             focusNode: null,
             labelText: 'Flat No/Villa Number',
+            onSave: (_) {},
           ),
           sizedBox24,
           FullWidthButton(
