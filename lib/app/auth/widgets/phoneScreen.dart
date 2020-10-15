@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-import '../../../theme/index.dart';
-import '../../../widgets/botigaTextFieldForm.dart';
+import '../../../widgets/index.dart';
 
 import 'background.dart';
 
@@ -88,32 +87,16 @@ class _PhoneScreenState extends State<PhoneScreen> {
     );
   }
 
-  Container formButton() {
-    return Container(
-      width: double.infinity,
-      child: FlatButton(
-        shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(8.0),
-        ),
-        onPressed: () {
-          if (_phoneFormKey.currentState.validate()) {
-            // Navigator.of(context)
-            //     .pushNamed(SignUpOtp.routeName);
-            widget.navigate(_phoneMaskFormatter.getUnmaskedText());
-          }
-        },
-        color: AppTheme.primaryColor,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 18.0),
-          child: Text(
-            'Continue',
-            style: AppTheme.textStyle.w600
-                .size(15.0)
-                .lineHeight(1.5)
-                .colored(AppTheme.backgroundColor),
-          ),
-        ),
-      ),
+  Widget formButton() {
+    return FullWidthButton(
+      title: 'Continue',
+      onPressed: () {
+        if (_phoneFormKey.currentState.validate()) {
+          // Navigator.of(context)
+          //     .pushNamed(SignUpOtp.routeName);
+          widget.navigate(_phoneMaskFormatter.getUnmaskedText());
+        }
+      },
     );
   }
 }

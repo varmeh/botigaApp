@@ -105,33 +105,17 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     );
   }
 
-  Container verifyButton() {
-    return Container(
-      width: double.infinity,
-      child: FlatButton(
-        shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(8.0),
-        ),
-        onPressed: () {
-          if (_form.currentState.validate()) {
-            _form.currentState.save(); //value saved in pinValue
-            // TODO: verify pin
+  Widget verifyButton() {
+    return FullWidthButton(
+      title: 'Verify',
+      onPressed: () {
+        if (_form.currentState.validate()) {
+          _form.currentState.save(); //value saved in pinValue
+          // TODO: verify pin
 
-            widget.onVerification();
-          }
-        },
-        color: AppTheme.primaryColor,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 18.0),
-          child: Text(
-            'Verify',
-            style: AppTheme.textStyle.w600
-                .size(15.0)
-                .lineHeight(1.5)
-                .colored(AppTheme.backgroundColor),
-          ),
-        ),
-      ),
+          widget.onVerification();
+        }
+      },
     );
   }
 }

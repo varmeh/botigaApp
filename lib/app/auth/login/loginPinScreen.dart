@@ -57,32 +57,16 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
     );
   }
 
-  Container continueButton() {
-    return Container(
-      width: double.infinity,
-      child: FlatButton(
-        shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(8.0),
-        ),
-        onPressed: () {
-          if (_form.currentState.validate()) {
-            _form.currentState.save(); //value saved in pinValue
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil(Tabbar.route, (route) => false);
-          }
-        },
-        color: AppTheme.primaryColor,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 18.0),
-          child: Text(
-            'Continue',
-            style: AppTheme.textStyle.w600
-                .size(15.0)
-                .lineHeight(1.5)
-                .colored(AppTheme.backgroundColor),
-          ),
-        ),
-      ),
+  Widget continueButton() {
+    return FullWidthButton(
+      title: 'Continue',
+      onPressed: () {
+        if (_form.currentState.validate()) {
+          _form.currentState.save(); //value saved in pinValue
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(Tabbar.route, (route) => false);
+        }
+      },
     );
   }
 
