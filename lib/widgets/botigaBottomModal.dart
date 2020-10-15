@@ -7,7 +7,7 @@ import '../theme/index.dart';
  * Call show(context) method to display bottomModalSheet 
  */
 class BotigaBottomModal {
-  final Widget child;
+  final Column child;
   final bool isDismissible;
   final Color color;
 
@@ -34,8 +34,18 @@ class BotigaBottomModal {
               topRight: const Radius.circular(16.0),
             ),
           ),
-          padding: const EdgeInsets.only(left: 22, right: 22, top: 42),
-          child: child,
+          padding: const EdgeInsets.only(
+            left: 22.0,
+            right: 22.0,
+            top: 42.0,
+            bottom: 32.0,
+          ),
+          child: Column(
+            mainAxisAlignment: child.mainAxisAlignment,
+            crossAxisAlignment: child.crossAxisAlignment,
+            mainAxisSize: MainAxisSize.min,
+            children: [...child.children],
+          ),
         );
       },
     );

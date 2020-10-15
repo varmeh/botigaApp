@@ -2,47 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../../theme/index.dart';
+import '../../widgets/index.dart' show BotigaBottomModal;
 import 'selectCityScreen.dart';
 
-class LocationPermissionModal extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+class LocationPermissionModal {
+  void show(BuildContext context) {
     const sizedBox24 = SizedBox(height: 24);
 
-    return Container(
-      height: 400,
-      width: double.infinity,
-      padding: const EdgeInsets.only(left: 22, right: 22, top: 42),
-      decoration: BoxDecoration(
-        color: AppTheme.backgroundColor,
-        borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(16.0),
-          topRight: const Radius.circular(16.0),
-        ),
+    BotigaBottomModal(
+      child: Column(
+        children: [
+          Text(
+            'Permission to location',
+            style: AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
+          ),
+          SizedBox(height: 32.0),
+          Image.asset('assets/images/location.png'),
+          sizedBox24,
+          Text(
+            'We require this information to check the service availability of your locations',
+            style: AppTheme.textStyle.w500.color50.size(15.0).lineHeight(1.35),
+            textAlign: TextAlign.center,
+          ),
+          sizedBox24,
+          _buttonRow(context),
+          sizedBox24,
+        ],
       ),
-      child: Container(
-        child: Column(
-          children: [
-            Text(
-              'Permission to location',
-              style:
-                  AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
-            ),
-            SizedBox(height: 32.0),
-            Image.asset('assets/images/location.png'),
-            sizedBox24,
-            Text(
-              'We require this information to check the service availability of your locations',
-              style:
-                  AppTheme.textStyle.w500.color50.size(15.0).lineHeight(1.35),
-              textAlign: TextAlign.center,
-            ),
-            sizedBox24,
-            _buttonRow(context),
-          ],
-        ),
-      ),
-    );
+    ).show(context);
   }
 
   Widget _buttonRow(BuildContext context) {

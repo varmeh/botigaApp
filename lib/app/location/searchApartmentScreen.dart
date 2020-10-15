@@ -192,78 +192,9 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
             title: 'Continue',
             onPressed: () {},
           ),
-          SizedBox(height: 32.0),
         ],
       ),
     ).show(context);
-
-    // showModalBottomSheet(
-    //     context: context,
-    //     backgroundColor: Colors.transparent,
-    //     isScrollControlled: true,
-    //     builder: (context) {
-    //       return Container(
-    //         margin: EdgeInsets.only(
-    //             bottom: MediaQuery.of(context).viewInsets.bottom),
-    //         decoration: BoxDecoration(
-    //           color: AppTheme.backgroundColor,
-    //           borderRadius: BorderRadius.only(
-    //             topLeft: const Radius.circular(16.0),
-    //             topRight: const Radius.circular(16.0),
-    //           ),
-    //         ),
-    //         child: Container(
-    //           padding: const EdgeInsets.only(left: 22, right: 22, top: 42),
-    //           child: Column(
-    //             crossAxisAlignment: CrossAxisAlignment.start,
-    //             mainAxisSize: MainAxisSize.min,
-    //             children: [
-    //               Row(
-    //                 children: [
-    //                   Image.asset(
-    //                     'assets/images/homeOutline.png',
-    //                     color: AppTheme.color100,
-    //                   ),
-    //                   SizedBox(width: 12.0),
-    //                   Text(
-    //                     'Your Address',
-    //                     style: AppTheme.textStyle.w700.color100
-    //                         .size(20.0)
-    //                         .lineHeight(1.25),
-    //                   ),
-    //                 ],
-    //               ),
-    //               sizedBox24,
-    //               Text(
-    //                 'Adarsh Palm Retreat',
-    //                 style: AppTheme.textStyle.w500.color100
-    //                     .size(17.0)
-    //                     .lineHeight(1.3),
-    //               ),
-    //               SizedBox(height: 8.0),
-    //               Text(
-    //                 'Jala Hobli, Vidhya Nagar Cross, Huttanahalli, Bengaluru, Karnataka 562157',
-    //                 style: AppTheme.textStyle.w500.color50
-    //                     .size(13.0)
-    //                     .lineHeight(1.5),
-    //               ),
-    //               sizedBox24,
-    //               BotigaTextFieldForm(
-    //                 formKey: null,
-    //                 focusNode: null,
-    //                 labelText: 'Flat No/Villa Number',
-    //               ),
-    //               sizedBox24,
-    //               FullWidthButton(
-    //                 title: 'Continue',
-    //                 onPressed: () {},
-    //               ),
-    //               SizedBox(height: 32.0),
-    //             ],
-    //           ),
-    //         ),
-    //       );
-    //     });
   }
 
   Future<void> getApartments() async {

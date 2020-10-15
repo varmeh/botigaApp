@@ -16,13 +16,7 @@ class SignupOtpScreen extends StatelessWidget {
       phone: otpSessionModel.phone,
       sessionId: otpSessionModel.sessionId,
       onVerification: () {
-        showModalBottomSheet(
-          context: context,
-          backgroundColor: Colors.transparent,
-          builder: (context) {
-            return LocationPermissionModal();
-          },
-        );
+        LocationPermissionModal().show(context);
       },
     );
   }

@@ -83,13 +83,7 @@ class _SetPinScreenState extends State<SetPinScreen>
         onPressed: () {
           if (_form.currentState.validate()) {
             _form.currentState.save(); //value saved in pinValue
-            showModalBottomSheet(
-              context: context,
-              isDismissible: false,
-              builder: (context) {
-                return setPinSuccessful(context);
-              },
-            );
+            BotigaBottomModal(child: setPinSuccessful()).show(context);
           }
         },
         color: AppTheme.primaryColor,
@@ -107,44 +101,31 @@ class _SetPinScreenState extends State<SetPinScreen>
     );
   }
 
-  Widget setPinSuccessful(BuildContext context) {
-    const borderRadius = BorderRadius.only(
-      topLeft: const Radius.circular(16.0),
-      topRight: const Radius.circular(16.0),
-    );
+  Widget setPinSuccessful() {
+    return Column(
+      children: [
+        Lottie.asset(
+          'assets/lotties/checkSuccess.json',
+          width: 160.0,
+          height: 160.0,
+          fit: BoxFit.fill,
+          controller: _controller,
+          onLoaded: (composition) {
+            // Configure the AnimationController with the duration of the
+            // Lottie file and start the animation.
 
-    return Container(
-      width: double.infinity,
-      height: MediaQuery.of(context).size.height,
-      padding: EdgeInsets.only(left: 22, right: 22, top: 42),
-      decoration: BoxDecoration(
-        color: AppTheme.backgroundColor,
-        borderRadius: borderRadius,
-      ),
-      child: Column(
-        children: [
-          Lottie.asset(
-            'assets/lotties/checkSuccess.json',
-            width: 160.0,
-            height: 160.0,
-            fit: BoxFit.fill,
-            controller: _controller,
-            onLoaded: (composition) {
-              // Configure the AnimationController with the duration of the
-              // Lottie file and start the animation.
-
-              _controller.duration = composition.duration * 2;
-              _controller.reset();
-              _controller.forward();
-            },
-          ),
-          SizedBox(height: 24.0),
-          Text(
-            'Pin Set Successfuly',
-            style: AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
-          ),
-        ],
-      ),
+            _controller.duration = composition.duration * 2;
+            _controller.reset();
+            _controller.forward();
+          },
+        ),
+        SizedBox(height: 42.0),
+        Text(
+          'Pin Set Successfuly',
+          style: AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
+        ),
+        SizedBox(height: 64.0),
+      ],
     );
   }
 
