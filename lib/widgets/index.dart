@@ -11,3 +11,5 @@ export 'botigaTextFieldForm.dart';
 export 'pinTextField.dart';
 export 'botigaAppBar.dart';
 export 'searchBar.dart';
+export 'fullWidthButton.dart';
+export 'botigaBottomModal.dart';
