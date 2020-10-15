@@ -23,13 +23,23 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
   final List _apartments = [];
   String _query = '';
 
-  GlobalKey<FormState> _apartmentKey;
-  FocusNode _focusNode;
+  GlobalKey<FormState> _aptFormKey;
+  FocusNode _aptFocusNode;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _aptFormKey = GlobalKey<FormState>();
+    _aptFocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    // Clean up the focus node when the Form is disposed.
+    _aptFocusNode.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -183,15 +193,19 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
           ),
           sizedBox24,
           BotigaTextFieldForm(
-            formKey: null,
-            focusNode: null,
+            formKey: _aptFormKey,
+            focusNode: _aptFocusNode,
             labelText: 'Flat No/Villa Number',
-            onSave: (_) {},
+            onSave: (value) {
+              print('$value for $_query saved');
+            },
           ),
           sizedBox24,
           FullWidthButton(
             title: 'Continue',
-            onPressed: () {},
+            onPressed: () {
+              print('continue');
+            },
           ),
         ],
       ),

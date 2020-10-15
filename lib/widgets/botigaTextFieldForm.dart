@@ -74,14 +74,20 @@ class _BotigaTextFieldFormState extends State<BotigaTextFieldForm> {
 
   @override
   Widget build(BuildContext context) {
+    List<TextInputFormatter> inputFormatters = [];
+    if (widget.maskFormatter != null) {
+      inputFormatters.add(widget.maskFormatter);
+    }
+
     return Form(
       key: widget.formKey,
       child: TextFormField(
         // showCursor: false,
-        inputFormatters: [widget.maskFormatter],
+        inputFormatters: inputFormatters,
         validator: widget.validator,
         keyboardType:
             widget.maxLines > 1 ? TextInputType.multiline : widget.keyboardType,
+        style: AppTheme.textStyle.w500.color100.size(15.0).lineHeight(1.3),
         textInputAction: widget.textInputAction,
         maxLines: widget.maxLines,
         onSaved: widget.onSave,
@@ -106,10 +112,6 @@ class _BotigaTextFieldFormState extends State<BotigaTextFieldForm> {
           labelStyle:
               AppTheme.textStyle.w500.color50.size(15.0).lineHeight(1.3),
           errorStyle: AppTheme.textStyle.w400.colored(AppTheme.errorColor),
-          hintStyle: AppTheme.textStyle.w500
-              // .size(15.0)
-              // .lineHeight(1.3)
-              .colored(Colors.orange),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
               width: 1.0,
