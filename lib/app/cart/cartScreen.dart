@@ -33,7 +33,7 @@ class CartScreen extends StatelessWidget {
 
   Widget _cartEmpty(BuildContext context) {
     return LottieScreen(
-      json: 'assets/lotties/windMill.json',
+      json: 'assets/lotties/windmill.json',
       message: 'Nothing here',
       description: 'Look around, you will find something you love',
       buttonTitle: 'Browse Merchants',

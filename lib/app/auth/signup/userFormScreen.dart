@@ -5,6 +5,7 @@ import '../../../util/validationExtension.dart';
 import '../../../theme/index.dart';
 import '../../../widgets/index.dart'
     show BotigaAppBar, BotigaTextFieldForm, FullWidthButton;
+import '../setPinScreen.dart';
 
 final Function(String) _nameValidator = (value) {
   if (value.isEmpty) {
@@ -27,6 +28,11 @@ class _UserFormScreenState extends State<UserFormScreen> {
   FocusNode _lastFocusNode;
   FocusNode _emailFocusNode;
   FocusNode _whatsappFocusNode;
+
+  String _firstName;
+  String _lastName;
+  String _email;
+  String _whatsapp;
 
   GlobalKey<FormState> _formKey;
 
@@ -80,7 +86,7 @@ class _UserFormScreenState extends State<UserFormScreen> {
               BotigaTextFieldForm(
                 focusNode: _firstFocusNode,
                 labelText: 'First Name',
-                onSave: null,
+                onSave: (value) => _firstName = value,
                 nextFocusNode: _lastFocusNode,
                 validator: _nameValidator,
               ),
@@ -88,7 +94,7 @@ class _UserFormScreenState extends State<UserFormScreen> {
               BotigaTextFieldForm(
                 focusNode: _lastFocusNode,
                 labelText: 'Last Name',
-                onSave: null,
+                onSave: (value) => _lastName = value,
                 nextFocusNode: _emailFocusNode,
                 validator: _nameValidator,
               ),
@@ -96,9 +102,10 @@ class _UserFormScreenState extends State<UserFormScreen> {
               BotigaTextFieldForm(
                 focusNode: _emailFocusNode,
                 labelText: 'Email',
-                onSave: null,
+                onSave: (value) => _email = value,
                 nextFocusNode: _whatsappFocusNode,
                 keyboardType: TextInputType.emailAddress,
+                textCapitalization: TextCapitalization.none,
                 validator: (value) {
                   if (!value.isValidEmail()) {
                     return 'Please enter a valid email id';
@@ -111,7 +118,8 @@ class _UserFormScreenState extends State<UserFormScreen> {
                 focusNode: _whatsappFocusNode,
                 labelText: 'Whatsapp Number',
                 keyboardType: TextInputType.number,
-                onSave: null,
+                onSave: (_) =>
+                    _whatsapp = _phoneMaskFormatter.getUnmaskedText(),
                 maskFormatter: _phoneMaskFormatter,
                 onChange: (_) {
                   if (_phoneMaskFormatter.getUnmaskedText().length == 10) {
@@ -154,7 +162,16 @@ class _UserFormScreenState extends State<UserFormScreen> {
 
   void _onPressed() {
     if (_formKey.currentState.validate()) {
-      print('validated');
+      _formKey.currentState.save();
+      print('$_firstName $_lastName $_email $_whatsapp');
+
+      // TODO: api call to create user account
+      Navigator.pushNamed(
+        context,
+        SetPinScreen.route,
+        arguments:
+            'Last step! You are almost done. Going forward this 4-digit pin will be used to login.',
+      );
     }
   }
 }
