@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/index.dart';
-import '../setPinScreen.dart';
+import '../../shared/index.dart';
 import '../model/otpSessionModel.dart';
 
 class LoginOtpScreen extends StatelessWidget {

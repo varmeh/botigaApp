@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/index.dart';
+import '../../theme/index.dart';
 
 class Background extends StatelessWidget {
   final String title;

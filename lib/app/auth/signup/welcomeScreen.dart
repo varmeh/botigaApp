@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/phoneScreen.dart';
+import '../../shared/phoneScreen.dart';
 import '../model/otpSessionModel.dart';
 import 'signupOtpScreen.dart';
 

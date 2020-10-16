@@ -5,7 +5,7 @@ import '../../../widgets/index.dart';
 import '../../../theme/index.dart';
 import '../../tabbar.dart';
 
-import '../widgets/index.dart';
+import '../../shared/background.dart';
 import '../model/otpSessionModel.dart';
 import 'loginOtpScreen.dart';
 

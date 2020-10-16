@@ -5,7 +5,7 @@ import '../../../util/validationExtension.dart';
 import '../../../theme/index.dart';
 import '../../../widgets/index.dart'
     show BotigaAppBar, BotigaTextFieldForm, FullWidthButton;
-import '../setPinScreen.dart';
+import '../../shared/setPinScreen.dart';
 
 final Function(String) _nameValidator = (value) {
   if (value.isEmpty) {

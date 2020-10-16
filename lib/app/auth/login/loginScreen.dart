@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/phoneScreen.dart';
+import '../../shared/phoneScreen.dart';
 import 'loginPinScreen.dart';
 
 class LoginScreen extends StatelessWidget {

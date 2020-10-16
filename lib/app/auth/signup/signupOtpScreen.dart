@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/index.dart';
+import '../../shared/verifyOtpScreen.dart';
 import '../model/otpSessionModel.dart';
 import '../../location/locationPermissionModal.dart';
 
