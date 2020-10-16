@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:animations/animations.dart';
 
 import '../../theme/index.dart';
+import '../location/searchApartmentScreen.dart';
 import '../../widgets/contactPartnerWidget.dart';
 import 'profileUpdateScreen.dart';
 
@@ -136,7 +136,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
           ),
           sizedBox24,
-          _spanButton('Change Address', () {})
+          _spanButton('Change Address', () {
+            Navigator.pushNamed(context, SearchApartmentScreen.route);
+          })
         ],
       ),
     );
