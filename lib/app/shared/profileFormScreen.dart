@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-import '../../../util/validationExtension.dart';
-import '../../../theme/index.dart';
-import '../../../widgets/index.dart'
+import '../../util/validationExtension.dart';
+import '../../theme/index.dart';
+import '../../widgets/index.dart'
     show BotigaAppBar, BotigaTextFieldForm, FullWidthButton;
-import '../../shared/setPinScreen.dart';
 
 final Function(String) _nameValidator = (value) {
   if (value.isEmpty) {
@@ -16,14 +15,24 @@ final Function(String) _nameValidator = (value) {
   return null;
 };
 
-class UserFormScreen extends StatefulWidget {
+class ProfileFormScreen extends StatefulWidget {
   static final route = 'userForm';
 
+  final String title;
+  final Function onPressed;
+  final String description;
+
+  ProfileFormScreen({
+    @required this.title,
+    @required this.onPressed,
+    this.description,
+  });
+
   @override
-  _UserFormScreenState createState() => _UserFormScreenState();
+  _ProfileFormScreenState createState() => _ProfileFormScreenState();
 }
 
-class _UserFormScreenState extends State<UserFormScreen> {
+class _ProfileFormScreenState extends State<ProfileFormScreen> {
   FocusNode _firstFocusNode;
   FocusNode _lastFocusNode;
   FocusNode _emailFocusNode;
@@ -69,7 +78,7 @@ class _UserFormScreenState extends State<UserFormScreen> {
 
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
-      appBar: BotigaAppBar('Sign Up'),
+      appBar: BotigaAppBar(widget.title),
       body: SafeArea(
         child: Form(
           key: _formKey,
@@ -77,12 +86,17 @@ class _UserFormScreenState extends State<UserFormScreen> {
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             children: [
-              Text(
-                'Create account and access products from Merchants delivering in your community',
-                style:
-                    AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
-              ),
-              SizedBox(height: 32.0),
+              widget.description != null
+                  ? Container(
+                      margin: const EdgeInsets.only(bottom: 32.0),
+                      child: Text(
+                        widget.description,
+                        style: AppTheme.textStyle.w500.color50
+                            .size(13.0)
+                            .lineHeight(1.5),
+                      ),
+                    )
+                  : Container(),
               BotigaTextFieldForm(
                 focusNode: _firstFocusNode,
                 labelText: 'First Name',
@@ -166,12 +180,7 @@ class _UserFormScreenState extends State<UserFormScreen> {
       print('$_firstName $_lastName $_email $_whatsapp');
 
       // TODO: api call to create user account
-      Navigator.pushNamed(
-        context,
-        SetPinScreen.route,
-        arguments:
-            'Last step! You are almost done. Going forward this 4-digit pin will be used to login.',
-      );
+      widget.onPressed();
     }
   }
 }
