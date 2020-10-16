@@ -59,9 +59,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
         child: BotigaTextFieldForm(
           focusNode: _phoneFocusNode,
           labelText: 'Phone Number',
-          onSave: (value) {
-            print('$value saved');
-          },
+          onSave: (_) {},
           keyboardType: TextInputType.number,
           onChange: (val) {
             if (_phoneMaskFormatter.getUnmaskedText().length == 10) {
