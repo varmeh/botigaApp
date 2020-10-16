@@ -12,8 +12,7 @@ class ProfileUpdateScreen extends StatelessWidget {
       onPressed: () {
         Navigator.pop(context);
       },
-      description:
-          'Create account and access products from Merchants delivering in your community',
+      buttonText: 'Update',
     );
   }
 }

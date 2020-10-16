@@ -19,10 +19,12 @@ class ProfileFormScreen extends StatefulWidget {
   final String title;
   final Function onPressed;
   final String description;
+  final String buttonText;
 
   ProfileFormScreen({
     @required this.title,
     @required this.onPressed,
+    @required this.buttonText,
     this.description,
   });
 
@@ -94,7 +96,9 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
                             .lineHeight(1.5),
                       ),
                     )
-                  : Container(),
+                  : Container(
+                      height: 32.0,
+                    ),
               BotigaTextFieldForm(
                 focusNode: _firstFocusNode,
                 labelText: 'First Name',
@@ -164,7 +168,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
             bottom: 32.0,
           ),
           child: FullWidthButton(
-            title: 'Create Account',
+            title: widget.buttonText,
             onPressed: _onPressed,
           ),
         ),

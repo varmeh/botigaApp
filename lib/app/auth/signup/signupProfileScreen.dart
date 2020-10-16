@@ -17,6 +17,7 @@ class SignupProfileScreen extends StatelessWidget {
               'Last step! You are almost done. Going forward this 4-digit pin will be used to login.',
         );
       },
+      buttonText: 'Create Account',
       description:
           'Create account and access products from Merchants delivering in your community',
     );
