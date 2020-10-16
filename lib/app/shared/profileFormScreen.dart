@@ -16,8 +16,6 @@ final Function(String) _nameValidator = (value) {
 };
 
 class ProfileFormScreen extends StatefulWidget {
-  static final route = 'userForm';
-
   final String title;
   final Function onPressed;
   final String description;

@@ -14,6 +14,7 @@ import 'util/index.dart' show Flavor;
 import 'app/tabbar.dart';
 import 'app/auth/index.dart';
 import 'app/location/index.dart';
+import 'app/profile/index.dart';
 
 import 'app/home/products/productListScreen.dart';
 
@@ -67,7 +68,7 @@ class BotigaApp extends StatelessWidget {
     return MaterialApp(
       themeMode: ThemeMode.light,
       title: 'Botiga',
-      initialRoute: SignupProfileScreen.route,
+      initialRoute: Tabbar.route,
       routes: {
         // Sign Up Screens
         WelcomeScreen.route: (context) => WelcomeScreen(),
@@ -83,6 +84,7 @@ class BotigaApp extends StatelessWidget {
         ProductListScreen.route: (context) => ProductListScreen(),
         SelectCityScreen.route: (context) => SelectCityScreen(),
         SearchApartmentScreen.route: (context) => SearchApartmentScreen(),
+        ProfileUpdateScreen.route: (context) => ProfileUpdateScreen(),
       },
       navigatorObservers: <NavigatorObserver>[observer],
     );

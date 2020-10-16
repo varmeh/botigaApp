@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../theme/index.dart';
 import '../../widgets/contactPartnerWidget.dart';
+import 'profileUpdateScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key key}) : super(key: key);
@@ -77,7 +78,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           sizedBox8,
           _infoTile('assets/images/whatsappOutline.png', '9910099100'),
           sizedBox24,
-          _spanButton('Edit Profile', () {})
+          _spanButton('Edit Profile', () {
+            Navigator.pushNamed(context, ProfileUpdateScreen.route);
+          })
         ],
       ),
     );
