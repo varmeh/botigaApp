@@ -1,9 +1,19 @@
-import 'package:botiga/app/profile/profileScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
+import '../../../util/validationExtension.dart';
 import '../../../theme/index.dart';
 import '../../../widgets/index.dart'
     show BotigaAppBar, BotigaTextFieldForm, FullWidthButton;
+
+final Function(String) _nameValidator = (value) {
+  if (value.isEmpty) {
+    return 'Required';
+  } else if (!value.isValidName()) {
+    return 'Please use alphabets, space and dot characters only';
+  }
+  return null;
+};
 
 class UserFormScreen extends StatefulWidget {
   static final route = 'userForm';
@@ -13,27 +23,34 @@ class UserFormScreen extends StatefulWidget {
 }
 
 class _UserFormScreenState extends State<UserFormScreen> {
-  FocusNode _firstNameFocusNode;
-  FocusNode _lastNameFocusNode;
+  FocusNode _firstFocusNode;
+  FocusNode _lastFocusNode;
   FocusNode _emailFocusNode;
   FocusNode _whatsappFocusNode;
 
-  // GlobalKey<FormState> _firstNameFormKey;
+  GlobalKey<FormState> _formKey;
+
+  final _phoneMaskFormatter = MaskTextInputFormatter(
+    mask: '+91 #####-#####',
+    filter: {"#": RegExp(r'[0-9]')},
+  );
 
   @override
   void initState() {
     super.initState();
 
-    _firstNameFocusNode = FocusNode();
-    _lastNameFocusNode = FocusNode();
+    _firstFocusNode = FocusNode();
+    _lastFocusNode = FocusNode();
     _emailFocusNode = FocusNode();
     _whatsappFocusNode = FocusNode();
+
+    _formKey = GlobalKey<FormState>();
   }
 
   @override
   void dispose() {
-    _firstNameFocusNode.dispose();
-    _lastNameFocusNode.dispose();
+    _firstFocusNode.dispose();
+    _lastFocusNode.dispose();
     _emailFocusNode.dispose();
     _whatsappFocusNode.dispose();
 
@@ -48,9 +65,11 @@ class _UserFormScreenState extends State<UserFormScreen> {
       backgroundColor: AppTheme.backgroundColor,
       appBar: BotigaAppBar('Sign Up'),
       body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Form(
+          key: _formKey,
           child: ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             children: [
               Text(
                 'Create account and access products from Merchants delivering in your community',
@@ -59,40 +78,83 @@ class _UserFormScreenState extends State<UserFormScreen> {
               ),
               SizedBox(height: 32.0),
               BotigaTextFieldForm(
-                formKey: null,
-                focusNode: _firstNameFocusNode,
+                focusNode: _firstFocusNode,
                 labelText: 'First Name',
                 onSave: null,
-                nextFocusNode: _lastNameFocusNode,
+                nextFocusNode: _lastFocusNode,
+                validator: _nameValidator,
               ),
               sizedBox24,
               BotigaTextFieldForm(
-                formKey: null,
-                focusNode: _lastNameFocusNode,
+                focusNode: _lastFocusNode,
                 labelText: 'Last Name',
                 onSave: null,
                 nextFocusNode: _emailFocusNode,
+                validator: _nameValidator,
               ),
               sizedBox24,
               BotigaTextFieldForm(
-                formKey: null,
                 focusNode: _emailFocusNode,
                 labelText: 'Email',
                 onSave: null,
                 nextFocusNode: _whatsappFocusNode,
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (!value.isValidEmail()) {
+                    return 'Please enter a valid email id';
+                  }
+                  return null;
+                },
               ),
               sizedBox24,
               BotigaTextFieldForm(
-                formKey: null,
                 focusNode: _whatsappFocusNode,
                 labelText: 'Whatsapp Number',
+                keyboardType: TextInputType.number,
                 onSave: null,
+                maskFormatter: _phoneMaskFormatter,
+                onChange: (_) {
+                  if (_phoneMaskFormatter.getUnmaskedText().length == 10) {
+                    // hide keyboard as there is no done button on number keyboard
+                    FocusScope.of(context).unfocus();
+                  }
+                },
+                validator: (_) {
+                  if (_phoneMaskFormatter.getUnmaskedText().isEmpty) {
+                    return 'Required';
+                  } else if (_phoneMaskFormatter.getUnmaskedText().length !=
+                      10) {
+                    return 'Please provide a valid 10 digit Mobile Number';
+                  }
+                  return null;
+                },
               ),
-              sizedBox24,
             ],
           ),
         ),
       ),
+      bottomNavigationBar: Material(
+        elevation: 16.0,
+        child: Container(
+          color: AppTheme.backgroundColor,
+          padding: const EdgeInsets.only(
+            top: 10.0,
+            left: 10.0,
+            right: 10.0,
+            bottom: 32.0,
+          ),
+          child: FullWidthButton(
+            title: 'Create Account',
+            onPressed: _onPressed,
+          ),
+        ),
+      ),
     );
+  }
+
+  void _onPressed() {
+    if (_formKey.currentState.validate()) {
+      print('validated');
+    }
   }
 }

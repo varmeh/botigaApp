@@ -18,7 +18,7 @@ class PhoneScreen extends StatefulWidget {
 class _PhoneScreenState extends State<PhoneScreen> {
   GlobalKey<FormState> _phoneFormKey;
   FocusNode _phoneFocusNode;
-  final _phoneMaskFormatter = new MaskTextInputFormatter(
+  final _phoneMaskFormatter = MaskTextInputFormatter(
     mask: '+91 #####-#####',
     filter: {"#": RegExp(r'[0-9]')},
   );
@@ -54,29 +54,31 @@ class _PhoneScreenState extends State<PhoneScreen> {
   Padding textField() {
     return Padding(
       padding: const EdgeInsets.only(top: 40, bottom: 30),
-      child: BotigaTextFieldForm(
-        formKey: _phoneFormKey,
-        focusNode: _phoneFocusNode,
-        labelText: 'Phone Number',
-        onSave: (value) {
-          print('$value saved');
-        },
-        keyboardType: TextInputType.number,
-        onChange: (val) {
-          if (_phoneMaskFormatter.getUnmaskedText().length == 10) {
-            // hide keyboard as there is no done button on number keyboard
-            FocusScope.of(context).unfocus();
-          }
-        },
-        validator: (val) {
-          if (_phoneMaskFormatter.getUnmaskedText().isEmpty) {
-            return 'Required';
-          } else if (_phoneMaskFormatter.getUnmaskedText().length != 10) {
-            return 'Please provide a valid 10 digit Mobile Number';
-          }
-          return null;
-        },
-        maskFormatter: _phoneMaskFormatter,
+      child: Form(
+        key: _phoneFormKey,
+        child: BotigaTextFieldForm(
+          focusNode: _phoneFocusNode,
+          labelText: 'Phone Number',
+          onSave: (value) {
+            print('$value saved');
+          },
+          keyboardType: TextInputType.number,
+          onChange: (val) {
+            if (_phoneMaskFormatter.getUnmaskedText().length == 10) {
+              // hide keyboard as there is no done button on number keyboard
+              FocusScope.of(context).unfocus();
+            }
+          },
+          validator: (val) {
+            if (_phoneMaskFormatter.getUnmaskedText().isEmpty) {
+              return 'Required';
+            } else if (_phoneMaskFormatter.getUnmaskedText().length != 10) {
+              return 'Please provide a valid 10 digit Mobile Number';
+            }
+            return null;
+          },
+          maskFormatter: _phoneMaskFormatter,
+        ),
       ),
     );
   }

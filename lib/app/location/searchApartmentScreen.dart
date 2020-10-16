@@ -192,13 +192,15 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
             style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
           ),
           sizedBox24,
-          BotigaTextFieldForm(
-            formKey: _aptFormKey,
-            focusNode: _aptFocusNode,
-            labelText: 'Flat No/Villa Number',
-            onSave: (value) {
-              print('$value for $_query saved');
-            },
+          Form(
+            key: _aptFormKey,
+            child: BotigaTextFieldForm(
+              focusNode: _aptFocusNode,
+              labelText: 'Flat No/Villa Number',
+              onSave: (value) {
+                print('$value for $_query saved');
+              },
+            ),
           ),
           sizedBox24,
           FullWidthButton(
