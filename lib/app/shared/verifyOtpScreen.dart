@@ -5,14 +5,13 @@ import '../../theme/index.dart';
 import '../../widgets/index.dart';
 import 'background.dart';
 
+// TODO: fetch & verify OTP here
 class VerifyOtpScreen extends StatefulWidget {
   final String phone;
-  final String sessionId;
   final Function onVerification;
 
   VerifyOtpScreen({
     @required this.phone,
-    @required this.sessionId,
     @required this.onVerification,
   });
 

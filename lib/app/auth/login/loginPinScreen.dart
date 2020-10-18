@@ -6,7 +6,6 @@ import '../../../theme/index.dart';
 import '../../tabbar.dart';
 
 import '../../shared/background.dart';
-import '../model/otpSessionModel.dart';
 import 'loginOtpScreen.dart';
 
 class LoginPinScreen extends StatefulWidget {
@@ -73,13 +72,9 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
   GestureDetector forgotButton(BuildContext context, String phoneNumber) {
     return GestureDetector(
       onTap: () {
-        // TODO: api call for otp required
         Navigator.of(context).pushNamed(
           LoginOtpScreen.route,
-          arguments: OtpSessionModel(
-            phone: phoneNumber,
-            sessionId: '0f91ca0f-9eac-4ce2-8bba-bb943e78d421',
-          ),
+          arguments: phoneNumber,
         );
       },
       child: Text(
