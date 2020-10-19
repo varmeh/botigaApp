@@ -7,7 +7,6 @@ import '../../theme/index.dart';
 import '../../widgets/index.dart';
 import 'background.dart';
 
-// TODO: fetch & verify OTP here
 class VerifyOtpScreen extends StatefulWidget {
   final String phone;
   final Function onVerification;
@@ -31,7 +30,6 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   @override
   void initState() {
     super.initState();
-    startTimer();
     getOtp();
   }
 
@@ -84,7 +82,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
           )
         : GestureDetector(
             onTap: () {
-              startTimer();
+              getOtp();
             },
             child: Text(
               'Resend OTP',
@@ -122,8 +120,13 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
   Future<void> getOtp() async {
     try {
+      startTimer();
       final json = await Http.get('/api/user/auth/otp/9910057231');
     } catch (error) {
+      setState(() {
+        _start = 0;
+      });
+
       Toast(
         message: error,
         iconData: Icons.error_outline,
