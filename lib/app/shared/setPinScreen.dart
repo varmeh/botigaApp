@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 
 import '../../theme/index.dart';
 import '../../widgets/index.dart';
+import '../../util/index.dart' show Http;
 
 import '../tabbar.dart';
 
@@ -83,7 +84,12 @@ class _SetPinScreenState extends State<SetPinScreen>
         onPressed: () {
           if (_form.currentState.validate()) {
             _form.currentState.save(); //value saved in pinValue
-            BotigaBottomModal(child: setPinSuccessful()).show(context);
+            Http.patch('/api/user/auth/pin', body: {'pin': pinValue})
+                .then(
+                  (_) => BotigaBottomModal(child: setPinSuccessful())
+                      .show(context),
+                )
+                .catchError((error) {});
           }
         },
         color: AppTheme.primaryColor,
@@ -103,6 +109,8 @@ class _SetPinScreenState extends State<SetPinScreen>
 
   Widget setPinSuccessful() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Lottie.asset(
           'assets/lotties/checkSuccess.json',

@@ -28,6 +28,7 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
   final List<ApartmentModel> _apartments = [];
   String _query = '';
   String _houseNumber;
+  var _bottomModal;
 
   GlobalKey<FormState> _aptFormKey;
   FocusNode _aptFocusNode;
@@ -163,7 +164,7 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
   ) {
     const sizedBox24 = SizedBox(height: 24);
 
-    BotigaBottomModal(
+    _bottomModal = BotigaBottomModal(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -233,14 +234,18 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
   }
 
   void _submitApartment(ApartmentModel apartment) {
+    FocusScope.of(context).unfocus();
+    _bottomModal.animation(true);
     if (_aptFormKey.currentState.validate()) {
       _aptFormKey.currentState.save();
       Http.patch('/api/user/auth/address', body: {
         'apartmentId': apartment.id,
         'house': _houseNumber,
       }).then((_) {
+        _bottomModal.animation(false);
         widget.onSelection();
       }).catchError((error) {
+        _bottomModal.animation(false);
         Toast(message: error.toString(), iconData: Icons.error_outline)
             .show(context);
       });
