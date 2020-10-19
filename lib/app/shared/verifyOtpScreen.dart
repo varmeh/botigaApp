@@ -132,10 +132,13 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
           Http.post('/api/user/auth/otp/verify', body: {
             'phone': widget.phone,
             'sessionId': _sessionId,
-            'otpVal': _pinValue
+            'otpVal': _pinValue,
+          }, headers: {
+            'x-mock-response-code': '201',
           }).then((value) {
             widget.onVerification(value);
           }).catchError((error) {
+            print(error);
             Toast(
               message: 'OTP verification failed. Try again',
               iconData: Icons.error_outline,

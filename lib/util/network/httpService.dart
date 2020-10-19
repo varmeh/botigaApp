@@ -24,7 +24,7 @@ class Http {
     final response = await http.post(
       '$_baseUrl$url',
       headers: {..._globalHeaders, ...headers},
-      body: body,
+      body: json.encode(body),
     );
     return toJson(response);
   }
@@ -37,7 +37,7 @@ class Http {
     final response = await http.post(
       '$_baseUrl$url',
       headers: {..._globalHeaders, ...headers},
-      body: body,
+      body: json.encode(body),
     );
     return toJson(response);
   }
