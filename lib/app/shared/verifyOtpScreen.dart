@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../util/index.dart';
 import '../../theme/index.dart';
-import '../../widgets/index.dart';
+import '../../widgets/index.dart'
+    show LoaderOverlay, PinTextField, FullWidthButton;
 import 'background.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
@@ -46,37 +47,30 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   Widget build(BuildContext context) {
     const sizedBox = SizedBox(height: 32);
     return FutureBuilder(
-      future: _verify ? getOtp() : null,
+      future: _verify ? verifyOtp() : null,
       builder: (context, snapshot) {
-        return Stack(
-          children: [
-            Background(
-              title: 'Verify OTP',
-              backNavigation: true,
-              child: Column(
-                children: [
-                  sizedBox,
-                  Text(
-                    'Please enter OTP sent to your phone number ${widget.phone}',
-                    style: AppTheme.textStyle.w500.color100
-                        .size(15)
-                        .lineHeight(1.3),
-                  ),
-                  sizedBox,
-                  otpForm(),
-                  SizedBox(height: 12),
-                  resendWidget(),
-                  SizedBox(height: 16),
-                  verifyButton(),
-                ],
-              ),
+        return LoaderOverlay(
+          isLoading: snapshot.connectionState == ConnectionState.waiting,
+          child: Background(
+            title: 'Verify OTP',
+            backNavigation: true,
+            child: Column(
+              children: [
+                sizedBox,
+                Text(
+                  'Please enter OTP sent to your phone number ${widget.phone}',
+                  style:
+                      AppTheme.textStyle.w500.color100.size(15).lineHeight(1.3),
+                ),
+                sizedBox,
+                otpForm(),
+                SizedBox(height: 12),
+                resendWidget(),
+                SizedBox(height: 16),
+                verifyButton(),
+              ],
             ),
-            snapshot.connectionState == ConnectionState.waiting
-                ? Center(
-                    child: Loader(),
-                  )
-                : Container()
-          ],
+          ),
         );
       },
     );
@@ -122,28 +116,17 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     );
   }
 
+  void stopTimer() {
+    setState(() => _start = 0);
+  }
+
   Widget verifyButton() {
     return FullWidthButton(
       title: 'Verify',
       onPressed: () {
         if (_form.currentState.validate()) {
           _form.currentState.save(); //value saved in _pinValue
-
-          Http.post('/api/user/auth/otp/verify', body: {
-            'phone': widget.phone,
-            'sessionId': _sessionId,
-            'otpVal': _pinValue,
-          }, headers: {
-            'x-mock-response-code': '200',
-          }).then((value) {
-            widget.onVerification(value);
-          }).catchError((error) {
-            print(error);
-            Toast(
-              message: 'OTP verification failed. Try again',
-              iconData: Icons.error_outline,
-            ).show(context);
-          });
+          setState(() => _verify = true);
         }
       },
     );
@@ -155,12 +138,30 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
       final json = await Http.get('/api/user/auth/otp/9910057231');
       _sessionId = json['sessionId'];
     } catch (error) {
-      setState(() {
-        _start = 0;
-      });
+      stopTimer();
 
       Toast(
         message: error,
+        iconData: Icons.error_outline,
+      ).show(context);
+    }
+  }
+
+  Future<void> verifyOtp() async {
+    try {
+      final json = await Http.post('/api/user/auth/otp/verify', body: {
+        'phone': widget.phone,
+        'sessionId': _sessionId,
+        'otpVal': _pinValue,
+      }, headers: {
+        'x-mock-response-code': '200',
+      });
+      setState(() => _verify = false);
+      widget.onVerification(json);
+    } catch (error) {
+      setState(() => _verify = false);
+      Toast(
+        message: 'OTP verification failed. Try again',
         iconData: Icons.error_outline,
       ).show(context);
     }
