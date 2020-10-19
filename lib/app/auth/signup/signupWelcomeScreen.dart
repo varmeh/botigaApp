@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../shared/phoneScreen.dart';
 import 'signupOtpScreen.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class SignupWelcomeScreen extends StatelessWidget {
   static final route = 'welcome';
 
   @override

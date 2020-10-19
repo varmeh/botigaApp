@@ -36,7 +36,7 @@ class Http {
     Map<String, String> body,
   }) async {
     final _headers = headers == null ? {} : headers;
-    final response = await http.post(
+    final response = await http.patch(
       '$_baseUrl$url',
       headers: {..._globalHeaders, ..._headers},
       body: json.encode(body),

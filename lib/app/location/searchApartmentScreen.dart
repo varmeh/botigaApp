@@ -16,6 +16,10 @@ import '../../widgets/index.dart'
 class SearchApartmentScreen extends StatefulWidget {
   static final String route = 'searchApartment';
 
+  final Function onSelection;
+
+  SearchApartmentScreen({@required this.onSelection});
+
   @override
   _SearchApartmentScreenState createState() => _SearchApartmentScreenState();
 }
@@ -23,6 +27,7 @@ class SearchApartmentScreen extends StatefulWidget {
 class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
   final List<ApartmentModel> _apartments = [];
   String _query = '';
+  String _houseNumber;
 
   GlobalKey<FormState> _aptFormKey;
   FocusNode _aptFocusNode;
@@ -83,13 +88,7 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
             exception: snapshot.error,
             onTap: () {
               // Rebuild screen
-              Navigator.pushReplacement(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (_, __, ___) => SearchApartmentScreen(),
-                  transitionDuration: Duration.zero,
-                ),
-              );
+              setState(() {});
             },
           );
         } else {
@@ -159,7 +158,9 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
   }
 
   void _showApartmentInfoDialog(
-      BuildContext context, ApartmentModel apartment) {
+    BuildContext context,
+    ApartmentModel apartment,
+  ) {
     const sizedBox24 = SizedBox(height: 24);
 
     BotigaBottomModal(
@@ -197,27 +198,29 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
             key: _aptFormKey,
             child: BotigaTextFieldForm(
               focusNode: _aptFocusNode,
-              labelText: 'Flat No/Villa Number',
+              labelText: 'Flat No / House No',
               onSave: (value) {
-                print('$value for $_query saved');
+                _houseNumber = value;
               },
+              validator: (value) => value.isEmpty ? 'Required' : null,
+              onFieldSubmitted: (_) => _submitApartment(apartment),
             ),
           ),
           sizedBox24,
           FullWidthButton(
             title: 'Continue',
-            onPressed: () {
-              print('continue');
-            },
+            onPressed: () => _submitApartment(apartment),
           ),
         ],
       ),
-    ).show(context);
+    );
+    _bottomModal.show(context);
   }
 
   Future<void> getApartments() async {
     try {
-      final json = await Http.get('/api/services/apartments/search?text=');
+      final json =
+          await Http.get('/api/services/apartments/search?text=$_query');
       _apartments.clear();
       json.forEach(
           (apartment) => _apartments.add(ApartmentModel.fromJson(apartment)));
@@ -226,6 +229,21 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
         message: error,
         iconData: Icons.error_outline,
       ).show(context);
+    }
+  }
+
+  void _submitApartment(ApartmentModel apartment) {
+    if (_aptFormKey.currentState.validate()) {
+      _aptFormKey.currentState.save();
+      Http.patch('/api/user/auth/address', body: {
+        'apartmentId': apartment.id,
+        'house': _houseNumber,
+      }).then((_) {
+        widget.onSelection();
+      }).catchError((error) {
+        Toast(message: error.toString(), iconData: Icons.error_outline)
+            .show(context);
+      });
     }
   }
 }

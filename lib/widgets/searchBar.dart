@@ -35,6 +35,7 @@ class _SearchBarState extends State<SearchBar> {
   }
 
   void _onSubmit() {
+    FocusScope.of(context).unfocus();
     widget.onSubmit(_textEditingController.text);
   }
 

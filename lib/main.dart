@@ -68,12 +68,13 @@ class BotigaApp extends StatelessWidget {
     return MaterialApp(
       themeMode: ThemeMode.light,
       title: 'Botiga',
-      initialRoute: WelcomeScreen.route,
+      initialRoute: SignupApartmentScreen.route,
       routes: {
         // Sign Up Screens
-        WelcomeScreen.route: (context) => WelcomeScreen(),
+        SignupWelcomeScreen.route: (context) => SignupWelcomeScreen(),
         SignupOtpScreen.route: (context) => SignupOtpScreen(),
         SignupProfileScreen.route: (context) => SignupProfileScreen(),
+        SignupApartmentScreen.route: (context) => SignupApartmentScreen(),
         // Login Screens
         LoginScreen.route: (context) => LoginScreen(),
         LoginOtpScreen.route: (context) => LoginOtpScreen(),
@@ -83,7 +84,6 @@ class BotigaApp extends StatelessWidget {
         Tabbar.route: (context) => Tabbar(index: 0),
         ProductListScreen.route: (context) => ProductListScreen(),
         SelectCityScreen.route: (context) => SelectCityScreen(),
-        SearchApartmentScreen.route: (context) => SearchApartmentScreen(),
         ProfileUpdateScreen.route: (context) => ProfileUpdateScreen(),
       },
       navigatorObservers: <NavigatorObserver>[observer],
