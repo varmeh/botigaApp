@@ -81,11 +81,7 @@ class ProductListScreen extends StatelessWidget {
           .getProducts(seller.id),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primaryColor),
-            ),
-          );
+          return Loader();
         } else if (snapshot.hasError) {
           return HttpServiceExceptionWidget(
             exception: snapshot.error,
