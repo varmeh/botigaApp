@@ -10,7 +10,7 @@ final Function(String) _nameValidator = (value) {
   if (value.isEmpty) {
     return 'Required';
   } else if (!value.isValidName()) {
-    return 'Please use alphabets, space and dot characters only';
+    return 'Please use alphabets, space and dot only';
   }
   return null;
 };
@@ -123,7 +123,10 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
                 keyboardType: TextInputType.emailAddress,
                 textCapitalization: TextCapitalization.none,
                 validator: (value) {
-                  if (!value.isValidEmail()) {
+                  if (value.isEmpty) {
+                    // Email is optional
+                    return null;
+                  } else if (!value.isValidEmail()) {
                     return 'Please enter a valid email id';
                   }
                   return null;
@@ -179,10 +182,9 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
   void _onPressed() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      print('$_firstName $_lastName $_email $_whatsapp');
 
       // TODO: api call to create user account
-      widget.onPressed();
+      widget.onPressed(_firstName, _lastName, _email, _whatsapp);
     }
   }
 }

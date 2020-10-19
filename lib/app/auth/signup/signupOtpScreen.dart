@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../shared/verifyOtpScreen.dart';
-import '../../location/searchApartmentScreen.dart';
 import '../../tabbar.dart';
+import './signupProfileScreen.dart';
 
 class SignupOtpScreen extends StatelessWidget {
   static final route = 'signupOtp';
@@ -15,7 +15,8 @@ class SignupOtpScreen extends StatelessWidget {
       phone: phoneNumber,
       onVerification: (final json) {
         if (json['message'] == 'createUser') {
-          Navigator.pushNamed(context, SearchApartmentScreen.route);
+          Navigator.pushNamed(context, SignupProfileScreen.route,
+              arguments: phoneNumber);
         } else {
           // TODO: save user information
           Navigator.pushNamed(context, Tabbar.route);

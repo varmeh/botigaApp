@@ -29,7 +29,6 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _aptFormKey = GlobalKey<FormState>();
     _aptFocusNode = FocusNode();

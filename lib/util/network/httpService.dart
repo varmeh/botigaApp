@@ -21,9 +21,10 @@ class Http {
     Map<String, String> headers,
     Map<String, String> body,
   }) async {
+    final _headers = headers == null ? {} : headers;
     final response = await http.post(
       '$_baseUrl$url',
-      headers: {..._globalHeaders, ...headers},
+      headers: {..._globalHeaders, ..._headers},
       body: json.encode(body),
     );
     return toJson(response);
@@ -34,9 +35,10 @@ class Http {
     Map<String, String> headers,
     Map<String, String> body,
   }) async {
+    final _headers = headers == null ? {} : headers;
     final response = await http.post(
       '$_baseUrl$url',
-      headers: {..._globalHeaders, ...headers},
+      headers: {..._globalHeaders, ..._headers},
       body: json.encode(body),
     );
     return toJson(response);
@@ -50,7 +52,7 @@ class Http {
 
   static dynamic toJson(http.Response response) {
     final decode = json.decode(response.body);
-    if (response.statusCode >= 500) {
+    if (response.statusCode >= 400) {
       return Future.error(decode['message']);
     } else {
       return decode;
