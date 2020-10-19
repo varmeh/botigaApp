@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../shared/verifyOtpScreen.dart';
-import '../../location/locationPermissionModal.dart';
+import '../../location/searchApartmentScreen.dart';
+import '../../tabbar.dart';
 
 class SignupOtpScreen extends StatelessWidget {
   static final route = 'signupOtp';
@@ -12,8 +13,13 @@ class SignupOtpScreen extends StatelessWidget {
 
     return VerifyOtpScreen(
       phone: phoneNumber,
-      onVerification: () {
-        LocationPermissionModal().show(context);
+      onVerification: (final json) {
+        if (json['message'] == 'createUser') {
+          Navigator.pushNamed(context, SearchApartmentScreen.route);
+        } else {
+          // TODO: save user information
+          Navigator.pushNamed(context, Tabbar.route);
+        }
       },
     );
   }

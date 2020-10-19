@@ -22,10 +22,13 @@ class VerifyOtpScreen extends StatefulWidget {
 
 class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   GlobalKey<FormState> _form = GlobalKey();
-  String pinValue = '';
+  String _pinValue = '';
 
   Timer _timer;
   int _start;
+  bool _verify = false;
+
+  String _sessionId;
 
   @override
   void initState() {
@@ -42,25 +45,40 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   @override
   Widget build(BuildContext context) {
     const sizedBox = SizedBox(height: 32);
-
-    return Background(
-      title: 'Verify OTP',
-      backNavigation: true,
-      child: Column(
-        children: [
-          sizedBox,
-          Text(
-            'Please enter OTP sent to your phone number ${widget.phone}',
-            style: AppTheme.textStyle.w500.color100.size(15).lineHeight(1.3),
-          ),
-          sizedBox,
-          otpForm(),
-          SizedBox(height: 12),
-          resendWidget(),
-          SizedBox(height: 16),
-          verifyButton(),
-        ],
-      ),
+    return FutureBuilder(
+      future: _verify ? getOtp() : null,
+      builder: (context, snapshot) {
+        return Stack(
+          children: [
+            Background(
+              title: 'Verify OTP',
+              backNavigation: true,
+              child: Column(
+                children: [
+                  sizedBox,
+                  Text(
+                    'Please enter OTP sent to your phone number ${widget.phone}',
+                    style: AppTheme.textStyle.w500.color100
+                        .size(15)
+                        .lineHeight(1.3),
+                  ),
+                  sizedBox,
+                  otpForm(),
+                  SizedBox(height: 12),
+                  resendWidget(),
+                  SizedBox(height: 16),
+                  verifyButton(),
+                ],
+              ),
+            ),
+            snapshot.connectionState == ConnectionState.waiting
+                ? Center(
+                    child: Loader(),
+                  )
+                : Container()
+          ],
+        );
+      },
     );
   }
 
@@ -69,7 +87,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
       key: _form,
       child: PinTextField(
         pins: 6,
-        onSaved: (val) => pinValue = val,
+        onSaved: (val) => _pinValue = val,
       ),
     );
   }
@@ -109,10 +127,20 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
       title: 'Verify',
       onPressed: () {
         if (_form.currentState.validate()) {
-          _form.currentState.save(); //value saved in pinValue
-          // TODO: verify pin
+          _form.currentState.save(); //value saved in _pinValue
 
-          widget.onVerification();
+          Http.post('/api/user/auth/otp/verify', body: {
+            'phone': widget.phone,
+            'sessionId': _sessionId,
+            'otpVal': _pinValue
+          }).then((value) {
+            widget.onVerification(value);
+          }).catchError((error) {
+            Toast(
+              message: 'OTP verification failed. Try again',
+              iconData: Icons.error_outline,
+            ).show(context);
+          });
         }
       },
     );
@@ -122,6 +150,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     try {
       startTimer();
       final json = await Http.get('/api/user/auth/otp/9910057231');
+      _sessionId = json['sessionId'];
     } catch (error) {
       setState(() {
         _start = 0;
