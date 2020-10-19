@@ -134,7 +134,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
             'sessionId': _sessionId,
             'otpVal': _pinValue,
           }, headers: {
-            'x-mock-response-code': '201',
+            'x-mock-response-code': '200',
           }).then((value) {
             widget.onVerification(value);
           }).catchError((error) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../models/apartmentModel.dart';
 import '../../util/index.dart' show Http, HttpServiceExceptionWidget;
 import '../../theme/index.dart';
 import '../../widgets/index.dart'
@@ -20,7 +21,7 @@ class SearchApartmentScreen extends StatefulWidget {
 }
 
 class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
-  final List _apartments = [];
+  final List<ApartmentModel> _apartments = [];
   String _query = '';
 
   GlobalKey<FormState> _aptFormKey;
@@ -54,7 +55,7 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
           child: Column(
             children: [
               SearchBar(
-                placeholder: 'Apartment or Area or City',
+                placeholder: 'Apartment / Area / City / Pincode',
                 onSubmit: (value) {
                   setState(() {
                     _query = value;
@@ -110,23 +111,23 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
   }
 
   Widget _apartmentTile(int index) {
-    final _apartment = _apartments[index];
+    final apartment = _apartments[index];
 
     return GestureDetector(
       onTap: () {
-        _showApartmentInfoDialog(context);
+        _showApartmentInfoDialog(context, apartment);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 20.0),
           Text(
-            _apartment,
+            apartment.name,
             style: AppTheme.textStyle.w500.color100.size(17.0).lineHeight(1.3),
           ),
           SizedBox(height: 8.0),
           Text(
-            'Jala Hobli, Vidhya Nagar Cross, Huttanahalli, Bengaluru, Karnataka 562157',
+            '${apartment.area}, ${apartment.city}, ${apartment.state} - ${apartment.pincode}',
             style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
           ),
           SizedBox(height: 20.0),
@@ -158,7 +159,8 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
     );
   }
 
-  void _showApartmentInfoDialog(BuildContext context) {
+  void _showApartmentInfoDialog(
+      BuildContext context, ApartmentModel apartment) {
     const sizedBox24 = SizedBox(height: 24);
 
     BotigaBottomModal(
@@ -183,12 +185,12 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
           ),
           sizedBox24,
           Text(
-            'Adarsh Palm Retreat',
+            apartment.name,
             style: AppTheme.textStyle.w500.color100.size(17.0).lineHeight(1.3),
           ),
           SizedBox(height: 8.0),
           Text(
-            'Jala Hobli, Vidhya Nagar Cross, Huttanahalli, Bengaluru, Karnataka 562157',
+            '${apartment.area}, ${apartment.city}, ${apartment.state} - ${apartment.pincode}',
             style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
           ),
           sizedBox24,
@@ -216,9 +218,10 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
 
   Future<void> getApartments() async {
     try {
-      final json = await Http.get('/api/services/cities');
+      final json = await Http.get('/api/services/apartments/search?text=');
       _apartments.clear();
-      json.forEach((city) => _apartments.add(city));
+      json.forEach(
+          (apartment) => _apartments.add(ApartmentModel.fromJson(apartment)));
     } catch (error) {
       Toast(
         message: error,

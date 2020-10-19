@@ -7,6 +7,12 @@ Botiga eCommerce Platform hosts 2 mobile apps:
 
 These apps essentially covers the 2 aspects of marketplace - `supply` & `demand`
 
+## Command to generate models using json_serializable
+
+```
+flutter pub run build_runner build --delete-conflicting-outputs
+```
+
 ## Custom Icons
 
 -   Custom icons added using [Flutter Icon Generator](https://www.fluttericon.com/).
