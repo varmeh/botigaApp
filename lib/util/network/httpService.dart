@@ -57,17 +57,3 @@ class Http {
     }
   }
 }
-
-class HttpService {
-  static String url(String url) {
-    return '${Flavor.shared.baseUrl}$url';
-  }
-
-  static dynamic parse(http.Response response) {
-    if (response.statusCode >= 500) {
-      throw Exception('Server Error');
-    } else {
-      return json.decode(response.body);
-    }
-  }
-}

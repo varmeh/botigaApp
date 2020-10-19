@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
-import '../../util/index.dart' show HttpService, HttpServiceExceptionWidget;
+import '../../util/index.dart' show Http, HttpServiceExceptionWidget;
 import '../../theme/index.dart';
 import '../../widgets/index.dart'
     show
@@ -10,7 +9,8 @@ import '../../widgets/index.dart'
         SearchBar,
         BotigaTextFieldForm,
         FullWidthButton,
-        BotigaBottomModal;
+        BotigaBottomModal,
+        Toast;
 
 class SearchApartmentScreen extends StatefulWidget {
   static final String route = 'searchApartment';
@@ -215,12 +215,15 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
   }
 
   Future<void> getApartments() async {
-    final response = await http.get(
-      HttpService.url('/api/services/cities'),
-    );
-
-    final json = HttpService.parse(response);
-    _apartments.clear();
-    json.forEach((city) => _apartments.add(city));
+    try {
+      final json = await Http.get('/api/services/cities');
+      _apartments.clear();
+      json.forEach((city) => _apartments.add(city));
+    } catch (error) {
+      Toast(
+        message: error,
+        iconData: Icons.error_outline,
+      ).show(context);
+    }
   }
 }

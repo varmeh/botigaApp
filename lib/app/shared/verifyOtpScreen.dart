@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:botiga/widgets/toast.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import '../../util/index.dart';
 import '../../theme/index.dart';
@@ -124,7 +123,6 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   Future<void> getOtp() async {
     try {
       final json = await Http.get('/api/user/auth/otp/9910057231');
-      print('json: $json');
     } catch (error) {
       Toast(
         message: error,

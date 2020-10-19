@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import '../../util/index.dart';
 import '../../widgets/index.dart';
@@ -19,7 +18,7 @@ class SelectCityScreen extends StatelessWidget {
           color: AppTheme.backgroundColor,
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: FutureBuilder(
-            future: getCities(),
+            future: getCities(context),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Loader();
@@ -80,12 +79,15 @@ class SelectCityScreen extends StatelessWidget {
     );
   }
 
-  Future<void> getCities() async {
-    final response = await http.get(
-      HttpService.url('/api/services/cities'),
-    );
-
-    final json = HttpService.parse(response);
-    json.forEach((city) => _cities.add(city));
+  Future<void> getCities(BuildContext context) async {
+    try {
+      final json = await Http.get('/api/services/cities');
+      json.forEach((city) => _cities.add(city));
+    } catch (error) {
+      Toast(
+        message: error,
+        iconData: Icons.error_outline,
+      ).show(context);
+    }
   }
 }
