@@ -136,9 +136,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
             style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
           ),
           sizedBox24,
-          _spanButton('Change Address', () {
-            Navigator.pushNamed(context, SearchApartmentScreen.route);
-          })
+          _spanButton(
+            'Change Address',
+            () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchApartmentScreen(
+                    onSelection: () {
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                    },
+                  ),
+                ),
+              );
+            },
+          )
         ],
       ),
     );
