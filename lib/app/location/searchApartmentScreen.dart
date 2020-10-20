@@ -245,8 +245,7 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
         });
         widget.onSelection();
       } catch (error) {
-        Toast(message: Http.message(error), iconData: Icons.error_outline)
-            .show(context);
+        Toast(message: Http.message(error)).show(context);
       } finally {
         _bottomModal.animation(false);
       }
