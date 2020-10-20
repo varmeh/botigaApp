@@ -6,7 +6,6 @@ import '../../theme/index.dart';
 import '../../widgets/index.dart'
     show
         BotigaAppBar,
-        Loader,
         LoaderOverlay,
         SearchBar,
         BotigaTextFieldForm,
