@@ -215,6 +215,8 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
         ],
       ),
     );
+
+    // Show bottom modal
     _bottomModal.show(context);
   }
 

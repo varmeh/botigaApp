@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/loader.dart';
+import '../widgets/index.dart' show LoaderOverlay;
 import '../theme/index.dart';
 
 /*
@@ -31,39 +31,36 @@ class BotigaBottomModal {
         return StatefulBuilder(
           builder: (context, setState) {
             animation = (value) => setState(() => _isLoading = value);
-            return Container(
-              margin: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              decoration: BoxDecoration(
-                color: color ?? AppTheme.backgroundColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(16.0),
-                  topRight: const Radius.circular(16.0),
+            return LoaderOverlay(
+              isLoading: _isLoading,
+              child: Container(
+                width: double.infinity,
+                margin: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                decoration: BoxDecoration(
+                  color: color ?? AppTheme.backgroundColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: const Radius.circular(16.0),
+                    topRight: const Radius.circular(16.0),
+                  ),
                 ),
-              ),
-              padding: const EdgeInsets.only(
-                left: 22.0,
-                right: 22.0,
-                top: 42.0,
-                bottom: 32.0,
-              ),
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  Column(
-                    mainAxisAlignment: child.mainAxisAlignment,
-                    crossAxisAlignment: child.crossAxisAlignment,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [...child.children],
-                  ),
-                  Positioned.fill(
-                    child: _isLoading
-                        ? Center(
-                            child: Loader(),
-                          )
-                        : Container(),
-                  ),
-                ],
+                padding: const EdgeInsets.only(
+                  left: 22.0,
+                  right: 22.0,
+                  top: 42.0,
+                  bottom: 32.0,
+                ),
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    Column(
+                      mainAxisAlignment: child.mainAxisAlignment,
+                      crossAxisAlignment: child.crossAxisAlignment,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [...child.children],
+                    ),
+                  ],
+                ),
               ),
             );
           },

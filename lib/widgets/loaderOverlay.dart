@@ -1,4 +1,3 @@
-import 'package:botiga/widgets/index.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/appTheme.dart';
@@ -18,14 +17,18 @@ class LoaderOverlay extends StatelessWidget {
     widgets.add(child);
 
     if (isLoading) {
-      final modal = ModalBarrier(
-        dismissible: false,
-        color: Colors.transparent,
+      final modal = Positioned.fill(
+        child: ModalBarrier(
+          dismissible: false,
+          color: Colors.transparent,
+        ),
       );
 
-      final progressIndicator = Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primaryColor),
+      final progressIndicator = Positioned.fill(
+        child: Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primaryColor),
+          ),
         ),
       );
 
