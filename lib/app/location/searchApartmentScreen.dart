@@ -7,6 +7,7 @@ import '../../widgets/index.dart'
     show
         BotigaAppBar,
         Loader,
+        LoaderOverlay,
         SearchBar,
         BotigaTextFieldForm,
         FullWidthButton,
@@ -82,9 +83,7 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
     return FutureBuilder(
       future: getApartments(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Loader();
-        } else if (snapshot.hasError) {
+        if (snapshot.hasError) {
           return HttpServiceExceptionWidget(
             exception: snapshot.error,
             onTap: () {
@@ -93,15 +92,18 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
             },
           );
         } else {
-          return Container(
-            padding: EdgeInsets.symmetric(horizontal: 4.0),
-            child: ListView.builder(
-              itemCount: _apartments.length + 1,
-              itemBuilder: (context, index) {
-                return index < _apartments.length
-                    ? _apartmentTile(index)
-                    : _missingApartmentMessage();
-              },
+          return LoaderOverlay(
+            isLoading: snapshot.connectionState == ConnectionState.waiting,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 4.0),
+              child: ListView.builder(
+                itemCount: _apartments.length + 1,
+                itemBuilder: (context, index) {
+                  return index < _apartments.length
+                      ? _apartmentTile(index)
+                      : _missingApartmentMessage();
+                },
+              ),
             ),
           );
         }
