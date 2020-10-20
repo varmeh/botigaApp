@@ -193,17 +193,14 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
         }, headers: {
           'x-mock-response-code': '201',
         });
-        setState(() => _isLoading = false);
         Navigator.pushNamed(
           context,
           SignupApartmentScreen.route,
         );
       } catch (error) {
+        Toast(message: Http.message(error)).show(context);
+      } finally {
         setState(() => _isLoading = false);
-        Toast(
-          message: error,
-          iconData: Icons.error_outline,
-        ).show(context);
       }
     }
   }

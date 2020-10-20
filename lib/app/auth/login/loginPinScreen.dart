@@ -78,15 +78,12 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
               'x-mock-response-code': '200',
             });
 
-            setState(() => _isLoading = false);
             Navigator.of(context)
                 .pushNamedAndRemoveUntil(Tabbar.route, (route) => false);
           } catch (error) {
+            Toast(message: Http.message(error)).show(context);
+          } finally {
             setState(() => _isLoading = false);
-            Toast(
-              message: error.toString(),
-              iconData: Icons.error_outline,
-            ).show(context);
           }
         }
       },

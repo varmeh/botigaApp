@@ -180,15 +180,11 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
         }, headers: {
           'x-mock-response-code': '200',
         });
-        setState(() => _isLoading = false);
         Navigator.pop(context);
       } catch (error) {
+        Toast(message: Http.message(error)).show(context);
+      } finally {
         setState(() => _isLoading = false);
-
-        Toast(
-          message: Http.message(error),
-          iconData: Icons.error_outline,
-        ).show(context);
       }
     }
   }

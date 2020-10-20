@@ -84,10 +84,7 @@ class SelectCityScreen extends StatelessWidget {
       final json = await Http.get('/api/services/cities');
       json.forEach((city) => _cities.add(city));
     } catch (error) {
-      Toast(
-        message: error,
-        iconData: Icons.error_outline,
-      ).show(context);
+      Toast(message: Http.message(error)).show(context);
     }
   }
 }

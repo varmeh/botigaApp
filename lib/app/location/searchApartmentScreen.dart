@@ -229,29 +229,27 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
       json.forEach(
           (apartment) => _apartments.add(ApartmentModel.fromJson(apartment)));
     } catch (error) {
-      Toast(
-        message: error,
-        iconData: Icons.error_outline,
-      ).show(context);
+      Toast(message: Http.message(error)).show(context);
     }
   }
 
-  void _submitApartment(ApartmentModel apartment) {
+  void _submitApartment(ApartmentModel apartment) async {
     FocusScope.of(context).unfocus();
     _bottomModal.animation(true);
     if (_aptFormKey.currentState.validate()) {
       _aptFormKey.currentState.save();
-      Http.patch('/api/user/auth/address', body: {
-        'apartmentId': apartment.id,
-        'house': _houseNumber,
-      }).then((_) {
-        _bottomModal.animation(false);
+      try {
+        await Http.patch('/api/user/auth/address', body: {
+          'apartmentId': apartment.id,
+          'house': _houseNumber,
+        });
         widget.onSelection();
-      }).catchError((error) {
-        _bottomModal.animation(false);
-        Toast(message: error.toString(), iconData: Icons.error_outline)
+      } catch (error) {
+        Toast(message: Http.message(error), iconData: Icons.error_outline)
             .show(context);
-      });
+      } finally {
+        _bottomModal.animation(false);
+      }
     }
   }
 }

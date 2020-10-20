@@ -140,10 +140,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     } catch (error) {
       stopTimer();
 
-      Toast(
-        message: error,
-        iconData: Icons.error_outline,
-      ).show(context);
+      Toast(message: Http.message(error)).show(context);
     }
   }
 
@@ -156,14 +153,11 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
       }, headers: {
         'x-mock-response-code': '200',
       });
-      setState(() => _verify = false);
       widget.onVerification(json);
     } catch (error) {
+      Toast(message: Http.message(error)).show(context);
+    } finally {
       setState(() => _verify = false);
-      Toast(
-        message: 'OTP verification failed. Try again',
-        iconData: Icons.error_outline,
-      ).show(context);
     }
   }
 }

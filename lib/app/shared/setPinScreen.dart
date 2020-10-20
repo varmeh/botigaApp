@@ -94,18 +94,14 @@ class _SetPinScreenState extends State<SetPinScreen>
             setState(() => _isLoading = true);
             try {
               await Http.patch('/api/user/auth/pin', body: {'pin': pinValue});
-
-              setState(() => _isLoading = false);
               BotigaBottomModal(
                 isDismissible: false,
                 child: setPinSuccessful(),
               ).show(context);
             } catch (error) {
+              Toast(message: Http.message(error)).show(context);
+            } finally {
               setState(() => _isLoading = false);
-              Toast(
-                message: error.toString(),
-                iconData: Icons.error_outline,
-              ).show(context);
             }
           }
         },

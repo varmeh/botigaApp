@@ -7,7 +7,7 @@ class Toast {
   final String message;
   final IconData iconData;
 
-  Toast({@required this.message, this.iconData});
+  Toast({@required this.message, this.iconData = Icons.error_outline});
 
   void show(BuildContext context) {
     Flushbar(
