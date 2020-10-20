@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../theme/index.dart';
-import '../../widgets/index.dart';
+import '../../widgets/index.dart'
+    show LoaderOverlay, BotigaAppBar, BotigaBottomModal, PinTextField, Toast;
 import '../../util/index.dart' show Http;
 
 import '../tabbar.dart';
@@ -19,6 +20,7 @@ class _SetPinScreenState extends State<SetPinScreen>
   GlobalKey<FormState> _form = GlobalKey();
   String pinValue = '';
   AnimationController _controller;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -36,27 +38,31 @@ class _SetPinScreenState extends State<SetPinScreen>
 
   @override
   Widget build(BuildContext context) {
-    final String message = ModalRoute.of(context).settings.arguments;
+    final String message = ModalRoute.of(context).settings.arguments ?? '';
     const sizedBox = SizedBox(height: 32);
 
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: BotigaAppBar('Set PIN'),
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            children: [
-              sizedBox,
-              Text(
-                message,
-                style: AppTheme.textStyle.w500.color50.size(13).lineHeight(1.5),
-              ),
-              sizedBox,
-              pinTextField(),
-              sizedBox,
-              setPinButton(context),
-            ],
+      body: LoaderOverlay(
+        isLoading: _isLoading,
+        child: SafeArea(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              children: [
+                sizedBox,
+                Text(
+                  message,
+                  style:
+                      AppTheme.textStyle.w500.color50.size(13).lineHeight(1.5),
+                ),
+                sizedBox,
+                pinTextField(),
+                sizedBox,
+                setPinButton(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -81,15 +87,26 @@ class _SetPinScreenState extends State<SetPinScreen>
         shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(8.0),
         ),
-        onPressed: () {
+        onPressed: () async {
           if (_form.currentState.validate()) {
             _form.currentState.save(); //value saved in pinValue
-            Http.patch('/api/user/auth/pin', body: {'pin': pinValue})
-                .then(
-                  (_) => BotigaBottomModal(child: setPinSuccessful())
-                      .show(context),
-                )
-                .catchError((error) {});
+
+            setState(() => _isLoading = true);
+            try {
+              await Http.patch('/api/user/auth/pin', body: {'pin': pinValue});
+
+              setState(() => _isLoading = false);
+              BotigaBottomModal(
+                isDismissible: false,
+                child: setPinSuccessful(),
+              ).show(context);
+            } catch (error) {
+              setState(() => _isLoading = false);
+              Toast(
+                message: error.toString(),
+                iconData: Icons.error_outline,
+              ).show(context);
+            }
           }
         },
         color: AppTheme.primaryColor,

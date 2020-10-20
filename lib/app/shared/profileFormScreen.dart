@@ -4,7 +4,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../../util/validationExtension.dart';
 import '../../theme/index.dart';
 import '../../widgets/index.dart'
-    show BotigaAppBar, BotigaTextFieldForm, FullWidthButton;
+    show BotigaAppBar, BotigaTextFieldForm, FullWidthButton, LoaderOverlay;
 
 final Function(String) _nameValidator = (value) {
   if (value.isEmpty) {
@@ -43,6 +43,8 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
   String _email;
   String _whatsapp;
 
+  bool _isLoading = false;
+
   GlobalKey<FormState> _formKey;
 
   final _phoneMaskFormatter = MaskTextInputFormatter(
@@ -79,84 +81,87 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: BotigaAppBar(widget.title),
-      body: SafeArea(
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            shrinkWrap: true,
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            children: [
-              widget.description != null
-                  ? Container(
-                      margin: const EdgeInsets.only(bottom: 32.0),
-                      child: Text(
-                        widget.description,
-                        style: AppTheme.textStyle.w500.color50
-                            .size(13.0)
-                            .lineHeight(1.5),
+      body: LoaderOverlay(
+        isLoading: _isLoading,
+        child: SafeArea(
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              shrinkWrap: true,
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              children: [
+                widget.description != null
+                    ? Container(
+                        margin: const EdgeInsets.only(bottom: 32.0),
+                        child: Text(
+                          widget.description,
+                          style: AppTheme.textStyle.w500.color50
+                              .size(13.0)
+                              .lineHeight(1.5),
+                        ),
+                      )
+                    : Container(
+                        height: 32.0,
                       ),
-                    )
-                  : Container(
-                      height: 32.0,
-                    ),
-              BotigaTextFieldForm(
-                focusNode: _firstFocusNode,
-                labelText: 'First Name',
-                onSave: (value) => _firstName = value,
-                nextFocusNode: _lastFocusNode,
-                validator: _nameValidator,
-              ),
-              sizedBox24,
-              BotigaTextFieldForm(
-                focusNode: _lastFocusNode,
-                labelText: 'Last Name',
-                onSave: (value) => _lastName = value,
-                nextFocusNode: _emailFocusNode,
-                validator: _nameValidator,
-              ),
-              sizedBox24,
-              BotigaTextFieldForm(
-                focusNode: _emailFocusNode,
-                labelText: 'Email',
-                onSave: (value) => _email = value,
-                nextFocusNode: _whatsappFocusNode,
-                keyboardType: TextInputType.emailAddress,
-                textCapitalization: TextCapitalization.none,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    // Email is optional
+                BotigaTextFieldForm(
+                  focusNode: _firstFocusNode,
+                  labelText: 'First Name',
+                  onSave: (value) => _firstName = value,
+                  nextFocusNode: _lastFocusNode,
+                  validator: _nameValidator,
+                ),
+                sizedBox24,
+                BotigaTextFieldForm(
+                  focusNode: _lastFocusNode,
+                  labelText: 'Last Name',
+                  onSave: (value) => _lastName = value,
+                  nextFocusNode: _emailFocusNode,
+                  validator: _nameValidator,
+                ),
+                sizedBox24,
+                BotigaTextFieldForm(
+                  focusNode: _emailFocusNode,
+                  labelText: 'Email',
+                  onSave: (value) => _email = value,
+                  nextFocusNode: _whatsappFocusNode,
+                  keyboardType: TextInputType.emailAddress,
+                  textCapitalization: TextCapitalization.none,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      // Email is optional
+                      return null;
+                    } else if (!value.isValidEmail()) {
+                      return 'Please enter a valid email id';
+                    }
                     return null;
-                  } else if (!value.isValidEmail()) {
-                    return 'Please enter a valid email id';
-                  }
-                  return null;
-                },
-              ),
-              sizedBox24,
-              BotigaTextFieldForm(
-                focusNode: _whatsappFocusNode,
-                labelText: 'Whatsapp Number',
-                keyboardType: TextInputType.number,
-                onSave: (_) =>
-                    _whatsapp = _phoneMaskFormatter.getUnmaskedText(),
-                maskFormatter: _phoneMaskFormatter,
-                onChange: (_) {
-                  if (_phoneMaskFormatter.getUnmaskedText().length == 10) {
-                    // hide keyboard as there is no done button on number keyboard
-                    FocusScope.of(context).unfocus();
-                  }
-                },
-                validator: (_) {
-                  if (_phoneMaskFormatter.getUnmaskedText().isEmpty) {
-                    return 'Required';
-                  } else if (_phoneMaskFormatter.getUnmaskedText().length !=
-                      10) {
-                    return 'Please provide a valid 10 digit Mobile Number';
-                  }
-                  return null;
-                },
-              ),
-            ],
+                  },
+                ),
+                sizedBox24,
+                BotigaTextFieldForm(
+                  focusNode: _whatsappFocusNode,
+                  labelText: 'Whatsapp Number',
+                  keyboardType: TextInputType.number,
+                  onSave: (_) =>
+                      _whatsapp = _phoneMaskFormatter.getUnmaskedText(),
+                  maskFormatter: _phoneMaskFormatter,
+                  onChange: (_) {
+                    if (_phoneMaskFormatter.getUnmaskedText().length == 10) {
+                      // hide keyboard as there is no done button on number keyboard
+                      FocusScope.of(context).unfocus();
+                    }
+                  },
+                  validator: (_) {
+                    if (_phoneMaskFormatter.getUnmaskedText().isEmpty) {
+                      return 'Required';
+                    } else if (_phoneMaskFormatter.getUnmaskedText().length !=
+                        10) {
+                      return 'Please provide a valid 10 digit Mobile Number';
+                    }
+                    return null;
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -183,7 +188,6 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      // TODO: api call to create user account
       widget.onPressed(_firstName, _lastName, _email, _whatsapp);
     }
   }
