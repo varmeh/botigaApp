@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../theme/index.dart';
 import '../location/searchApartmentScreen.dart';
 import '../../widgets/contactPartnerWidget.dart';
+import '../auth/login/loginScreen.dart';
 import 'profileUpdateScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -41,7 +42,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _logout() {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamedAndRemoveUntil(
+            context, LoginScreen.route, (route) => false);
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
         child: Row(
