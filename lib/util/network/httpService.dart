@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -13,7 +14,7 @@ class Http {
 
   static Future<dynamic> get(String url) async {
     final response = await http.get('$_baseUrl$url');
-    return toJson(response);
+    return parse(response);
   }
 
   static Future<dynamic> post(
@@ -27,7 +28,7 @@ class Http {
       headers: {..._globalHeaders, ..._headers},
       body: json.encode(body),
     );
-    return toJson(response);
+    return parse(response);
   }
 
   static Future<dynamic> patch(
@@ -41,21 +42,24 @@ class Http {
       headers: {..._globalHeaders, ..._headers},
       body: json.encode(body),
     );
-    return toJson(response);
+    return parse(response);
   }
 
   static Future<dynamic> delete(String url) async {
     final response =
         await http.delete('$_baseUrl$url', headers: _globalHeaders);
-    return toJson(response);
+    return parse(response);
   }
 
-  static dynamic toJson(http.Response response) {
-    final decode = json.decode(response.body);
-    if (response.statusCode >= 400) {
-      return Future.error(decode['message']);
+  static dynamic parse(http.Response response) {
+    if (response.statusCode >= 500) {
+      throw HttpException('Something went wrong');
+    } else if (response.statusCode >= 400) {
+      //  400 =< statusCode < 500
+      final data = json.decode(response.body);
+      throw FormatException(data['message']);
     } else {
-      return decode;
+      return json.decode(response.body);
     }
   }
 }
