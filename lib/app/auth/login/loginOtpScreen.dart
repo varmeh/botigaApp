@@ -11,7 +11,7 @@ class LoginOtpScreen extends StatelessWidget {
 
     return VerifyOtpScreen(
       phone: phoneNumber,
-      onVerification: () {
+      onVerification: (_) {
         Navigator.of(context).pushNamed(
           SetPinScreen.route,
           arguments: 'Set PIN for faster login next time',
