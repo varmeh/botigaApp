@@ -62,4 +62,16 @@ class Http {
       return json.decode(response.body);
     }
   }
+
+  static String message(dynamic exception) {
+    var msg;
+    if (exception is SocketException) {
+      msg = 'No Internet Connection';
+    } else if (exception is HttpException) {
+      msg = exception.message;
+    } else if (exception is FormatException) {
+      msg = exception.message;
+    }
+    return msg;
+  }
 }

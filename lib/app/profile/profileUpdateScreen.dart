@@ -184,8 +184,9 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
         Navigator.pop(context);
       } catch (error) {
         setState(() => _isLoading = false);
+
         Toast(
-          message: error,
+          message: Http.message(error),
           iconData: Icons.error_outline,
         ).show(context);
       }
