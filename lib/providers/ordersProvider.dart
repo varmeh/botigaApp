@@ -17,32 +17,28 @@ class OrdersProvider with ChangeNotifier {
     if (_orders.length > 0) {
       return;
     } else {
-      try {
-        final json =
-            await Http.get('/api/user/orders?limit=10&page=$currentPage');
+      final json =
+          await Http.get('/api/user/orders?limit=10&page=$currentPage');
 
-        pages = json['pages'];
-        currentPage = json['currentPage'];
-        totalOrders = json['totalOrders'];
+      pages = json['pages'];
+      currentPage = json['currentPage'];
+      totalOrders = json['totalOrders'];
 
-        json['orders'].forEach((item) {
-          _orders.add(OrderModel.fromJson(item));
-        });
-      } catch (error) {}
+      json['orders'].forEach((item) {
+        _orders.add(OrderModel.fromJson(item));
+      });
     }
   }
 
   Future<void> nextOrders() async {
     if (currentPage + 1 < pages) {
-      try {
-        final json =
-            await Http.get('/api/user/orders?limit=10&page=${currentPage + 1}');
-        currentPage += 1;
+      final json =
+          await Http.get('/api/user/orders?limit=10&page=${currentPage + 1}');
+      currentPage += 1;
 
-        json['orders'].forEach((item) {
-          _orders.add(OrderModel.fromJson(item));
-        });
-      } catch (error) {}
+      json['orders'].forEach((item) {
+        _orders.add(OrderModel.fromJson(item));
+      });
     }
   }
 
