@@ -29,6 +29,23 @@ class Http {
     return parse(response);
   }
 
+  static Future<dynamic> postAuth(
+    String url, {
+    Map<String, String> body,
+  }) async {
+    final response = await http.post(
+      '$_baseUrl$url',
+      headers: {..._globalHeaders},
+      body: json.encode(body),
+    );
+
+    if (response.headers['Authorization'] != null) {
+      _token = response.headers['Authorization'];
+      await Token.write(_token); // save token to persistence storage
+    }
+    return parse(response);
+  }
+
   static Future<dynamic> post(
     String url, {
     Map<String, String> headers,
