@@ -15,3 +15,4 @@ export 'fullWidthButton.dart';
 export 'botigaBottomModal.dart';
 export 'toast.dart';
 export 'loaderOverlay.dart';
+export 'httpExceptionWidget.dart';

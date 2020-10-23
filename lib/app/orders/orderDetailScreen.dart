@@ -6,8 +6,7 @@ import '../../providers/ordersProvider.dart';
 import '../../theme/index.dart';
 import '../../models/orderModel.dart';
 import '../../widgets/index.dart'
-    show ContactPartnerWidget, Loader, BotigaAppBar;
-import '../../util/index.dart' show HttpServiceExceptionWidget;
+    show ContactPartnerWidget, Loader, BotigaAppBar, HttpServiceExceptionWidget;
 
 class OrderDetailScreen extends StatefulWidget {
   static const route = 'orderDetails';

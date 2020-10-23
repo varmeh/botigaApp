@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 
-import '../../widgets/lottieScreen.dart';
+import 'lottieScreen.dart';
 
 class HttpServiceExceptionWidget extends StatelessWidget {
   final Exception exception;

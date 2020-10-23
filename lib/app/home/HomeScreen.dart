@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import '../../models/sellerModel.dart';
 import '../../providers/index.dart' show SellersProvider;
 
-import '../../util/index.dart' show HttpServiceExceptionWidget;
-import '../../widgets/index.dart' show BrandingTile, InviteTile, Loader;
+import '../../widgets/index.dart'
+    show BrandingTile, InviteTile, Loader, HttpServiceExceptionWidget;
 import '../../theme/index.dart';
 import 'products/productListScreen.dart';
 

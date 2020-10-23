@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/apartmentModel.dart';
-import '../../util/index.dart' show Http, HttpServiceExceptionWidget;
+import '../../util/index.dart' show Http;
 import '../../theme/index.dart';
 import '../../widgets/index.dart'
     show
@@ -11,7 +11,8 @@ import '../../widgets/index.dart'
         BotigaTextFieldForm,
         FullWidthButton,
         BotigaBottomModal,
-        Toast;
+        Toast,
+        HttpServiceExceptionWidget;
 
 class SearchApartmentScreen extends StatefulWidget {
   static final String route = 'searchApartment';

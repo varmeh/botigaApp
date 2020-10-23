@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../index.dart' show Flavor, Token;
+import 'index.dart' show Flavor, Token;
 
 class Http {
   static final _baseUrl = Flavor.shared.baseUrl;

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../util/index.dart';
-import '../../widgets/index.dart';
+import '../../util/index.dart' show Http;
+import '../../widgets/index.dart'
+    show BotigaAppBar, Loader, HttpServiceExceptionWidget, Toast;
 import '../../theme/index.dart';
 
 class SelectCityScreen extends StatelessWidget {

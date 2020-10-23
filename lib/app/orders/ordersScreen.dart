@@ -4,10 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:animations/animations.dart';
 
 import '../../models/orderModel.dart';
-import '../../util/index.dart' show HttpServiceExceptionWidget;
 import '../../providers/ordersProvider.dart';
 import '../../theme/index.dart';
-import '../../widgets/loader.dart';
+import '../../widgets/index.dart' show Loader, HttpServiceExceptionWidget;
 
 import '../tabbar.dart';
 import 'orderDetailScreen.dart';
