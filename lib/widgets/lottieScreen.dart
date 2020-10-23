@@ -23,6 +23,7 @@ class LottieScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     const sizedBox = SizedBox(height: 24);
     return Scaffold(
+      backgroundColor: AppTheme.backgroundColor,
       body: SafeArea(
         child: Center(
           child: Column(
