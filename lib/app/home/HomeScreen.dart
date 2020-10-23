@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/sellerModel.dart';
-import '../../providers/index.dart' show SellersProvider;
+import '../../providers/index.dart' show SellersProvider, UserProvider;
 
 import '../../widgets/index.dart'
     show BrandingTile, InviteTile, Loader, HttpServiceExceptionWidget;
@@ -14,8 +14,11 @@ import '../tabbar.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _userProvider = Provider.of<UserProvider>(context);
+
     return FutureBuilder(
-      future: Provider.of<SellersProvider>(context, listen: false).getSellers(),
+      future: Provider.of<SellersProvider>(context, listen: false)
+          .getSellers(_userProvider.apartmentId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Loader();
@@ -41,10 +44,16 @@ class HomeScreen extends StatelessWidget {
                 itemCount: provider.sellerList.length + 3,
                 itemBuilder: (context, index) {
                   if (index == 0) {
-                    return appBar(context, provider.sellerList.length);
+                    return appBar(
+                      context,
+                      _userProvider.firstName,
+                      provider.sellerList.length,
+                    );
                   } else if (index <= provider.sellerList.length) {
                     return _sellersTile(
-                        context, provider.sellerList[index - 1]);
+                      context,
+                      provider.sellerList[index - 1],
+                    );
                   } else if (index == provider.sellerList.length + 1) {
                     return Container(
                       color: AppTheme.backgroundColor,
@@ -66,7 +75,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget appBar(BuildContext context, int numberOfMerchants) {
+  Widget appBar(BuildContext context, String name, int numberOfMerchants) {
     return Material(
       child: Container(
         width: double.infinity,
@@ -88,7 +97,7 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Hi Varun', //TODO: remove name hard coding
+                'Hi $name', //TODO: remove name hard coding
                 style: AppTheme.textStyle.w700
                     .size(22.0)
                     .lineHeight(1.2)

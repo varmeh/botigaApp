@@ -21,6 +21,8 @@ class UserProvider with ChangeNotifier {
     }
   }
 
+  String get apartmentId => address.id;
+
   Future<void> getProfile() async {
     if (firstName != null) {
       return;

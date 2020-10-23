@@ -10,11 +10,11 @@ class SellersProvider with ChangeNotifier {
   UnmodifiableListView<SellerModel> get sellerList =>
       UnmodifiableListView(_sellerList);
 
-  Future<void> getSellers() async {
+  Future<void> getSellers(String apartmentId) async {
     if (_sellerList.length > 0) {
       return;
     } else {
-      final json = await Http.get('/api/user/sellers/5f5a35d281710e963e530a5b');
+      final json = await Http.get('/api/user/sellers/$apartmentId');
       final _sellerIterable = json.map(
         (item) => SellerModel.fromJson(item),
       );
