@@ -244,7 +244,7 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
       try {
         await Provider.of<UserProvider>(context, listen: false).updateApartment(
           house: _houseNumber,
-          apartmentId: apartment.id,
+          apartment: apartment,
         );
         widget.onSelection();
       } catch (error) {

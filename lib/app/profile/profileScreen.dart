@@ -75,8 +75,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return GestureDetector(
       onTap: () async {
         try {
-          await Token.delete();
           await provider.logout();
+          await Token.delete();
 
           Navigator.pushNamedAndRemoveUntil(
             context,
@@ -121,7 +121,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _infoTile('assets/images/smile.png',
               '${provider.firstName} ${provider.lastName}'),
           sizedBox8,
-          _infoTile('assets/images/email.png', provider.email),
+          _infoTile(
+              'assets/images/email.png', provider.email ?? 'Add your email'),
           sizedBox8,
           _infoTile('assets/images/whatsappOutline.png', provider.whatsapp),
           sizedBox24,

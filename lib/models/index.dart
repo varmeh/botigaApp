@@ -4,3 +4,4 @@ export 'productModel.dart';
 export 'categoryModel.dart';
 export 'orderModel.dart';
 export 'addressModel.dart';
+export 'apartmentModel.dart';

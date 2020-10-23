@@ -55,7 +55,7 @@ class Http {
     final response = await http.post(
       '$_baseUrl$url',
       headers: {'Authorization': _token, ..._globalHeaders, ..._headers},
-      body: json.encode(body),
+      body: body != null ? json.encode(body) : null,
     );
     return parse(response);
   }
@@ -83,6 +83,10 @@ class Http {
   }
 
   static dynamic parse(http.Response response) {
+    if (response.statusCode == 204) {
+      return;
+    }
+
     final data = json.decode(response.body);
     if (response.statusCode >= 500) {
       final msg =

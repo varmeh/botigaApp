@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/addressModel.dart';
+import '../models/index.dart' show AddressModel, ApartmentModel;
 import '../util/index.dart' show Http;
 
 class UserProvider with ChangeNotifier {
@@ -73,11 +73,22 @@ class UserProvider with ChangeNotifier {
 
   Future<void> updateApartment({
     @required String house,
-    @required String apartmentId,
+    @required ApartmentModel apartment,
   }) async {
     await Http.patch('/api/user/auth/address', body: {
-      'apartmentId': apartmentId,
+      'apartmentId': apartment.id,
       'house': house,
     });
+
+    // If successful, update apartment information in provider
+    address = AddressModel(
+      id: apartment.id,
+      house: house,
+      apartment: apartment.name,
+      area: apartment.area,
+      city: apartment.city,
+      state: apartment.state,
+      pincode: apartment.pincode,
+    );
   }
 }
