@@ -70,4 +70,14 @@ class UserProvider with ChangeNotifier {
 
     _fillProvider(json);
   }
+
+  Future<void> updateApartment({
+    @required String house,
+    @required String apartmentId,
+  }) async {
+    await Http.patch('/api/user/auth/address', body: {
+      'apartmentId': apartmentId,
+      'house': house,
+    });
+  }
 }

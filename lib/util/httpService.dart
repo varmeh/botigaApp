@@ -39,8 +39,8 @@ class Http {
       body: json.encode(body),
     );
 
-    if (response.headers['Authorization'] != null) {
-      _token = response.headers['Authorization'];
+    if (response.headers['authorization'] != null) {
+      _token = response.headers['authorization'];
       await Token.write(_token); // save token to persistence storage
     }
     return parse(response);

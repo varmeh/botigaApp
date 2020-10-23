@@ -9,7 +9,7 @@ class Token {
   }
 
   static Future<void> write(String value) async {
-    return _storage.write(key: _tokenKey, value: value);
+    return await _storage.write(key: _tokenKey, value: value);
   }
 
   static Future<void> delete() async {

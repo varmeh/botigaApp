@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/userProvider.dart';
 import '../../models/apartmentModel.dart';
 import '../../util/index.dart' show Http;
 import '../../theme/index.dart';
@@ -240,10 +242,10 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
     if (_aptFormKey.currentState.validate()) {
       _aptFormKey.currentState.save();
       try {
-        await Http.patch('/api/user/auth/address', body: {
-          'apartmentId': apartment.id,
-          'house': _houseNumber,
-        });
+        await Provider.of<UserProvider>(context, listen: false).updateApartment(
+          house: _houseNumber,
+          apartmentId: apartment.id,
+        );
         widget.onSelection();
       } catch (error) {
         Toast(message: Http.message(error)).show(context);
