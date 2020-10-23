@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/addressModel.dart';
+import '../../util/index.dart' show Token, Http;
 import '../tabbar.dart';
 import '../../widgets/index.dart'
-    show Loader, HttpServiceExceptionWidget, ContactPartnerWidget;
+    show Loader, HttpServiceExceptionWidget, ContactPartnerWidget, Toast;
 import '../../providers/userProvider.dart';
 import '../../theme/index.dart';
 import '../location/searchApartmentScreen.dart';
@@ -59,7 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   divider,
                   _support(),
                   divider,
-                  _logout(),
+                  _logout(provider),
                   SizedBox(height: 100.0)
                 ],
               ),
@@ -70,11 +71,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-  Widget _logout() {
+  Widget _logout(UserProvider provider) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamedAndRemoveUntil(
-            context, LoginScreen.route, (route) => false);
+      onTap: () async {
+        try {
+          await Token.delete();
+          await provider.logout();
+
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            LoginScreen.route,
+            (route) => false,
+          );
+        } catch (error) {
+          Toast(message: Http.message(error)).show(context);
+        }
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),

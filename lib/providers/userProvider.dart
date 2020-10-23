@@ -23,4 +23,8 @@ class UserProvider with ChangeNotifier {
     address = AddressModel.fromJson(json['address']);
     return this;
   }
+
+  Future<void> logout() async {
+    await Http.post('/api/user/auth/signout');
+  }
 }
