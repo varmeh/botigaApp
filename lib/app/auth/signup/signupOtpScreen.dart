@@ -13,8 +13,8 @@ class SignupOtpScreen extends StatelessWidget {
 
     return VerifyOtpScreen(
       phone: phoneNumber,
-      onVerification: (final json) {
-        if (json['message'] == 'createUser') {
+      onVerification: (bool newUser) {
+        if (newUser) {
           Navigator.pushNamed(context, SignupProfileScreen.route,
               arguments: phoneNumber);
         } else {
