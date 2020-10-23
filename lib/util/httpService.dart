@@ -36,7 +36,7 @@ class Http {
     final response = await http.post(
       '$_baseUrl$url',
       headers: {..._globalHeaders},
-      body: json.encode(body),
+      body: body != null ? json.encode(body) : null,
     );
 
     if (response.headers['authorization'] != null) {
@@ -69,7 +69,7 @@ class Http {
     final response = await http.patch(
       '$_baseUrl$url',
       headers: {'Authorization': _token, ..._globalHeaders, ..._headers},
-      body: json.encode(body),
+      body: body != null ? json.encode(body) : null,
     );
     return parse(response);
   }

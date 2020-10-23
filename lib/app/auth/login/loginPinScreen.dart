@@ -1,6 +1,7 @@
-import 'package:botiga/app/auth/login/loginOtpScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../providers/userProvider.dart';
 import '../../../util/index.dart' show Http;
 import '../../../widgets/index.dart'
     show LoaderOverlay, PinTextField, FullWidthButton, Toast;
@@ -28,27 +29,32 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
     const sizedBox = SizedBox(height: 32);
     _phoneNumber = ModalRoute.of(context).settings.arguments;
 
-    return Background(
-      title: 'Enter PIN',
-      backNavigation: true,
-      child: LoaderOverlay(
-        isLoading: _isLoading,
-        child: Column(
-          children: [
-            sizedBox,
-            Text(
-              'Please enter your PIN to login',
-              style: AppTheme.textStyle.w500.color100.size(15).lineHeight(1.3),
+    return Consumer<UserProvider>(
+      builder: (context, provider, child) {
+        return Background(
+          title: 'Enter PIN',
+          backNavigation: true,
+          child: LoaderOverlay(
+            isLoading: _isLoading,
+            child: Column(
+              children: [
+                sizedBox,
+                Text(
+                  'Please enter your PIN to login',
+                  style:
+                      AppTheme.textStyle.w500.color100.size(15).lineHeight(1.3),
+                ),
+                sizedBox,
+                pinTextField(),
+                sizedBox,
+                continueButton(provider),
+                sizedBox,
+                forgotButton(context, _phoneNumber),
+              ],
             ),
-            sizedBox,
-            pinTextField(),
-            sizedBox,
-            continueButton(),
-            sizedBox,
-            forgotButton(context, _phoneNumber),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -63,7 +69,7 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
     );
   }
 
-  Widget continueButton() {
+  Widget continueButton(UserProvider provider) {
     return FullWidthButton(
       title: 'Continue',
       onPressed: () async {
@@ -71,12 +77,7 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
           _form.currentState.save(); //value saved in _pinValue
           setState(() => _isLoading = true);
           try {
-            await Http.post('/api/user/auth/sigin/pin', body: {
-              'phone': _phoneNumber,
-              'pin': _pinValue,
-            }, headers: {
-              'x-mock-response-code': '200',
-            });
+            await provider.login(phone: _phoneNumber, pin: _pinValue);
 
             Navigator.of(context)
                 .pushNamedAndRemoveUntil(Tabbar.route, (route) => false);

@@ -34,6 +34,15 @@ class UserProvider with ChangeNotifier {
     await Http.post('/api/user/auth/signout');
   }
 
+  Future<void> login({@required String phone, @required String pin}) async {
+    final json = await Http.postAuth('/api/user/auth/signin/pin', body: {
+      'phone': phone,
+      'pin': pin,
+    });
+
+    _fillProvider(json);
+  }
+
   Future<void> otpAuth({String phone, String sessionId, String otp}) async {
     final json = await Http.postAuth('/api/user/auth/otp/verify', body: {
       'phone': phone,
