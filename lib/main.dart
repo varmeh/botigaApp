@@ -9,8 +9,14 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'providers/index.dart'
-    show SellersProvider, ProductsProvider, CartProvider, OrdersProvider;
-import 'util/index.dart' show Flavor;
+    show
+        SellersProvider,
+        ProductsProvider,
+        CartProvider,
+        OrdersProvider,
+        UserProvider;
+import 'util/index.dart' show Flavor, Http;
+
 import 'app/tabbar.dart';
 import 'app/auth/index.dart';
 import 'app/location/index.dart';
@@ -33,6 +39,9 @@ Future<void> main() async {
 
   await Flavor.shared.init();
 
+  // Fetch Token from Secure Storage if exists
+  await Http.fetchToken();
+
   // Pass all uncaught errors to Crashlytics.
   if (kReleaseMode) {
     // Enable crashlytics only in release mode
@@ -51,6 +60,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => ProductsProvider()),
         ChangeNotifierProvider(create: (context) => CartProvider()),
         ChangeNotifierProvider(create: (context) => OrdersProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
       ],
       child: BotigaApp(),
     ),
@@ -65,28 +75,42 @@ class BotigaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      themeMode: ThemeMode.light,
-      title: 'Botiga',
-      initialRoute: Tabbar.route,
-      routes: {
-        // Sign Up Screens
-        SignupWelcomeScreen.route: (context) => SignupWelcomeScreen(),
-        SignupOtpScreen.route: (context) => SignupOtpScreen(),
-        SignupProfileScreen.route: (context) => SignupProfileScreen(),
-        SignupApartmentScreen.route: (context) => SignupApartmentScreen(),
-        // Login Screens
-        LoginScreen.route: (context) => LoginScreen(),
-        LoginOtpScreen.route: (context) => LoginOtpScreen(),
-        LoginPinScreen.route: (context) => LoginPinScreen(),
-        SetPinScreen.route: (context) => SetPinScreen(),
-        // Product Listing Screens
-        Tabbar.route: (context) => Tabbar(index: 0),
-        ProductListScreen.route: (context) => ProductListScreen(),
-        SelectCityScreen.route: (context) => SelectCityScreen(),
-        ProfileUpdateScreen.route: (context) => ProfileUpdateScreen(),
+    return FutureBuilder(
+      future: Provider.of<UserProvider>(context, listen: false).getProfile(),
+      builder: (context, snapshot) {
+        var home;
+        if (snapshot.connectionState != ConnectionState.done) {
+          home = LoginScreen(); // Display Splash screen here
+        } else if (snapshot.hasError) {
+          home = Http.tokenExists ? LoginScreen() : SignupWelcomeScreen();
+        } else {
+          home = Tabbar(index: 0);
+        }
+
+        return MaterialApp(
+          themeMode: ThemeMode.light,
+          title: 'Botiga',
+          home: home,
+          routes: {
+            // Sign Up Screens
+            SignupWelcomeScreen.route: (context) => SignupWelcomeScreen(),
+            SignupOtpScreen.route: (context) => SignupOtpScreen(),
+            SignupProfileScreen.route: (context) => SignupProfileScreen(),
+            SignupApartmentScreen.route: (context) => SignupApartmentScreen(),
+            // Login Screens
+            LoginScreen.route: (context) => LoginScreen(),
+            LoginOtpScreen.route: (context) => LoginOtpScreen(),
+            LoginPinScreen.route: (context) => LoginPinScreen(),
+            SetPinScreen.route: (context) => SetPinScreen(),
+            // Product Listing Screens
+            Tabbar.route: (context) => Tabbar(index: 0),
+            ProductListScreen.route: (context) => ProductListScreen(),
+            SelectCityScreen.route: (context) => SelectCityScreen(),
+            ProfileUpdateScreen.route: (context) => ProfileUpdateScreen(),
+          },
+          navigatorObservers: <NavigatorObserver>[observer],
+        );
       },
-      navigatorObservers: <NavigatorObserver>[observer],
     );
   }
 }

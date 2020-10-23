@@ -2,18 +2,30 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../flavor.dart';
-
-Map<String, String> _globalHeaders = {
-  'Content-type': 'application/json',
-  'Accept': 'application/json',
-};
+import '../index.dart' show Flavor, Token;
 
 class Http {
   static final _baseUrl = Flavor.shared.baseUrl;
+  static String _token;
+
+  static Map<String, String> _globalHeaders = {
+    'Content-type': 'application/json',
+    'Accept': 'application/json',
+  };
+
+  static Future<void> fetchToken() async {
+    _token = await Token.read();
+  }
+
+  static bool get tokenExists {
+    return _token != null;
+  }
 
   static Future<dynamic> get(String url) async {
-    final response = await http.get('$_baseUrl$url');
+    final response = await http.get(
+      '$_baseUrl$url',
+      headers: {..._globalHeaders, 'Authorization': _token},
+    );
     return parse(response);
   }
 
@@ -25,7 +37,7 @@ class Http {
     final _headers = headers == null ? {} : headers;
     final response = await http.post(
       '$_baseUrl$url',
-      headers: {..._globalHeaders, ..._headers},
+      headers: {'Authorization': _token, ..._globalHeaders, ..._headers},
       body: json.encode(body),
     );
     return parse(response);
@@ -39,15 +51,17 @@ class Http {
     final _headers = headers == null ? {} : headers;
     final response = await http.patch(
       '$_baseUrl$url',
-      headers: {..._globalHeaders, ..._headers},
+      headers: {'Authorization': _token, ..._globalHeaders, ..._headers},
       body: json.encode(body),
     );
     return parse(response);
   }
 
   static Future<dynamic> delete(String url) async {
-    final response =
-        await http.delete('$_baseUrl$url', headers: _globalHeaders);
+    final response = await http.delete(
+      '$_baseUrl$url',
+      headers: {..._globalHeaders, 'Authorization': _token},
+    );
     return parse(response);
   }
 
