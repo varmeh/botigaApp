@@ -82,6 +82,33 @@ class UserProvider with ChangeNotifier {
     _fillProvider(json);
   }
 
+  Future<void> updateProfile({
+    String firstName,
+    String lastName,
+    String whatsapp,
+    String email,
+  }) async {
+    final body = {
+      'firstName': firstName,
+      'lastName': lastName,
+      'whatsapp': whatsapp,
+    };
+
+    if (email.isNotEmpty) {
+      body['email'] = email;
+    }
+
+    await Http.patch('/api/user/auth/profile', body: body);
+    firstName = firstName;
+    lastName = lastName;
+    whatsapp = whatsapp;
+    if (email.isNotEmpty) {
+      email = email;
+    }
+
+    notifyListeners();
+  }
+
   Future<void> updateApartment({
     @required String house,
     @required ApartmentModel apartment,
@@ -101,5 +128,7 @@ class UserProvider with ChangeNotifier {
       state: apartment.state,
       pincode: apartment.pincode,
     );
+
+    notifyListeners();
   }
 }

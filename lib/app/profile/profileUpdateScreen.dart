@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
+import '../../providers/userProvider.dart';
 import '../../theme/index.dart';
 import '../../util/index.dart' show Http, Validations;
 import '../../widgets/index.dart'
@@ -28,6 +30,7 @@ class ProfileUpdateScreen extends StatefulWidget {
 }
 
 class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
+  UserProvider _provider;
   FocusNode _firstFocusNode;
   FocusNode _lastFocusNode;
   FocusNode _emailFocusNode;
@@ -72,6 +75,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
   @override
   Widget build(BuildContext context) {
     const sizedBox24 = SizedBox(height: 24.0);
+    _provider = Provider.of<UserProvider>(context);
 
     return LoaderOverlay(
       isLoading: _isLoading,
@@ -89,6 +93,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                 BotigaTextFieldForm(
                   focusNode: _firstFocusNode,
                   labelText: 'First Name',
+                  initialValue: _provider.firstName,
                   onSave: (value) => _firstName = value,
                   nextFocusNode: _lastFocusNode,
                   validator: _nameValidator,
@@ -97,6 +102,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                 BotigaTextFieldForm(
                   focusNode: _lastFocusNode,
                   labelText: 'Last Name',
+                  initialValue: _provider.lastName,
                   onSave: (value) => _lastName = value,
                   nextFocusNode: _emailFocusNode,
                   validator: _nameValidator,
@@ -105,6 +111,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                 BotigaTextFieldForm(
                   focusNode: _emailFocusNode,
                   labelText: 'Email',
+                  initialValue: _provider.email,
                   onSave: (value) => _email = value,
                   nextFocusNode: _whatsappFocusNode,
                   keyboardType: TextInputType.emailAddress,
@@ -123,6 +130,8 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                 BotigaTextFieldForm(
                   focusNode: _whatsappFocusNode,
                   labelText: 'Whatsapp Number',
+                  initialValue:
+                      _phoneMaskFormatter.maskText(_provider.whatsapp),
                   keyboardType: TextInputType.number,
                   onSave: (_) =>
                       _whatsapp = _phoneMaskFormatter.getUnmaskedText(),
@@ -172,14 +181,12 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
       _formKey.currentState.save();
       setState(() => _isLoading = true);
       try {
-        await Http.patch('/api/user/auth/profile', body: {
-          'firstName': _firstName,
-          'lastName': _lastName,
-          'whatsapp': _whatsapp,
-          'email': _email,
-        }, headers: {
-          'x-mock-response-code': '200',
-        });
+        await _provider.updateProfile(
+          firstName: _firstName,
+          lastName: _lastName,
+          whatsapp: _whatsapp,
+          email: _email,
+        );
         Navigator.pop(context);
       } catch (error) {
         Toast(message: Http.message(error)).show(context);

@@ -30,6 +30,7 @@ class BotigaTextFieldForm extends StatefulWidget {
   final TextInputFormatter maskFormatter;
   final TextCapitalization textCapitalization;
   final IconData icon;
+  final String initialValue;
 
   BotigaTextFieldForm({
     @required this.focusNode,
@@ -47,6 +48,7 @@ class BotigaTextFieldForm extends StatefulWidget {
     this.onChange,
     this.textCapitalization = TextCapitalization.words,
     this.icon,
+    this.initialValue,
   });
 
   @override
@@ -90,6 +92,7 @@ class _BotigaTextFieldFormState extends State<BotigaTextFieldForm> {
           _autoValidate ? AutovalidateMode.always : AutovalidateMode.disabled,
       inputFormatters: inputFormatters,
       textCapitalization: widget.textCapitalization,
+      initialValue: widget.initialValue,
       validator: widget.validator,
       keyboardType:
           widget.maxLines > 1 ? TextInputType.multiline : widget.keyboardType,
