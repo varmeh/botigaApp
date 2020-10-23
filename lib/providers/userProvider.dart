@@ -11,6 +11,9 @@ class UserProvider with ChangeNotifier {
   AddressModel address;
 
   Future<void> getProfile() async {
+    if (firstName != null) {
+      return;
+    }
     final json = await Http.get('/api/user/auth/profile');
     firstName = json['firstName'];
     lastName = json['lastName'];

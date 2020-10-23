@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../models/addressModel.dart';
+import '../tabbar.dart';
+import '../../widgets/index.dart'
+    show Loader, HttpServiceExceptionWidget, ContactPartnerWidget;
+import '../../providers/userProvider.dart';
 import '../../theme/index.dart';
 import '../location/searchApartmentScreen.dart';
-import '../../widgets/contactPartnerWidget.dart';
 import '../auth/login/loginScreen.dart';
 import 'profileUpdateScreen.dart';
 
@@ -24,20 +29,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
       color: AppTheme.dividerColor,
     );
 
-    return SafeArea(
-      child: ListView(
-        children: [
-          _profile(),
-          divider,
-          _address(),
-          divider,
-          _support(),
-          divider,
-          _logout(),
-          SizedBox(height: 100.0)
-        ],
-      ),
-    );
+    return Consumer<UserProvider>(builder: (context, provider, child) {
+      return FutureBuilder(
+        future: provider.getProfile(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Loader();
+          } else if (snapshot.hasError) {
+            return HttpServiceExceptionWidget(
+              exception: snapshot.error,
+              onTap: () {
+                // Rebuild screen
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => Tabbar(index: 0),
+                    transitionDuration: Duration.zero,
+                  ),
+                );
+              },
+            );
+          } else {
+            return SafeArea(
+              child: ListView(
+                children: [
+                  _profile(provider),
+                  divider,
+                  _address(provider.address),
+                  divider,
+                  _support(),
+                  divider,
+                  _logout(),
+                  SizedBox(height: 100.0)
+                ],
+              ),
+            );
+          }
+        },
+      );
+    });
   }
 
   Widget _logout() {
@@ -66,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _profile() {
+  Widget _profile(UserProvider provider) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
       child: Column(
@@ -77,11 +107,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             style: AppTheme.textStyle.w700.size(22.0).lineHeight(1.3),
           ),
           sizedBox24,
-          _infoTile('assets/images/smile.png', 'Ritu Sharma'),
+          _infoTile('assets/images/smile.png',
+              '${provider.firstName} ${provider.lastName}'),
           sizedBox8,
-          _infoTile('assets/images/email.png', 'email@email.com'),
+          _infoTile('assets/images/email.png', provider.email),
           sizedBox8,
-          _infoTile('assets/images/whatsappOutline.png', '9910099100'),
+          _infoTile('assets/images/whatsappOutline.png', provider.whatsapp),
           sizedBox24,
           _spanButton('Edit Profile', () {
             Navigator.pushNamed(context, ProfileUpdateScreen.route);
@@ -108,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _address() {
+  Widget _address(AddressModel address) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
       child: Column(
@@ -131,12 +162,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           sizedBox24,
           Text(
-            'V503, T5, Adarsh Palm Retreat',
+            '${address.house}, ${address.apartment}',
             style: AppTheme.textStyle.w500.color100.size(15.0).lineHeight(1.3),
           ),
           sizedBox8,
           Text(
-            'Bellandur, Bengaluru, Karantaka - 560103',
+            '${address.area}, ${address.city}, ${address.state} - ${address.pincode}',
             style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
           ),
           sizedBox24,
