@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:provider/provider.dart';
 
+import '../../../providers/userProvider.dart';
 import '../../../theme/index.dart';
 import '../../../util/index.dart' show Http, Validations;
 import '../../../widgets/index.dart'
@@ -184,15 +186,14 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
       _formKey.currentState.save();
       setState(() => _isLoading = true);
       try {
-        await Http.post('/api/user/auth/signup', body: {
-          'firstName': _firstName,
-          'lastName': _lastName,
-          'phone': _phoneNumber,
-          'whatsapp': _whatsapp,
-          'email': _email,
-        }, headers: {
-          'x-mock-response-code': '201',
-        });
+        await Provider.of<UserProvider>(context, listen: false).signup(
+          firstName: _firstName,
+          lastName: _lastName,
+          phone: _phoneNumber,
+          whatsapp: _whatsapp,
+          email: _email,
+        );
+
         Navigator.pushNamed(
           context,
           SignupApartmentScreen.route,

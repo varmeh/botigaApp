@@ -83,14 +83,18 @@ class Http {
   }
 
   static dynamic parse(http.Response response) {
+    final data = json.decode(response.body);
     if (response.statusCode >= 500) {
-      throw HttpException('Something went wrong');
+      final msg =
+          data['message'] != null ? data['message'] : 'Something went wrong';
+      throw HttpException(msg);
     } else if (response.statusCode >= 400) {
       //  400 =< statusCode < 500
-      final data = json.decode(response.body);
-      throw FormatException(data['message']);
+      final msg =
+          data['message'] != null ? data['message'] : 'Somethig went wrong';
+      throw FormatException(msg);
     } else {
-      return json.decode(response.body);
+      return data;
     }
   }
 

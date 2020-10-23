@@ -152,7 +152,11 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
   Future<void> verifyOtp(UserProvider provider) async {
     try {
-      await provider.otpAuth(widget.phone, _sessionId, _otp);
+      await provider.otpAuth(
+        phone: widget.phone,
+        sessionId: _sessionId,
+        otp: _otp,
+      );
       widget
           .onVerification(provider.firstName == null); // null only for new user
     } catch (error) {

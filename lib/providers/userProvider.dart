@@ -16,7 +16,9 @@ class UserProvider with ChangeNotifier {
     whatsapp = json['whatsapp'];
     email = json['email'];
 
-    address = AddressModel.fromJson(json['address']);
+    if (json['address'] != null) {
+      address = AddressModel.fromJson(json['address']);
+    }
   }
 
   Future<void> getProfile() async {
@@ -32,7 +34,7 @@ class UserProvider with ChangeNotifier {
     await Http.post('/api/user/auth/signout');
   }
 
-  Future<void> otpAuth(String phone, String sessionId, String otp) async {
+  Future<void> otpAuth({String phone, String sessionId, String otp}) async {
     final json = await Http.postAuth('/api/user/auth/otp/verify', body: {
       'phone': phone,
       'sessionId': sessionId,
@@ -44,5 +46,28 @@ class UserProvider with ChangeNotifier {
       // Existing user
       _fillProvider(json);
     }
+  }
+
+  Future<void> signup({
+    String firstName,
+    String lastName,
+    String phone,
+    String whatsapp,
+    String email,
+  }) async {
+    final body = {
+      'firstName': firstName,
+      'lastName': lastName,
+      'phone': phone,
+      'whatsapp': whatsapp,
+    };
+
+    if (email.isNotEmpty) {
+      body['email'] = email;
+    }
+
+    final json = await Http.postAuth('/api/user/auth/signup', body: body);
+
+    _fillProvider(json);
   }
 }
