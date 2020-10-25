@@ -174,25 +174,30 @@ class CartScreen extends StatelessWidget {
             thickness: 1.0,
           ),
           SizedBox(height: 20),
-          Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Text(
-                  'Total to pay',
-                  style:
-                      AppTheme.textStyle.w600.color100.size(13).lineHeight(1.6),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 50.0),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    'Total to pay',
+                    style: AppTheme.textStyle.w600.color100
+                        .size(13)
+                        .lineHeight(1.6),
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Text(
-                  '₹${totalPrice.toString()}',
-                  style:
-                      AppTheme.textStyle.w600.color100.size(13).lineHeight(1.6),
-                  textAlign: TextAlign.end,
+                Expanded(
+                  child: Text(
+                    '₹${totalPrice.toString()}',
+                    style: AppTheme.textStyle.w600.color100
+                        .size(13)
+                        .lineHeight(1.6),
+                    textAlign: TextAlign.end,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           SizedBox(height: 20),
         ],

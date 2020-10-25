@@ -46,10 +46,12 @@ class SellerBrandContainer extends StatelessWidget {
                 seller.brandName,
                 style: AppTheme.textStyle.w700.color100.size(17),
               ),
-              Text(
-                seller.businessCategory, //TODO: change to tagline
-                style: AppTheme.textStyle.w500.color50.size(13),
-              ),
+              seller.tagline != null
+                  ? Text(
+                      seller.tagline,
+                      style: AppTheme.textStyle.w500.color50.size(13),
+                    )
+                  : Container(),
             ],
           ),
         ),
@@ -57,8 +59,7 @@ class SellerBrandContainer extends StatelessWidget {
           width: 12,
         ),
         CircleNetworkAvatar(
-          imageUrl:
-              'https://www.spendwithpennies.com/wp-content/uploads/2015/10/Chocolate-Ganache-22.jpg',
+          imageUrl: seller.brandImageUrl,
           radius: 32.0,
         ),
       ],

@@ -97,7 +97,7 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Hi $name', //TODO: remove name hard coding
+                'Hi $name',
                 style: AppTheme.textStyle.w700
                     .size(22.0)
                     .lineHeight(1.2)

@@ -58,11 +58,15 @@ class CartDeliveryInfo extends StatelessWidget {
                 title,
                 style: AppTheme.textStyle.w600.color100.size(15),
               ),
-              SizedBox(height: 5),
-              Text(
-                subTitle,
-                style: AppTheme.textStyle.w500.color50.size(13),
-              ),
+              subTitle != null
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: Text(
+                        subTitle,
+                        style: AppTheme.textStyle.w500.color50.size(13),
+                      ),
+                    )
+                  : Container(),
             ],
           ),
         ],

@@ -16,19 +16,16 @@ class ProductsProvider with ChangeNotifier {
     if (_sellerProducts.containsKey(sellerId)) {
       return;
     } else {
-      try {
-        final json =
-            await Http.get('/api/user/products/5f7730a57a8a7aafb139f511');
+      final json = await Http.get('/api/user/products/$sellerId');
 
-        List<CategoryModel> _sellerCategories = json
-            .map(
-              (item) => CategoryModel.fromJson(item),
-            )
-            .cast<CategoryModel>()
-            .toList();
+      List<CategoryModel> _sellerCategories = json
+          .map(
+            (item) => CategoryModel.fromJson(item),
+          )
+          .cast<CategoryModel>()
+          .toList();
 
-        _sellerProducts[sellerId] = _sellerCategories;
-      } catch (error) {}
+      _sellerProducts[sellerId] = _sellerCategories;
     }
   }
 }

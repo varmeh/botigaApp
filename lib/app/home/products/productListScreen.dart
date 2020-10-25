@@ -11,48 +11,63 @@ import '../../../widgets/index.dart' show HttpServiceExceptionWidget;
 import '../../cart/cartBottomModal.dart';
 import '../../../theme/index.dart';
 
-class ProductListScreen extends StatelessWidget {
+class ProductListScreen extends StatefulWidget {
   static String route = 'productsScreen';
-  final SellerModel seller;
 
-  ProductListScreen([this.seller]);
-
-  SellerModel getSeller(BuildContext context) =>
-      seller == null ? ModalRoute.of(context).settings.arguments : seller;
+  ProductListScreen();
 
   @override
+  _ProductListScreenState createState() => _ProductListScreenState();
+}
+
+class _ProductListScreenState extends State<ProductListScreen> {
+  @override
   Widget build(BuildContext context) {
-    final SellerModel seller = getSeller(context);
-    return Container(
-      color: AppTheme.backgroundColor, // setting status bar color to white
-      child: Scaffold(
-        appBar: BotigaAppBar(''),
-        body: SafeArea(
-          child: Container(
-            color: AppTheme.backgroundColor,
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                ListView.builder(
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return SellerBrandContainer(seller);
-                    } else if (index == 1) {
-                      return Divider(
-                        thickness: 4.0,
-                      );
-                    } else if (index == 2) {
-                      return _categoryList(context, seller);
-                    } else {
-                      return SizedBox(height: 60.0);
-                    }
-                  },
-                ),
-                CartBottomModal()
-              ],
-            ),
-          ),
+    final SellerModel seller = ModalRoute.of(context).settings.arguments;
+
+    return Scaffold(
+      backgroundColor: AppTheme.backgroundColor,
+      appBar: BotigaAppBar(''),
+      body: SafeArea(
+        child: FutureBuilder(
+          future: Provider.of<ProductsProvider>(context, listen: false)
+              .getProducts(seller.id),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Loader();
+            } else if (snapshot.hasError) {
+              return HttpServiceExceptionWidget(
+                exception: snapshot.error,
+                onTap: () {
+                  // Rebuild widget
+                  setState(() {});
+                },
+              );
+            } else {
+              return Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  ListView.builder(
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return SellerBrandContainer(seller);
+                      } else if (index == 1) {
+                        return Divider(
+                          thickness: 4.0,
+                        );
+                      } else if (index == 2) {
+                        return _categoryList(context, seller);
+                      } else {
+                        return SizedBox(height: 60.0);
+                      }
+                    },
+                  ),
+                  CartBottomModal()
+                ],
+              );
+            }
+          },
         ),
       ),
     );
@@ -76,41 +91,18 @@ class ProductListScreen extends StatelessWidget {
   }
 
   Widget _productList(BuildContext context, SellerModel seller) {
-    return FutureBuilder(
-      future: Provider.of<ProductsProvider>(context, listen: false)
-          .getProducts(seller.id),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Loader();
-        } else if (snapshot.hasError) {
-          return HttpServiceExceptionWidget(
-            exception: snapshot.error,
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (_, __, ___) => ProductListScreen(seller),
-                  transitionDuration: Duration.zero,
-                ),
-              );
-            },
-          );
-        } else {
-          return Consumer<ProductsProvider>(
-            builder: (context, provider, child) {
-              final categoryList = provider.products(seller.id);
-              return Column(
-                children: [
-                  ...categoryList.map(
-                    (category) => category.products.length > 0
-                        ? CategoryList(category, seller)
-                        : Container(),
-                  )
-                ],
-              );
-            },
-          );
-        }
+    return Consumer<ProductsProvider>(
+      builder: (context, provider, child) {
+        final categoryList = provider.products(seller.id);
+        return Column(
+          children: [
+            ...categoryList.map(
+              (category) => category.products.length > 0
+                  ? CategoryList(category, seller)
+                  : Container(),
+            )
+          ],
+        );
       },
     );
   }

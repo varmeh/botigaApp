@@ -18,7 +18,6 @@ class SignupOtpScreen extends StatelessWidget {
           Navigator.pushNamed(context, SignupProfileScreen.route,
               arguments: phoneNumber);
         } else {
-          // TODO: save user information
           Navigator.pushNamed(context, Tabbar.route);
         }
       },
