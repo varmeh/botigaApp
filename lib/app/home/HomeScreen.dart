@@ -5,7 +5,12 @@ import '../../models/sellerModel.dart';
 import '../../providers/index.dart' show SellersProvider, UserProvider;
 
 import '../../widgets/index.dart'
-    show BrandingTile, InviteTile, Loader, HttpServiceExceptionWidget;
+    show
+        BrandingTile,
+        InviteTile,
+        Loader,
+        HttpServiceExceptionWidget,
+        CircleNetworkAvatar;
 import '../../theme/index.dart';
 import 'products/productListScreen.dart';
 
@@ -136,12 +141,9 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircleAvatar(
-              radius: 28,
-              backgroundColor: _themeData.disabledColor,
-              backgroundImage: NetworkImage(
-                'https://www.spendwithpennies.com/wp-content/uploads/2015/10/Chocolate-Ganache-22.jpg',
-              ),
+            CircleNetworkAvatar(
+              imageUrl: seller.brandImageUrl,
+              radius: 28.0,
             ),
             SizedBox(
               width: 12,
