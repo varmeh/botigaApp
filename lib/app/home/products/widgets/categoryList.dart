@@ -1,7 +1,10 @@
-import 'package:botiga/models/index.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
+// import '../../../../widgets/index.dart' show NetworkImage;
 import '../../../../theme/index.dart';
+import '../../../../models/index.dart'
+    show CategoryModel, SellerModel, ProductModel;
 import 'productSelectionButton.dart';
 
 class CategoryList extends StatelessWidget {
@@ -127,7 +130,7 @@ class CategoryList extends StatelessWidget {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: NetworkImage(product.imageUrl),
+                            image: CachedNetworkImageProvider(product.imageUrl),
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(4.0)),
                         ),
