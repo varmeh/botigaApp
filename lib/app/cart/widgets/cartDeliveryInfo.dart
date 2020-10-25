@@ -1,7 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../../models/sellerModel.dart';
+import '../../../providers/userProvider.dart';
+import '../../../models/index.dart' show SellerModel;
 import '../../../theme/index.dart';
 import '../../../widgets/index.dart' show CircleNetworkAvatar, DottedTimeline;
 
@@ -15,6 +17,8 @@ class CartDeliveryInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final address = Provider.of<UserProvider>(context, listen: false).address;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -26,7 +30,7 @@ class CartDeliveryInfo extends StatelessWidget {
         ),
         DottedTimeline(
             start: Point(_horizontalPadding + _avatarRadius, 0), height: 32),
-        _info('Deliver to', 'V503, T5, APR', null, false),
+        _info('${address.house}', '${address.apartment}', null, false),
         SizedBox(height: 32),
         Divider(
           thickness: 8,
@@ -51,23 +55,26 @@ class CartDeliveryInfo extends StatelessWidget {
             radius: _avatarRadius,
           ),
           SizedBox(width: 16.0),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: AppTheme.textStyle.w600.color100.size(15),
-              ),
-              subTitle != null
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Text(
-                        subTitle,
-                        style: AppTheme.textStyle.w500.color50.size(13),
-                      ),
-                    )
-                  : Container(),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: AppTheme.textStyle.w600.color100.size(15),
+                ),
+                subTitle != null
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 5.0),
+                        child: Text(
+                          subTitle,
+                          softWrap: true,
+                          style: AppTheme.textStyle.w500.color50.size(13),
+                        ),
+                      )
+                    : Container(),
+              ],
+            ),
           ),
         ],
       ),
