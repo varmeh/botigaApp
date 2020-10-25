@@ -21,63 +21,60 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _userProvider = Provider.of<UserProvider>(context);
 
-    return FutureBuilder(
-      future: Provider.of<SellersProvider>(context, listen: false)
-          .getSellers(_userProvider.apartmentId),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Loader();
-        } else if (snapshot.hasError) {
-          return HttpServiceExceptionWidget(
-            exception: snapshot.error,
-            onTap: () {
-              // Rebuild screen
-              Navigator.pushReplacement(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (_, __, ___) => Tabbar(index: 0),
-                  transitionDuration: Duration.zero,
-                ),
-              );
-            },
-          );
-        } else {
-          return Consumer<SellersProvider>(
-            builder: (context, provider, child) {
-              return ListView.builder(
-                padding: EdgeInsets.zero,
-                itemCount: provider.sellerList.length + 3,
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return appBar(
-                      context,
-                      _userProvider.firstName,
-                      provider.sellerList.length,
-                    );
-                  } else if (index <= provider.sellerList.length) {
-                    return _sellersTile(
-                      context,
-                      provider.sellerList[index - 1],
-                    );
-                  } else if (index == provider.sellerList.length + 1) {
-                    return Container(
-                      color: AppTheme.backgroundColor,
-                      padding: const EdgeInsets.only(top: 24.0),
-                      child: InviteTile(),
-                    );
-                  } else {
-                    return BrandingTile(
-                      'Thriving communities, empowering people',
-                      'Made by awesome team of Botiga',
-                    );
-                  }
-                },
-              );
-            },
-          );
-        }
-      },
-    );
+    return Consumer<SellersProvider>(builder: (context, provider, child) {
+      return FutureBuilder(
+        future: provider.getSellers(_userProvider.apartmentId),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Loader();
+          } else if (snapshot.hasError) {
+            return HttpServiceExceptionWidget(
+              exception: snapshot.error,
+              onTap: () {
+                // Rebuild screen
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => Tabbar(index: 0),
+                    transitionDuration: Duration.zero,
+                  ),
+                );
+              },
+            );
+          } else {
+            return ListView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: provider.sellerList.length + 3,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return appBar(
+                    context,
+                    _userProvider.firstName,
+                    provider.sellerList.length,
+                  );
+                } else if (index <= provider.sellerList.length) {
+                  return _sellersTile(
+                    context,
+                    provider.sellerList[index - 1],
+                  );
+                } else if (index == provider.sellerList.length + 1) {
+                  return Container(
+                    color: AppTheme.backgroundColor,
+                    padding: const EdgeInsets.only(top: 24.0),
+                    child: InviteTile(),
+                  );
+                } else {
+                  return BrandingTile(
+                    'Thriving communities, empowering people',
+                    'Made by awesome team of Botiga',
+                  );
+                }
+              },
+            );
+          }
+        },
+      );
+    });
   }
 
   Widget appBar(BuildContext context, String name, int numberOfMerchants) {
