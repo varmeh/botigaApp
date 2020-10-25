@@ -46,7 +46,6 @@ class OrdersProvider with ChangeNotifier {
     try {
       final json = await Http.post(
         '/api/user/orders/cancel',
-        headers: {HttpHeaders.authorizationHeader: 'dummy-value'},
         body: {'orderId': '5f74502b2fff00721617b063'},
       );
     } catch (error) {}

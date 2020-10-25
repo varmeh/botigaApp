@@ -80,7 +80,7 @@ class BotigaApp extends StatelessWidget {
       builder: (context, snapshot) {
         var home;
         if (snapshot.connectionState != ConnectionState.done) {
-          home = LoginScreen(); // Display Splash screen here
+          home = LoginScreen(); //TODO: Display Splash screen here
         } else if (snapshot.hasError) {
           home = Http.tokenExists ? LoginScreen() : SignupWelcomeScreen();
         } else {

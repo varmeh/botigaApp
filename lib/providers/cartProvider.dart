@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../util/index.dart' show Http;
 import '../models/index.dart' show SellerModel, ProductModel;
 
 class CartProvider with ChangeNotifier {
@@ -47,5 +48,11 @@ class CartProvider with ChangeNotifier {
 
   int quantityInCart(ProductModel product) {
     return products.containsKey(product) ? products[product] : 0;
+  }
+
+  Future<void> validateProducts() async {
+    await Http.post('/api/user/orders/validate', body: {
+      'sellerId': cartSeller.id,
+    });
   }
 }

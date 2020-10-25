@@ -20,13 +20,10 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: BotigaAppBar(''),
-      body: Container(
-        color: AppTheme.backgroundColor,
-        child: SafeArea(
-          child: _provider.numberOfItemsInCart > 0
-              ? _cartDetails(_provider)
-              : _cartEmpty(context),
-        ),
+      body: SafeArea(
+        child: _provider.numberOfItemsInCart > 0
+            ? _cartDetails(_provider)
+            : _cartEmpty(context),
       ),
     );
   }
