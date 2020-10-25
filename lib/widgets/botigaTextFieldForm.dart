@@ -96,6 +96,7 @@ class _BotigaTextFieldFormState extends State<BotigaTextFieldForm> {
       validator: widget.validator,
       keyboardType:
           widget.maxLines > 1 ? TextInputType.multiline : widget.keyboardType,
+      keyboardAppearance: MediaQuery.of(context).platformBrightness,
       style: AppTheme.textStyle.w500.color100.size(15.0).lineHeight(1.3),
       textInputAction: widget.nextFocusNode != null
           ? TextInputAction.next

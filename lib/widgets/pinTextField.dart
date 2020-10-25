@@ -23,6 +23,7 @@ class PinTextField extends StatelessWidget {
       animationType: AnimationType.fade,
       mainAxisAlignment: mainAxisAlignment,
       keyboardType: TextInputType.number,
+      keyboardAppearance: MediaQuery.of(context).platformBrightness,
       textStyle: AppTheme.textStyle.w500.color50.size(20.0).lineHeight(1.25),
       pastedTextStyle:
           AppTheme.textStyle.w500.color50.size(20.0).lineHeight(1.25),
