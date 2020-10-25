@@ -6,8 +6,8 @@ import '../models/index.dart' show OrderModel;
 import '../util/index.dart' show Http;
 
 class OrdersProvider with ChangeNotifier {
-  int pages = 0;
-  int currentPage = 0;
+  int pages = 1;
+  int currentPage = 1; //starting page is 1
   int totalOrders = 0;
   List<OrderModel> _orders = [];
 
@@ -31,7 +31,7 @@ class OrdersProvider with ChangeNotifier {
   }
 
   Future<void> nextOrders() async {
-    if (currentPage + 1 < pages) {
+    if (currentPage <= pages) {
       final json =
           await Http.get('/api/user/orders?limit=10&page=${currentPage + 1}');
       currentPage += 1;
