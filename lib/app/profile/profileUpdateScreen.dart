@@ -131,10 +131,10 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                   focusNode: _whatsappFocusNode,
                   labelText: 'Whatsapp Number',
                   initialValue:
-                      _phoneMaskFormatter.maskText(_provider.whatsapp),
+                      _phoneMaskFormatter.maskText('91${_provider.whatsapp}'),
                   keyboardType: TextInputType.number,
-                  onSave: (_) =>
-                      _whatsapp = _phoneMaskFormatter.getUnmaskedText(),
+                  onSave: (value) =>
+                      _whatsapp = _phoneMaskFormatter.unmaskText(value),
                   maskFormatter: _phoneMaskFormatter,
                   onChange: (_) {
                     if (_phoneMaskFormatter.getUnmaskedText().length == 10) {
@@ -142,10 +142,10 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                       FocusScope.of(context).unfocus();
                     }
                   },
-                  validator: (_) {
-                    if (_phoneMaskFormatter.getUnmaskedText().isEmpty) {
+                  validator: (value) {
+                    if (_phoneMaskFormatter.unmaskText(value).isEmpty) {
                       return 'Required';
-                    } else if (_phoneMaskFormatter.getUnmaskedText().length !=
+                    } else if (_phoneMaskFormatter.unmaskText(value).length !=
                         10) {
                       return 'Please provide a valid 10 digit Mobile Number';
                     }
@@ -187,7 +187,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
           whatsapp: _whatsapp,
           email: _email,
         );
-        Navigator.pop(context);
+        Navigator.of(context).popUntil((route) => route.isFirst);
       } catch (error) {
         Toast(message: Http.message(error)).show(context);
       } finally {

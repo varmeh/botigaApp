@@ -99,11 +99,13 @@ class UserProvider with ChangeNotifier {
     }
 
     await Http.patch('/api/user/auth/profile', body: body);
-    firstName = firstName;
-    lastName = lastName;
-    whatsapp = whatsapp;
+
+    // Update values
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.whatsapp = whatsapp;
     if (email.isNotEmpty) {
-      email = email;
+      this.email = email;
     }
 
     notifyListeners();
