@@ -172,19 +172,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
               )
             ],
           ),
-          sizedBox24,
-          Text(
-            '${address.house}, ${address.apartment}',
-            style: AppTheme.textStyle.w500.color100.size(15.0).lineHeight(1.3),
-          ),
-          sizedBox8,
-          Text(
-            '${address.area}, ${address.city}, ${address.state} - ${address.pincode}',
-            style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
-          ),
+          address != null
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${address.house}, ${address.apartment}',
+                        style: AppTheme.textStyle.w500.color100
+                            .size(15.0)
+                            .lineHeight(1.3),
+                      ),
+                      sizedBox8,
+                      Text(
+                        '${address.area}, ${address.city}, ${address.state} - ${address.pincode}',
+                        style: AppTheme.textStyle.w500.color50
+                            .size(13.0)
+                            .lineHeight(1.5),
+                      ),
+                    ],
+                  ),
+                )
+              : Container(),
           sizedBox24,
           _spanButton(
-            'Change Address',
+            address != null ? 'Change Address' : 'Add Address',
             () {
               Navigator.push(
                 context,
