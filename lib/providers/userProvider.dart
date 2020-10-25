@@ -52,8 +52,7 @@ class UserProvider with ChangeNotifier {
       'otpVal': otp,
     });
 
-    if (json['message'] == 'createUser') {
-    } else {
+    if (json['message'] != 'createUser') {
       // Existing user
       _fillProvider(json);
     }

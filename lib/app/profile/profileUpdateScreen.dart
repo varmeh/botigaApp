@@ -187,7 +187,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
           whatsapp: _whatsapp,
           email: _email,
         );
-        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.of(context).pop();
       } catch (error) {
         Toast(message: Http.message(error)).show(context);
       } finally {
