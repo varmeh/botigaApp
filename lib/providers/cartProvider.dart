@@ -71,9 +71,9 @@ class CartProvider with ChangeNotifier {
     // Reset list of not available products
     _notAvailableProducts.clear();
 
-    if (json['totalAmount'] == totalPrice) {
+    if (json['totalAmount'] != totalPrice) {
       json['products'].forEach((product) {
-        if (product['available']) {
+        if (!product['available']) {
           _notAvailableProducts.add(product['productId']);
         }
       });
@@ -81,8 +81,10 @@ class CartProvider with ChangeNotifier {
   }
 
   void updateCart() {
-    // Product no longer available. Remove it
-    for (ProductModel product in products.keys) {
+    final _products = [...products.keys];
+
+    // Remove products in _notAvailableProducts list
+    for (ProductModel product in _products) {
       if (_notAvailableProducts.contains(product.id)) {
         totalPrice -= product.price * products[product];
         numberOfItemsInCart -= this.products[product];
@@ -91,6 +93,7 @@ class CartProvider with ChangeNotifier {
     }
     // Empty _notAvailable products
     _notAvailableProducts.clear();
+
     if (totalPrice == 0) {
       cartSeller = null;
     }

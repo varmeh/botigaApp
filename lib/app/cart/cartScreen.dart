@@ -66,8 +66,15 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget _cartDetails(CartProvider provider) {
     return FutureBuilder(
-      future: _memoizer.runOnce(() => provider.allProductsAvailable()),
+      future: _memoizer.runOnce(() => Future.delayed(
+            Duration(seconds: 1), // Delayed to ensure screen display first
+            () => provider.allProductsAvailable(),
+          )),
       builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            provider.cartUpdateRequired) {
+          _updateCartDialog(context, provider);
+        }
         return LoaderOverlay(
           isLoading: snapshot.connectionState == ConnectionState.waiting,
           child: Stack(
@@ -113,6 +120,36 @@ class _CartScreenState extends State<CartScreen> {
           ),
         );
       },
+    );
+  }
+
+  Future<void> _updateCartDialog(
+      BuildContext context, CartProvider provider) async {
+    await Future.delayed(Duration.zero);
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          'Cart Update',
+          style: AppTheme.textStyle.w500.color100,
+        ),
+        content: Text(
+          'Your cart contains products which are no longer available.\nWe will update your cart to reflect these changes.',
+          style: AppTheme.textStyle.w400.color100,
+        ),
+        actions: [
+          FlatButton(
+            child: Text(
+              'Close',
+              style: AppTheme.textStyle.w600.colored(AppTheme.primaryColor),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+              provider.updateCart();
+            },
+          )
+        ],
+      ),
     );
   }
 
