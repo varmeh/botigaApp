@@ -49,7 +49,7 @@ class Http {
   static Future<dynamic> post(
     String url, {
     Map<String, String> headers,
-    Map<String, String> body,
+    Map<String, dynamic> body,
   }) async {
     final _headers = headers == null ? {} : headers;
     final response = await http.post(

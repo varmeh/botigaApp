@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../models/index.dart' show OrderModel;
@@ -43,11 +42,9 @@ class OrdersProvider with ChangeNotifier {
   }
 
   Future<void> cancelOrder(String orderId) async {
-    try {
-      final json = await Http.post(
-        '/api/user/orders/cancel',
-        body: {'orderId': '5f74502b2fff00721617b063'},
-      );
-    } catch (error) {}
+    await Http.post(
+      '/api/user/orders/cancel',
+      body: {'orderId': '5f74502b2fff00721617b063'},
+    );
   }
 }
