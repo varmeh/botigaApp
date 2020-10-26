@@ -8,6 +8,9 @@ class CartProvider with ChangeNotifier {
   double totalPrice = 0.0;
   int numberOfItemsInCart = 0;
   Map<ProductModel, int> products = {};
+  List<String> _notAvailableProducts = [];
+
+  bool get cartUpdateRequired => _notAvailableProducts.length > 0;
 
   void clearCart() {
     totalPrice = 0.0;
@@ -50,9 +53,47 @@ class CartProvider with ChangeNotifier {
     return products.containsKey(product) ? products[product] : 0;
   }
 
-  Future<void> validateProducts() async {
-    await Http.post('/api/user/orders/validate', body: {
-      'sellerId': cartSeller.id,
+  Future<void> allProductsAvailable() async {
+    final _products = [];
+
+    products.forEach((product, quantity) {
+      _products.add({
+        'productId': product.id,
+        'quantity': quantity,
+      });
     });
+
+    final json = await Http.post('/api/user/orders/validate', body: {
+      'sellerId': cartSeller.id,
+      'products': _products,
+    });
+
+    // Reset list of not available products
+    _notAvailableProducts.clear();
+
+    if (json['totalAmount'] == totalPrice) {
+      json['products'].forEach((product) {
+        if (product['available']) {
+          _notAvailableProducts.add(product['productId']);
+        }
+      });
+    }
+  }
+
+  void updateCart() {
+    // Product no longer available. Remove it
+    for (ProductModel product in products.keys) {
+      if (_notAvailableProducts.contains(product.id)) {
+        totalPrice -= product.price * products[product];
+        numberOfItemsInCart -= this.products[product];
+        this.products.remove(product);
+      }
+    }
+    // Empty _notAvailable products
+    _notAvailableProducts.clear();
+    if (totalPrice == 0) {
+      cartSeller = null;
+    }
+    notifyListeners();
   }
 }

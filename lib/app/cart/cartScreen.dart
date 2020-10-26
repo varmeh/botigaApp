@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:botiga/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,12 +7,25 @@ import '../tabbar.dart';
 import '../../models/index.dart' show ProductModel;
 import '../../providers/index.dart' show CartProvider;
 import '../../widgets/index.dart'
-    show IncrementButton, OpenContainerBottomModal, LottieScreen, BotigaAppBar;
+    show
+        IncrementButton,
+        OpenContainerBottomModal,
+        LottieScreen,
+        BotigaAppBar,
+        LoaderOverlay;
 
 import 'widgets/cartDeliveryInfo.dart';
+import 'paymentScreen.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   final String route = 'cartScreen';
+
+  @override
+  _CartScreenState createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  final _memoizer = AsyncMemoizer();
 
   @override
   Widget build(BuildContext context) {
@@ -51,48 +65,54 @@ class CartScreen extends StatelessWidget {
   }
 
   Widget _cartDetails(CartProvider provider) {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        Positioned.fill(
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              switch (index) {
-                case 0:
-                  return CartDeliveryInfo(provider.cartSeller);
+    return FutureBuilder(
+      future: _memoizer.runOnce(() => provider.allProductsAvailable()),
+      builder: (context, snapshot) {
+        return LoaderOverlay(
+          isLoading: snapshot.connectionState == ConnectionState.waiting,
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Positioned.fill(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    switch (index) {
+                      case 0:
+                        return CartDeliveryInfo(provider.cartSeller);
 
-                case 1:
-                  return _itemList(provider);
+                      case 1:
+                        return _itemList(provider);
 
-                case 2:
-                  return _totalPrice(provider.totalPrice);
+                      case 2:
+                        return _totalPrice(provider.totalPrice);
 
-                default:
-                  return Container();
-              }
-            },
-          ),
-        ),
-        Positioned(
-          bottom: 0,
-          child: OpenContainerBottomModal(
-            child: Center(
-              child: Text(
-                'Proceed to pay',
-                style: AppTheme.textStyle.w700
-                    .colored(AppTheme.backgroundColor)
-                    .size(13)
-                    .lineHeight(1.6),
+                      default:
+                        return Container();
+                    }
+                  },
+                ),
               ),
-            ),
-            openOnTap: () => Center(
-              child: Text('Payment Screen'),
-            ),
+              Positioned(
+                bottom: 0,
+                child: OpenContainerBottomModal(
+                  child: Center(
+                    child: Text(
+                      'Proceed to pay',
+                      style: AppTheme.textStyle.w700
+                          .colored(AppTheme.backgroundColor)
+                          .size(13)
+                          .lineHeight(1.6),
+                    ),
+                  ),
+                  openOnTap: () => PaymentScreen(),
+                ),
+              )
+            ],
           ),
-        )
-      ],
+        );
+      },
     );
   }
 
