@@ -21,6 +21,7 @@ import 'app/tabbar.dart';
 import 'app/auth/index.dart';
 import 'app/location/index.dart';
 import 'app/profile/index.dart';
+import 'app/onboarding/splashScreen.dart';
 
 import 'app/home/products/productListScreen.dart';
 
@@ -80,42 +81,30 @@ class BotigaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Provider.of<UserProvider>(context, listen: false).getProfile(),
-      builder: (context, snapshot) {
-        var home;
-        if (snapshot.connectionState != ConnectionState.done) {
-          home = LoginScreen(); //TODO: Display Splash screen here
-        } else if (snapshot.hasError) {
-          home = Http.tokenExists ? LoginScreen() : SignupWelcomeScreen();
-        } else {
-          home = Tabbar(index: 0);
-        }
-
-        return MaterialApp(
-          themeMode: ThemeMode.light,
-          title: 'Botiga',
-          home: home,
-          routes: {
-            // Sign Up Screens
-            SignupWelcomeScreen.route: (context) => SignupWelcomeScreen(),
-            SignupOtpScreen.route: (context) => SignupOtpScreen(),
-            SignupProfileScreen.route: (context) => SignupProfileScreen(),
-            SignupApartmentScreen.route: (context) => SignupApartmentScreen(),
-            // Login Screens
-            LoginScreen.route: (context) => LoginScreen(),
-            LoginOtpScreen.route: (context) => LoginOtpScreen(),
-            LoginPinScreen.route: (context) => LoginPinScreen(),
-            SetPinScreen.route: (context) => SetPinScreen(),
-            // Product Listing Screens
-            Tabbar.route: (context) => Tabbar(index: 0),
-            ProductListScreen.route: (context) => ProductListScreen(),
-            SelectCityScreen.route: (context) => SelectCityScreen(),
-            ProfileUpdateScreen.route: (context) => ProfileUpdateScreen(),
-          },
-          navigatorObservers: <NavigatorObserver>[observer],
-        );
+    return MaterialApp(
+      themeMode: ThemeMode.light,
+      title: 'Botiga',
+      initialRoute: SplashScreen.route,
+      routes: {
+        // On boarding screen
+        SplashScreen.route: (context) => SplashScreen(),
+        // Sign Up Screens
+        SignupWelcomeScreen.route: (context) => SignupWelcomeScreen(),
+        SignupOtpScreen.route: (context) => SignupOtpScreen(),
+        SignupProfileScreen.route: (context) => SignupProfileScreen(),
+        SignupApartmentScreen.route: (context) => SignupApartmentScreen(),
+        // Login Screens
+        LoginScreen.route: (context) => LoginScreen(),
+        LoginOtpScreen.route: (context) => LoginOtpScreen(),
+        LoginPinScreen.route: (context) => LoginPinScreen(),
+        SetPinScreen.route: (context) => SetPinScreen(),
+        // Product Listing Screens
+        Tabbar.route: (context) => Tabbar(index: 0),
+        ProductListScreen.route: (context) => ProductListScreen(),
+        SelectCityScreen.route: (context) => SelectCityScreen(),
+        ProfileUpdateScreen.route: (context) => ProfileUpdateScreen(),
       },
+      navigatorObservers: <NavigatorObserver>[observer],
     );
   }
 }
