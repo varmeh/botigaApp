@@ -11,11 +11,8 @@ import 'cart/cartScreen.dart';
 import 'profile/profileScreen.dart';
 
 import '../providers/index.dart' show CartProvider;
-import '../util/flavorBanner.dart';
-import '../theme/botigaIcons.dart';
+import '../util/index.dart' show FlavorBanner, Http;
 import '../theme/index.dart';
-
-// import '../widgets/badge.dart';
 
 class Tabbar extends StatefulWidget {
   static String route = 'tabbar';
@@ -30,6 +27,7 @@ class Tabbar extends StatefulWidget {
 
 class _TabbarState extends State<Tabbar> {
   int _selectedIndex;
+  FirebaseMessaging _fbm;
 
   List<Widget> _selectedTab = [
     HomeScreen(),
@@ -47,25 +45,22 @@ class _TabbarState extends State<Tabbar> {
   @override
   void initState() {
     super.initState();
-
     _selectedIndex = widget.index;
 
-    final fbm = FirebaseMessaging();
+    // Configure Firebase Messaging
+    _fbm = FirebaseMessaging();
 
     // Request for permission on notification on Ios device
     if (Platform.isIOS) {
-      fbm.onIosSettingsRegistered.listen((data) {
-        // save the token  OR subscribe to a topic here
+      _fbm.onIosSettingsRegistered.listen((data) {
+        _saveToken();
       });
-      fbm.requestNotificationPermissions();
+      _fbm.requestNotificationPermissions();
+    } else {
+      _saveToken();
     }
 
-    fbm.getToken().then((value) => {
-          // TODO upload the push notification token to database
-          print('Push Token: $value')
-        });
-
-    fbm.configure(
+    _fbm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print('onMessage: $message');
       },
@@ -76,6 +71,13 @@ class _TabbarState extends State<Tabbar> {
         print('onResume: $message');
       },
     );
+  }
+
+  void _saveToken() async {
+    final token = await _fbm.getToken();
+    try {
+      await Http.patch('/api/user/auth/token', body: {'token': token});
+    } catch (_) {}
   }
 
   @override
