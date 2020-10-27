@@ -130,26 +130,20 @@ class CartProvider with ChangeNotifier {
   bool _saveToServerInProgress = false;
 
   void _saveCartToServer() {
-    print('save to cart called');
     if (!_saveToServerInProgress) {
       _saveToServerInProgress = true;
       Timer(Duration(seconds: 5), () async {
-        print('cart triggered');
         List<Map<String, dynamic>> _productList = [];
         products.forEach((product, quantity) =>
             _productList.add({'productId': product.id, 'quantity': quantity}));
 
-        print(_productList);
         try {
           await Http.patch('/api/user/cart', body: {
             'sellerId': cartSeller.id,
             'totalAmount': totalPrice,
             'products': _productList,
           });
-          print('success');
-        } catch (error) {
-          print(error);
-        } finally {
+        } catch (_) {} finally {
           _saveToServerInProgress = false;
         }
       });
