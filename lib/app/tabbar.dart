@@ -62,13 +62,13 @@ class _TabbarState extends State<Tabbar> {
 
     _fbm.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print('onMessage: $message');
+        _selectedIndex = 1;
       },
       onLaunch: (Map<String, dynamic> message) async {
-        print('onLaunch: $message');
+        _selectedIndex = 1;
       },
       onResume: (Map<String, dynamic> message) async {
-        print('onResume: $message');
+        _selectedIndex = 1;
       },
     );
   }
