@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
                       final _provider =
                           Provider.of<CartProvider>(context, listen: false);
                       if (_provider.isEmpty) {
-                        _provider.getCartAtInit();
+                        _provider.loadCartFromServer();
                       }
                     }
 

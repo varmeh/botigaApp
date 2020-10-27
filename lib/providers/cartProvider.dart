@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../providers/index.dart' show SellersProvider, ProductsProvider;
@@ -5,23 +6,26 @@ import '../util/index.dart' show Http;
 import '../models/index.dart' show SellerModel, ProductModel;
 
 class CartProvider with ChangeNotifier {
+  // Cart Data
   SellerModel cartSeller;
   double totalPrice = 0.0;
   int numberOfItemsInCart = 0;
   Map<ProductModel, int> products = {};
-  List<String> _notAvailableProducts = [];
+
+  // Providers to load cart at the beginning
   SellersProvider _sellersProvider;
   ProductsProvider _productsProvider;
 
+  // Method to initialize providers. Setter DI.
   void update(SellersProvider provider, ProductsProvider productsProvider) {
     _sellersProvider = provider;
     _productsProvider = productsProvider;
   }
 
-  bool get cartUpdateRequired => _notAvailableProducts.length > 0;
   bool get isEmpty => products.isEmpty;
 
-  void clearCart() {
+  // Methods to manage cart - resetCart, addProduct & removeProduct
+  void resetCart() {
     totalPrice = 0.0;
     numberOfItemsInCart = 0;
     products.clear();
@@ -35,12 +39,13 @@ class CartProvider with ChangeNotifier {
       totalPrice += product.price;
       numberOfItemsInCart++;
     } else {
-      clearCart();
+      resetCart();
       cartSeller = seller;
       products[product] = 1;
       totalPrice = product.price;
       numberOfItemsInCart = 1;
     }
+    _saveCartToServer();
     notifyListeners();
   }
 
@@ -55,6 +60,12 @@ class CartProvider with ChangeNotifier {
     if (products[product] == 0) {
       products.remove(product);
     }
+
+    if (products.length == 0) {
+      // Cart is empty
+      resetCart();
+    }
+    _saveCartToServer();
     notifyListeners();
   }
 
@@ -62,6 +73,11 @@ class CartProvider with ChangeNotifier {
     return products.containsKey(product) ? products[product] : 0;
   }
 
+  // List to remove products not available during cart validation
+  List<String> _notAvailableProducts = [];
+  bool get cartUpdateRequired => _notAvailableProducts.length > 0;
+
+  // Validate products in cart. Used in cart screen
   Future<void> allProductsAvailable() async {
     final _products = [];
 
@@ -89,6 +105,7 @@ class CartProvider with ChangeNotifier {
     }
   }
 
+  // Remove Products from cart not available. Relies on allProductsAvailable()
   void updateCart() {
     final _products = [...products.keys];
 
@@ -109,7 +126,38 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void getCartAtInit() async {
+  // Save Cart to server
+  bool _saveToServerInProgress = false;
+
+  void _saveCartToServer() {
+    print('save to cart called');
+    if (!_saveToServerInProgress) {
+      _saveToServerInProgress = true;
+      Timer(Duration(seconds: 5), () async {
+        print('cart triggered');
+        List<Map<String, dynamic>> _productList = [];
+        products.forEach((product, quantity) =>
+            _productList.add({'productId': product.id, 'quantity': quantity}));
+
+        print(_productList);
+        try {
+          await Http.patch('/api/user/cart', body: {
+            'sellerId': cartSeller.id,
+            'totalAmount': totalPrice,
+            'products': _productList,
+          });
+          print('success');
+        } catch (error) {
+          print(error);
+        } finally {
+          _saveToServerInProgress = false;
+        }
+      });
+    }
+  }
+
+  // Load cart at init from server
+  Future<void> loadCartFromServer() async {
     try {
       // Get cart from database
       final json = await Http.get('/api/user/cart');

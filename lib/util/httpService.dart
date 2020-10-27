@@ -63,7 +63,7 @@ class Http {
   static Future<dynamic> patch(
     String url, {
     Map<String, String> headers,
-    Map<String, String> body,
+    Map<String, dynamic> body,
   }) async {
     final _headers = headers == null ? {} : headers;
     final response = await http.patch(
