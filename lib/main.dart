@@ -59,7 +59,12 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => SellersProvider()),
         ChangeNotifierProvider(create: (context) => ProductsProvider()),
-        ChangeNotifierProvider(create: (context) => CartProvider()),
+        ChangeNotifierProxyProvider2<SellersProvider, ProductsProvider,
+            CartProvider>(
+          create: (context) => CartProvider(),
+          update: (context, sellersProvider, productsProvider, cartProvider) =>
+              cartProvider..update(sellersProvider, productsProvider),
+        ),
         ChangeNotifierProvider(create: (context) => OrdersProvider()),
       ],
       child: BotigaApp(),

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/sellerModel.dart';
-import '../../providers/index.dart' show SellersProvider, UserProvider;
+import '../../providers/index.dart'
+    show SellersProvider, UserProvider, CartProvider;
 
 import '../../widgets/index.dart'
     show
@@ -44,6 +45,14 @@ class HomeScreen extends StatelessWidget {
                       },
                     );
                   } else {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      final _provider =
+                          Provider.of<CartProvider>(context, listen: false);
+                      if (_provider.isEmpty) {
+                        _provider.getCartAtInit();
+                      }
+                    }
+
                     return ListView.builder(
                       padding: EdgeInsets.zero,
                       itemCount: provider.sellerList.length + 3,

@@ -24,4 +24,13 @@ class SellersProvider with ChangeNotifier {
       _sellerList = List<SellerModel>.from(_sellerIterable);
     }
   }
+
+  SellerModel seller(String sellerId) {
+    for (final seller in _sellerList) {
+      if (seller.id == sellerId) {
+        return seller;
+      }
+    }
+    return null;
+  }
 }

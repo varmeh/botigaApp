@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../providers/index.dart' show SellersProvider, ProductsProvider;
 import '../util/index.dart' show Http;
 import '../models/index.dart' show SellerModel, ProductModel;
 
@@ -9,8 +10,16 @@ class CartProvider with ChangeNotifier {
   int numberOfItemsInCart = 0;
   Map<ProductModel, int> products = {};
   List<String> _notAvailableProducts = [];
+  SellersProvider _sellersProvider;
+  ProductsProvider _productsProvider;
+
+  void update(SellersProvider provider, ProductsProvider productsProvider) {
+    _sellersProvider = provider;
+    _productsProvider = productsProvider;
+  }
 
   bool get cartUpdateRequired => _notAvailableProducts.length > 0;
+  bool get isEmpty => products.isEmpty;
 
   void clearCart() {
     totalPrice = 0.0;
@@ -98,5 +107,38 @@ class CartProvider with ChangeNotifier {
       cartSeller = null;
     }
     notifyListeners();
+  }
+
+  void getCartAtInit() async {
+    try {
+      // Get cart from database
+      final json = await Http.get('/api/user/cart');
+      if (json['products'].length > 0) {
+        // Get Seller from sellersList
+        cartSeller = _sellersProvider.seller(json['sellerId']);
+        if (cartSeller != null) {
+          // Seller exists. Fetch products for this seller to populate cart
+          await _productsProvider.getProducts(cartSeller.id);
+
+          // create a map of product ids
+          Map<String, int> _productQuantityMap = {};
+          json['products'].forEach(((product) =>
+              _productQuantityMap[product['productId']] = product['quantity']));
+
+          // Look for products in each category & add to cart when found
+          _productsProvider.products(cartSeller.id).forEach((category) {
+            category.products.forEach((product) {
+              if (_productQuantityMap[product.id] != null) {
+                products[product] = _productQuantityMap[product.id];
+                numberOfItemsInCart += products[product];
+                totalPrice += products[product] * product.price;
+                _productQuantityMap.remove(product.id);
+              }
+            });
+          });
+          notifyListeners();
+        }
+      }
+    } catch (_) {}
   }
 }
