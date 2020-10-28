@@ -55,7 +55,11 @@ class _TabbarState extends State<Tabbar> {
       _fbm.onIosSettingsRegistered.listen((data) {
         _saveToken();
       });
-      _fbm.requestNotificationPermissions();
+      Future.delayed(
+        Duration(seconds: 1),
+        () => _fbm
+            .requestNotificationPermissions(), //Delay request to ensure screen loading
+      );
     } else {
       _saveToken();
     }
