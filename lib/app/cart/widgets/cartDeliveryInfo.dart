@@ -25,7 +25,7 @@ class CartDeliveryInfo extends StatelessWidget {
         _info(
           seller.brandName,
           seller.tagline,
-          'https://www.spendwithpennies.com/wp-content/uploads/2015/10/Chocolate-Ganache-22.jpg',
+          seller.brandImageUrl,
           true,
         ),
         DottedTimeline(
