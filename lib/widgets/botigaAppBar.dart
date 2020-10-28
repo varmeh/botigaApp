@@ -37,6 +37,7 @@ class BotigaAppBar extends StatelessWidget implements PreferredSizeWidget {
         style: AppTheme.textStyle.w600.color100.size(20).lineHeight(1.25),
       ),
       backgroundColor: AppTheme.backgroundColor,
+      brightness: Brightness.light,
       elevation: 0.0,
       actions: actions,
     );
