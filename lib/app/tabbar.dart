@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart';
@@ -40,12 +41,22 @@ class _TabbarState extends State<Tabbar> {
     setState(() {
       _selectedIndex = index;
     });
+    setStatusBarBrightness();
+  }
+
+  void setStatusBarBrightness() {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarBrightness:
+          _selectedIndex == 0 ? Brightness.dark : Brightness.light,
+    ));
   }
 
   @override
   void initState() {
     super.initState();
+
     _selectedIndex = widget.index;
+    setStatusBarBrightness();
 
     // Configure Firebase Messaging
     _fbm = FirebaseMessaging();
