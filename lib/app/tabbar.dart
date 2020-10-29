@@ -26,7 +26,7 @@ class Tabbar extends StatefulWidget {
   _TabbarState createState() => _TabbarState();
 }
 
-class _TabbarState extends State<Tabbar> {
+class _TabbarState extends State<Tabbar> with WidgetsBindingObserver {
   int _selectedIndex;
   FirebaseMessaging _fbm;
 
@@ -54,6 +54,8 @@ class _TabbarState extends State<Tabbar> {
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addObserver(this);
 
     _selectedIndex = widget.index;
     setStatusBarBrightness();
@@ -86,6 +88,19 @@ class _TabbarState extends State<Tabbar> {
         _selectedIndex = 1;
       },
     );
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      Provider.of<CartProvider>(context, listen: false).enableCartValidation();
+    }
   }
 
   void _saveToken() async {
