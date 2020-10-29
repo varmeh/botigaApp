@@ -17,7 +17,23 @@ import 'products/productListScreen.dart';
 
 import '../tabbar.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(
+      Duration(seconds: 2),
+      () => Provider.of<CartProvider>(context, listen: false)
+          .loadCartFromServer(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final _userProvider = Provider.of<UserProvider>(context);
@@ -45,14 +61,6 @@ class HomeScreen extends StatelessWidget {
                       },
                     );
                   } else {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      final _provider =
-                          Provider.of<CartProvider>(context, listen: false);
-                      if (_provider.isEmpty) {
-                        _provider.loadCartFromServer();
-                      }
-                    }
-
                     return ListView.builder(
                       padding: EdgeInsets.zero,
                       itemCount: provider.sellerList.length + 3,
