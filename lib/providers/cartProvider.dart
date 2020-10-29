@@ -148,6 +148,7 @@ class CartProvider with ChangeNotifier {
     if (totalPrice == 0) {
       resetCart();
     }
+    _saveCartToServer();
     notifyListeners();
   }
 
