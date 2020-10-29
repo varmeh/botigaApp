@@ -77,35 +77,56 @@ class CartProvider with ChangeNotifier {
     return products.containsKey(product) ? products[product] : 0;
   }
 
-  // List to remove products not available during cart validation
-  List<String> _notAvailableProducts = [];
+/* 
+* Cart Validation Functionality
+* 	- allProductsAvailable
+*			- Used to validate products in cart once
+*			- Fills the products no longer available in _notAvailableProducts
+*			- If there are products in _notAvailableProducts, show user an alert about outdated cart
+*			- happens once during a session. Managed using _cartValidate state variable
+*			- reset _cartValidate variable if app goes to background.
+*				This manages the scenario where app is in background for quite some time
+*				& data in cart is now stale
+*
+*		- updateCart - Remove products which are no longer available
+* 
+*/
+
+  List<String> _notAvailableProducts =
+      []; // Products in cart which are no longer available
   bool get cartUpdateRequired => _notAvailableProducts.length > 0;
+  bool _cartValidate = true; // state variable to avoid cartValidation again
+
+  void enableCartValidation() => _cartValidate = true;
 
   // Validate products in cart. Used in cart screen
   Future<void> allProductsAvailable() async {
-    final _products = [];
+    if (_cartValidate) {
+      final _products = [];
 
-    products.forEach((product, quantity) {
-      _products.add({
-        'productId': product.id,
-        'quantity': quantity,
+      products.forEach((product, quantity) {
+        _products.add({
+          'productId': product.id,
+          'quantity': quantity,
+        });
       });
-    });
 
-    final json = await Http.post('/api/user/orders/validate', body: {
-      'sellerId': cartSeller.id,
-      'products': _products,
-    });
-
-    // Reset list of not available products
-    _notAvailableProducts.clear();
-
-    if (json['totalAmount'] != totalPrice) {
-      json['products'].forEach((product) {
-        if (!product['available']) {
-          _notAvailableProducts.add(product['productId']);
-        }
+      final json = await Http.post('/api/user/orders/validate', body: {
+        'sellerId': cartSeller.id,
+        'products': _products,
       });
+
+      _cartValidate = false;
+      // Reset list of not available products
+      _notAvailableProducts.clear();
+
+      if (json['totalAmount'] != totalPrice) {
+        json['products'].forEach((product) {
+          if (!product['available']) {
+            _notAvailableProducts.add(product['productId']);
+          }
+        });
+      }
     }
   }
 
