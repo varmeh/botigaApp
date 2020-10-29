@@ -6,6 +6,10 @@ import '../util/index.dart' show Http;
 import '../models/index.dart' show SellerModel, ProductModel;
 
 class CartProvider with ChangeNotifier {
+  CartProvider() {
+    Future.delayed(Duration(seconds: 2), () => _loadCartFromServer());
+  }
+
   // Cart Data
   SellerModel cartSeller;
   double totalPrice = 0.0;
@@ -126,8 +130,16 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Save Cart to server
-  bool _saveToServerInProgress = false;
+/* 
+* Cart Cloud Implementation
+* 	- _saveCartToServer - Method to upload cart to server
+*		
+*		- _loadCartFromServer 
+*			- Method to download cart from server
+*			- Called Once at initialization
+*/
+  bool _saveToServerInProgress =
+      false; // variable to control upload cart calls on every user action
 
   void _saveCartToServer() {
     if (!_saveToServerInProgress) {
@@ -150,44 +162,36 @@ class CartProvider with ChangeNotifier {
     }
   }
 
-  // Load cart at init from server
-  bool _loadCart = true; // This variable will ensure loading of cart only once
+  Future<void> _loadCartFromServer() async {
+    try {
+      // Get cart from database
+      final json = await Http.get('/api/user/cart');
+      if (json['products'].length > 0 && json['sellerId'] != null) {
+        // Get Seller from sellersList
+        cartSeller = _sellersProvider.seller(json['sellerId']);
+        if (cartSeller != null) {
+          // Seller exists. Fetch products for this seller to populate cart
+          await _productsProvider.getProducts(cartSeller.id);
 
-  Future<void> loadCartFromServer() async {
-    if (_loadCart) {
-      try {
-        // Get cart from database
-        final json = await Http.get('/api/user/cart');
-        if (json['products'].length > 0 && json['sellerId'] != null) {
-          // Get Seller from sellersList
-          cartSeller = _sellersProvider.seller(json['sellerId']);
-          if (cartSeller != null) {
-            // Seller exists. Fetch products for this seller to populate cart
-            await _productsProvider.getProducts(cartSeller.id);
+          // create a map of product ids
+          Map<String, int> _productQuantityMap = {};
+          json['products'].forEach(((product) =>
+              _productQuantityMap[product['productId']] = product['quantity']));
 
-            // create a map of product ids
-            Map<String, int> _productQuantityMap = {};
-            json['products'].forEach(((product) =>
-                _productQuantityMap[product['productId']] =
-                    product['quantity']));
-
-            // Look for products in each category & add to cart when found
-            _productsProvider.products(cartSeller.id).forEach((category) {
-              category.products.forEach((product) {
-                if (_productQuantityMap[product.id] != null) {
-                  products[product] = _productQuantityMap[product.id];
-                  numberOfItemsInCart += products[product];
-                  totalPrice += products[product] * product.price;
-                  _productQuantityMap.remove(product.id);
-                }
-              });
+          // Look for products in each category & add to cart when found
+          _productsProvider.products(cartSeller.id).forEach((category) {
+            category.products.forEach((product) {
+              if (_productQuantityMap[product.id] != null) {
+                products[product] = _productQuantityMap[product.id];
+                numberOfItemsInCart += products[product];
+                totalPrice += products[product] * product.price;
+                _productQuantityMap.remove(product.id);
+              }
             });
-            notifyListeners();
-          }
+          });
+          notifyListeners();
         }
-      } catch (_) {} finally {
-        _loadCart = false;
       }
-    }
+    } catch (_) {}
   }
 }

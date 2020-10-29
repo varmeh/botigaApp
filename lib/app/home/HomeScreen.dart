@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/sellerModel.dart';
-import '../../providers/index.dart'
-    show SellersProvider, UserProvider, CartProvider;
+import '../../providers/index.dart' show SellersProvider, UserProvider;
 
 import '../../widgets/index.dart'
     show
@@ -17,23 +16,7 @@ import 'products/productListScreen.dart';
 
 import '../tabbar.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-
-    Future.delayed(
-      Duration(seconds: 2),
-      () => Provider.of<CartProvider>(context, listen: false)
-          .loadCartFromServer(),
-    );
-  }
-
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _userProvider = Provider.of<UserProvider>(context);
