@@ -23,7 +23,8 @@
                                 <rect key="frame" x="150.5" y="373.5" width="113.5" height="149"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.090196078431372548" green="0.62352941176470589" blue="0.3411764705882353" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.092414908109999999" green="0.62436199189999997" blue="0.34267944099999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="1a2-6s-vTC"/>
                             <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="4X2-HB-R7a"/>
@@ -35,6 +36,7 @@
             <point key="canvasLocation" x="76.811594202898561" y="251.11607142857142"/>
         </scene>
     </scenes>
+    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
     <resources>
         <image name="LaunchImage" width="113.5" height="149"/>
     </resources>
