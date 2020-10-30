@@ -38,9 +38,7 @@ class _TabbarState extends State<Tabbar> with WidgetsBindingObserver {
   ];
 
   void changeTab(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    setState(() => _selectedIndex = index);
     setStatusBarBrightness();
   }
 

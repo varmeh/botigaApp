@@ -65,9 +65,7 @@ class _BotigaTextFieldFormState extends State<BotigaTextFieldForm> {
   void _focusListener() {
     // Enable autovalidation once the user moves to the next field
     if (!widget.focusNode.hasFocus && !_autoValidate) {
-      setState(() {
-        _autoValidate = true;
-      });
+      setState(() => _autoValidate = true);
     }
   }
 

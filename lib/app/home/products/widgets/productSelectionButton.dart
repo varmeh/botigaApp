@@ -28,25 +28,19 @@ class _ProductSelectionButtonState extends State<ProductSelectionButton> {
             enabled: widget.product.available,
             onPressed: () {
               provider.addProduct(widget.seller, widget.product);
-              setState(() {
-                _value++;
-              });
+              setState(() => _value++);
             },
           )
         : IncrementButton(
             value: _value,
             onIncrement: () {
               provider.addProduct(widget.seller, widget.product);
-              setState(() {
-                _value++;
-              });
+              setState(() => _value++);
             },
             onDecrement: () {
               if (_value > 0) {
                 provider.removeProduct(widget.product);
-                setState(() {
-                  _value--;
-                });
+                setState(() => _value--);
               }
             },
           );

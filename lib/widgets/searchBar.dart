@@ -92,9 +92,7 @@ class _SearchBarState extends State<SearchBar> {
             child: GestureDetector(
               onTap: () {
                 _textEditingController.clear();
-                setState(() {
-                  _query = '';
-                });
+                setState(() => _query = '');
               },
               child: Icon(
                 Icons.clear,

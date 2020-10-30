@@ -79,9 +79,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   void loadNextScreen(AnimationStatus status) {
     if (status == AnimationStatus.completed) {
-      setState(() {
-        _animationCompleted = true;
-      });
+      setState(() => _animationCompleted = true);
     }
   }
 }

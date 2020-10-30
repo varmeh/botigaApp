@@ -109,9 +109,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
-                        setState(() {
-                          initiateCancellation = true;
-                        });
+                        setState(() => initiateCancellation = true);
                       },
                     ),
                   ],

@@ -92,9 +92,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
         provider.currentPage + 1 < provider.pages ? 1 : 0;
     return GestureDetector(
       onTap: () {
-        setState(() {
-          initialLoad = false;
-        });
+        setState(() => initialLoad = false);
       },
       child: Container(
         padding: EdgeInsets.all(20.0),

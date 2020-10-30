@@ -65,9 +65,7 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
               SearchBar(
                 placeholder: 'Apartment / Area / City / Pincode',
                 onSubmit: (value) {
-                  setState(() {
-                    _query = value;
-                  });
+                  setState(() => _query = value);
                 },
               ),
               SizedBox(height: 10.0),
