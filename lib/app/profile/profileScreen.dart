@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:animations/animations.dart';
 
 import '../../models/addressModel.dart';
 import '../../util/index.dart' show Http;
@@ -125,9 +126,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           sizedBox8,
           _infoTile('assets/images/whatsappOutline.png', provider.whatsapp),
           sizedBox24,
-          _spanButton('Edit Profile', () {
-            Navigator.pushNamed(context, ProfileUpdateScreen.route);
-          })
+          OpenContainer(
+            closedElevation: 0.0,
+            transitionDuration: Duration(milliseconds: 500),
+            closedBuilder: (context, openContainer) =>
+                _spanButton('Edit Profile', openContainer),
+            openBuilder: (_, __) => ProfileUpdateScreen(),
+          )
         ],
       ),
     );
