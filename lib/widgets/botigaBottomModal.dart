@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/index.dart' show LoaderOverlay;
+import 'loaderOverlay.dart';
 import '../theme/index.dart';
 
 /*
