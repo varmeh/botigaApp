@@ -4,11 +4,11 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../theme/botigaIcons.dart';
 
-class ContactPartnerWidget extends StatelessWidget {
+class ContactWidget extends StatelessWidget {
   final String phone;
   final String whatsapp;
 
-  ContactPartnerWidget({@required this.phone, @required this.whatsapp});
+  ContactWidget({@required this.phone, @required this.whatsapp});
 
   @override
   Widget build(BuildContext context) {

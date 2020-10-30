@@ -1,5 +1,5 @@
 export 'incrementButton.dart';
-export 'contactPartnerWidget.dart';
+export 'contactWidget.dart';
 export 'brandingTile.dart';
 export 'openContainerBottomModal.dart';
 export 'circleNetworkAvatar.dart';

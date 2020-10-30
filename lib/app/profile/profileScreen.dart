@@ -6,7 +6,7 @@ import '../../models/addressModel.dart';
 import '../../util/index.dart' show Http;
 import '../tabbar.dart';
 import '../../widgets/index.dart'
-    show Loader, HttpServiceExceptionWidget, ContactPartnerWidget, Toast;
+    show Loader, HttpServiceExceptionWidget, ContactWidget, Toast;
 import '../../providers/userProvider.dart';
 import '../../theme/index.dart';
 import '../location/searchApartmentScreen.dart';
@@ -247,7 +247,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
           ),
           sizedBox24,
-          ContactPartnerWidget(phone: '9910057232', whatsapp: '9910057232')
+          ContactWidget(phone: '9910057232', whatsapp: '9910057232')
         ],
       ),
     );

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../models/index.dart' show SellerModel;
 import '../../../../theme/index.dart';
-import '../../../../widgets/index.dart'
-    show ContactPartnerWidget, CircleNetworkAvatar;
+import '../../../../widgets/index.dart' show ContactWidget, CircleNetworkAvatar;
 
 class SellerBrandContainer extends StatelessWidget {
   final SellerModel seller;
@@ -22,7 +21,7 @@ class SellerBrandContainer extends StatelessWidget {
           SizedBox(height: 10.0),
           _iconInfo(context, 'assets/images/pin.png', seller.deliveryMessage),
           SizedBox(height: 24.0),
-          ContactPartnerWidget(
+          ContactWidget(
             phone: seller.phone,
             whatsapp: seller.whatsapp,
           )

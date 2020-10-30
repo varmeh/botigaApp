@@ -6,7 +6,7 @@ import '../../providers/ordersProvider.dart';
 import '../../theme/index.dart';
 import '../../models/orderModel.dart';
 import '../../widgets/index.dart'
-    show ContactPartnerWidget, Loader, BotigaAppBar, HttpServiceExceptionWidget;
+    show ContactWidget, Loader, BotigaAppBar, HttpServiceExceptionWidget;
 
 class OrderDetailScreen extends StatefulWidget {
   static const route = 'orderDetails';
@@ -190,7 +190,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             ],
           ),
           SizedBox(height: 24.0),
-          ContactPartnerWidget(
+          ContactWidget(
             phone: widget.order.seller.phone,
             whatsapp: widget.order.seller.whatsapp,
           )
