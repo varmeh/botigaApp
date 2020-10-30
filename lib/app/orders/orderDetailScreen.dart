@@ -149,7 +149,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           ),
           sizedBox,
           Text(
-            dateFormat.format(widget.order.orderDate),
+            dateFormat.format(widget.order.orderDate.toLocal()),
             style: AppTheme.textStyle.w500.color50.size(12.0).lineHeight(1.3),
           ),
           sizedBox,
@@ -206,13 +206,13 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
     if (widget.order.status == 'cancelled') {
       message =
-          'Order Cancelled on ${dateFormat.format(widget.order.actualDeliveryDate)}';
+          'Order Cancelled on ${dateFormat.format(widget.order.actualDeliveryDate.toLocal())}';
     } else if (widget.order.status == 'delivered') {
       message =
-          'Order delivered on ${dateFormat.format(widget.order.actualDeliveryDate)}';
+          'Order delivered on ${dateFormat.format(widget.order.actualDeliveryDate.toLocal())}';
     } else {
       message =
-          'Delivery expected on ${DateFormat('d MMMM').format(widget.order.expectedDeliveryDate)}';
+          'Delivery expected on ${DateFormat('d MMMM').format(widget.order.expectedDeliveryDate.toLocal())}';
     }
 
     return Container(

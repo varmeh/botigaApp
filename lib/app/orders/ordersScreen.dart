@@ -169,7 +169,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      dateFormat.format(order.orderDate),
+                      dateFormat.format(order.orderDate.toLocal()),
                       style: AppTheme.textStyle.w500.color50
                           .size(12)
                           .lineHeight(1.3),
