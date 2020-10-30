@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/addressModel.dart';
-import '../../util/index.dart' show Token, Http;
+import '../../util/index.dart' show Http;
 import '../tabbar.dart';
 import '../../widgets/index.dart'
     show Loader, HttpServiceExceptionWidget, ContactPartnerWidget, Toast;
@@ -76,7 +76,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       onTap: () async {
         try {
           await provider.logout();
-          await Token.delete();
 
           Navigator.pushNamedAndRemoveUntil(
             context,

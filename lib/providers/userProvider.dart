@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/index.dart' show AddressModel, ApartmentModel;
-import '../util/index.dart' show Http;
+import '../util/index.dart' show Http, Token;
 
 class UserProvider with ChangeNotifier {
   String firstName;
@@ -34,6 +34,7 @@ class UserProvider with ChangeNotifier {
 
   Future<void> logout() async {
     await Http.post('/api/user/auth/signout');
+    await Token.delete();
   }
 
   Future<void> login({@required String phone, @required String pin}) async {
