@@ -200,20 +200,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 )
               : Container(),
           sizedBox24,
-          _spanButton(
-            address != null ? 'Change Address' : 'Add Address',
-            () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SearchApartmentScreen(
-                    onSelection: () {
-                      Navigator.of(context).popUntil((route) => route.isFirst);
-                    },
-                  ),
-                ),
-              );
-            },
+          OpenContainer(
+            closedElevation: 0.0,
+            transitionDuration: Duration(milliseconds: 500),
+            closedBuilder: (context, openContainer) => _spanButton(
+              address != null ? 'Change Address' : 'Add Address',
+              openContainer,
+            ),
+            openBuilder: (_, __) => SearchApartmentScreen(onSelection: () {
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            }),
           )
         ],
       ),
