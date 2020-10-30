@@ -206,10 +206,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
     if (widget.order.status == 'cancelled') {
       message =
-          'Order Cancelled on ${dateFormat.format(widget.order.actualDeliveryDate.toLocal())}';
+          'Order Cancelled on ${dateFormat.format(widget.order.completionDate.toLocal())}';
     } else if (widget.order.status == 'delivered') {
       message =
-          'Order delivered on ${dateFormat.format(widget.order.actualDeliveryDate.toLocal())}';
+          'Order delivered on ${dateFormat.format(widget.order.completionDate.toLocal())}';
+    } else if (widget.order.status == 'out') {
+      message = 'Order is out for delivery';
     } else {
       message =
           'Delivery expected on ${DateFormat('d MMMM').format(widget.order.expectedDeliveryDate.toLocal())}';

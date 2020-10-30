@@ -21,9 +21,9 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) {
     expectedDeliveryDate: json['expectedDeliveryDate'] == null
         ? null
         : DateTime.parse(json['expectedDeliveryDate'] as String),
-    actualDeliveryDate: json['actualDeliveryDate'] == null
+    completionDate: json['completionDate'] == null
         ? null
-        : DateTime.parse(json['actualDeliveryDate'] as String),
+        : DateTime.parse(json['completionDate'] as String),
     products: (json['products'] as List)
         ?.map((e) => e == null
             ? null
@@ -41,7 +41,7 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'totalAmount': instance.totalAmount,
       'orderDate': instance.orderDate?.toIso8601String(),
       'expectedDeliveryDate': instance.expectedDeliveryDate?.toIso8601String(),
-      'actualDeliveryDate': instance.actualDeliveryDate?.toIso8601String(),
+      'completionDate': instance.completionDate?.toIso8601String(),
       'products': instance.products,
     };
 

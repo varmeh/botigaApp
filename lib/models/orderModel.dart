@@ -13,7 +13,7 @@ class OrderModel {
   final double totalAmount;
   final DateTime orderDate;
   final DateTime expectedDeliveryDate;
-  final DateTime actualDeliveryDate;
+  final DateTime completionDate;
   final List<OrderProductModel> products;
 
   OrderModel({
@@ -24,7 +24,7 @@ class OrderModel {
     @required this.totalAmount,
     @required this.orderDate,
     @required this.expectedDeliveryDate,
-    @required this.actualDeliveryDate,
+    @required this.completionDate,
     @required this.products,
   });
 
