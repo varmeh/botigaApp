@@ -14,7 +14,9 @@ import '../../../theme/index.dart';
 class ProductListScreen extends StatefulWidget {
   static String route = 'productsScreen';
 
-  ProductListScreen();
+  final SellerModel seller;
+
+  ProductListScreen([this.seller]);
 
   @override
   _ProductListScreenState createState() => _ProductListScreenState();
@@ -23,7 +25,9 @@ class ProductListScreen extends StatefulWidget {
 class _ProductListScreenState extends State<ProductListScreen> {
   @override
   Widget build(BuildContext context) {
-    final SellerModel seller = ModalRoute.of(context).settings.arguments;
+    final SellerModel seller = widget.seller != null
+        ? widget.seller
+        : ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,

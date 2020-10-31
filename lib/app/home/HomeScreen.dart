@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:animations/animations.dart';
 
 import '../../models/sellerModel.dart';
 import '../../providers/index.dart' show SellersProvider, UserProvider;
@@ -126,57 +127,55 @@ class HomeScreen extends StatelessWidget {
 
   Widget _sellersTile(BuildContext context, SellerModel seller) {
     final _themeData = Theme.of(context);
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          ProductListScreen.route,
-          arguments: seller,
-        );
-      },
-      child: Container(
-        height: 96,
-        padding: EdgeInsets.fromLTRB(10, 24, 0, 0),
-        color: AppTheme.backgroundColor,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleNetworkAvatar(
-              imageUrl: seller.brandImageUrl,
-              radius: 28.0,
-            ),
-            SizedBox(
-              width: 12,
-            ),
-            Expanded(
-              flex: 4,
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: _themeData.dividerColor),
+    return OpenContainer(
+      closedElevation: 0.0,
+      transitionDuration: Duration(milliseconds: 500),
+      closedBuilder: (context, openContainer) {
+        return Container(
+          height: 96,
+          padding: EdgeInsets.fromLTRB(10, 24, 0, 0),
+          color: AppTheme.backgroundColor,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleNetworkAvatar(
+                imageUrl: seller.brandImageUrl,
+                radius: 28.0,
+              ),
+              SizedBox(
+                width: 12,
+              ),
+              Expanded(
+                flex: 4,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: _themeData.dividerColor),
+                    ),
+                  ),
+                  padding: const EdgeInsets.fromLTRB(2.0, 12.0, 0.0, 10.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        seller.brandName,
+                        style: AppTheme.textStyle.color100.w600.size(15),
+                      ),
+                      Text(
+                        seller.businessCategory,
+                        style: AppTheme.textStyle.color50.w500.size(13),
+                      ),
+                    ],
                   ),
                 ),
-                padding: const EdgeInsets.fromLTRB(2.0, 12.0, 0.0, 10.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      seller.brandName,
-                      style: AppTheme.textStyle.color100.w600.size(15),
-                    ),
-                    Text(
-                      seller.businessCategory,
-                      style: AppTheme.textStyle.color50.w500.size(13),
-                    ),
-                  ],
-                ),
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      },
+      openBuilder: (_, __) => ProductListScreen(seller),
     );
   }
 
