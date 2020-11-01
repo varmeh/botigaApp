@@ -10,6 +10,10 @@ class SellersProvider with ChangeNotifier {
   UnmodifiableListView<SellerModel> get sellerList =>
       UnmodifiableListView(_sellerList);
 
+  void empty() {
+    _sellerList.clear();
+  }
+
   Future<void> getSellers(String apartmentId) async {
     if (_sellerList.length > 0) {
       return;

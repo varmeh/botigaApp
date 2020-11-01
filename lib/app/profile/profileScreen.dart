@@ -7,7 +7,7 @@ import '../../util/index.dart' show Http;
 import '../tabbar.dart';
 import '../../widgets/index.dart'
     show Loader, HttpServiceExceptionWidget, ContactWidget, Toast;
-import '../../providers/userProvider.dart';
+import '../../providers/index.dart' show UserProvider, SellersProvider;
 import '../../theme/index.dart';
 import '../location/searchApartmentScreen.dart';
 import '../auth/login/loginScreen.dart';
@@ -208,6 +208,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               openContainer,
             ),
             openBuilder: (_, __) => SearchApartmentScreen(onSelection: () {
+              Provider.of<SellersProvider>(context, listen: false).empty();
               Navigator.of(context).popUntil((route) => route.isFirst);
             }),
           )
