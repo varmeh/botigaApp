@@ -41,10 +41,26 @@ class OrdersProvider with ChangeNotifier {
     }
   }
 
+  OrderModel getOrderWithId(String orderId) {
+    var _order;
+
+    for (var order in _orders) {
+      if (order.id == orderId) {
+        _order = order;
+        break;
+      }
+    }
+    return _order;
+  }
+
   Future<void> cancelOrder(String orderId) async {
     await Http.post(
       '/api/user/orders/cancel',
-      body: {'orderId': '5f74502b2fff00721617b063'},
+      body: {'orderId': orderId},
     );
+
+    _orders.clear(); // clear to re-fetch data
+    await getOrders();
+    notifyListeners();
   }
 }

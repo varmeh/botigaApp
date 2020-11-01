@@ -203,7 +203,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
           ),
         );
       },
-      openBuilder: (_, __) => OrderDetailScreen(order),
+      openBuilder: (_, __) => OrderDetailScreen(order.id),
     );
   }
 }

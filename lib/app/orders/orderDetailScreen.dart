@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -11,9 +12,9 @@ import '../../widgets/index.dart'
 class OrderDetailScreen extends StatefulWidget {
   static const route = 'orderDetails';
 
-  final OrderModel order;
+  final String orderId;
 
-  OrderDetailScreen(this.order);
+  OrderDetailScreen(this.orderId);
 
   @override
   _OrderDetailScreenState createState() => _OrderDetailScreenState();
@@ -21,6 +22,8 @@ class OrderDetailScreen extends StatefulWidget {
 
 class _OrderDetailScreenState extends State<OrderDetailScreen> {
   bool initiateCancellation = false;
+  final _memoizer = AsyncMemoizer();
+  var order;
 
   @override
   Widget build(BuildContext context) {
@@ -29,55 +32,59 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       color: AppTheme.dividerColor,
     );
 
-    return Container(
-      color: AppTheme.backgroundColor, // setting status bar color to white
-      child: Scaffold(
-        appBar: BotigaAppBar('', actions: [_cancelButton(context)]),
-        body: SafeArea(
-          child: Container(
-            color: AppTheme.backgroundColor,
-            child: FutureBuilder(
-              future: initiateCancellation
-                  ? Provider.of<OrdersProvider>(context)
-                      .cancelOrder(widget.order.id)
-                  : null,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return HttpServiceExceptionWidget(
-                    exception: snapshot.error,
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (_, __, ___) =>
-                              OrderDetailScreen(widget.order),
-                          transitionDuration: Duration.zero,
-                        ),
-                      );
-                    },
-                  );
-                } else {
-                  return Stack(
-                    children: [
-                      ListView(
-                        children: [
-                          _sellerInfo(),
-                          divider,
-                          _deliveryStatus(),
-                          divider,
-                          _itemizedBill()
-                        ],
+    final provider = Provider.of<OrdersProvider>(context);
+    order = provider.getOrderWithId(widget.orderId);
+
+    return Scaffold(
+      backgroundColor: AppTheme.backgroundColor,
+      appBar: BotigaAppBar('', actions: [_cancelButton(context)]),
+      body: SafeArea(
+        child: Container(
+          color: AppTheme.backgroundColor,
+          child: FutureBuilder(
+            future: initiateCancellation
+                ? _memoizer.runOnce(() => Future.delayed(
+                    Duration(
+                      milliseconds: 100,
+                    ), // Delayed to ensure screen display first
+                    () => provider.cancelOrder(widget.orderId)))
+                : null,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return HttpServiceExceptionWidget(
+                  exception: snapshot.error,
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (_, __, ___) =>
+                            OrderDetailScreen(widget.orderId),
+                        transitionDuration: Duration.zero,
                       ),
-                      snapshot.connectionState == ConnectionState.waiting
-                          ? Center(
-                              child: Loader(),
-                            )
-                          : Container(),
-                    ],
-                  );
-                }
-              },
-            ),
+                    );
+                  },
+                );
+              } else {
+                return Stack(
+                  children: [
+                    ListView(
+                      children: [
+                        _sellerInfo(),
+                        divider,
+                        _deliveryStatus(),
+                        divider,
+                        _itemizedBill()
+                      ],
+                    ),
+                    snapshot.connectionState == ConnectionState.waiting
+                        ? Center(
+                            child: Loader(),
+                          )
+                        : Container(),
+                  ],
+                );
+              }
+            },
           ),
         ),
       ),
@@ -85,8 +92,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   }
 
   Widget _cancelButton(BuildContext context) {
-    // TODO: order cancellation api pending
-    return widget.order.status == 'open' || widget.order.status == 'delay'
+    return order.status == 'open' || order.status == 'delay'
         ? GestureDetector(
             onTap: () {
               showDialog(
@@ -142,12 +148,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            widget.order.seller.brandName,
+            order.seller.brandName,
             style: AppTheme.textStyle.w600.color100.size(15.0).lineHeight(1.4),
           ),
           sizedBox,
           Text(
-            dateFormat.format(widget.order.orderDate.toLocal()),
+            dateFormat.format(order.orderDate.toLocal()),
             style: AppTheme.textStyle.w500.color50.size(12.0).lineHeight(1.3),
           ),
           sizedBox,
@@ -156,7 +162,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             children: [
               RichText(
                 text: TextSpan(
-                  text: '#${widget.order.number}',
+                  text: '#${order.number}',
                   style: AppTheme.textStyle.w500.color100
                       .size(13.0)
                       .lineHeight(1.5),
@@ -164,7 +170,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     TextSpan(text: '・'),
                     TextSpan(
                       text:
-                          '${widget.order.products.length} ITEM${widget.order.products.length > 1 ? 'S' : ''}',
+                          '${order.products.length} ITEM${order.products.length > 1 ? 'S' : ''}',
                     ),
                   ],
                 ),
@@ -177,7 +183,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       .lineHeight(1.5),
                   children: [
                     TextSpan(
-                      text: widget.order.totalAmount.toString(),
+                      text: order.totalAmount.toString(),
                       style: AppTheme.textStyle.w600.color100
                           .size(13.0)
                           .lineHeight(1.5),
@@ -189,8 +195,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           ),
           SizedBox(height: 24.0),
           ContactWidget(
-            phone: widget.order.seller.phone,
-            whatsapp: widget.order.seller.whatsapp,
+            phone: order.seller.phone,
+            whatsapp: order.seller.whatsapp,
           )
         ],
       ),
@@ -202,17 +208,17 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
     String message;
 
-    if (widget.order.status == 'cancelled') {
+    if (order.status == 'cancelled') {
       message =
-          'Order Cancelled on ${dateFormat.format(widget.order.completionDate.toLocal())}';
-    } else if (widget.order.status == 'delivered') {
+          'Order Cancelled on ${dateFormat.format(order.completionDate.toLocal())}';
+    } else if (order.status == 'delivered') {
       message =
-          'Order delivered on ${dateFormat.format(widget.order.completionDate.toLocal())}';
-    } else if (widget.order.status == 'out') {
+          'Order delivered on ${dateFormat.format(order.completionDate.toLocal())}';
+    } else if (order.status == 'out') {
       message = 'Order is out for delivery';
     } else {
       message =
-          'Delivery expected on ${DateFormat('d MMMM').format(widget.order.expectedDeliveryDate.toLocal())}';
+          'Delivery expected on ${DateFormat('d MMMM').format(order.expectedDeliveryDate.toLocal())}';
     }
 
     return Container(
@@ -226,7 +232,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             width: 12.0,
             height: 12.0,
             decoration: BoxDecoration(
-              color: widget.order.statusColor,
+              color: order.statusColor,
               shape: BoxShape.circle,
             ),
           ),
@@ -245,7 +251,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
       child: Column(
         children: [
-          ...widget.order.products.map((product) => _productDetails(product)),
+          ...order.products.map((product) => _productDetails(product)),
           SizedBox(height: 16.0),
           Divider(
             thickness: 1,
@@ -321,7 +327,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             style: AppTheme.textStyle.w400.color100.size(13.0).lineHeight(1.6),
             children: [
               TextSpan(
-                text: widget.order.totalAmount.toString(),
+                text: order.totalAmount.toString(),
                 style: style,
               ),
             ],
