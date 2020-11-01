@@ -132,7 +132,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                   labelText: 'Whatsapp Number',
                   initialValue:
                       _phoneMaskFormatter.maskText('91${_provider.whatsapp}'),
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.datetime,
                   onSave: (value) =>
                       _whatsapp = _phoneMaskFormatter.unmaskText(value),
                   maskFormatter: _phoneMaskFormatter,
