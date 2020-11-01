@@ -87,6 +87,15 @@ class _ProductTileState extends State<ProductTile> {
                             onError: (_, __) =>
                                 setState(() => _hasImage = false),
                             fit: BoxFit.fill,
+                            colorFilter: widget.product.available
+                                ? ColorFilter.mode(
+                                    Colors.transparent,
+                                    BlendMode.multiply,
+                                  )
+                                : ColorFilter.mode(
+                                    Colors.grey,
+                                    BlendMode.saturation,
+                                  ),
                             image: CachedNetworkImageProvider(
                                 widget.product.imageUrl),
                           ),
