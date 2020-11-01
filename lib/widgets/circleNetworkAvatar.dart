@@ -13,11 +13,13 @@ class CircleNetworkAvatar extends StatelessWidget {
   final String imageUrl;
   final double radius;
   final String imagePlaceholder;
+  final bool isColored;
 
   CircleNetworkAvatar({
     @required this.imageUrl,
     this.imagePlaceholder = 'assets/images/avatar.png',
     this.radius = 24.0,
+    this.isColored = false,
   });
 
   @override
@@ -26,15 +28,35 @@ class CircleNetworkAvatar extends StatelessWidget {
   }
 
   Widget _networkImage() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(this.radius),
-      child: CachedNetworkImage(
-        fit: BoxFit.cover,
-        width: this.radius * 2,
-        height: this.radius * 2,
-        placeholder: (_, __) => _placeholderImage(),
-        imageUrl: this.imageUrl,
-      ),
+    return CachedNetworkImage(
+      colorBlendMode: BlendMode.saturation,
+      imageBuilder: (context, imageProvider) {
+        return Container(
+          width: 120.0,
+          height: 90.0,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.fill,
+              colorFilter: isColored
+                  ? ColorFilter.mode(
+                      Colors.transparent,
+                      BlendMode.multiply,
+                    )
+                  : ColorFilter.mode(
+                      Colors.grey,
+                      BlendMode.saturation,
+                    ),
+              image: imageProvider,
+            ),
+            borderRadius: BorderRadius.circular(this.radius),
+          ),
+        );
+      },
+      fit: BoxFit.cover,
+      width: this.radius * 2,
+      height: this.radius * 2,
+      placeholder: (_, __) => _placeholderImage(),
+      imageUrl: this.imageUrl,
     );
   }
 

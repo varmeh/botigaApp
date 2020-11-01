@@ -19,7 +19,11 @@ class SellerBrandContainer extends StatelessWidget {
           SizedBox(height: 10.0),
           _iconInfo(context, 'assets/images/shop.png', seller.businessCategory),
           SizedBox(height: 10.0),
-          _iconInfo(context, 'assets/images/pin.png', seller.deliveryMessage),
+          _iconInfo(
+            context,
+            'assets/images/pin.png',
+            seller.live ? seller.deliveryMessage : 'Not Serving at the moment',
+          ),
           SizedBox(height: 24.0),
           ContactWidget(
             phone: seller.phone,
@@ -60,6 +64,7 @@ class SellerBrandContainer extends StatelessWidget {
         CircleNetworkAvatar(
           imageUrl: seller.brandImageUrl,
           radius: 32.0,
+          isColored: seller.live,
         ),
       ],
     );

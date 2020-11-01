@@ -142,6 +142,7 @@ class HomeScreen extends StatelessWidget {
               CircleNetworkAvatar(
                 imageUrl: seller.brandImageUrl,
                 radius: 28.0,
+                isColored: seller.live,
               ),
               SizedBox(
                 width: 12,

@@ -53,6 +53,7 @@ class CartDeliveryInfo extends StatelessWidget {
             imageUrl: imageUrl,
             imagePlaceholder: placeholder,
             radius: _avatarRadius,
+            isColored: seller.live,
           ),
           SizedBox(width: 16.0),
           Expanded(
