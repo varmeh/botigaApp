@@ -21,7 +21,7 @@ import 'app/tabbar.dart';
 import 'app/auth/index.dart';
 import 'app/location/index.dart';
 import 'app/profile/index.dart';
-import 'app/onboarding/splashScreen.dart';
+import 'app/onboarding/index.dart';
 
 import 'app/home/products/productListScreen.dart';
 
@@ -87,6 +87,7 @@ class BotigaApp extends StatelessWidget {
       initialRoute: SplashScreen.route,
       routes: {
         // On boarding screen
+        OnboardingScreen.route: (context) => OnboardingScreen(),
         SplashScreen.route: (context) => SplashScreen(),
         // Sign Up Screens
         SignupWelcomeScreen.route: (context) => SignupWelcomeScreen(),

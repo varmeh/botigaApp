@@ -44,6 +44,7 @@ dependencies:
   pin_code_fields: ^6.0.0
   geolocator: ^6.0.0+4
   flutter_secure_storage: ^3.3.5
+  intro_slider: ^2.3.3
 
   # Firebase integration
   firebase_core: ^0.5.0

@@ -5,18 +5,25 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Botiga Dev",
+			"name": "Dev Debug",
 			"program": "lib/main.dart",
 			"request": "launch",
 			"type": "dart",
 			"args": ["--flavor", "dev"]
 		},
 		{
-			"name": "Botiga Prod",
+			"name": "Prod Debug",
 			"program": "lib/main.dart",
 			"request": "launch",
 			"type": "dart",
 			"args": ["--flavor", "prod"]
+		},
+		{
+			"name": "Prod Release",
+			"program": "lib/main.dart",
+			"request": "launch",
+			"type": "dart",
+			"args": ["--flavor", "prod", "--release"]
 		}
 	]
 }

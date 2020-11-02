@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-import '../auth/index.dart' show LoginScreen, SignupWelcomeScreen;
+import '../auth/index.dart' show LoginScreen;
 import '../tabbar.dart';
+
+import 'onboarding.dart';
 
 import '../../providers/userProvider.dart';
 import '../../theme/index.dart';
@@ -44,9 +46,8 @@ class _SplashScreenState extends State<SplashScreen>
             _animationCompleted) {
           String next;
           if (snapshot.hasError) {
-            next = Http.tokenExists
-                ? LoginScreen.route
-                : SignupWelcomeScreen.route;
+            next =
+                Http.tokenExists ? LoginScreen.route : OnboardingScreen.route;
           } else {
             next = Tabbar.route;
           }
