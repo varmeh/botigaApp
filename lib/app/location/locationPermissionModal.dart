@@ -74,9 +74,9 @@ class LocationPermissionModal {
   }
 
   void _accessLocation() {
-    requestPermission().then((permission) {
+    Geolocator.requestPermission().then((permission) {
       if (permission == LocationPermission.whileInUse) {
-        getCurrentPosition(
+        Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high,
           timeLimit: Duration(seconds: 5),
         ).then((position) {
