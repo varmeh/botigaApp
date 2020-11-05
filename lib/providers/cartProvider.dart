@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../providers/index.dart' show SellersProvider, ProductsProvider;
@@ -15,6 +17,10 @@ class CartProvider with ChangeNotifier {
   double totalPrice = 0.0;
   int numberOfItemsInCart = 0;
   Map<ProductModel, int> products = {};
+  int _orderNumber;
+
+  String get orderNumber => _orderNumber.toString();
+  String txnToken;
 
   // Providers to load cart at the beginning
   SellersProvider _sellersProvider;
@@ -75,6 +81,21 @@ class CartProvider with ChangeNotifier {
 
   int quantityInCart(ProductModel product) {
     return products.containsKey(product) ? products[product] : 0;
+  }
+
+/*
+ * Transactions API
+*/
+  Future<dynamic> initiateTransaction() async {
+    _orderNumber = Random().nextInt(90000) + 10000;
+    final json = await Http.post(
+      '/api/user/orders/transaction/initiate',
+      body: {
+        'orderNumber': orderNumber,
+        'txnAmount': totalPrice.toString(),
+      },
+    );
+    txnToken = json['txnToken'];
   }
 
 /* 

@@ -2,12 +2,14 @@ import 'package:async/async.dart';
 import 'package:botiga/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:animations/animations.dart';
 
 import '../tabbar.dart';
 import '../../models/index.dart' show ProductModel;
 import '../../providers/index.dart' show CartProvider;
+import '../../util/index.dart' show Http;
 import '../../widgets/index.dart'
-    show IncrementButton, OpenContainerBottomModal, LottieScreen, BotigaAppBar;
+    show IncrementButton, LottieScreen, BotigaAppBar, Toast, LoaderOverlay;
 
 import 'widgets/cartDeliveryInfo.dart';
 import 'paymentScreen.dart';
@@ -21,6 +23,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   final _memoizer = AsyncMemoizer();
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -73,48 +76,89 @@ class _CartScreenState extends State<CartScreen> {
           _updateCartDialog(context, provider);
         }
 
-        return Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Positioned.fill(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  switch (index) {
-                    case 0:
-                      return CartDeliveryInfo(provider.cartSeller);
+        return LoaderOverlay(
+          isLoading: _isLoading,
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Positioned.fill(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    switch (index) {
+                      case 0:
+                        return CartDeliveryInfo(provider.cartSeller);
 
-                    case 1:
-                      return _itemList(provider);
+                      case 1:
+                        return _itemList(provider);
 
-                    case 2:
-                      return _totalPrice(provider.totalPrice);
+                      case 2:
+                        return _totalPrice(provider.totalPrice);
 
-                    default:
-                      return Container();
-                  }
-                },
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: OpenContainerBottomModal(
-                child: Center(
-                  child: Text(
-                    'Proceed to pay',
-                    style: AppTheme.textStyle.w700
-                        .colored(AppTheme.backgroundColor)
-                        .size(13)
-                        .lineHeight(1.6),
-                  ),
+                      default:
+                        return Container();
+                    }
+                  },
                 ),
-                openOnTap: () => PaymentScreen(),
               ),
-            )
-          ],
+              Positioned(
+                bottom: 0,
+                child: _proceedToPaymentModal(provider),
+              ),
+            ],
+          ),
         );
       },
+    );
+  }
+
+  Widget _proceedToPaymentModal(CartProvider provider) {
+    return Material(
+      elevation: 3.0,
+      shadowColor: Colors.transparent,
+      child: Container(
+        height: 56,
+        width: MediaQuery.of(context).size.width - 40,
+        child: OpenContainer(
+          closedShape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: const Radius.circular(16.0),
+              topRight: const Radius.circular(16.0),
+            ),
+          ),
+          closedColor: AppTheme.primaryColor,
+          transitionDuration: Duration(milliseconds: 500),
+          closedBuilder: (context, openContainer) {
+            return GestureDetector(
+              onTap: () async {
+                setState(() => _isLoading = true);
+                try {
+                  await provider.initiateTransaction();
+                  openContainer();
+                } catch (error) {
+                  Toast(message: Http.message(error)).show(context);
+                } finally {
+                  setState(() => _isLoading = false);
+                }
+              },
+              child: Center(
+                child: Text(
+                  'Proceed to pay',
+                  style: AppTheme.textStyle.w700
+                      .colored(AppTheme.backgroundColor)
+                      .size(13)
+                      .lineHeight(1.6),
+                ),
+              ),
+            );
+          },
+          openBuilder: (_, __) => PaymentScreen(
+            orderNumber: provider.orderNumber,
+            txnToken: provider.txnToken,
+          ),
+        ),
+      ),
     );
   }
 
