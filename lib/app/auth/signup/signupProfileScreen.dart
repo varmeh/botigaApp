@@ -137,7 +137,7 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
                 BotigaTextFieldForm(
                   focusNode: _whatsappFocusNode,
                   labelText: 'Whatsapp Number',
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.datetime,
                   onSave: (_) =>
                       _whatsapp = _phoneMaskFormatter.getUnmaskedText(),
                   maskFormatter: _phoneMaskFormatter,

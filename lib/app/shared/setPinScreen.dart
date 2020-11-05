@@ -135,7 +135,7 @@ class _SetPinScreenState extends State<SetPinScreen>
             // Configure the AnimationController with the duration of the
             // Lottie file and start the animation.
 
-            _controller.duration = composition.duration * 2;
+            _controller.duration = composition.duration;
             _controller.reset();
             _controller.forward();
           },

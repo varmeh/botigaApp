@@ -47,11 +47,13 @@ class _PhoneScreenState extends State<PhoneScreen> {
   Widget build(BuildContext context) {
     return Background(
       title: widget.title,
-      child: Column(
-        children: [
-          textField(),
-          formButton(),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            textField(),
+            formButton(),
+          ],
+        ),
       ),
     );
   }
@@ -65,7 +67,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
           focusNode: _phoneFocusNode,
           labelText: 'Phone Number',
           onSave: (_) {},
-          keyboardType: TextInputType.number,
+          keyboardType: TextInputType.datetime,
           onChange: (val) {
             if (_phoneMaskFormatter.getUnmaskedText().length == 10) {
               // hide keyboard as there is no done button on number keyboard

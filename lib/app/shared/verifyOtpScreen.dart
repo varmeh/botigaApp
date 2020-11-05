@@ -57,22 +57,24 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
               child: Background(
                 title: 'Verify OTP',
                 backNavigation: true,
-                child: Column(
-                  children: [
-                    sizedBox,
-                    Text(
-                      'Please enter OTP sent to your phone number ${widget.phone}',
-                      style: AppTheme.textStyle.w500.color100
-                          .size(15)
-                          .lineHeight(1.3),
-                    ),
-                    sizedBox,
-                    otpForm(),
-                    SizedBox(height: 12),
-                    resendWidget(),
-                    SizedBox(height: 16),
-                    verifyButton(),
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      sizedBox,
+                      Text(
+                        'Please enter OTP sent to your phone number ${widget.phone}',
+                        style: AppTheme.textStyle.w500.color100
+                            .size(15)
+                            .lineHeight(1.3),
+                      ),
+                      sizedBox,
+                      otpForm(),
+                      SizedBox(height: 12),
+                      resendWidget(),
+                      SizedBox(height: 16),
+                      verifyButton(),
+                    ],
+                  ),
                 ),
               ),
             );

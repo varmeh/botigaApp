@@ -89,13 +89,16 @@ class Http {
 
     final data = json.decode(response.body);
     if (response.statusCode >= 500) {
-      final msg =
-          data['message'] != null ? data['message'] : 'Something went wrong';
+      final msg = data['message'] ?? 'Something went wrong';
       throw HttpException(msg);
     } else if (response.statusCode >= 400) {
       //  400 =< statusCode < 500
-      final msg =
-          data['message'] != null ? data['message'] : 'Somethig went wrong';
+      var msg = data['message'] ?? 'Somethig went wrong';
+      if (response.statusCode == 422) {
+        final info = data['errors'][0];
+        msg = '${info['param']} - ${info['msg']}';
+      }
+
       throw FormatException(msg);
     } else {
       return data;
