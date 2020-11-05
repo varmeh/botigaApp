@@ -45,6 +45,7 @@ dependencies:
   geolocator: ^6.0.0+4
   flutter_secure_storage: ^3.3.5
   intro_slider: ^2.3.3
+  webview_flutter: ^1.0.6
 
   # Firebase integration
   firebase_core: ^0.5.0
