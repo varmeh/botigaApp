@@ -32,6 +32,7 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
   String _query = '';
   String _houseNumber;
   var _bottomModal;
+  bool _loadApartment = true;
 
   GlobalKey<FormState> _aptFormKey;
   FocusNode _aptFocusNode;
@@ -65,7 +66,10 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
               SearchBar(
                 placeholder: 'Apartment / Area / City / Pincode',
                 onSubmit: (value) {
-                  setState(() => _query = value);
+                  setState(() {
+                    _query = value;
+                    _loadApartment = true;
+                  });
                 },
               ),
               SizedBox(height: 10.0),
@@ -223,14 +227,19 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
   }
 
   Future<void> getApartments() async {
-    try {
-      final json =
-          await Http.get('/api/services/apartments/search?text=$_query');
-      _apartments.clear();
-      json.forEach(
-          (apartment) => _apartments.add(ApartmentModel.fromJson(apartment)));
-    } catch (error) {
-      Toast(message: Http.message(error)).show(context);
+    if (_loadApartment) {
+      try {
+        _loadApartment = false;
+        final json =
+            await Http.get('/api/services/apartments/search?text=$_query');
+        _apartments.clear();
+        json.forEach(
+            (apartment) => _apartments.add(ApartmentModel.fromJson(apartment)));
+      } catch (error) {
+        Toast(message: Http.message(error)).show(context);
+      } finally {
+        setState(() => _loadApartment = false);
+      }
     }
   }
 
