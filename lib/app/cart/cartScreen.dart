@@ -160,8 +160,8 @@ class _CartScreenState extends State<CartScreen> {
             );
           },
           openBuilder: (_, __) => PaymentScreen(
-            orderId: provider.orderId,
-            txnToken: provider.txnToken,
+            orderId: provider.paymentId,
+            txnToken: provider.paymentToken,
           ),
         ),
       ),

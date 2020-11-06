@@ -18,8 +18,8 @@ class CartProvider with ChangeNotifier {
   Map<ProductModel, int> products = {};
 
   // Checkout Data
-  String orderId;
-  String txnToken;
+  String paymentId;
+  String paymentToken;
 
   // Providers to load cart at the beginning
   SellersProvider _sellersProvider;
@@ -101,8 +101,8 @@ class CartProvider with ChangeNotifier {
       'products': productList
     });
 
-    orderId = json['id'];
-    txnToken = json['txnToken'];
+    paymentId = json['paymentId'];
+    paymentToken = json['paymentToken'];
   }
 
 /* 
