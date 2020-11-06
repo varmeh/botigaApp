@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../theme/index.dart';
+import '../../widgets/index.dart' show LoaderOverlay;
 
 class PaymentScreen extends StatefulWidget {
-  final String orderNumber;
+  final String orderId;
   final String txnToken;
 
   PaymentScreen({
-    @required this.orderNumber,
+    @required this.orderId,
     @required this.txnToken,
   });
 
@@ -19,6 +20,7 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   WebViewController _webController;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -39,34 +41,40 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: WebView(
-            debuggingEnabled: false,
-            javascriptMode: JavascriptMode.unrestricted,
-            onPageStarted: (url) {
-              print(url);
-            },
-            onPageFinished: (url) {
-              print(url);
-            },
-            onWebViewCreated: (controller) {
-              _webController = controller;
+        child: LoaderOverlay(
+          isLoading: _isLoading,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: WebView(
+              debuggingEnabled: false,
+              javascriptMode: JavascriptMode.unrestricted,
+              onPageStarted: (url) {
+                print('started: $url');
+                setState(() => _isLoading = true);
+              },
+              onPageFinished: (url) {
+                print('ended: $url');
+                setState(() => _isLoading = false);
+              },
+              onWebViewCreated: (controller) {
+                _webController = controller;
 
-              _webController.loadUrl(new Uri.dataFromString(
-                _loadSubmitRequest(),
-                mimeType: 'text/html',
-              ).toString());
-            },
+                _webController.loadUrl(new Uri.dataFromString(
+                  __showPaymentPage(),
+                  mimeType: 'text/html',
+                ).toString());
+              },
+            ),
           ),
         ),
       ),
     );
   }
 
-  String _loadSubmitRequest() {
+  // https://developer.paytm.com/docs/show-payment-page/?ref=payments
+  String __showPaymentPage() {
     return '''
 		<html>
 			<head>
@@ -76,11 +84,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
 				<center>
 					<h1>Please do not refresh this page...</h1>
 				</center>
-				<form method="post" action="https://securegw-stage.paytm.in/theia/api/v1/showPaymentPage?mid=OJdkNI97902555723463&orderId=${widget.orderNumber}" name="paytm">
+				<form method="post" action="https://securegw-stage.paytm.in/theia/api/v1/showPaymentPage?mid=OJdkNI97902555723463&orderId=${widget.orderId}" name="paytm">
 					<table border="1">
 							<tbody>
 								<input type="hidden" name="mid" value="OJdkNI97902555723463">
-								<input type="hidden" name="orderId" value="${widget.orderNumber}">
+								<input type="hidden" name="orderId" value="${widget.orderId}">
 								<input type="hidden" name="txnToken" value="${widget.txnToken}">
 							</tbody>
 					</table>
