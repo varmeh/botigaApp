@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -17,9 +16,9 @@ class CartProvider with ChangeNotifier {
   double totalPrice = 0.0;
   int numberOfItemsInCart = 0;
   Map<ProductModel, int> products = {};
-  int _orderNumber;
 
-  String get orderNumber => _orderNumber.toString();
+  // Checkout Data
+  String orderId;
   String txnToken;
 
   // Providers to load cart at the beginning
@@ -83,18 +82,26 @@ class CartProvider with ChangeNotifier {
     return products.containsKey(product) ? products[product] : 0;
   }
 
-/*
- * Transactions API
-*/
-  Future<dynamic> initiateTransaction() async {
-    _orderNumber = Random().nextInt(90000) + 10000;
-    final json = await Http.post(
-      '/api/user/orders/transaction/initiate',
-      body: {
-        'orderNumber': orderNumber,
-        'txnAmount': totalPrice.toString(),
-      },
-    );
+  Future<dynamic> checkout({String apartmentId, String house}) async {
+    final productList = [];
+    products.forEach((product, quantity) {
+      productList.add({
+        'name': product.name,
+        'price': product.price,
+        'quantity': quantity,
+        'unitInfo': product.size
+      });
+    });
+
+    final json = await Http.post('/api/user/orders', body: {
+      'sellerId': cartSeller.id,
+      'apartmentId': apartmentId,
+      'house': house,
+      'totalAmount': totalPrice,
+      'products': productList
+    });
+
+    orderId = json['id'];
     txnToken = json['txnToken'];
   }
 

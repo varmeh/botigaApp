@@ -6,7 +6,7 @@ import 'package:animations/animations.dart';
 
 import '../tabbar.dart';
 import '../../models/index.dart' show ProductModel;
-import '../../providers/index.dart' show CartProvider;
+import '../../providers/index.dart' show CartProvider, UserProvider;
 import '../../util/index.dart' show Http;
 import '../../widgets/index.dart'
     show IncrementButton, LottieScreen, BotigaAppBar, Toast, LoaderOverlay;
@@ -134,7 +134,13 @@ class _CartScreenState extends State<CartScreen> {
               onTap: () async {
                 setState(() => _isLoading = true);
                 try {
-                  await provider.initiateTransaction();
+                  final address =
+                      Provider.of<UserProvider>(context, listen: false).address;
+                  print(address);
+                  await provider.checkout(
+                    apartmentId: address.id,
+                    house: address.house,
+                  );
                   openContainer();
                 } catch (error) {
                   Toast(message: Http.message(error)).show(context);
@@ -154,7 +160,7 @@ class _CartScreenState extends State<CartScreen> {
             );
           },
           openBuilder: (_, __) => PaymentScreen(
-            orderNumber: provider.orderNumber,
+            orderId: provider.orderId,
             txnToken: provider.txnToken,
           ),
         ),
