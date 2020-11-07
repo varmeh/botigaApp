@@ -103,6 +103,10 @@ class CartProvider with ChangeNotifier {
 
     paymentId = json['paymentId'];
     paymentToken = json['paymentToken'];
+
+    // As order has been created, reset cart & update to cloud
+    resetCart();
+    _saveCartToServer();
   }
 
 /* 

@@ -2,7 +2,6 @@ import 'package:async/async.dart';
 import 'package:botiga/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:animations/animations.dart';
 
 import '../tabbar.dart';
 import '../../models/index.dart' show ProductModel;
