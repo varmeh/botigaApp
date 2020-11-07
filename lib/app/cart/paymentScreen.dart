@@ -1,18 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/cartProvider.dart';
 import '../../theme/index.dart';
 import '../../widgets/index.dart' show LoaderOverlay;
 
 class PaymentScreen extends StatefulWidget {
-  final String orderId;
-  final String txnToken;
-
-  PaymentScreen({
-    @required this.orderId,
-    @required this.txnToken,
-  });
+  PaymentScreen();
 
   @override
   _PaymentScreenState createState() => _PaymentScreenState();
@@ -20,7 +16,7 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   WebViewController _webController;
-  bool _isLoading = false;
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -52,17 +48,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
               javascriptMode: JavascriptMode.unrestricted,
               onPageStarted: (url) {
                 print('started: $url');
-                setState(() => _isLoading = true);
+                // setState(() => _isLoading = true);
               },
               onPageFinished: (url) {
+                if (url.contains('showPaymentPage')) {
+                  setState(() => _isLoading = false);
+                }
                 print('ended: $url');
-                setState(() => _isLoading = false);
               },
               onWebViewCreated: (controller) {
                 _webController = controller;
 
                 _webController.loadUrl(new Uri.dataFromString(
-                  __showPaymentPage(),
+                  _showPaymentPage(),
                   mimeType: 'text/html',
                 ).toString());
               },
@@ -74,7 +72,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   // https://developer.paytm.com/docs/show-payment-page/?ref=payments
-  String __showPaymentPage() {
+  String _showPaymentPage() {
+    final provider = Provider.of<CartProvider>(context, listen: false);
+    const mid = 'OJdkNI97902555723463'; // TODO: update merchant id
     return '''
 		<html>
 			<head>
@@ -84,12 +84,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
 				<center>
 					<h1>Please do not refresh this page...</h1>
 				</center>
-				<form method="post" action="https://securegw-stage.paytm.in/theia/api/v1/showPaymentPage?mid=OJdkNI97902555723463&orderId=${widget.orderId}" name="paytm">
+				<form method="post" action="https://securegw-stage.paytm.in/theia/api/v1/showPaymentPage?mid=$mid&orderId=${provider.paymentId}" name="paytm">
 					<table border="1">
 							<tbody>
-								<input type="hidden" name="mid" value="OJdkNI97902555723463">
-								<input type="hidden" name="orderId" value="${widget.orderId}">
-								<input type="hidden" name="txnToken" value="${widget.txnToken}">
+								<input type="hidden" name="mid" value="$mid">
+								<input type="hidden" name="orderId" value="${provider.paymentId}">
+								<input type="hidden" name="txnToken" value="${provider.paymentToken}">
 							</tbody>
 					</table>
 					<script type="text/javascript"> document.paytm.submit(); </script>

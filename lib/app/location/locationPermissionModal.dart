@@ -79,11 +79,7 @@ class LocationPermissionModal {
         Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high,
           timeLimit: Duration(seconds: 5),
-        ).then((position) {
-          print(position);
-        }).catchError((error) {
-          print(error);
-        });
+        ).then((position) {}).catchError((error) {});
       }
     });
   }

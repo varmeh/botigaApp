@@ -131,22 +131,22 @@ class _CartScreenState extends State<CartScreen> {
           transitionDuration: Duration(milliseconds: 500),
           closedBuilder: (context, openContainer) {
             return GestureDetector(
-              onTap: () async {
+              onTap: () {
                 setState(() => _isLoading = true);
-                try {
-                  final address =
-                      Provider.of<UserProvider>(context, listen: false).address;
-                  print(address);
-                  await provider.checkout(
-                    apartmentId: address.id,
-                    house: address.house,
-                  );
-                  openContainer();
-                } catch (error) {
-                  Toast(message: Http.message(error)).show(context);
-                } finally {
+                final address =
+                    Provider.of<UserProvider>(context, listen: false).address;
+                provider
+                    .checkout(
+                  apartmentId: address.id,
+                  house: address.house,
+                )
+                    .then((_) {
                   setState(() => _isLoading = false);
-                }
+                  openContainer();
+                }).catchError((error) {
+                  setState(() => _isLoading = false);
+                  Toast(message: Http.message(error)).show(context);
+                });
               },
               child: Center(
                 child: Text(
@@ -159,10 +159,7 @@ class _CartScreenState extends State<CartScreen> {
               ),
             );
           },
-          openBuilder: (_, __) => PaymentScreen(
-            orderId: provider.paymentId,
-            txnToken: provider.paymentToken,
-          ),
+          openBuilder: (_, __) => PaymentScreen(),
         ),
       ),
     );

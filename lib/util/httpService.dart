@@ -113,6 +113,8 @@ class Http {
       msg = exception.message;
     } else if (exception is FormatException) {
       msg = exception.message;
+    } else {
+      msg = exception.message;
     }
     return msg;
   }
