@@ -8,6 +8,8 @@ import '../../theme/index.dart';
 import '../../widgets/index.dart' show LoaderOverlay;
 
 class PaymentScreen extends StatefulWidget {
+  static const route = 'payment';
+
   PaymentScreen();
 
   @override

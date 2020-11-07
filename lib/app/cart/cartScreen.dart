@@ -117,49 +117,45 @@ class _CartScreenState extends State<CartScreen> {
     return Material(
       elevation: 3.0,
       shadowColor: Colors.transparent,
-      child: Container(
-        height: 56,
-        width: MediaQuery.of(context).size.width - 40,
-        child: OpenContainer(
-          closedShape: const RoundedRectangleBorder(
+      child: GestureDetector(
+        onTap: () {
+          setState(() => _isLoading = true);
+          final address =
+              Provider.of<UserProvider>(context, listen: false).address;
+          provider
+              .checkout(
+                apartmentId: address.id,
+                house: address.house,
+              )
+              .then(
+                (_) {
+                  Navigator.of(context).pushNamed(PaymentScreen.route);
+                },
+              )
+              .catchError(
+                (error) => Toast(message: Http.message(error)).show(context),
+              )
+              .whenComplete(() => setState(() => _isLoading = false));
+        },
+        child: Container(
+          height: 56,
+          width: MediaQuery.of(context).size.width - 40,
+          decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(16.0),
               topRight: const Radius.circular(16.0),
             ),
+            color: AppTheme.primaryColor,
           ),
-          closedColor: AppTheme.primaryColor,
-          transitionDuration: Duration(milliseconds: 500),
-          closedBuilder: (context, openContainer) {
-            return GestureDetector(
-              onTap: () {
-                setState(() => _isLoading = true);
-                final address =
-                    Provider.of<UserProvider>(context, listen: false).address;
-                provider
-                    .checkout(
-                  apartmentId: address.id,
-                  house: address.house,
-                )
-                    .then((_) {
-                  setState(() => _isLoading = false);
-                  openContainer();
-                }).catchError((error) {
-                  setState(() => _isLoading = false);
-                  Toast(message: Http.message(error)).show(context);
-                });
-              },
-              child: Center(
-                child: Text(
-                  'Proceed to pay',
-                  style: AppTheme.textStyle.w700
-                      .colored(AppTheme.backgroundColor)
-                      .size(13)
-                      .lineHeight(1.6),
-                ),
-              ),
-            );
-          },
-          openBuilder: (_, __) => PaymentScreen(),
+          child: Center(
+            child: Text(
+              'Proceed to pay',
+              style: AppTheme.textStyle.w700
+                  .colored(AppTheme.backgroundColor)
+                  .size(13)
+                  .lineHeight(1.6),
+            ),
+          ),
         ),
       ),
     );
