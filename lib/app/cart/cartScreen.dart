@@ -136,26 +136,28 @@ class _CartScreenState extends State<CartScreen> {
               )
               .whenComplete(() => setState(() => _isLoading = false));
         },
-        child: Container(
-          height: 56,
-          width: MediaQuery.of(context).size.width - 40,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(16.0),
-              topRight: const Radius.circular(16.0),
-            ),
-            color: AppTheme.primaryColor,
-          ),
-          child: Center(
-            child: Text(
-              'Proceed to pay',
-              style: AppTheme.textStyle.w700
-                  .colored(AppTheme.backgroundColor)
-                  .size(13)
-                  .lineHeight(1.6),
-            ),
-          ),
-        ),
+        child: provider.cartSeller.live
+            ? Container(
+                height: 56,
+                width: MediaQuery.of(context).size.width - 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: const Radius.circular(16.0),
+                    topRight: const Radius.circular(16.0),
+                  ),
+                  color: AppTheme.primaryColor,
+                ),
+                child: Center(
+                  child: Text(
+                    'Proceed to pay',
+                    style: AppTheme.textStyle.w700
+                        .colored(AppTheme.backgroundColor)
+                        .size(13)
+                        .lineHeight(1.6),
+                  ),
+                ),
+              )
+            : Container(),
       ),
     );
   }

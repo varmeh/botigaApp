@@ -50,7 +50,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
               javascriptMode: JavascriptMode.unrestricted,
               onPageStarted: (url) {
                 print('started: $url');
-                // setState(() => _isLoading = true);
               },
               onPageFinished: (url) {
                 if (url.contains('showPaymentPage')) {
