@@ -23,6 +23,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   final _memoizer = AsyncMemoizer();
   bool _isLoading = false;
+  bool _showSellerNotLiveDialog = true;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +63,11 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _cartDetails(CartProvider provider) {
+    if (provider.cartSeller.live == false && _showSellerNotLiveDialog) {
+      _showSellerNotLiveDialog = false;
+      Future.delayed(Duration(milliseconds: 500), () => _sellerNotLiveDialog());
+    }
+
     return FutureBuilder(
       future: _memoizer.runOnce(() => Future.delayed(
             Duration(
@@ -158,6 +164,33 @@ class _CartScreenState extends State<CartScreen> {
                 ),
               )
             : Container(),
+      ),
+    );
+  }
+
+  void _sellerNotLiveDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          'Merchant Unavailable',
+          style: AppTheme.textStyle.w500.color100,
+        ),
+        content: Text(
+          'Merchant in your cart is not taking orders now. Try sometime later',
+          style: AppTheme.textStyle.w400.color100,
+        ),
+        actions: [
+          FlatButton(
+            child: Text(
+              'Close',
+              style: AppTheme.textStyle.w600.colored(AppTheme.primaryColor),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )
+        ],
       ),
     );
   }
