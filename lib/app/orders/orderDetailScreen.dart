@@ -109,6 +109,15 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   actions: [
                     FlatButton(
                       child: Text(
+                        'Don\'t Cancel',
+                        style: AppTheme.textStyle.w600.color50,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    FlatButton(
+                      child: Text(
                         'Confirm',
                         style: AppTheme.textStyle.w600
                             .colored(AppTheme.errorColor),
@@ -226,20 +235,42 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         vertical: 24.0,
         horizontal: 20.0,
       ),
-      child: Row(
+      child: Column(
         children: [
-          Container(
-            width: 12.0,
-            height: 12.0,
-            decoration: BoxDecoration(
-              color: order.statusColor,
-              shape: BoxShape.circle,
-            ),
+          Row(
+            children: [
+              SizedBox(width: 6.0),
+              Container(
+                width: 12.0,
+                height: 12.0,
+                decoration: BoxDecoration(
+                  color: order.statusColor,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              SizedBox(width: 24.0),
+              Text(
+                message,
+                style:
+                    AppTheme.textStyle.w500.color100.size(13.0).lineHeight(1.5),
+              ),
+            ],
           ),
-          SizedBox(width: 8.0),
-          Text(
-            message,
-            style: AppTheme.textStyle.w500.color100.size(13.0).lineHeight(1.5),
+          SizedBox(height: 18),
+          Row(
+            children: [
+              Image.asset(
+                'assets/images/card.png',
+                width: 24.0,
+                height: 24.0,
+              ),
+              SizedBox(width: 18.0),
+              Text(
+                'Paid via UPI',
+                style:
+                    AppTheme.textStyle.w500.color100.size(13.0).lineHeight(1.5),
+              ),
+            ],
           ),
         ],
       ),
