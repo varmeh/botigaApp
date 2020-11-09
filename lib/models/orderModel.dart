@@ -2,6 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import './paymentModel.dart';
+import './refundModel.dart';
+
 part 'orderModel.g.dart';
 
 @JsonSerializable()
@@ -15,6 +18,8 @@ class OrderModel {
   final DateTime expectedDeliveryDate;
   final DateTime completionDate;
   final List<OrderProductModel> products;
+  final PaymentModel payment;
+  final RefundModel refund;
 
   OrderModel({
     @required this.id,
@@ -26,6 +31,8 @@ class OrderModel {
     @required this.expectedDeliveryDate,
     @required this.completionDate,
     @required this.products,
+    this.payment,
+    this.refund,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>

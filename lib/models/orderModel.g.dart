@@ -29,6 +29,12 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) {
             ? null
             : OrderProductModel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    payment: json['payment'] == null
+        ? null
+        : PaymentModel.fromJson(json['payment'] as Map<String, dynamic>),
+    refund: json['refund'] == null
+        ? null
+        : RefundModel.fromJson(json['refund'] as Map<String, dynamic>),
   );
 }
 
@@ -43,6 +49,8 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'expectedDeliveryDate': instance.expectedDeliveryDate?.toIso8601String(),
       'completionDate': instance.completionDate?.toIso8601String(),
       'products': instance.products,
+      'payment': instance.payment,
+      'refund': instance.refund,
     };
 
 OrderSellerModel _$OrderSellerModelFromJson(Map<String, dynamic> json) {
