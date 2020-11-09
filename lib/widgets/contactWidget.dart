@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../theme/botigaIcons.dart';
+import 'button.dart';
 
 class ContactWidget extends StatelessWidget {
   final String phone;
@@ -16,42 +17,30 @@ class ContactWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-          child: FlatButton.icon(
+          child: Button(
             height: 44,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
             icon: Icon(
               BotigaIcons.call,
               color: AppTheme.color100,
-              size: 18,
+              size: 16,
             ),
-            onPressed: () => _phone(context),
-            color: AppTheme.dividerColor,
-            label: Text(
-              'Call',
-              style: AppTheme.textStyle.w500.color100.size(15),
-            ),
+            onTap: () => _phone(context),
+            title: 'Call',
           ),
         ),
         SizedBox(
           width: 13,
         ),
         Expanded(
-          child: Container(
+          child: Button(
             height: 44,
-            child: FlatButton.icon(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              icon: Image.asset('assets/images/whatsapp.png'),
-              onPressed: () => _whatsapp(context),
-              color: AppTheme.dividerColor,
-              label: Text(
-                'Whatsapp',
-                style: AppTheme.textStyle.w500.color100.size(15),
-              ),
+            icon: Image.asset(
+              'assets/images/whatsapp.png',
+              width: 18,
+              height: 18,
             ),
+            onTap: () => _whatsapp(context),
+            title: 'Whatsapp',
           ),
         )
       ],
