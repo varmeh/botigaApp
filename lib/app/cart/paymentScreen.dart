@@ -52,7 +52,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
               debuggingEnabled: false,
               javascriptMode: JavascriptMode.unrestricted,
               onPageFinished: (url) {
-                print('ended: $url');
                 if (url.contains('showPaymentPage')) {
                   setState(() => _isLoading = false);
                 }
@@ -106,12 +105,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
   void _showPaymentStatus() {
     _webController.evaluateJavascript('document.body.innerText').then((data) {
       var decodedJSON = jsonDecode(data);
-      // Map<String, dynamic> responseJSON = jsonDecode(decodedJSON);
-      final txnStatus = decodedJSON['resultInfo']['resultStatus'];
+      final txnStatus = decodedJSON['status'];
       PaymentStatus status = PaymentStatus.pending;
-      if (txnStatus == 'TXN_SUCCESS') {
+      if (txnStatus == 'success') {
         status = PaymentStatus.success;
-      } else if (txnStatus == 'TXN_FAILURE') {
+      } else if (txnStatus == 'failure') {
         status = PaymentStatus.failure;
       }
       Navigator.push(

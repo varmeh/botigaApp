@@ -134,7 +134,13 @@ class _CartScreenState extends State<CartScreen> {
               )
               .then(
                 (_) {
-                  Navigator.of(context).pushNamed(PaymentScreen.route);
+                  Navigator.pushReplacement(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (_, __, ___) => PaymentScreen(),
+                      transitionDuration: Duration.zero,
+                    ),
+                  );
                 },
               )
               .catchError(
