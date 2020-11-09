@@ -16,23 +16,21 @@ class ContactWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-          child: Container(
+          child: FlatButton.icon(
             height: 44,
-            child: FlatButton.icon(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              icon: Icon(
-                BotigaIcons.call,
-                color: AppTheme.color100,
-                size: 18,
-              ),
-              onPressed: () => _phone(context),
-              color: AppTheme.dividerColor,
-              label: Text(
-                'Call',
-                style: AppTheme.textStyle.w500.color100.size(15),
-              ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            icon: Icon(
+              BotigaIcons.call,
+              color: AppTheme.color100,
+              size: 18,
+            ),
+            onPressed: () => _phone(context),
+            color: AppTheme.dividerColor,
+            label: Text(
+              'Call',
+              style: AppTheme.textStyle.w500.color100.size(15),
             ),
           ),
         ),
