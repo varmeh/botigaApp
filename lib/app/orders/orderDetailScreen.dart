@@ -7,7 +7,12 @@ import '../../providers/ordersProvider.dart';
 import '../../theme/index.dart';
 import '../../models/orderModel.dart';
 import '../../widgets/index.dart'
-    show ContactWidget, Loader, BotigaAppBar, HttpServiceExceptionWidget;
+    show
+        ContactWidget,
+        Loader,
+        BotigaAppBar,
+        HttpServiceExceptionWidget,
+        Button;
 
 class OrderDetailScreen extends StatefulWidget {
   static const route = 'orderDetails';
@@ -215,20 +220,37 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   Widget _deliveryStatus() {
     final dateFormat = DateFormat('d MMMM hh:mm a');
 
-    String message;
+    String orderMessage;
+    String paymentMessage;
 
+    // Order Status Message
     if (order.status == 'cancelled') {
-      message =
+      orderMessage =
           'Order Cancelled on ${dateFormat.format(order.completionDate.toLocal())}';
     } else if (order.status == 'delivered') {
-      message =
+      orderMessage =
           'Order delivered on ${dateFormat.format(order.completionDate.toLocal())}';
     } else if (order.status == 'out') {
-      message = 'Order is out for delivery';
+      orderMessage = 'Order is out for delivery';
     } else {
-      message =
+      orderMessage =
           'Delivery expected on ${DateFormat('d MMMM').format(order.expectedDeliveryDate.toLocal())}';
     }
+
+    // Order Payment Message
+    if (order.payment.status == 'success') {
+      paymentMessage = 'Paid via ${order.payment.paymentMode}';
+    } else if (order.payment.status == 'pending') {
+      paymentMessage = 'Payment confirmation pending from the bank.';
+    } else {
+      // for payment status - pending & failure
+      paymentMessage = 'Payment Failed';
+    }
+
+    // Payment Retry button
+    bool retryPayment = (order.payment.status == 'failure' ||
+            order.payment.status == 'initiated') &&
+        (order.status == 'open' || order.status == 'delayed');
 
     return Container(
       padding: EdgeInsets.symmetric(
@@ -250,7 +272,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               ),
               SizedBox(width: 24.0),
               Text(
-                message,
+                orderMessage,
                 style:
                     AppTheme.textStyle.w500.color100.size(13.0).lineHeight(1.5),
               ),
@@ -265,13 +287,27 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 height: 24.0,
               ),
               SizedBox(width: 18.0),
-              Text(
-                'Paid via UPI',
-                style:
-                    AppTheme.textStyle.w500.color100.size(13.0).lineHeight(1.5),
+              Expanded(
+                child: Text(
+                  paymentMessage,
+                  style: AppTheme.textStyle.w500.color100
+                      .size(13.0)
+                      .lineHeight(1.5),
+                ),
               ),
             ],
           ),
+          retryPayment
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 18.0),
+                  child: Button(
+                    width: double.infinity,
+                    height: 44.0,
+                    title: 'Retry Payment',
+                    onTap: () {},
+                  ),
+                )
+              : Container()
         ],
       ),
     );
