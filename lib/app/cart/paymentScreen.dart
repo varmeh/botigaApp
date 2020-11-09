@@ -1,11 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/cartProvider.dart';
+import '../../providers/index.dart' show CartProvider;
 import '../../theme/index.dart';
 import '../../widgets/index.dart' show LoaderOverlay;
+import 'paymentStatusScreen.dart';
 
 class PaymentScreen extends StatefulWidget {
   static const route = 'payment';
@@ -48,14 +51,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
             child: WebView(
               debuggingEnabled: false,
               javascriptMode: JavascriptMode.unrestricted,
-              onPageStarted: (url) {
-                print('started: $url');
-              },
               onPageFinished: (url) {
+                print('ended: $url');
                 if (url.contains('showPaymentPage')) {
                   setState(() => _isLoading = false);
                 }
-                print('ended: $url');
+                if (url.contains('/transaction/status')) {
+                  _showPaymentStatus();
+                }
               },
               onWebViewCreated: (controller) {
                 _webController = controller;
@@ -98,5 +101,26 @@ class _PaymentScreenState extends State<PaymentScreen> {
 			</body>
 		</html>
 		''';
+  }
+
+  void _showPaymentStatus() {
+    _webController.evaluateJavascript('document.body.innerText').then((data) {
+      var decodedJSON = jsonDecode(data);
+      // Map<String, dynamic> responseJSON = jsonDecode(decodedJSON);
+      final txnStatus = decodedJSON['resultInfo']['resultStatus'];
+      PaymentStatus status = PaymentStatus.pending;
+      if (txnStatus == 'TXN_SUCCESS') {
+        status = PaymentStatus.success;
+      } else if (txnStatus == 'TXN_FAILURE') {
+        status = PaymentStatus.failure;
+      }
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => PaymentStatusScreen(status),
+          transitionDuration: Duration.zero,
+        ),
+      );
+    });
   }
 }
