@@ -85,7 +85,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 			</head>
 			<body>
 				<center>
-					<h1>Please do not refresh this page...</h1>
+					<h1 style="font-size:500%">Please do not refresh this page...</h1>
 				</center>
 				<form method="post" action="https://securegw-stage.paytm.in/theia/api/v1/showPaymentPage?mid=$mid&orderId=${provider.paymentId}" name="paytm">
 					<table border="1">

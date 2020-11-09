@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/index.dart';
+import '../tabbar.dart';
 
 enum PaymentStatus { success, failure, pending }
 
@@ -19,7 +20,13 @@ class _PaymentStatusScreenState extends State<PaymentStatusScreen> {
     super.initState();
     Future.delayed(
       Duration(seconds: 2),
-      () => Navigator.of(context).popUntil((route) => route.isFirst),
+      () => Navigator.of(context).pushAndRemoveUntil(
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => Tabbar(index: 0),
+          transitionDuration: Duration.zero,
+        ),
+        (route) => false,
+      ),
     );
   }
 
