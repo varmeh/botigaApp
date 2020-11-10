@@ -1,8 +1,9 @@
+import 'package:botiga/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'passiveButton.dart';
-import '../../theme/index.dart';
+import '../toast.dart';
 
 class WhatsappButton extends StatelessWidget {
   final String phone;
@@ -34,30 +35,15 @@ class WhatsappButton extends StatelessWidget {
         await launch(url);
       });
     } else {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text(
-            'Whatsapp Missing',
-            style: AppTheme.textStyle.w500.color100,
-          ),
-          content: Text(
-            'Please download whatsapp to use this feature',
-            style: AppTheme.textStyle.w400.color100,
-          ),
-          actions: [
-            FlatButton(
-              child: Text(
-                'Close',
-                style: AppTheme.textStyle.w600.colored(AppTheme.primaryColor),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          ],
+      Toast(
+        message: 'Please download whatsapp to use this feature',
+        icon: Image.asset(
+          'assets/images/whatsappOutline.png',
+          width: 28.0,
+          height: 28.0,
+          color: AppTheme.backgroundColor,
         ),
-      );
+      ).show(context);
     }
   }
 }

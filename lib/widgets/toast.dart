@@ -5,20 +5,26 @@ import '../theme/index.dart';
 
 class Toast {
   final String message;
-  final IconData iconData;
+  final Widget icon;
+  final Color color;
 
-  Toast({@required this.message, this.iconData = Icons.error_outline});
+  Toast({@required this.message, this.icon, this.color});
 
   void show(BuildContext context) {
     Flushbar(
-      maxWidth: 335,
-      backgroundColor: Color(0xff2591B2),
+      backgroundColor: color != null ? color : Color(0xff2591B2),
       messageText: Text(
         message,
         style:
             AppTheme.textStyle.colored(AppTheme.backgroundColor).w500.size(15),
       ),
-      icon: Icon(iconData, size: 30, color: AppTheme.backgroundColor),
+      icon: icon != null
+          ? icon
+          : Icon(
+              Icons.error_outline,
+              size: 24,
+              color: AppTheme.backgroundColor,
+            ),
       flushbarPosition: FlushbarPosition.TOP,
       flushbarStyle: FlushbarStyle.FLOATING,
       duration: Duration(seconds: 3),

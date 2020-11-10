@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'passiveButton.dart';
+import '../toast.dart';
+
 import '../../theme/index.dart';
 
 class CallButton extends StatelessWidget {
@@ -34,30 +36,13 @@ class CallButton extends StatelessWidget {
         await launch(url);
       });
     } else {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text(
-            'Phone Call Unsupported',
-            style: AppTheme.textStyle.w500.color100,
-          ),
-          content: Text(
-            'Phone call is not supported on this device',
-            style: AppTheme.textStyle.w400.color100,
-          ),
-          actions: [
-            FlatButton(
-              child: Text(
-                'Close',
-                style: AppTheme.textStyle.w600.colored(AppTheme.primaryColor),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        ),
-      );
+      Toast(
+          message: 'Phone call is not supported on this device',
+          icon: Icon(
+            BotigaIcons.call,
+            size: 24,
+            color: AppTheme.backgroundColor,
+          )).show(context);
     }
   }
 }
