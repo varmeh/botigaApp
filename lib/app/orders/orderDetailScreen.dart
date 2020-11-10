@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../cart/paymentScreen.dart';
 import '../../providers/ordersProvider.dart';
 import '../../util/index.dart' show Http;
 import '../../theme/index.dart';
@@ -28,6 +29,7 @@ class OrderDetailScreen extends StatefulWidget {
 
 class _OrderDetailScreenState extends State<OrderDetailScreen> {
   bool _isLoading = false;
+  OrdersProvider provider;
   OrderModel order;
 
   @override
@@ -37,7 +39,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       color: AppTheme.dividerColor,
     );
 
-    final provider = Provider.of<OrdersProvider>(context);
+    provider = Provider.of<OrdersProvider>(context);
     order = provider.getOrderWithId(widget.orderId);
 
     return Scaffold(
@@ -243,7 +245,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           child: PassiveButton(
             width: double.infinity,
             title: 'Retry Payment',
-            onPressed: () {},
+            onPressed: _retryPayment,
           ),
         );
       }
@@ -322,6 +324,28 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         ],
       ),
     );
+  }
+
+  void _retryPayment() async {
+    setState(() => _isLoading = true);
+    try {
+      final data = await provider.retryPayment(widget.orderId);
+
+      Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => PaymentScreen(
+            paymentId: data['paymentId'],
+            paymentToken: data['paymentToken'],
+          ),
+          transitionDuration: Duration.zero,
+        ),
+      );
+    } catch (error) {
+      Toast(message: Http.message(error)).show(context);
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
   Widget _itemizedBill() {

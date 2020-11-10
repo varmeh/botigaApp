@@ -63,4 +63,15 @@ class OrdersProvider with ChangeNotifier {
     await getOrders(); //refetch data
     notifyListeners();
   }
+
+  Future<Map<String, String>> retryPayment(String orderId) async {
+    final json = await Http.post('/api/user/orders/transaction/retry',
+        body: {'orderId': orderId});
+
+    final Map<String, String> data = {};
+    data['paymentId'] = json['paymentId'];
+    data['paymentToken'] = json['paymentToken'];
+
+    return data;
+  }
 }
