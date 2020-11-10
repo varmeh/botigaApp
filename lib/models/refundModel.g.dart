@@ -9,7 +9,7 @@ part of 'refundModel.dart';
 RefundModel _$RefundModelFromJson(Map<String, dynamic> json) {
   return RefundModel(
     id: json['id'] as String,
-    amount: (json['amount'] as num)?.toDouble(),
+    amount: json['amount'] as String,
     status: json['status'] as String,
     date: json['date'] == null ? null : DateTime.parse(json['date'] as String),
   );

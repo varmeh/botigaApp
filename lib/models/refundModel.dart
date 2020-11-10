@@ -5,7 +5,7 @@ part 'refundModel.g.dart';
 @JsonSerializable()
 class RefundModel {
   final String id;
-  final double amount;
+  final String amount;
   final String status;
   final DateTime date;
 
