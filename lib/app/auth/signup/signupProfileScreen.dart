@@ -6,12 +6,7 @@ import '../../../providers/userProvider.dart';
 import '../../../theme/index.dart';
 import '../../../util/index.dart' show Http, Validations;
 import '../../../widgets/index.dart'
-    show
-        Toast,
-        BotigaAppBar,
-        LoaderOverlay,
-        BotigaTextFieldForm,
-        FullWidthButton;
+    show Toast, BotigaAppBar, LoaderOverlay, BotigaTextFieldForm, PrimaryButton;
 import 'signupApartmentScreen.dart';
 
 final Function(String) _nameValidator = (value) {
@@ -171,7 +166,7 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
               right: 10.0,
               bottom: 32.0,
             ),
-            child: FullWidthButton(
+            child: PrimaryButton(
               title: 'Create Account',
               onPressed: _onPressed,
             ),

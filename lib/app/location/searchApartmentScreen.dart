@@ -11,7 +11,7 @@ import '../../widgets/index.dart'
         LoaderOverlay,
         SearchBar,
         BotigaTextFieldForm,
-        FullWidthButton,
+        PrimaryButton,
         BotigaBottomModal,
         Toast,
         HttpServiceExceptionWidget;
@@ -214,7 +214,7 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
             ),
           ),
           sizedBox24,
-          FullWidthButton(
+          PrimaryButton(
             title: 'Continue',
             onPressed: () => _submitApartment(apartment),
           ),

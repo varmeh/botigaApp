@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../providers/userProvider.dart';
 import '../../../util/index.dart' show Http;
 import '../../../widgets/index.dart'
-    show LoaderOverlay, PinTextField, FullWidthButton, Toast;
+    show LoaderOverlay, PinTextField, PrimaryButton, Toast;
 import '../../../theme/index.dart';
 import '../../tabbar.dart';
 
@@ -36,21 +36,24 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
           backNavigation: true,
           child: LoaderOverlay(
             isLoading: _isLoading,
-            child: Column(
-              children: [
-                sizedBox,
-                Text(
-                  'Please enter your PIN to login',
-                  style:
-                      AppTheme.textStyle.w500.color100.size(15).lineHeight(1.3),
-                ),
-                sizedBox,
-                pinTextField(),
-                sizedBox,
-                continueButton(provider),
-                sizedBox,
-                forgotButton(context, _phoneNumber),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  sizedBox,
+                  Text(
+                    'Please enter your PIN to login',
+                    style: AppTheme.textStyle.w500.color100
+                        .size(15)
+                        .lineHeight(1.3),
+                  ),
+                  sizedBox,
+                  pinTextField(),
+                  sizedBox,
+                  continueButton(provider),
+                  sizedBox,
+                  forgotButton(context, _phoneNumber),
+                ],
+              ),
             ),
           ),
         );
@@ -70,7 +73,7 @@ class _LoginPinScreenState extends State<LoginPinScreen> {
   }
 
   Widget continueButton(UserProvider provider) {
-    return FullWidthButton(
+    return PrimaryButton(
       title: 'Continue',
       onPressed: () async {
         if (_form.currentState.validate()) {

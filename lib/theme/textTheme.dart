@@ -17,6 +17,8 @@ extension TextStyleHelpers on TextStyle {
 
   TextStyle colored(Color value) => copyWith(color: value);
 
+  TextStyle weight(FontWeight value) => copyWith(fontWeight: value);
+
   TextStyle size(double value) => copyWith(fontSize: value);
 
   TextStyle lineHeight(double value) => copyWith(height: value);

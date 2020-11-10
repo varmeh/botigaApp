@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../theme/botigaIcons.dart';
-import 'passiveButton.dart';
+import 'buttons/passiveButton.dart';
 
 class ContactWidget extends StatelessWidget {
   final String phone;

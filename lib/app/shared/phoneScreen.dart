@@ -89,7 +89,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
   }
 
   Widget formButton() {
-    return FullWidthButton(
+    return PrimaryButton(
       title: 'Continue',
       onPressed: () {
         if (_phoneFormKey.currentState.validate()) {
