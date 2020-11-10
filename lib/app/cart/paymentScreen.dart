@@ -3,9 +3,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:provider/provider.dart';
 
 import '../../theme/index.dart';
 import '../../widgets/index.dart' show LoaderOverlay;
+import '../../providers/index.dart' show OrdersProvider;
 import 'paymentStatusScreen.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -61,6 +63,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 }
                 if (url.contains('/transaction/status')) {
                   _showPaymentStatus();
+
+                  // Clear order list to enable reloading of orders
+                  Provider.of<OrdersProvider>(context, listen: false)
+                      .resetOrders();
                 }
               },
               onWebViewCreated: (controller) {

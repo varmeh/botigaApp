@@ -12,6 +12,13 @@ class OrdersProvider with ChangeNotifier {
 
   UnmodifiableListView<OrderModel> get orders => UnmodifiableListView(_orders);
 
+  void resetOrders() {
+    pages = 1;
+    currentPage = 1;
+    totalOrders = 1;
+    _orders.clear();
+  }
+
   Future<void> getOrders() async {
     if (_orders.length > 0) {
       return;
