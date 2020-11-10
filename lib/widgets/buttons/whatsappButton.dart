@@ -8,10 +8,12 @@ import '../toast.dart';
 class WhatsappButton extends StatelessWidget {
   final String phone;
   final String title;
+  final String message;
 
   WhatsappButton({
     @required this.phone,
     this.title = 'Whatsapp',
+    this.message = '',
   });
 
   @override
@@ -29,7 +31,7 @@ class WhatsappButton extends StatelessWidget {
   }
 
   void _whatsapp(BuildContext context) async {
-    String url = 'whatsapp://send?phone=91$phone';
+    String url = 'whatsapp://send?phone=91$phone&text=$message';
     if (await canLaunch(url)) {
       Future.delayed(Duration(milliseconds: 300), () async {
         await launch(url);
