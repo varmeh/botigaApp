@@ -9,17 +9,20 @@ class WhatsappButton extends StatelessWidget {
   final String phone;
   final String title;
   final String message;
+  final double width;
 
   WhatsappButton({
     @required this.phone,
     this.title = 'Whatsapp',
     this.message = '',
+    this.width,
   });
 
   @override
   Widget build(BuildContext context) {
     return PassiveButton(
       height: 44,
+      width: width,
       icon: Image.asset(
         'assets/images/whatsapp.png',
         width: 18,
