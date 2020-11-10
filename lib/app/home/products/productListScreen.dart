@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:botiga/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,8 @@ class ProductListScreen extends StatefulWidget {
 }
 
 class _ProductListScreenState extends State<ProductListScreen> {
+  final _memoizer = AsyncMemoizer();
+
   @override
   Widget build(BuildContext context) {
     final SellerModel seller = widget.seller != null
@@ -34,8 +37,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
       appBar: BotigaAppBar(''),
       body: SafeArea(
         child: FutureBuilder(
-          future: Provider.of<ProductsProvider>(context, listen: false)
-              .getProducts(seller.id),
+          future: _memoizer.runOnce(
+            () => Future.delayed(
+              Duration(milliseconds: 100),
+              () => Provider.of<ProductsProvider>(context, listen: false)
+                  .getProducts(seller.id),
+            ),
+          ),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Loader();
