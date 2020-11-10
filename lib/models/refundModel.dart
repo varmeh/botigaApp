@@ -4,15 +4,16 @@ part 'refundModel.g.dart';
 
 @JsonSerializable()
 class RefundModel {
-  @JsonKey(name: 'redundId')
   final String id;
+  final double amount;
   final String status;
-  final DateTime refundDate;
+  final DateTime date;
 
   RefundModel({
     this.id,
+    this.amount,
     this.status,
-    this.refundDate,
+    this.date,
   });
 
   factory RefundModel.fromJson(Map<String, dynamic> json) =>

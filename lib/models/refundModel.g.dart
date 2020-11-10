@@ -8,17 +8,17 @@ part of 'refundModel.dart';
 
 RefundModel _$RefundModelFromJson(Map<String, dynamic> json) {
   return RefundModel(
-    id: json['redundId'] as String,
+    id: json['id'] as String,
+    amount: (json['amount'] as num)?.toDouble(),
     status: json['status'] as String,
-    refundDate: json['refundDate'] == null
-        ? null
-        : DateTime.parse(json['refundDate'] as String),
+    date: json['date'] == null ? null : DateTime.parse(json['date'] as String),
   );
 }
 
 Map<String, dynamic> _$RefundModelToJson(RefundModel instance) =>
     <String, dynamic>{
-      'redundId': instance.id,
+      'id': instance.id,
+      'amount': instance.amount,
       'status': instance.status,
-      'refundDate': instance.refundDate?.toIso8601String(),
+      'date': instance.date?.toIso8601String(),
     };
