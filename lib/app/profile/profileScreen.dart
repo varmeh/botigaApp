@@ -6,7 +6,12 @@ import '../../models/addressModel.dart';
 import '../../util/index.dart' show Http;
 import '../tabbar.dart';
 import '../../widgets/index.dart'
-    show Loader, HttpServiceExceptionWidget, ContactWidget, Toast;
+    show
+        Loader,
+        HttpServiceExceptionWidget,
+        ContactWidget,
+        Toast,
+        PassiveButton;
 import '../../providers/index.dart' show UserProvider, SellersProvider;
 import '../../theme/index.dart';
 import '../location/searchApartmentScreen.dart';
@@ -129,8 +134,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           OpenContainer(
             closedElevation: 0.0,
             transitionDuration: Duration(milliseconds: 500),
-            closedBuilder: (context, openContainer) =>
-                _spanButton('Edit Profile', openContainer),
+            closedBuilder: (context, openContainer) => PassiveButton(
+              title: 'Edit Profile',
+              onTap: openContainer,
+            ),
             openBuilder: (_, __) => ProfileUpdateScreen(),
           )
         ],
@@ -203,9 +210,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           OpenContainer(
             closedElevation: 0.0,
             transitionDuration: Duration(milliseconds: 500),
-            closedBuilder: (context, openContainer) => _spanButton(
-              address != null ? 'Change Address' : 'Add Address',
-              openContainer,
+            closedBuilder: (context, openContainer) => PassiveButton(
+              title: address != null ? 'Change Address' : 'Add Address',
+              onTap: openContainer,
             ),
             openBuilder: (_, __) => SearchApartmentScreen(onSelection: () {
               Provider.of<SellersProvider>(context, listen: false).empty();
@@ -246,23 +253,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           sizedBox24,
           ContactWidget(phone: '9910057232', whatsapp: '9910057232')
         ],
-      ),
-    );
-  }
-
-  Widget _spanButton(String title, Function onTap) {
-    return FlatButton(
-      onPressed: onTap,
-      child: Center(
-        child: Text(
-          title,
-          style: AppTheme.textStyle.w500.color100.size(15.0).lineHeight(1.5),
-        ),
-      ),
-      color: AppTheme.color05,
-      height: 44.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
       ),
     );
   }
