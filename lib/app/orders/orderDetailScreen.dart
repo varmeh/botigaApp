@@ -28,8 +28,7 @@ class OrderDetailScreen extends StatefulWidget {
 
 class _OrderDetailScreenState extends State<OrderDetailScreen> {
   bool _isLoading = false;
-  // final _memoizer = AsyncMemoizer();
-  var order;
+  OrderModel order;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +63,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   }
 
   Widget _cancelButton(BuildContext context) {
-    return order.status == 'open' || order.status == 'delay'
+    return order.isOpen || order.isDelayed
         ? GestureDetector(
             onTap: () {
               showDialog(
@@ -126,7 +125,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       await provider.cancelOrder(widget.orderId);
       final order = provider.getOrderWithId(widget.orderId);
 
-      if (order.payment.status == 'success') {
+      if (order.payment.isSuccess) {
         Future.delayed(
           Duration(milliseconds: 200),
           () => _whatsappModal(
@@ -216,13 +215,13 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     Widget button = Container();
 
     // Order Status Message
-    if (order.status == 'cancelled') {
+    if (order.isCancelled) {
       orderMessage =
           'Order Cancelled on ${dateFormat.format(order.completionDate.toLocal())}';
-    } else if (order.status == 'delivered') {
+    } else if (order.isDelivered) {
       orderMessage =
           'Order delivered on ${dateFormat.format(order.completionDate.toLocal())}';
-    } else if (order.status == 'out') {
+    } else if (order.isOutForDelivery) {
       orderMessage = 'Order is out for delivery';
     } else {
       orderMessage =
@@ -230,15 +229,14 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     }
 
     // Order Payment Message
-    if (order.payment.status == 'success') {
+    if (order.payment.isSuccess) {
       paymentMessage = 'Paid via ${order.payment.paymentMode}';
-    } else if (order.payment.status == 'pending') {
+    } else if (order.payment.isPending) {
       paymentMessage = 'Payment confirmation pending from the bank.';
     } else {
       // for payment status - failure
-      paymentMessage =
-          order.status == 'cancelled' ? 'No dues pending' : 'Payment Failed';
-      if (order.status != 'delieverd' && order.status != 'cancelled') {
+      paymentMessage = order.isCancelled ? 'No dues pending' : 'Payment Failed';
+      if (!order.isCancelled) {
         // Retry Button
         button = Padding(
           padding: const EdgeInsets.only(top: 18.0),
@@ -254,7 +252,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     // Show Refund Information Only
     if (order.refund.status != null) {
       // Refund Initiated
-      if (order.refund.status == 'success') {
+      if (order.refund.isSuccess) {
         paymentMessage = 'Refund completed';
       } else {
         paymentMessage = 'Refund pending';

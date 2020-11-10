@@ -19,6 +19,11 @@ class PaymentModel {
     this.paymentMode,
   });
 
+  bool get isInitiated => status == 'initiated';
+  bool get isPending => status == 'pending';
+  bool get isSuccess => status == 'success';
+  bool get isFailure => status == 'failure';
+
   factory PaymentModel.fromJson(Map<String, dynamic> json) =>
       _$PaymentModelFromJson(json);
 

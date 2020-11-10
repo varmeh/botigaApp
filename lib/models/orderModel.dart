@@ -40,29 +40,35 @@ class OrderModel {
 
   Map<String, dynamic> toJson() => _$OrderModelToJson(this);
 
+  bool get isOpen => status == 'open';
+  bool get isDelayed => status == 'delayed';
+  bool get isOutForDelivery => status == 'out';
+  bool get isDelivered => status == 'delivered';
+  bool get isCancelled => status == 'cancelled';
+
   String get statusMessage {
-    if (status == 'open') {
+    if (isOpen) {
       return 'Order Placed';
-    } else if (status == 'out') {
+    } else if (isOutForDelivery) {
       return 'Out For Delivery';
-    } else if (status == 'delivered') {
+    } else if (isDelivered) {
       return 'Delivered';
-    } else if (status == 'delay') {
+    } else if (isDelayed) {
       return 'Delayed';
-    } else if (status == 'canceled') {
-      return 'Canceled';
+    } else if (isCancelled) {
+      return 'Cancelled';
     } else {
       return status;
     }
   }
 
   Color get statusColor {
-    if (status == 'open' || status == 'delay') {
+    if (isOpen || isDelayed) {
       return Color.fromRGBO(233, 161, 54, 1);
-    } else if (status == 'out' || status == 'delivered') {
-      return Color.fromRGBO(23, 159, 87, 1);
-    } else {
+    } else if (isCancelled) {
       return Color.fromRGBO(233, 86, 54, 1);
+    } else {
+      return Color.fromRGBO(23, 159, 87, 1);
     }
   }
 }

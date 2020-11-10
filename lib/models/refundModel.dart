@@ -16,6 +16,11 @@ class RefundModel {
     this.date,
   });
 
+  bool get isInitiated => status == 'initiated';
+  bool get isPending => status == 'pending';
+  bool get isSuccess => status == 'success';
+  bool get isFailure => status == 'failure';
+
   factory RefundModel.fromJson(Map<String, dynamic> json) =>
       _$RefundModelFromJson(json);
 

@@ -60,7 +60,7 @@ class OrdersProvider with ChangeNotifier {
     );
 
     _orders.clear(); // clear to re-fetch data
-    await getOrders();
+    await getOrders(); //refetch data
     notifyListeners();
   }
 }
