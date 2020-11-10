@@ -24,7 +24,7 @@ class ContactWidget extends StatelessWidget {
               color: AppTheme.color100,
               size: 16,
             ),
-            onTap: () => _phone(context),
+            onPressed: () => _phone(context),
             title: 'Call',
           ),
         ),
@@ -39,7 +39,7 @@ class ContactWidget extends StatelessWidget {
               width: 18,
               height: 18,
             ),
-            onTap: () => _whatsapp(context),
+            onPressed: () => _whatsapp(context),
             title: 'Whatsapp',
           ),
         )

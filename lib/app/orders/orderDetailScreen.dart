@@ -304,7 +304,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     width: double.infinity,
                     height: 44.0,
                     title: 'Retry Payment',
-                    onTap: () {},
+                    onPressed: () {},
                   ),
                 )
               : Container()

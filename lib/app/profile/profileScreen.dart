@@ -136,7 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             transitionDuration: Duration(milliseconds: 500),
             closedBuilder: (context, openContainer) => PassiveButton(
               title: 'Edit Profile',
-              onTap: openContainer,
+              onPressed: openContainer,
             ),
             openBuilder: (_, __) => ProfileUpdateScreen(),
           )
@@ -212,7 +212,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             transitionDuration: Duration(milliseconds: 500),
             closedBuilder: (context, openContainer) => PassiveButton(
               title: address != null ? 'Change Address' : 'Add Address',
-              onTap: openContainer,
+              onPressed: openContainer,
             ),
             openBuilder: (_, __) => SearchApartmentScreen(onSelection: () {
               Provider.of<SellersProvider>(context, listen: false).empty();

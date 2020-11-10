@@ -4,14 +4,14 @@ import '../theme/index.dart';
 
 class PassiveButton extends StatelessWidget {
   final String title;
-  final Function onTap;
+  final Function onPressed;
   final Widget icon;
   final double width;
   final double height;
 
   PassiveButton({
     @required this.title,
-    @required this.onTap,
+    @required this.onPressed,
     this.icon,
     this.width,
     this.height = 44.0,
@@ -26,7 +26,7 @@ class PassiveButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),
-          onPressed: () => onTap(),
+          onPressed: () => onPressed(),
           color: AppTheme.dividerColor,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
