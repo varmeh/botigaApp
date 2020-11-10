@@ -1,17 +1,17 @@
-import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/ordersProvider.dart';
+import '../../util/index.dart' show Http;
 import '../../theme/index.dart';
 import '../../models/orderModel.dart';
 import '../../widgets/index.dart'
     show
         ContactWidget,
-        Loader,
+        LoaderOverlay,
         BotigaAppBar,
-        HttpServiceExceptionWidget,
+        Toast,
         PassiveButton,
         BotigaBottomModal;
 
@@ -27,8 +27,8 @@ class OrderDetailScreen extends StatefulWidget {
 }
 
 class _OrderDetailScreenState extends State<OrderDetailScreen> {
-  bool initiateCancellation = false;
-  final _memoizer = AsyncMemoizer();
+  bool _isLoading = false;
+  // final _memoizer = AsyncMemoizer();
   var order;
 
   @override
@@ -46,51 +46,17 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       appBar: BotigaAppBar('', actions: [_cancelButton(context)]),
       body: SafeArea(
         child: Container(
-          color: AppTheme.backgroundColor,
-          child: FutureBuilder(
-            future: initiateCancellation
-                ? _memoizer.runOnce(() => Future.delayed(
-                    Duration(
-                      milliseconds: 100,
-                    ), // Delayed to ensure screen display first
-                    () => provider.cancelOrder(widget.orderId)))
-                : null,
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return HttpServiceExceptionWidget(
-                  exception: snapshot.error,
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (_, __, ___) =>
-                            OrderDetailScreen(widget.orderId),
-                        transitionDuration: Duration.zero,
-                      ),
-                    );
-                  },
-                );
-              } else {
-                return Stack(
-                  children: [
-                    ListView(
-                      children: [
-                        _sellerInfo(),
-                        divider,
-                        _deliveryStatus(),
-                        divider,
-                        _itemizedBill()
-                      ],
-                    ),
-                    snapshot.connectionState == ConnectionState.waiting
-                        ? Center(
-                            child: Loader(),
-                          )
-                        : Container(),
-                  ],
-                );
-              }
-            },
+          child: LoaderOverlay(
+            isLoading: _isLoading,
+            child: ListView(
+              children: [
+                _sellerInfo(),
+                divider,
+                _deliveryStatus(),
+                divider,
+                _itemizedBill()
+              ],
+            ),
           ),
         ),
       ),
@@ -129,8 +95,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             .colored(AppTheme.errorColor),
                       ),
                       onPressed: () {
+                        _cancelOrder();
                         Navigator.of(context).pop();
-                        setState(() => initiateCancellation = true);
                       },
                     ),
                   ],
@@ -151,6 +117,30 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             ),
           )
         : Container();
+  }
+
+  Future<void> _cancelOrder() async {
+    setState(() => _isLoading = true);
+    try {
+      final provider = Provider.of<OrdersProvider>(context, listen: false);
+      await provider.cancelOrder(widget.orderId);
+      final order = provider.getOrderWithId(widget.orderId);
+
+      if (order.payment.status == 'success') {
+        Future.delayed(
+          Duration(milliseconds: 200),
+          () => _whatsappModal(
+            imageUrl: 'assets/images/orderCancel.png',
+            imageSize: 68.0,
+            message: 'Order Cancelled',
+          ),
+        );
+      }
+    } catch (error) {
+      Toast(message: Http.message(error)).show(context);
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
   Widget _sellerInfo() {
@@ -245,8 +235,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     } else if (order.payment.status == 'pending') {
       paymentMessage = 'Payment confirmation pending from the bank.';
     } else {
-      // for payment status - pending & failure
-      paymentMessage = 'Payment Failed';
+      // for payment status - failure
+      paymentMessage =
+          order.status == 'cancelled' ? 'No dues pending' : 'Payment Failed';
       if (order.status != 'delieverd' && order.status != 'cancelled') {
         // Retry Button
         button = Padding(
