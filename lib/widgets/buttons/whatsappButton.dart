@@ -34,7 +34,8 @@ class WhatsappButton extends StatelessWidget {
   }
 
   void _whatsapp(BuildContext context) async {
-    String url = 'whatsapp://send?phone=91$phone&text=$message';
+    String url =
+        'whatsapp://send?phone=91$phone&text=${Uri.encodeComponent(message)}';
     if (await canLaunch(url)) {
       Future.delayed(Duration(milliseconds: 300), () async {
         await launch(url);
