@@ -222,6 +222,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
     String orderMessage;
     String paymentMessage;
+    Widget button = Container();
 
     // Order Status Message
     if (order.status == 'cancelled') {
@@ -245,12 +246,38 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     } else {
       // for payment status - pending & failure
       paymentMessage = 'Payment Failed';
+      if (order.status != 'delieverd' && order.status != 'cancelled') {
+        // Retry Button
+        button = Padding(
+          padding: const EdgeInsets.only(top: 18.0),
+          child: PassiveButton(
+            width: double.infinity,
+            title: 'Retry Payment',
+            onPressed: () {},
+          ),
+        );
+      }
     }
 
-    // Payment Retry button
-    bool retryPayment = (order.payment.status == 'failure' ||
-            order.payment.status == 'initiated') &&
-        (order.status == 'open' || order.status == 'delayed');
+    // Show Refund Information Only
+    if (order.refund.status != null) {
+      // Refund Initiated
+      if (order.refund.status == 'success') {
+        paymentMessage = 'Refund completed';
+      } else {
+        paymentMessage = 'Refund pending';
+        // Show Reminder button
+        button = Padding(
+          padding: const EdgeInsets.only(top: 18.0),
+          child: PassiveButton(
+            width: double.infinity,
+            icon: Icon(Icons.update, size: 18.0),
+            title: 'Remind Seller to Refund',
+            onPressed: () {},
+          ),
+        );
+      }
+    }
 
     return Container(
       padding: EdgeInsets.symmetric(
@@ -297,17 +324,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               ),
             ],
           ),
-          retryPayment
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 18.0),
-                  child: PassiveButton(
-                    width: double.infinity,
-                    height: 44.0,
-                    title: 'Retry Payment',
-                    onPressed: () {},
-                  ),
-                )
-              : Container()
+          button,
         ],
       ),
     );
