@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../theme/index.dart';
 
-class Button extends StatelessWidget {
+class PassiveButton extends StatelessWidget {
   final String title;
   final Function onTap;
   final Widget icon;
   final double width;
   final double height;
 
-  Button({
+  PassiveButton({
     @required this.title,
     @required this.onTap,
     this.icon,

@@ -16,4 +16,4 @@ export 'botigaBottomModal.dart';
 export 'toast.dart';
 export 'loaderOverlay.dart';
 export 'httpExceptionWidget.dart';
-export 'button.dart';
+export 'passiveButton.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../theme/botigaIcons.dart';
-import 'button.dart';
+import 'passiveButton.dart';
 
 class ContactWidget extends StatelessWidget {
   final String phone;
@@ -17,7 +17,7 @@ class ContactWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-          child: Button(
+          child: PassiveButton(
             height: 44,
             icon: Icon(
               BotigaIcons.call,
@@ -32,7 +32,7 @@ class ContactWidget extends StatelessWidget {
           width: 13,
         ),
         Expanded(
-          child: Button(
+          child: PassiveButton(
             height: 44,
             icon: Image.asset(
               'assets/images/whatsapp.png',

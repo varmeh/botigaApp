@@ -12,7 +12,7 @@ import '../../widgets/index.dart'
         Loader,
         BotigaAppBar,
         HttpServiceExceptionWidget,
-        Button;
+        PassiveButton;
 
 class OrderDetailScreen extends StatefulWidget {
   static const route = 'orderDetails';
@@ -300,7 +300,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           retryPayment
               ? Padding(
                   padding: const EdgeInsets.only(top: 18.0),
-                  child: Button(
+                  child: PassiveButton(
                     width: double.infinity,
                     height: 44.0,
                     title: 'Retry Payment',
