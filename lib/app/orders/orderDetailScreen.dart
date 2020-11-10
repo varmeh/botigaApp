@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../cart/paymentScreen.dart';
 import '../../providers/ordersProvider.dart';
-import '../../util/index.dart' show Http;
+import '../../util/index.dart' show Http, DateExtension;
 import '../../theme/index.dart';
 import '../../models/orderModel.dart';
 import '../../widgets/index.dart'
@@ -14,6 +13,7 @@ import '../../widgets/index.dart'
         BotigaAppBar,
         Toast,
         PassiveButton,
+        WhatsappButton,
         BotigaBottomModal;
 
 class OrderDetailScreen extends StatefulWidget {
@@ -131,10 +131,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         Future.delayed(
           Duration(milliseconds: 200),
           () => _whatsappModal(
-            imageUrl: 'assets/images/orderCancel.png',
-            imageSize: 68.0,
-            message: 'Order Cancelled',
-          ),
+              imageUrl: 'assets/images/orderCancel.png',
+              imageSize: 68.0,
+              title: 'Order Cancelled',
+              whatsappNumber: order.seller.whatsapp,
+              whatsappMessage:
+                  'Hello ${order.seller.brandName}, I have cancelled order number ${order.number} placed on date ${order.orderDate}'),
         );
       }
     } catch (error) {
@@ -146,7 +148,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
   Widget _sellerInfo() {
     final sizedBox = SizedBox(height: 6.0);
-    final dateFormat = DateFormat('d MMM, y h:mm a');
 
     return Container(
       padding: EdgeInsets.fromLTRB(20.0, 0, 20.0, 24.0),
@@ -159,7 +160,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           ),
           sizedBox,
           Text(
-            dateFormat.format(order.orderDate.toLocal()),
+            order.orderDate.toLocal().dateCompleteWithTime,
             style: AppTheme.textStyle.w500.color50.size(12.0).lineHeight(1.3),
           ),
           sizedBox,
@@ -210,8 +211,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   }
 
   Widget _deliveryStatus() {
-    final dateFormat = DateFormat('d MMMM hh:mm a');
-
     String orderMessage;
     String paymentMessage;
     Widget button = Container();
@@ -219,15 +218,15 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     // Order Status Message
     if (order.isCancelled) {
       orderMessage =
-          'Order Cancelled on ${dateFormat.format(order.completionDate.toLocal())}';
+          'Order Cancelled on ${order.completionDate.toLocal().dateFormatDayMonthTime}';
     } else if (order.isDelivered) {
       orderMessage =
-          'Order delivered on ${dateFormat.format(order.completionDate.toLocal())}';
+          'Order delivered on ${order.completionDate.toLocal().dateFormatDayMonthTime}';
     } else if (order.isOutForDelivery) {
       orderMessage = 'Order is out for delivery';
     } else {
       orderMessage =
-          'Delivery expected on ${DateFormat('d MMMM').format(order.expectedDeliveryDate.toLocal())}';
+          'Delivery expected on ${order.expectedDeliveryDate.toLocal().dateFormatDayMonthComplete}';
     }
 
     // Order Payment Message
@@ -268,7 +267,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             onPressed: () => _whatsappModal(
               imageUrl: 'assets/images/sadSmilie.png',
               imageSize: 48.0,
-              message: 'We are Sorry, you have to do it again',
+              title: 'We are Sorry, you have to do it again',
+              whatsappNumber: order.seller.whatsapp,
+              whatsappMessage:
+                  'Hello ${order.seller.brandName}, I have cancelled order number ${order.number} placed on date ${order.orderDate}',
             ),
           ),
         );
@@ -294,10 +296,13 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 ),
               ),
               SizedBox(width: 24.0),
-              Text(
-                orderMessage,
-                style:
-                    AppTheme.textStyle.w500.color100.size(13.0).lineHeight(1.5),
+              Expanded(
+                child: Text(
+                  orderMessage,
+                  style: AppTheme.textStyle.w500.color100
+                      .size(13.0)
+                      .lineHeight(1.5),
+                ),
               ),
             ],
           ),
@@ -439,7 +444,13 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     );
   }
 
-  void _whatsappModal({String imageUrl, double imageSize, String message}) {
+  void _whatsappModal({
+    String imageUrl,
+    double imageSize,
+    String title,
+    String whatsappNumber,
+    String whatsappMessage,
+  }) {
     final _sizedBox = SizedBox(height: 16.0);
     final _padding = const EdgeInsets.symmetric(horizontal: 28.0);
 
@@ -455,7 +466,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           Padding(
             padding: _padding,
             child: Text(
-              message,
+              title,
               textAlign: TextAlign.center,
               style:
                   AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
@@ -480,15 +491,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             ),
           ),
           SizedBox(height: 32.0),
-          PassiveButton(
-            width: 220,
+          WhatsappButton(
             title: 'Whatsapp Seller',
-            icon: Image.asset(
-              'assets/images/whatsapp.png',
-              width: 18.0,
-              height: 18.0,
-            ),
-            onPressed: () {},
+            phone: whatsappNumber,
+            width: 220.0,
+            message: whatsappMessage,
           ),
         ],
       ),

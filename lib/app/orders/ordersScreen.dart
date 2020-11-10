@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 import 'package:animations/animations.dart';
 
+import '../../util/index.dart' show DateExtension;
 import '../../models/orderModel.dart';
 import '../../providers/ordersProvider.dart';
 import '../../theme/index.dart';
@@ -134,7 +134,6 @@ class _OrderListScreenState extends State<OrderListScreen> {
   }
 
   Widget _orderTile(OrderModel order) {
-    final dateFormat = DateFormat('d MMM, y hh:mm a');
     return OpenContainer(
       closedElevation: 0.0,
       transitionDuration: Duration(milliseconds: 500),
@@ -167,7 +166,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      dateFormat.format(order.orderDate.toLocal()),
+                      order.orderDate.toLocal().dateCompleteWithTime,
                       style: AppTheme.textStyle.w500.color50
                           .size(12)
                           .lineHeight(1.3),
