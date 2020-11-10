@@ -12,7 +12,8 @@ import '../../widgets/index.dart'
         Loader,
         BotigaAppBar,
         HttpServiceExceptionWidget,
-        PassiveButton;
+        PassiveButton,
+        BotigaBottomModal;
 
 class OrderDetailScreen extends StatefulWidget {
   static const route = 'orderDetails';
@@ -273,7 +274,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             width: double.infinity,
             icon: Icon(Icons.update, size: 18.0),
             title: 'Remind Seller to Refund',
-            onPressed: () {},
+            onPressed: () => _whatsappModal(
+              imageUrl: 'assets/images/sadSmilie.png',
+              imageSize: 48.0,
+              message: 'We are Sorry, you have to do it again',
+            ),
           ),
         );
       }
@@ -419,5 +424,61 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         ),
       ],
     );
+  }
+
+  void _whatsappModal({String imageUrl, double imageSize, String message}) {
+    final _sizedBox = SizedBox(height: 16.0);
+    final _padding = const EdgeInsets.symmetric(horizontal: 28.0);
+
+    BotigaBottomModal(
+      child: Column(
+        children: [
+          Image.asset(
+            imageUrl,
+            width: imageSize,
+            height: imageSize,
+          ),
+          _sizedBox,
+          Padding(
+            padding: _padding,
+            child: Text(
+              message,
+              textAlign: TextAlign.center,
+              style:
+                  AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
+            ),
+          ),
+          _sizedBox,
+          Padding(
+            padding: _padding,
+            child: Text(
+              'Please contact seller for refund.',
+              textAlign: TextAlign.center,
+              style: AppTheme.textStyle.w500.color50.size(15.0).lineHeight(1.3),
+            ),
+          ),
+          _sizedBox,
+          Padding(
+            padding: _padding,
+            child: Text(
+              'We understand the hassle, so please bear with us while we make it seamless',
+              textAlign: TextAlign.center,
+              style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
+            ),
+          ),
+          SizedBox(height: 32.0),
+          PassiveButton(
+            width: 220,
+            title: 'Whatsapp Seller',
+            icon: Image.asset(
+              'assets/images/whatsapp.png',
+              width: 18.0,
+              height: 18.0,
+            ),
+            onPressed: () {},
+          ),
+        ],
+      ),
+    ).show(context);
   }
 }
