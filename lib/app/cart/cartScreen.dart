@@ -123,30 +123,29 @@ class _CartScreenState extends State<CartScreen> {
       elevation: 3.0,
       shadowColor: Colors.transparent,
       child: GestureDetector(
-        onTap: () {
+        onTap: () async {
           setState(() => _isLoading = true);
           final address =
               Provider.of<UserProvider>(context, listen: false).address;
-          provider
-              .checkout(
-                apartmentId: address.id,
-                house: address.house,
-              )
-              .then(
-                (_) {
-                  Navigator.pushReplacement(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (_, __, ___) => PaymentScreen(),
-                      transitionDuration: Duration.zero,
-                    ),
-                  );
-                },
-              )
-              .catchError(
-                (error) => Toast(message: Http.message(error)).show(context),
-              )
-              .whenComplete(() => setState(() => _isLoading = false));
+
+          try {
+            await provider.checkout(
+              apartmentId: address.id,
+              house: address.house,
+            );
+
+            Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (_, __, ___) => PaymentScreen(),
+                transitionDuration: Duration.zero,
+              ),
+            );
+          } catch (error) {
+            Toast(message: Http.message(error)).show(context);
+          } finally {
+            setState(() => _isLoading = false);
+          }
         },
         child: provider.cartSeller.live
             ? Container(
