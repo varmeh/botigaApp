@@ -17,10 +17,6 @@ class CartProvider with ChangeNotifier {
   int numberOfItemsInCart = 0;
   Map<ProductModel, int> products = {};
 
-  // Checkout Data
-  String paymentId;
-  String paymentToken;
-
   // Providers to load cart at the beginning
   SellersProvider _sellersProvider;
   ProductsProvider _productsProvider;
@@ -101,12 +97,15 @@ class CartProvider with ChangeNotifier {
       'products': productList
     });
 
-    paymentId = json['paymentId'];
-    paymentToken = json['paymentToken'];
+    final Map<String, String> data = {};
+    data['paymentId'] = json['paymentId'];
+    data['paymentToken'] = json['paymentToken'];
 
     // As order has been created, reset cart & update to cloud
     resetCart();
     _saveCartToServer();
+
+    return data;
   }
 
 /* 

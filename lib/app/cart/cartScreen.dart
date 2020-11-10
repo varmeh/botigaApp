@@ -129,7 +129,7 @@ class _CartScreenState extends State<CartScreen> {
               Provider.of<UserProvider>(context, listen: false).address;
 
           try {
-            await provider.checkout(
+            final data = await provider.checkout(
               apartmentId: address.id,
               house: address.house,
             );
@@ -137,7 +137,10 @@ class _CartScreenState extends State<CartScreen> {
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(
-                pageBuilder: (_, __, ___) => PaymentScreen(),
+                pageBuilder: (_, __, ___) => PaymentScreen(
+                  paymentId: data['paymentId'],
+                  paymentToken: data['paymentToken'],
+                ),
                 transitionDuration: Duration.zero,
               ),
             );

@@ -22,7 +22,6 @@ import 'app/auth/index.dart';
 import 'app/location/index.dart';
 import 'app/profile/index.dart';
 import 'app/onboarding/index.dart';
-import 'app/cart/paymentScreen.dart';
 
 import 'app/home/products/productListScreen.dart';
 
@@ -105,8 +104,6 @@ class BotigaApp extends StatelessWidget {
         ProductListScreen.route: (_) => ProductListScreen(),
         SelectCityScreen.route: (_) => SelectCityScreen(),
         ProfileUpdateScreen.route: (_) => ProfileUpdateScreen(),
-        // Cart Screens
-        PaymentScreen.route: (_) => PaymentScreen(),
       },
       navigatorObservers: <NavigatorObserver>[observer],
     );

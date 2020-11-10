@@ -3,9 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:provider/provider.dart';
 
-import '../../providers/index.dart' show CartProvider;
 import '../../theme/index.dart';
 import '../../widgets/index.dart' show LoaderOverlay;
 import 'paymentStatusScreen.dart';
@@ -13,7 +11,13 @@ import 'paymentStatusScreen.dart';
 class PaymentScreen extends StatefulWidget {
   static const route = 'payment';
 
-  PaymentScreen();
+  final String paymentId;
+  final String paymentToken;
+
+  PaymentScreen({
+    @required this.paymentId,
+    @required this.paymentToken,
+  });
 
   @override
   _PaymentScreenState createState() => _PaymentScreenState();
@@ -76,7 +80,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   // https://developer.paytm.com/docs/show-payment-page/?ref=payments
   String _showPaymentPage() {
-    final provider = Provider.of<CartProvider>(context, listen: false);
     const mid = 'OJdkNI97902555723463'; // TODO: update merchant id
     return '''
 		<html>
@@ -87,12 +90,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
 				<center>
 					<h1 style="font-size:500%">Please do not refresh this page...</h1>
 				</center>
-				<form method="post" action="https://securegw-stage.paytm.in/theia/api/v1/showPaymentPage?mid=$mid&orderId=${provider.paymentId}" name="paytm">
+				<form method="post" action="https://securegw-stage.paytm.in/theia/api/v1/showPaymentPage?mid=$mid&orderId=${widget.paymentId}" name="paytm">
 					<table border="1">
 							<tbody>
 								<input type="hidden" name="mid" value="$mid">
-								<input type="hidden" name="orderId" value="${provider.paymentId}">
-								<input type="hidden" name="txnToken" value="${provider.paymentToken}">
+								<input type="hidden" name="orderId" value="${widget.paymentId}">
+								<input type="hidden" name="txnToken" value="${widget.paymentToken}">
 							</tbody>
 					</table>
 					<script type="text/javascript"> document.paytm.submit(); </script>
