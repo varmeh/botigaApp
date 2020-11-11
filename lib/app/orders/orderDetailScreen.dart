@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'orderStatusWidget.dart';
+
 import '../cart/paymentScreen.dart';
 import '../../providers/ordersProvider.dart';
 import '../../util/index.dart' show Http, DateExtension;
@@ -14,7 +16,9 @@ import '../../widgets/index.dart'
         Toast,
         PassiveButton,
         WhatsappButton,
-        BotigaBottomModal;
+        BotigaBottomModal,
+        StatusImageWidget,
+        ImageStatus;
 
 class OrderDetailScreen extends StatefulWidget {
   static const route = 'orderDetails';
@@ -53,7 +57,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               children: [
                 _sellerInfo(),
                 divider,
-                _deliveryStatus(),
+                OrderStatusWidget(
+                  order: order,
+                  stateLoading: (value) {
+                    setState(() => _isLoading = value);
+                  },
+                ),
                 divider,
                 _itemizedBill()
               ],
@@ -208,149 +217,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         ],
       ),
     );
-  }
-
-  Widget _deliveryStatus() {
-    String orderMessage;
-    String paymentMessage;
-    Widget button = Container();
-
-    // Order Status Message
-    if (order.isCancelled) {
-      orderMessage =
-          'Order Cancelled on ${order.completionDate.toLocal().dateFormatDayMonthTime}';
-    } else if (order.isDelivered) {
-      orderMessage =
-          'Order delivered on ${order.completionDate.toLocal().dateFormatDayMonthTime}';
-    } else if (order.isOutForDelivery) {
-      orderMessage = 'Order is out for delivery';
-    } else {
-      orderMessage =
-          'Delivery expected on ${order.expectedDeliveryDate.toLocal().dateFormatDayMonthComplete}';
-    }
-
-    // Order Payment Message
-    if (order.payment.isSuccess) {
-      paymentMessage = 'Paid via ${order.payment.paymentMode}';
-    } else if (order.payment.isPending) {
-      paymentMessage = 'Payment confirmation pending from the bank.';
-    } else {
-      // for payment status - failure
-      paymentMessage = order.isCancelled ? 'No dues pending' : 'Payment Failed';
-      if (!order.isCancelled) {
-        // Retry Button
-        button = Padding(
-          padding: const EdgeInsets.only(top: 18.0),
-          child: PassiveButton(
-            width: double.infinity,
-            title: 'Retry Payment',
-            onPressed: _retryPayment,
-          ),
-        );
-      }
-    }
-
-    // Show Refund Information Only
-    if (order.refund.status != null) {
-      // Refund Initiated
-      if (order.refund.isSuccess) {
-        paymentMessage = 'Refund completed';
-      } else {
-        paymentMessage = 'Refund pending';
-        // Show Reminder button
-        button = Padding(
-          padding: const EdgeInsets.only(top: 18.0),
-          child: PassiveButton(
-            width: double.infinity,
-            icon: Icon(Icons.update, size: 18.0),
-            title: 'Remind Seller to Refund',
-            onPressed: () => _whatsappModal(
-              imageUrl: 'assets/images/sadSmilie.png',
-              imageSize: 48.0,
-              title: 'We are Sorry, you have to do it again',
-              whatsappNumber: order.seller.whatsapp,
-              whatsappMessage:
-                  'Botiga Reminder:\nHello ${order.seller.brandName},\nThis is a reminder for refund of amount ${order.refund.amount} for order number ${order.number} cancelled on ${order.completionDate.toLocal().dateFormatDayMonthComplete}',
-            ),
-          ),
-        );
-      }
-    }
-
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: 24.0,
-        horizontal: 20.0,
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              SizedBox(width: 6.0),
-              Container(
-                width: 12.0,
-                height: 12.0,
-                decoration: BoxDecoration(
-                  color: order.statusColor,
-                  shape: BoxShape.circle,
-                ),
-              ),
-              SizedBox(width: 24.0),
-              Expanded(
-                child: Text(
-                  orderMessage,
-                  style: AppTheme.textStyle.w500.color100
-                      .size(13.0)
-                      .lineHeight(1.5),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 18),
-          Row(
-            children: [
-              Image.asset(
-                'assets/images/card.png',
-                width: 24.0,
-                height: 24.0,
-              ),
-              SizedBox(width: 18.0),
-              Expanded(
-                child: Text(
-                  paymentMessage,
-                  style: AppTheme.textStyle.w500.color100
-                      .size(13.0)
-                      .lineHeight(1.5),
-                ),
-              ),
-            ],
-          ),
-          button,
-        ],
-      ),
-    );
-  }
-
-  void _retryPayment() async {
-    setState(() => _isLoading = true);
-    try {
-      final data = await provider.retryPayment(widget.orderId);
-
-      Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (_, __, ___) => PaymentScreen(
-            paymentId: data['paymentId'],
-            paymentToken: data['paymentToken'],
-          ),
-          transitionDuration: Duration.zero,
-        ),
-      );
-    } catch (error) {
-      Toast(message: Http.message(error)).show(context);
-    } finally {
-      setState(() => _isLoading = false);
-    }
   }
 
   Widget _itemizedBill() {
