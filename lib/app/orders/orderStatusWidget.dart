@@ -64,13 +64,10 @@ class OrderStatusWidget extends StatelessWidget {
       paymentTitle = 'Payment Failed';
       if (!order.isCancelled) {
         // Retry Button
-        button = Padding(
-          padding: const EdgeInsets.only(top: 18.0),
-          child: PassiveButton(
-            width: 200,
-            title: 'Retry Payment',
-            onPressed: () => _retryPayment(context),
-          ),
+        button = PassiveButton(
+          width: 200,
+          title: 'Retry Payment',
+          onPressed: () => _retryPayment(context),
         );
       }
     }
@@ -83,14 +80,11 @@ class OrderStatusWidget extends StatelessWidget {
       } else {
         paymentSubtitle = 'Refund pending';
         // Show Reminder button
-        button = Padding(
-          padding: const EdgeInsets.only(top: 18.0),
-          child: PassiveButton(
-            width: double.infinity,
-            icon: Icon(Icons.update, size: 18.0),
-            title: 'Remind Seller to Refund',
-            onPressed: () => _whatsappModal(context, order),
-          ),
+        button = PassiveButton(
+          width: double.infinity,
+          icon: Icon(Icons.update, size: 18.0),
+          title: 'Remind Seller to Refund',
+          onPressed: () => _whatsappModal(context, order),
         );
       }
     }
