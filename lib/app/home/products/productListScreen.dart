@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:botiga/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,65 +23,78 @@ class ProductListScreen extends StatefulWidget {
 }
 
 class _ProductListScreenState extends State<ProductListScreen> {
-  final _memoizer = AsyncMemoizer();
+  bool _isLoading = false;
+  Exception _error;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration(milliseconds: 100), () => _getProducts());
+  }
+
+  SellerModel _getSeller() {
+    return widget.seller != null
+        ? widget.seller
+        : ModalRoute.of(context).settings.arguments;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final SellerModel seller = widget.seller != null
-        ? widget.seller
-        : ModalRoute.of(context).settings.arguments;
+    final seller = _getSeller();
 
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: BotigaAppBar(''),
       body: SafeArea(
-        child: FutureBuilder(
-          future: _memoizer.runOnce(
-            () => Future.delayed(
-              Duration(milliseconds: 100),
-              () => Provider.of<ProductsProvider>(context, listen: false)
-                  .getProducts(seller.id),
-            ),
-          ),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Loader();
-            } else if (snapshot.hasError) {
-              return HttpServiceExceptionWidget(
-                exception: snapshot.error,
-                onTap: () {
-                  // Rebuild widget
-                  setState(() {});
-                },
-              );
-            } else {
-              return Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  ListView.builder(
-                    itemCount: 4,
-                    itemBuilder: (context, index) {
-                      if (index == 0) {
-                        return SellerBrandContainer(seller);
-                      } else if (index == 1) {
-                        return Divider(
-                          thickness: 4.0,
-                        );
-                      } else if (index == 2) {
-                        return _categoryList(context, seller);
-                      } else {
-                        return SizedBox(height: 60.0);
-                      }
+        child: _isLoading
+            ? Loader()
+            : _error != null
+                ? HttpServiceExceptionWidget(
+                    exception: _error,
+                    onTap: () {
+                      _getProducts();
                     },
+                  )
+                : Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      ListView.builder(
+                        itemCount: 4,
+                        itemBuilder: (context, index) {
+                          if (index == 0) {
+                            return SellerBrandContainer(seller);
+                          } else if (index == 1) {
+                            return Divider(
+                              thickness: 4.0,
+                            );
+                          } else if (index == 2) {
+                            return _categoryList(context, seller);
+                          } else {
+                            return SizedBox(height: 60.0);
+                          }
+                        },
+                      ),
+                      CartBottomModal()
+                    ],
                   ),
-                  CartBottomModal()
-                ],
-              );
-            }
-          },
-        ),
       ),
     );
+  }
+
+  Future<void> _getProducts() async {
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+    try {
+      await Provider.of<ProductsProvider>(context, listen: false)
+          .getProducts(_getSeller().id);
+    } catch (error) {
+      _error = error;
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
   Widget _categoryList(BuildContext context, SellerModel seller) {
