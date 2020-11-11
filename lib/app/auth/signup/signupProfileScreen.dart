@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../providers/userProvider.dart';
 import '../../../theme/index.dart';
 import '../../../util/index.dart' show Http, Validations;
 import '../../../widgets/index.dart'
-    show Toast, BotigaAppBar, LoaderOverlay, BotigaTextFieldForm, PrimaryButton;
+    show
+        Toast,
+        BotigaAppBar,
+        LoaderOverlay,
+        BotigaTextFieldForm,
+        PrimaryButton,
+        Toast;
 import 'signupApartmentScreen.dart';
 
 final Function(String) _nameValidator = (value) {
@@ -151,6 +159,40 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
                     }
                     return null;
                   },
+                ),
+                SizedBox(height: 12),
+                Text.rich(
+                  TextSpan(
+                    text: 'By signing up, you agree to all ',
+                    style: AppTheme.textStyle
+                        .size(13)
+                        .lineHeight(1.5)
+                        .w500
+                        .color50,
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: 'Terms & Conditions',
+                          style: AppTheme.textStyle
+                              .size(13)
+                              .lineHeight(1.5)
+                              .w500
+                              .colored(AppTheme.primaryColor),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () async {
+                              // TODO: update Terms & Conditions Url
+                              const url =
+                                  'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
+                              if (await canLaunch(url)) {
+                                await launch(url);
+                              } else {
+                                Toast(
+                                  message:
+                                      'Failed to open Terms & Conditions in browser',
+                                ).show(context);
+                              }
+                            }),
+                    ],
+                  ),
                 ),
               ],
             ),
