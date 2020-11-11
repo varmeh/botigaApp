@@ -13,8 +13,7 @@ import '../../widgets/index.dart'
         BotigaTextFieldForm,
         PrimaryButton,
         BotigaBottomModal,
-        Toast,
-        HttpServiceExceptionWidget;
+        Toast;
 
 class SearchApartmentScreen extends StatefulWidget {
   static final String route = 'searchApartment';
@@ -28,11 +27,12 @@ class SearchApartmentScreen extends StatefulWidget {
 }
 
 class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
+  bool _isLoading = false;
+
   final List<ApartmentModel> _apartments = [];
   String _query = '';
   String _houseNumber;
   var _bottomModal;
-  bool _loadApartment = true;
 
   GlobalKey<FormState> _aptFormKey;
   FocusNode _aptFocusNode;
@@ -42,6 +42,8 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
     super.initState();
     _aptFormKey = GlobalKey<FormState>();
     _aptFocusNode = FocusNode();
+
+    Future.delayed(Duration(milliseconds: 300), () => _getApartments());
   }
 
   @override
@@ -68,50 +70,31 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
                 onSubmit: (value) {
                   setState(() {
                     _query = value;
-                    _loadApartment = true;
+                    _getApartments();
                   });
                 },
               ),
               SizedBox(height: 10.0),
               Expanded(
-                child: _searchList(),
+                child: LoaderOverlay(
+                  isLoading: _isLoading,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 4.0),
+                    child: ListView.builder(
+                      itemCount: _apartments.length + 1,
+                      itemBuilder: (context, index) {
+                        return index < _apartments.length
+                            ? _apartmentTile(index)
+                            : _missingApartmentMessage();
+                      },
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  FutureBuilder<void> _searchList() {
-    return FutureBuilder(
-      future: getApartments(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return HttpServiceExceptionWidget(
-            exception: snapshot.error,
-            onTap: () {
-              // Rebuild screen
-              setState(() {});
-            },
-          );
-        } else {
-          return LoaderOverlay(
-            isLoading: snapshot.connectionState == ConnectionState.waiting,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 4.0),
-              child: ListView.builder(
-                itemCount: _apartments.length + 1,
-                itemBuilder: (context, index) {
-                  return index < _apartments.length
-                      ? _apartmentTile(index)
-                      : _missingApartmentMessage();
-                },
-              ),
-            ),
-          );
-        }
-      },
     );
   }
 
@@ -226,20 +209,18 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
     _bottomModal.show(context);
   }
 
-  Future<void> getApartments() async {
-    if (_loadApartment) {
-      try {
-        _loadApartment = false;
-        final json =
-            await Http.get('/api/services/apartments/search?text=$_query');
-        _apartments.clear();
-        json.forEach(
-            (apartment) => _apartments.add(ApartmentModel.fromJson(apartment)));
-      } catch (error) {
-        Toast(message: Http.message(error)).show(context);
-      } finally {
-        setState(() => _loadApartment = false);
-      }
+  Future<void> _getApartments() async {
+    setState(() => _isLoading = true);
+    try {
+      final json =
+          await Http.get('/api/services/apartments/search?text=$_query');
+      _apartments.clear();
+      json.forEach(
+          (apartment) => _apartments.add(ApartmentModel.fromJson(apartment)));
+    } catch (error) {
+      Toast(message: Http.message(error)).show(context);
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
