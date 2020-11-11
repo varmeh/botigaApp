@@ -165,26 +165,27 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
                         .color50,
                     children: <TextSpan>[
                       TextSpan(
-                          text: 'Terms & Conditions',
-                          style: AppTheme.textStyle
-                              .size(13)
-                              .lineHeight(1.5)
-                              .w500
-                              .colored(AppTheme.primaryColor),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () async {
-                              // TODO: update Terms & Conditions Url
-                              const url =
-                                  'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
-                              if (await canLaunch(url)) {
-                                await launch(url);
-                              } else {
-                                Toast(
-                                  message:
-                                      'Failed to open Terms & Conditions in browser',
-                                ).show(context);
-                              }
-                            }),
+                        text: 'Terms & Conditions',
+                        style: AppTheme.textStyle
+                            .size(13)
+                            .lineHeight(1.5)
+                            .w500
+                            .colored(AppTheme.primaryColor),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () async {
+                            // TODO: update Terms & Conditions Url
+                            const url =
+                                'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
+                            if (await canLaunch(url)) {
+                              await launch(url);
+                            } else {
+                              Toast(
+                                message:
+                                    'Failed to open Terms & Conditions in browser',
+                              ).show(context);
+                            }
+                          },
+                      ),
                     ],
                   ),
                 ),

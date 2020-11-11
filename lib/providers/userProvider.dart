@@ -77,9 +77,12 @@ class UserProvider with ChangeNotifier {
       body['email'] = email;
     }
 
-    final json = await Http.postAuth('/api/user/auth/signup', body: body);
+    await Http.postAuth('/api/user/auth/signup', body: body);
 
-    _fillProvider(json);
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.whatsapp = whatsapp;
+    this.email = email;
   }
 
   Future<void> updateProfile({
