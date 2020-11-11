@@ -28,14 +28,14 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
   Timer _timer;
   int _start;
-  bool _verify = false;
+  bool _isloading = false;
 
   String _sessionId;
 
   @override
   void initState() {
     super.initState();
-    getOtp();
+    _getOtp();
   }
 
   @override
@@ -49,36 +49,39 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     const sizedBox = SizedBox(height: 32);
     return Consumer<UserProvider>(
       builder: (context, provider, _) {
-        return FutureBuilder(
-          future: _verify ? verifyOtp(provider) : null,
-          builder: (context, snapshot) {
-            return LoaderOverlay(
-              isLoading: snapshot.connectionState == ConnectionState.waiting,
-              child: Background(
-                title: 'Verify OTP',
-                backNavigation: true,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      sizedBox,
-                      Text(
-                        'Please enter OTP sent to your phone number ${widget.phone}',
-                        style: AppTheme.textStyle.w500.color100
-                            .size(15)
-                            .lineHeight(1.3),
-                      ),
-                      sizedBox,
-                      otpForm(),
-                      SizedBox(height: 12),
-                      resendWidget(),
-                      SizedBox(height: 16),
-                      verifyButton(),
-                    ],
+        return LoaderOverlay(
+          isLoading: _isloading,
+          child: Background(
+            title: 'Verify OTP',
+            backNavigation: true,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  sizedBox,
+                  Text(
+                    'Please enter OTP sent to your phone number ${widget.phone}',
+                    style: AppTheme.textStyle.w500.color100
+                        .size(15)
+                        .lineHeight(1.3),
                   ),
-                ),
+                  sizedBox,
+                  otpForm(),
+                  SizedBox(height: 12),
+                  resendWidget(),
+                  SizedBox(height: 16),
+                  PrimaryButton(
+                    title: 'Verify',
+                    onPressed: () {
+                      if (_form.currentState.validate()) {
+                        _form.currentState.save(); //value saved in _otp
+                        _verifyOtp(provider);
+                      }
+                    },
+                  ),
+                ],
               ),
-            );
-          },
+            ),
+          ),
         );
       },
     );
@@ -102,7 +105,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
           )
         : GestureDetector(
             onTap: () {
-              getOtp();
+              _getOtp();
             },
             child: Text(
               'Resend OTP',
@@ -128,19 +131,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     setState(() => _start = 0);
   }
 
-  Widget verifyButton() {
-    return PrimaryButton(
-      title: 'Verify',
-      onPressed: () {
-        if (_form.currentState.validate()) {
-          _form.currentState.save(); //value saved in _otp
-          setState(() => _verify = true);
-        }
-      },
-    );
-  }
-
-  Future<void> getOtp() async {
+  Future<void> _getOtp() async {
     try {
       startTimer();
       final json = await Http.get('/api/user/auth/otp/${widget.phone}');
@@ -152,7 +143,8 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     }
   }
 
-  Future<void> verifyOtp(UserProvider provider) async {
+  Future<void> _verifyOtp(UserProvider provider) async {
+    setState(() => _isloading = true);
     try {
       await provider.otpAuth(
         phone: widget.phone,
@@ -164,7 +156,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     } catch (error) {
       Toast(message: Http.message(error)).show(context);
     } finally {
-      setState(() => _verify = false);
+      setState(() => _isloading = false);
     }
   }
 }
