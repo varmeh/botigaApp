@@ -4,14 +4,7 @@ import 'package:animations/animations.dart';
 
 import '../../models/addressModel.dart';
 import '../../util/index.dart' show Http;
-import '../tabbar.dart';
-import '../../widgets/index.dart'
-    show
-        Loader,
-        HttpServiceExceptionWidget,
-        ContactWidget,
-        Toast,
-        PassiveButton;
+import '../../widgets/index.dart' show ContactWidget, Toast, PassiveButton;
 import '../../providers/index.dart' show UserProvider, SellersProvider;
 import '../../theme/index.dart';
 import '../location/searchApartmentScreen.dart';
@@ -36,45 +29,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
       color: AppTheme.dividerColor,
     );
 
-    return Consumer<UserProvider>(builder: (context, provider, child) {
-      return FutureBuilder(
-        future: provider.getProfile(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Loader();
-          } else if (snapshot.hasError) {
-            return HttpServiceExceptionWidget(
-              exception: snapshot.error,
-              onTap: () {
-                // Rebuild screen
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (_, __, ___) => Tabbar(index: 0),
-                    transitionDuration: Duration.zero,
-                  ),
-                );
-              },
-            );
-          } else {
-            return SafeArea(
-              child: ListView(
-                children: [
-                  _profile(provider),
-                  divider,
-                  _address(provider.address),
-                  divider,
-                  _support(),
-                  divider,
-                  _logout(provider),
-                  SizedBox(height: 100.0)
-                ],
-              ),
-            );
-          }
-        },
-      );
-    });
+    return Consumer<UserProvider>(
+      builder: (context, provider, child) {
+        return SafeArea(
+          child: ListView(
+            children: [
+              _profile(provider),
+              divider,
+              _address(provider.address),
+              divider,
+              _support(),
+              divider,
+              _logout(provider),
+              SizedBox(height: 100.0)
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _logout(UserProvider provider) {
