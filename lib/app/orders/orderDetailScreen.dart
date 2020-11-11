@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import 'orderStatusWidget.dart';
 
-import '../cart/paymentScreen.dart';
 import '../../providers/ordersProvider.dart';
 import '../../util/index.dart' show Http, DateExtension;
 import '../../theme/index.dart';
@@ -14,11 +13,8 @@ import '../../widgets/index.dart'
         LoaderOverlay,
         BotigaAppBar,
         Toast,
-        PassiveButton,
         WhatsappButton,
-        BotigaBottomModal,
-        StatusImageWidget,
-        ImageStatus;
+        BotigaBottomModal;
 
 class OrderDetailScreen extends StatefulWidget {
   static const route = 'orderDetails';
