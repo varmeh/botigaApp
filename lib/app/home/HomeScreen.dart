@@ -126,7 +126,6 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _sellersTile(BuildContext context, SellerModel seller) {
-    final _themeData = Theme.of(context);
     return OpenContainer(
       closedElevation: 0.0,
       transitionDuration: Duration(milliseconds: 500),
@@ -144,15 +143,13 @@ class HomeScreen extends StatelessWidget {
                 radius: 28.0,
                 isColored: seller.live,
               ),
-              SizedBox(
-                width: 12,
-              ),
+              SizedBox(width: 12),
               Expanded(
                 flex: 4,
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border(
-                      bottom: BorderSide(color: _themeData.dividerColor),
+                      bottom: BorderSide(color: AppTheme.dividerColor),
                     ),
                   ),
                   padding: const EdgeInsets.fromLTRB(2.0, 12.0, 0.0, 10.0),
