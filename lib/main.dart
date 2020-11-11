@@ -15,7 +15,7 @@ import 'providers/index.dart'
         CartProvider,
         OrdersProvider,
         UserProvider;
-import 'util/index.dart' show Flavor, Http;
+import 'util/index.dart' show Flavor, Http, KeyStore;
 
 import 'app/tabbar.dart';
 import 'app/auth/index.dart';
@@ -42,6 +42,8 @@ Future<void> main() async {
 
   // Fetch Token from Secure Storage if exists
   await Http.fetchToken();
+
+  await KeyStore.initialize();
 
   // Pass all uncaught errors to Crashlytics.
   if (kReleaseMode) {

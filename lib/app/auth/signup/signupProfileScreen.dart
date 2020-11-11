@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../providers/userProvider.dart';
 import '../../../theme/index.dart';
-import '../../../util/index.dart' show Http, Validations;
+import '../../../util/index.dart' show Http, Validations, KeyStore;
 import '../../../widgets/index.dart'
     show Toast, BotigaAppBar, LoaderOverlay, BotigaTextFieldForm, PrimaryButton;
 import 'signupApartmentScreen.dart';
@@ -225,6 +225,7 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
           email: _email,
         );
 
+        await KeyStore.setFirstRun();
         Navigator.pushNamed(
           context,
           SignupApartmentScreen.route,

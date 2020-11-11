@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../util/index.dart' show KeyStore;
 import '../../shared/verifyOtpScreen.dart';
 import '../../tabbar.dart';
 import './signupProfileScreen.dart';
@@ -18,7 +19,8 @@ class SignupOtpScreen extends StatelessWidget {
           Navigator.pushNamed(context, SignupProfileScreen.route,
               arguments: phoneNumber);
         } else {
-          Navigator.pushNamed(context, Tabbar.route);
+          KeyStore.setFirstRun()
+              .whenComplete(() => Navigator.pushNamed(context, Tabbar.route));
         }
       },
     );

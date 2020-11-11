@@ -9,7 +9,7 @@ import 'onboarding.dart';
 
 import '../../providers/userProvider.dart';
 import '../../theme/index.dart';
-import '../../util/index.dart' show Http;
+import '../../util/index.dart' show KeyStore;
 
 class SplashScreen extends StatefulWidget {
   static final route = 'splashScreen';
@@ -45,10 +45,10 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     if (_loadingComplete && _animationCompleted) {
       String next;
-      if (_errorWithGetProfile) {
-        next = Http.tokenExists ? LoginScreen.route : OnboardingScreen.route;
+      if (KeyStore.firstRun()) {
+        next = OnboardingScreen.route;
       } else {
-        next = Tabbar.route;
+        next = _errorWithGetProfile ? LoginScreen.route : Tabbar.route;
       }
       Future.delayed(Duration.zero,
           () => Navigator.of(context).pushReplacementNamed(next));
