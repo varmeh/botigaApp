@@ -8,13 +8,7 @@ import '../../../providers/userProvider.dart';
 import '../../../theme/index.dart';
 import '../../../util/index.dart' show Http, Validations;
 import '../../../widgets/index.dart'
-    show
-        Toast,
-        BotigaAppBar,
-        LoaderOverlay,
-        BotigaTextFieldForm,
-        PrimaryButton,
-        Toast;
+    show Toast, BotigaAppBar, LoaderOverlay, BotigaTextFieldForm, PrimaryButton;
 import 'signupApartmentScreen.dart';
 
 final Function(String) _nameValidator = (value) {
