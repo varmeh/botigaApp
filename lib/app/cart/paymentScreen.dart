@@ -117,12 +117,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
     // Clear order list to enable reloading of orders
     provider.resetOrders();
 
-    Navigator.push(
+    Navigator.pushAndRemoveUntil(
       context,
       PageRouteBuilder(
         pageBuilder: (_, __, ___) => OrderStatusScreen(order),
         transitionDuration: Duration.zero,
       ),
+      (route) => false,
     );
   }
 }

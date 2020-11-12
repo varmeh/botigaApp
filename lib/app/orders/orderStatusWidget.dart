@@ -90,7 +90,7 @@ class OrderStatusWidget extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.only(left: 20.0),
       child: Column(
         children: [
           _tile(
