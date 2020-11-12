@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -8,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../../theme/index.dart';
 import '../../widgets/index.dart' show LoaderOverlay;
 import '../../providers/index.dart' show OrdersProvider;
-import 'paymentStatusScreen.dart';
+import 'orderStatusScreen.dart';
 
 class PaymentScreen extends StatefulWidget {
   static const route = 'payment';
@@ -57,16 +56,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
             child: WebView(
               debuggingEnabled: false,
               javascriptMode: JavascriptMode.unrestricted,
+              navigationDelegate: (navigation) {
+                if (navigation.url.contains('/transaction/status')) {
+                  _showPaymentStatus(navigation.url);
+                  return NavigationDecision.prevent;
+                }
+                return NavigationDecision.navigate;
+              },
               onPageFinished: (url) {
                 if (url.contains('showPaymentPage')) {
                   setState(() => _isLoading = false);
-                }
-                if (url.contains('/transaction/status')) {
-                  _showPaymentStatus();
-
-                  // Clear order list to enable reloading of orders
-                  Provider.of<OrdersProvider>(context, listen: false)
-                      .resetOrders();
                 }
               },
               onWebViewCreated: (controller) {
@@ -111,23 +110,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
 		''';
   }
 
-  void _showPaymentStatus() {
-    _webController.evaluateJavascript('document.body.innerText').then((data) {
-      var decodedJSON = jsonDecode(data);
-      final txnStatus = decodedJSON['status'];
-      PaymentStatus status = PaymentStatus.pending;
-      if (txnStatus == 'success') {
-        status = PaymentStatus.success;
-      } else if (txnStatus == 'failure') {
-        status = PaymentStatus.failure;
-      }
-      Navigator.push(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (_, __, ___) => PaymentStatusScreen(status),
-          transitionDuration: Duration.zero,
-        ),
-      );
-    });
+  void _showPaymentStatus(String url) async {
+    final provider = Provider.of<OrdersProvider>(context, listen: false);
+    final order = await provider.getOrderStatus(url);
+
+    // Clear order list to enable reloading of orders
+    provider.resetOrders();
+
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => OrderStatusScreen(order),
+        transitionDuration: Duration.zero,
+      ),
+    );
   }
 }

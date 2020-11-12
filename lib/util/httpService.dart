@@ -50,10 +50,12 @@ class Http {
     String url, {
     Map<String, String> headers,
     Map<String, dynamic> body,
+    bool isRelativeUrl = true,
   }) async {
     final _headers = headers == null ? {} : headers;
+    final uri = isRelativeUrl ? '$_baseUrl$url' : url;
     final response = await http.post(
-      '$_baseUrl$url',
+      uri,
       headers: {'Authorization': _token, ..._globalHeaders, ..._headers},
       body: body != null ? json.encode(body) : null,
     );
