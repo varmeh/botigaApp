@@ -57,7 +57,12 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
     final order = widget.order;
 
     return Container(
-      padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 24.0),
+      padding: EdgeInsets.only(
+        left: 20.0,
+        right: 20.0,
+        bottom: 24.0,
+        top: 12.0,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
