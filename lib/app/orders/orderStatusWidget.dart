@@ -81,7 +81,7 @@ class OrderStatusWidget extends StatelessWidget {
         paymentSubtitle = 'Refund pending';
         // Show Reminder button
         button = PassiveButton(
-          width: double.infinity,
+          width: 260,
           icon: Icon(Icons.update, size: 18.0),
           title: 'Remind Seller to Refund',
           onPressed: () => _whatsappModal(context, order),
@@ -90,7 +90,7 @@ class OrderStatusWidget extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.only(left: 20.0),
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0),
       child: Column(
         children: [
           _tile(
