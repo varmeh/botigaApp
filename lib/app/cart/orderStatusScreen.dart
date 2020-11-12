@@ -24,6 +24,8 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: BotigaAppBar('Order Details'),
+      floatingActionButton: _homeButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SafeArea(
         child: LoaderOverlay(
           isLoading: _isLoading,
@@ -43,7 +45,6 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
                   },
                 ),
               ),
-              _home(),
             ],
           ),
         ),
@@ -62,7 +63,7 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
         children: [
           Text(
             order.seller.brandName,
-            style: AppTheme.textStyle.w700.color100.size(17.0).lineHeight(1.4),
+            style: AppTheme.textStyle.w600.color100.size(17.0).lineHeight(1.4),
           ),
           sizedBox,
           Text(
@@ -111,10 +112,11 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
     );
   }
 
-  Widget _home() {
+  Widget _homeButton() {
     return Container(
+      margin: const EdgeInsets.only(bottom: 20.0),
       width: 90,
-      height: 128,
+      height: 120,
       decoration: BoxDecoration(
         color: AppTheme.backgroundColor,
         borderRadius: BorderRadius.circular(12),
@@ -151,6 +153,7 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
                 color: AppTheme.color50,
                 size: 34,
               ),
+              SizedBox(height: 4.0),
               Text(
                 'Home',
                 textAlign: TextAlign.center,
