@@ -1,7 +1,7 @@
-import 'package:botiga/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../theme/index.dart';
 import 'passiveButton.dart';
 import '../toast.dart';
 
