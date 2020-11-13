@@ -155,7 +155,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     final sizedBox = SizedBox(height: 6.0);
 
     return Container(
-      padding: EdgeInsets.fromLTRB(20.0, 0, 20.0, 24.0),
+      padding: EdgeInsets.only(
+        left: 20.0,
+        right: 20.0,
+        bottom: 24.0,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -242,17 +246,21 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              RichText(
-                text: TextSpan(
-                  text: product.quantity.toString(),
-                  style:
-                      AppTheme.textStyle.w500.color100.size(13).lineHeight(1.5),
-                  children: [
-                    TextSpan(text: ' X '),
-                    TextSpan(text: product.name),
-                  ],
+              Expanded(
+                child: RichText(
+                  text: TextSpan(
+                    text: product.quantity.toString(),
+                    style: AppTheme.textStyle.w500.color100
+                        .size(13)
+                        .lineHeight(1.5),
+                    children: [
+                      TextSpan(text: ' X '),
+                      TextSpan(text: product.name),
+                    ],
+                  ),
                 ),
               ),
+              SizedBox(width: 12.0),
               RichText(
                 text: TextSpan(
                   text: '₹',
@@ -273,8 +281,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               ),
             ],
           ),
-          SizedBox(height: 4.0),
-          Text(product.unitInfo),
+          Text(
+            product.unitInfo,
+            style: AppTheme.textStyle.w500.color50.size(12.0).lineHeight(1.35),
+          ),
         ],
       ),
     );
@@ -283,26 +293,30 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   Widget _total() {
     final style = AppTheme.textStyle.w600.color100.size(13).lineHeight(1.6);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          'Total',
-          style: style,
-        ),
-        RichText(
-          text: TextSpan(
-            text: '₹',
-            style: AppTheme.textStyle.w400.color100.size(13.0).lineHeight(1.6),
-            children: [
-              TextSpan(
-                text: order.totalAmount.toString(),
-                style: style,
-              ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 52.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Total',
+            style: style,
           ),
-        ),
-      ],
+          RichText(
+            text: TextSpan(
+              text: '₹',
+              style:
+                  AppTheme.textStyle.w400.color100.size(13.0).lineHeight(1.6),
+              children: [
+                TextSpan(
+                  text: order.totalAmount.toString(),
+                  style: style,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
