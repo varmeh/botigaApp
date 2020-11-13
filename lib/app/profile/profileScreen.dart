@@ -38,7 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               divider,
               _address(provider.address),
               divider,
-              _support(),
+              _support(provider),
               divider,
               _logout(provider),
               SizedBox(height: 100.0)
@@ -126,9 +126,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           color: AppTheme.color100,
         ),
         SizedBox(width: 10.0),
-        Text(
-          text,
-          style: AppTheme.textStyle.w500.color100.size(15.0).lineHeight(1.3),
+        Expanded(
+          child: Text(
+            text,
+            style: AppTheme.textStyle.w500.color100.size(15.0).lineHeight(1.3),
+          ),
         )
       ],
     );
@@ -196,7 +198,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _support() {
+  Widget _support(UserProvider provider) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
       child: Column(
@@ -223,7 +225,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
           ),
           sizedBox24,
-          ContactWidget(phone: '9910057232', whatsapp: '9910057232')
+          ContactWidget(
+            phone: '9910057232',
+            whatsapp: '9910057232',
+            whatsappMessage:
+                'Hello Team Botiga\nI am ${provider.firstName}, residing in ${provider.address.apartment}, ${provider.address.area}, ${provider.address.city}',
+          )
         ],
       ),
     );
