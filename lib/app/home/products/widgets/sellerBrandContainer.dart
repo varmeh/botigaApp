@@ -75,10 +75,12 @@ class SellerBrandContainer extends StatelessWidget {
       children: [
         Image.asset(image),
         SizedBox(width: 6.0),
-        Text(
-          info,
-          style: AppTheme.textStyle.w500.color100.size(14),
-          textAlign: TextAlign.justify,
+        Expanded(
+          child: Text(
+            info,
+            style: AppTheme.textStyle.w500.color100.size(14),
+            textAlign: TextAlign.justify,
+          ),
         ),
       ],
     );

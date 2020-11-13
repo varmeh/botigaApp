@@ -60,19 +60,22 @@ class _ProductTileState extends State<ProductTile> {
                       .size(13)
                       .letterSpace(0.5),
                 ),
-                SizedBox(height: 5),
                 widget.product.description != null
-                    ? Text(
-                        widget.product.description,
-                        style: AppTheme.textStyle.w500.color50
-                            .lineHeight(1.3)
-                            .letterSpace(0.2)
-                            .size(12),
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 6.0),
+                        child: Text(
+                          widget.product.description,
+                          style: AppTheme.textStyle.w500.color50
+                              .lineHeight(1.3)
+                              .letterSpace(0.2)
+                              .size(12),
+                        ),
                       )
                     : Container()
               ],
             ),
           ),
+          SizedBox(width: 20.0),
           SizedBox(
             width: 120,
             height: 110,
