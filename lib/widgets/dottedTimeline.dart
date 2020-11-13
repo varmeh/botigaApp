@@ -34,8 +34,12 @@ class _TimelinePainter extends CustomPainter {
     final paint = Paint();
     paint.color = AppTheme.color100;
 
-    for (double dy = 2.0; dy < height; dy += dotGap) {
+    double dy = 2.0;
+    for (int numberOfDots = height ~/ dotGap + 1;
+        numberOfDots > 0;
+        numberOfDots--) {
       canvas.drawCircle(Offset(start.x, start.y + dy), 1.0, paint);
+      dy += dotGap;
     }
   }
 

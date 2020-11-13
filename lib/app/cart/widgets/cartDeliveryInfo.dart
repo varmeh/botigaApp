@@ -29,8 +29,15 @@ class CartDeliveryInfo extends StatelessWidget {
           true,
         ),
         DottedTimeline(
-            start: Point(_horizontalPadding + _avatarRadius, 0), height: 32),
-        _info('${address.house}', '${address.apartment}', null, false),
+          start: Point(_horizontalPadding + _avatarRadius, 0),
+          height: 32,
+        ),
+        _info(
+          '${address.house}',
+          '${address.apartment}',
+          null,
+          false,
+        ),
         SizedBox(height: 32),
         Divider(
           thickness: 8,

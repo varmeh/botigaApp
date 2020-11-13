@@ -261,12 +261,12 @@ class _CartScreenState extends State<CartScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${product.name}',
+                  product.name,
                   style:
                       AppTheme.textStyle.w500.color100.size(15).lineHeight(1.4),
                 ),
                 Text(
-                  '${product.size}',
+                  product.size,
                   style:
                       AppTheme.textStyle.w500.color50.size(13).lineHeight(1.6),
                 )
