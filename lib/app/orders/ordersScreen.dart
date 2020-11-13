@@ -147,12 +147,15 @@ class _OrderListScreenState extends State<OrderListScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      order.seller.brandName,
-                      style: AppTheme.textStyle.w600.color100
-                          .size(15)
-                          .lineHeight(1.3),
+                    Expanded(
+                      child: Text(
+                        order.seller.brandName,
+                        style: AppTheme.textStyle.w600.color100
+                            .size(15)
+                            .lineHeight(1.3),
+                      ),
                     ),
+                    SizedBox(width: 12.0),
                     Text(
                       '₹${order.totalAmount.toString()}',
                       style: AppTheme.textStyle.w600.color100
@@ -161,7 +164,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
                     )
                   ],
                 ),
-                SizedBox(height: 4),
+                SizedBox(height: 4.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -171,7 +174,9 @@ class _OrderListScreenState extends State<OrderListScreen> {
                           .size(12)
                           .lineHeight(1.3),
                     ),
+                    SizedBox(width: 8.0),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
                           order.statusMessage,
@@ -179,10 +184,10 @@ class _OrderListScreenState extends State<OrderListScreen> {
                               .size(12)
                               .lineHeight(1.3),
                         ),
-                        SizedBox(width: 4.0),
                         Container(
                           width: 12.0,
                           height: 12.0,
+                          margin: const EdgeInsets.only(left: 4.0),
                           decoration: BoxDecoration(
                             color: order.statusColor,
                             shape: BoxShape.circle,
