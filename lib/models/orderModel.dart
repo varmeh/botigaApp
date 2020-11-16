@@ -63,12 +63,17 @@ class OrderModel {
   }
 
   Color get statusColor {
-    if (isOpen || isDelayed) {
-      return Color.fromRGBO(233, 161, 54, 1);
-    } else if (isCancelled) {
-      return Color.fromRGBO(233, 86, 54, 1);
+    if (isDelivered) {
+      return Color(0xff179f57);
+    } else if (isOpen) {
+      return Color(0xffe9a136);
+    } else if (isOutForDelivery) {
+      return Color(0xff36b9e9);
+    } else if (isDelayed) {
+      return Color(0xffe95636);
     } else {
-      return Color.fromRGBO(23, 159, 87, 1);
+      // Cancelled
+      return Color(0xff787371);
     }
   }
 }
