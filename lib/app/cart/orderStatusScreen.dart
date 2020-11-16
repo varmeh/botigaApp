@@ -72,7 +72,7 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
           ),
           sizedBox,
           Text(
-            order.orderDate.toLocal().dateCompleteWithTime,
+            order.orderDate.dateCompleteWithTime,
             style: AppTheme.textStyle.w500.color50.size(12.0).lineHeight(1.3),
           ),
           sizedBox,

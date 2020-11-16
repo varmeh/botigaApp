@@ -34,16 +34,16 @@ class OrderStatusWidget extends StatelessWidget {
     if (order.isCancelled) {
       orderTitle = 'Order Cancelled';
       orderSubtitle =
-          'Cancelled on ${order.completionDate.toLocal().dateFormatDayMonthTime}';
+          'Cancelled on ${order.completionDate.dateFormatDayMonthTime}';
       orderStatus = ImageStatus.failure;
     } else if (order.isDelivered) {
       orderSubtitle =
-          'Delivered on ${order.completionDate.toLocal().dateFormatDayMonthTime}';
+          'Delivered on ${order.completionDate.dateFormatDayMonthTime}';
     } else if (order.isOutForDelivery) {
       orderSubtitle = 'Out for delivery';
     } else {
       orderSubtitle =
-          'Delivery expected on ${order.expectedDeliveryDate.toLocal().dateFormatDayMonthComplete}';
+          'Delivery expected on ${order.expectedDeliveryDate.dateFormatDayMonthComplete}';
     }
 
     Widget button = Container();
@@ -241,7 +241,7 @@ class OrderStatusWidget extends StatelessWidget {
             phone: order.seller.whatsapp,
             width: 220.0,
             message:
-                'Botiga Reminder:\nHello ${order.seller.brandName},\nThis is a reminder for refund of amount ${order.refund.amount} for order number ${order.number} cancelled on ${order.completionDate.toLocal().dateFormatDayMonthComplete}',
+                'Botiga Reminder:\nHello ${order.seller.brandName},\nThis is a reminder for refund of amount ${order.refund.amount} for order number ${order.number} cancelled on ${order.completionDate.dateFormatDayMonthComplete}',
           ),
           _sizedBox,
         ],

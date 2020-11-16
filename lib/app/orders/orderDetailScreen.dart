@@ -141,7 +141,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               title: 'Order Cancelled',
               whatsappNumber: order.seller.whatsapp,
               whatsappMessage:
-                  'Botiga Reminder:\nHello ${order.seller.brandName},\nI have cancelled order number ${order.number} placed on ${order.orderDate.toLocal().dateFormatDayMonthComplete}.\nPlease refund the amount\n'),
+                  'Botiga Reminder:\nHello ${order.seller.brandName},\nI have cancelled order number ${order.number} placed on ${order.orderDate.dateFormatDayMonthComplete}.\nPlease refund the amount\n'),
         );
       }
     } catch (error) {
@@ -169,7 +169,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           ),
           sizedBox,
           Text(
-            order.orderDate.toLocal().dateCompleteWithTime,
+            order.orderDate.dateCompleteWithTime,
             style: AppTheme.textStyle.w500.color50.size(12.0).lineHeight(1.3),
           ),
           sizedBox,
