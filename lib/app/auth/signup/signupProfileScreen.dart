@@ -173,12 +173,10 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
                             .colored(AppTheme.primaryColor),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () async {
-                            // TODO: update Terms & Conditions Url
-
                             // Note: Don't use canLaunch(url). Fails on iOS devices
                             try {
                               await launch(
-                                  'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf');
+                                  'https://s3.ap-south-1.amazonaws.com/products.image.prod/termsAndConditions.pdf');
                             } catch (_) {
                               Toast(
                                 message: 'Failed to open agreement in browser',
