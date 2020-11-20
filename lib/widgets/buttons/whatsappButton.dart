@@ -6,13 +6,13 @@ import 'passiveButton.dart';
 import '../toast.dart';
 
 class WhatsappButton extends StatelessWidget {
-  final String phone;
+  final String number;
   final String title;
   final String message;
   final double width;
 
   WhatsappButton({
-    @required this.phone,
+    @required this.number,
     this.title = 'Whatsapp',
     this.message = '',
     this.width,
@@ -35,7 +35,7 @@ class WhatsappButton extends StatelessWidget {
 
   void _whatsapp(BuildContext context) async {
     String url =
-        'whatsapp://send?phone=91$phone&text=${Uri.encodeComponent(message)}';
+        'whatsapp://send?phone=91$number&text=${Uri.encodeComponent(message)}';
     if (await canLaunch(url)) {
       Future.delayed(Duration(milliseconds: 300), () async {
         await launch(url);

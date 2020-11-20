@@ -7,11 +7,11 @@ import '../toast.dart';
 import '../../theme/index.dart';
 
 class CallButton extends StatelessWidget {
-  final String phone;
+  final String number;
   final String title;
 
   CallButton({
-    @required this.phone,
+    @required this.number,
     this.title = 'Call',
   });
 
@@ -30,7 +30,7 @@ class CallButton extends StatelessWidget {
   }
 
   void _phone(BuildContext context) async {
-    final url = 'tel://$phone';
+    final url = 'tel://$number';
     if (await canLaunch(url)) {
       Future.delayed(Duration(milliseconds: 300), () async {
         await launch(url);

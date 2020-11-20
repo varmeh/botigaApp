@@ -369,7 +369,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           SizedBox(height: 32.0),
           WhatsappButton(
             title: 'Whatsapp Seller',
-            phone: whatsappNumber,
+            number: whatsappNumber,
             width: 220.0,
             message: whatsappMessage,
           ),

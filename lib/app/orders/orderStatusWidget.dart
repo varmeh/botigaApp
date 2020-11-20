@@ -238,7 +238,7 @@ class OrderStatusWidget extends StatelessWidget {
           SizedBox(height: 32.0),
           WhatsappButton(
             title: 'Whatsapp Seller',
-            phone: order.seller.whatsapp,
+            number: order.seller.whatsapp,
             width: 220.0,
             message:
                 'Botiga Reminder:\nHello ${order.seller.brandName},\nThis is a reminder for refund of amount ${order.refund.amount} for order number ${order.number} cancelled on ${order.completionDate.dateFormatDayMonthComplete}',
