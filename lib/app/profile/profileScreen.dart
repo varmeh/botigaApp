@@ -229,7 +229,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             phone: '9910057232',
             whatsapp: '9910057232',
             whatsappMessage:
-                'Hello Team Botiga\nI am ${provider.firstName}, residing in ${provider.address.apartment}, ${provider.address.area}, ${provider.address.city}',
+                'Hello Team Botiga\nI am ${provider.firstName}, residing in ${provider.address?.apartment}, ${provider.address?.area}, ${provider.address?.city}',
           )
         ],
       ),
