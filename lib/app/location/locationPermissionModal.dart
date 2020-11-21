@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 
 import '../../theme/index.dart';
 import '../../widgets/index.dart' show BotigaBottomModal;
@@ -74,13 +73,13 @@ class LocationPermissionModal {
   }
 
   void _accessLocation() {
-    Geolocator.requestPermission().then((permission) {
-      if (permission == LocationPermission.whileInUse) {
-        Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high,
-          timeLimit: Duration(seconds: 5),
-        ).then((position) {}).catchError((error) {});
-      }
-    });
+    // Geolocator.requestPermission().then((permission) {
+    //   if (permission == LocationPermission.whileInUse) {
+    //     Geolocator.getCurrentPosition(
+    //       desiredAccuracy: LocationAccuracy.high,
+    //       timeLimit: Duration(seconds: 5),
+    //     ).then((position) {}).catchError((error) {});
+    //   }
+    // });
   }
 }
