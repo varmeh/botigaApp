@@ -83,7 +83,7 @@ class OrdersProvider with ChangeNotifier {
   }
 
   Future<OrderModel> getOrderStatus(String url) async {
-    final json = await Http.post(url, isRelativeUrl: false);
+    final json = await Http.post(url);
 
     final order = OrderModel.fromJson(json);
 

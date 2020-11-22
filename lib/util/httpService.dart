@@ -46,16 +46,11 @@ class Http {
     return parse(response);
   }
 
-  static Future<dynamic> post(
-    String url, {
-    Map<String, String> headers,
-    Map<String, dynamic> body,
-    bool isRelativeUrl = true,
-  }) async {
+  static Future<dynamic> post(String url,
+      {Map<String, String> headers, Map<String, dynamic> body}) async {
     final _headers = headers == null ? {} : headers;
-    final uri = isRelativeUrl ? '$_baseUrl$url' : url;
     final response = await http.post(
-      uri,
+      '$_baseUrl$url',
       headers: {'Authorization': _token, ..._globalHeaders, ..._headers},
       body: body != null ? json.encode(body) : null,
     );
