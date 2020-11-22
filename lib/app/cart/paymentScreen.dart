@@ -5,6 +5,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../theme/index.dart';
+import '../../util/index.dart' show StringExtensions;
 import '../../widgets/index.dart' show LoaderOverlay;
 import '../../providers/index.dart' show OrdersProvider;
 
@@ -62,9 +63,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 debuggingEnabled: false,
                 javascriptMode: JavascriptMode.unrestricted,
                 onPageStarted: (url) {
-                  if (url.contains('transactionStatus')) {
-                    setState(() => _isWebViewVisible =
-                        false); // to avoid any data returned by this call
+                  if (url.containsIgnoreCase('status')) {
                     _showPaymentStatus();
                   }
                 },
@@ -117,8 +116,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   void _showPaymentStatus() async {
+    setState(() {
+      _isWebViewVisible = false;
+      _isLoading = true;
+    });
     final provider = Provider.of<OrdersProvider>(context, listen: false);
-    setState(() => _isLoading = true);
     try {
       final order = await provider.getOrderStatus(
           '/api/user/orders/transaction/status?paymentId=${widget.paymentId}');
