@@ -100,7 +100,6 @@ class BotigaApp extends StatelessWidget {
         LoginScreen.route: (_) => LoginScreen(),
         LoginOtpScreen.route: (_) => LoginOtpScreen(),
         LoginPinScreen.route: (_) => LoginPinScreen(),
-        SetPinScreen.route: (_) => SetPinScreen(),
         // Product Listing Screens
         Tabbar.route: (_) => Tabbar(index: 0),
         ProductListScreen.route: (_) => ProductListScreen(),
