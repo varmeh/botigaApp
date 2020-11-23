@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../shared/phoneScreen.dart';
-import 'loginPinScreen.dart';
+import 'loginOtpScreen.dart';
 
 class LoginScreen extends StatelessWidget {
   static final route = 'login';
@@ -12,7 +12,7 @@ class LoginScreen extends StatelessWidget {
       title: 'Login',
       navigate: (String phoneNumber) {
         Navigator.of(context).pushNamed(
-          LoginPinScreen.route,
+          LoginOtpScreen.route,
           arguments: phoneNumber,
         );
       },
