@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../../theme/index.dart';
+import '../../../../util/index.dart' show StringExtensions;
 import '../../../../models/index.dart' show SellerModel, ProductModel;
 import 'productSelectionButton.dart';
 
@@ -25,8 +26,7 @@ class _ProductTileState extends State<ProductTile> {
   @override
   void initState() {
     super.initState();
-    _hasImage =
-        widget.product.imageUrl != null && widget.product.imageUrl.isNotEmpty;
+    _hasImage = widget.product.imageUrl.isUrl;
   }
 
   @override
