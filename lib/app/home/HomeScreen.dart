@@ -1,6 +1,8 @@
+import 'package:botiga/app/location/searchApartmentScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animations/animations.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import '../../models/sellerModel.dart';
 import '../../providers/index.dart' show SellersProvider, UserProvider;
@@ -108,13 +110,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Hi $name',
-                style: AppTheme.textStyle.w700
-                    .size(22.0)
-                    .lineHeight(1.2)
-                    .colored(AppTheme.backgroundColor),
-              ),
+              Flexible(child: _selectApartment(context)),
               SizedBox(height: 4.0),
               Text(
                 message,
@@ -126,6 +122,48 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _selectApartment(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (_, __, ___) => SearchApartmentScreen(
+              onSelection: () => Navigator.pop(context),
+            ),
+          ),
+        );
+      },
+      child: Row(
+        children: [
+          Image.asset(
+            'assets/images/pinFilled.png',
+            color: AppTheme.backgroundColor,
+          ),
+          SizedBox(width: 9),
+          Flexible(
+            child: AutoSizeText(
+              'Adarsh Palm Retreat',
+              style: AppTheme.textStyle.w700
+                  .size(22.0)
+                  .lineHeight(1.4)
+                  .colored(AppTheme.backgroundColor),
+              minFontSize: 15.0,
+              maxFontSize: 22.0,
+              maxLines: 2,
+            ),
+          ),
+          SizedBox(width: 4),
+          Icon(
+            Icons.expand_more_sharp,
+            size: 25,
+            color: AppTheme.backgroundColor,
+          ),
+        ],
       ),
     );
   }
