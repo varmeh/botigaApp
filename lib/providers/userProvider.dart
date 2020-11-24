@@ -6,6 +6,7 @@ import '../util/index.dart' show Http, Token;
 class UserProvider with ChangeNotifier {
   String firstName;
   String lastName;
+  String phone;
   String whatsapp;
   String email;
   AddressModel address;
@@ -13,6 +14,7 @@ class UserProvider with ChangeNotifier {
   void _fillProvider(final json) {
     firstName = json['firstName'];
     lastName = json['lastName'];
+    phone = json['phone'];
     whatsapp = json['whatsapp'];
     email = json['email'];
 
