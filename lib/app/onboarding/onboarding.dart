@@ -37,18 +37,18 @@ class OnboardingScreen extends StatelessWidget {
         Image.asset(
           'assets/images/communities.png',
         ),
-        Padding(
-          padding: const EdgeInsets.only(
-            top: 24.0,
-            left: 20.0,
-            right: 20.0,
-          ),
-          child: Text(
-            'Buy amazing products in your community',
-            textAlign: TextAlign.center,
-            style: AppTheme.textStyle.w500.size(15.0).color50,
-          ),
-        )
+        sizedBox24,
+        Text(
+          'Buy amazing products sold in your community',
+          textAlign: TextAlign.center,
+          style: AppTheme.textStyle.w700.size(22.0).color100.lineHeight(1.3),
+        ),
+        sizedBox24,
+        Text(
+          'Explore awesome sellers in your community',
+          textAlign: TextAlign.center,
+          style: AppTheme.textStyle.w500.size(15.0).color50.lineHeight(1.3),
+        ),
       ],
     );
   }
@@ -65,12 +65,6 @@ class OnboardingScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              'Ready to see an extensive catalog of the merchants serving in your community',
-              textAlign: TextAlign.center,
-              style: AppTheme.textStyle.w500.size(13.0).color50,
-            ),
-            sizedBox24,
             ActiveButton(
               title: 'Select Your Community',
               width: 280.0,

@@ -34,7 +34,7 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
-      appBar: BotigaAppBar('Search your community'),
+      appBar: BotigaAppBar('Search Apartment'),
       body: SafeArea(
         child: Container(
           color: AppTheme.backgroundColor,
