@@ -1,3 +1,4 @@
+import 'package:botiga/providers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animations/animations.dart';
@@ -6,9 +7,11 @@ import '../../util/index.dart' show DateExtension;
 import '../../models/orderModel.dart';
 import '../../providers/ordersProvider.dart';
 import '../../theme/index.dart';
-import '../../widgets/index.dart' show Loader, HttpServiceExceptionWidget;
+import '../../widgets/index.dart'
+    show Loader, HttpServiceExceptionWidget, ActiveButton;
 
 import '../tabbar.dart';
+import '../auth/loginScreen.dart';
 import 'orderDetailScreen.dart';
 
 class OrderListScreen extends StatefulWidget {
@@ -24,44 +27,76 @@ class _OrderListScreenState extends State<OrderListScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<OrdersProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
     return SafeArea(
-      child: FutureBuilder(
-        future: initialLoad ? provider.getOrders() : provider.nextOrders(),
-        builder: (context, snapshot) {
-          // Show central level loading on empty screen
-          if (snapshot.connectionState == ConnectionState.waiting &&
-              initialLoad) {
-            return Loader();
-          } else if (snapshot.hasError) {
-            return HttpServiceExceptionWidget(
-              exception: snapshot.error,
-              onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (_, __, ___) => Tabbar(index: 1),
-                    transitionDuration: Duration.zero,
-                  ),
-                );
+      child: userProvider.isLoggedIn
+          ? FutureBuilder(
+              future:
+                  initialLoad ? provider.getOrders() : provider.nextOrders(),
+              builder: (context, snapshot) {
+                // Show central level loading on empty screen
+                if (snapshot.connectionState == ConnectionState.waiting &&
+                    initialLoad) {
+                  return Loader();
+                } else if (snapshot.hasError) {
+                  return HttpServiceExceptionWidget(
+                    exception: snapshot.error,
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => Tabbar(index: 1),
+                          transitionDuration: Duration.zero,
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  return Stack(
+                    children: [
+                      Consumer<OrdersProvider>(
+                        builder: (context, provider, child) {
+                          return provider.orders.length > 0
+                              ? _orderList(provider)
+                              : _noOrders();
+                        },
+                      ),
+                      snapshot.connectionState == ConnectionState.waiting
+                          ? Loader()
+                          : Container()
+                    ],
+                  );
+                }
               },
-            );
-          } else {
-            return Stack(
-              children: [
-                Consumer<OrdersProvider>(
-                  builder: (context, provider, child) {
-                    return provider.orders.length > 0
-                        ? _orderList(provider)
-                        : _noOrders();
-                  },
-                ),
-                snapshot.connectionState == ConnectionState.waiting
-                    ? Loader()
-                    : Container()
-              ],
-            );
-          }
-        },
+            )
+          : _userNotLoggedIn(),
+    );
+  }
+
+  Widget _userNotLoggedIn() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset('assets/images/avatar.png'),
+          SizedBox(height: 16.0),
+          Text(
+            'Nothing here!',
+            style: AppTheme.textStyle.w700.color100.size(15.0).lineHeight(1.3),
+          ),
+          SizedBox(height: 16.0),
+          Text(
+            'Login / Signup to  manage your orders',
+            style: AppTheme.textStyle.w500.color50.size(15.0).lineHeight(1.3),
+          ),
+          SizedBox(height: 24),
+          ActiveButton(
+            title: 'Login',
+            width: 240,
+            onPressed: () => Navigator.pushNamed(context, LoginScreen.route),
+          ),
+        ],
       ),
     );
   }

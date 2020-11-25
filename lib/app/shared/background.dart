@@ -5,16 +5,16 @@ import '../../theme/index.dart';
 class Background extends StatelessWidget {
   final String title;
   final Widget child;
-  final bool backNavigation;
 
   Background({
     @required this.title,
     @required this.child,
-    this.backNavigation = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final backNavigation = Navigator.canPop(context);
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -39,8 +39,10 @@ class Background extends StatelessWidget {
                           },
                           child: Container(
                             padding: EdgeInsets.only(right: 10.0),
-                            child: Icon(Icons.arrow_back_ios,
-                                color: AppTheme.backgroundColor),
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: AppTheme.backgroundColor,
+                            ),
                           ),
                         )
                       : Container(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/index.dart' show AddressModel, ApartmentModel;
-import '../util/index.dart' show Http, Token, KeyStore, StringExtensions;
+import '../util/index.dart' show Http, Token, KeyStore;
 
 class UserProvider with ChangeNotifier {
   String firstName;

@@ -138,7 +138,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       .lineHeight(1.3),
                 ),
                 sizedBox24,
-                ActiveButton(title: 'Login', height: 44.0, onPressed: () {}),
+                ActiveButton(
+                  title: 'Login',
+                  height: 44.0,
+                  onPressed: () =>
+                      Navigator.pushNamed(context, LoginScreen.route),
+                ),
               ],
             ),
           );

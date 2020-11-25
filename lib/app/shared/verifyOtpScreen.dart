@@ -53,7 +53,6 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
           isLoading: _isloading,
           child: Background(
             title: 'Verify OTP',
-            backNavigation: true,
             child: SingleChildScrollView(
               child: Column(
                 children: [
