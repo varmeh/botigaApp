@@ -3,4 +3,6 @@ extension StringExtensions on String {
       this.toLowerCase().contains(secondString.toLowerCase());
 
   bool get isUrl => this != null && this.startsWith('https://');
+
+  bool get isNullOrEmpty => this == null || this.isEmpty;
 }

@@ -1,9 +1,10 @@
-import 'package:botiga/app/location/searchApartmentScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
+import '../location/index.dart' show SelectApartmentScreen;
+import '../../util/index.dart' show StringExtensions;
 import '../../models/sellerModel.dart';
 import '../../providers/index.dart' show SellersProvider, UserProvider;
 
@@ -23,12 +24,14 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _userProvider = Provider.of<UserProvider>(context);
+    final apartmentId = _userProvider.apartmentId;
 
-    return _userProvider.apartmentId.isNotEmpty
-        ? Consumer<SellersProvider>(
+    return apartmentId.isNullOrEmpty
+        ? _noApartmentSelected(context, _userProvider)
+        : Consumer<SellersProvider>(
             builder: (context, provider, child) {
               return FutureBuilder(
-                future: provider.getSellers(_userProvider.apartmentId),
+                future: provider.getSellers(apartmentId),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Loader();
@@ -54,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                         if (index == 0) {
                           return appBar(
                             context,
-                            _userProvider.firstName,
+                            _userProvider,
                             '${provider.sellerList.length} merchants delivering',
                           );
                         } else if (index <= provider.sellerList.length) {
@@ -80,11 +83,10 @@ class HomeScreen extends StatelessWidget {
                 },
               );
             },
-          )
-        : _noApartmentSelected(context, _userProvider.firstName);
+          );
   }
 
-  Widget appBar(BuildContext context, String name, String message) {
+  Widget appBar(BuildContext context, UserProvider provider, String message) {
     return Material(
       child: Container(
         width: double.infinity,
@@ -110,15 +112,22 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Flexible(child: _selectApartment(context)),
-              SizedBox(height: 4.0),
-              Text(
-                message,
-                style: AppTheme.textStyle.w700
-                    .size(13.0)
-                    .lineHeight(1.5)
-                    .colored(AppTheme.backgroundColor),
-              )
+              Flexible(child: _selectApartment(context, provider)),
+              provider.apartmentName.isNullOrEmpty
+                  ? Container()
+                  : Padding(
+                      padding: const EdgeInsets.only(
+                        top: 4.0,
+                        left: 6.0,
+                      ),
+                      child: Text(
+                        message,
+                        style: AppTheme.textStyle.w700
+                            .size(13.0)
+                            .lineHeight(1.5)
+                            .colored(AppTheme.backgroundColor),
+                      ),
+                    )
             ],
           ),
         ),
@@ -126,16 +135,12 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _selectApartment(BuildContext context) {
+  Widget _selectApartment(BuildContext context, UserProvider provider) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
+        Navigator.pushNamed(
           context,
-          PageRouteBuilder(
-            pageBuilder: (_, __, ___) => SearchApartmentScreen(
-              onSelection: (_) => Navigator.pop(context),
-            ),
-          ),
+          SelectApartmentScreen.route,
         );
       },
       child: Row(
@@ -147,7 +152,9 @@ class HomeScreen extends StatelessWidget {
           SizedBox(width: 9),
           Flexible(
             child: AutoSizeText(
-              'Select Apartment',
+              provider.apartmentId.isNullOrEmpty
+                  ? 'Select Apartment'
+                  : provider.apartmentName,
               style: AppTheme.textStyle.w700
                   .size(22.0)
                   .lineHeight(1.4)
@@ -228,13 +235,13 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _noApartmentSelected(BuildContext context, String name) {
+  Widget _noApartmentSelected(BuildContext context, UserProvider provider) {
     return ListView(
       padding: EdgeInsets.zero,
       children: [
-        appBar(context, name, 'Apartment not selected'),
+        appBar(context, provider, ''),
         BrandingTile(
-          'Select your apartment in your profile',
+          'Interesting merchandize waiting for you. Just select your apartment',
           'Do it now & buy amazing products from Botiga merchants serving in your community',
         ),
       ],

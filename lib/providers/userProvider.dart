@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/index.dart' show AddressModel, ApartmentModel;
-import '../util/index.dart' show Http, Token;
+import '../util/index.dart' show Http, Token, KeyStore, StringExtensions;
 
 class UserProvider with ChangeNotifier {
   String firstName;
@@ -24,7 +24,9 @@ class UserProvider with ChangeNotifier {
   }
 
   bool get isLoggedIn => phone != null;
-  String get apartmentId => address != null ? address.id : '';
+
+  String get apartmentId => KeyStore.shared.lastApartmentId;
+  String get apartmentName => KeyStore.shared.lastApartmentName;
 
   Future<void> getProfile() async {
     if (firstName != null) {
