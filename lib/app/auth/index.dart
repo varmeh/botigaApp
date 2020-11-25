@@ -1,3 +1,4 @@
-export 'signup/index.dart';
-export 'login/index.dart';
-export '../shared/index.dart';
+export './loginOtpScreen.dart';
+export './loginScreen.dart';
+export './signupApartmentScreen.dart';
+export './signupProfileScreen.dart';

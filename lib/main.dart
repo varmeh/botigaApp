@@ -92,8 +92,6 @@ class BotigaApp extends StatelessWidget {
         OnboardingScreen.route: (_) => OnboardingScreen(),
         SplashScreen.route: (_) => SplashScreen(),
         // Sign Up Screens
-        SignupWelcomeScreen.route: (_) => SignupWelcomeScreen(),
-        SignupOtpScreen.route: (_) => SignupOtpScreen(),
         SignupProfileScreen.route: (_) => SignupProfileScreen(),
         SignupApartmentScreen.route: (_) => SignupApartmentScreen(),
         // Login Screens

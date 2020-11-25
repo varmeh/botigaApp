@@ -4,10 +4,10 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../providers/userProvider.dart';
-import '../../../theme/index.dart';
-import '../../../util/index.dart' show Http, Validations, KeyStore;
-import '../../../widgets/index.dart'
+import '../../providers/userProvider.dart';
+import '../../theme/index.dart';
+import '../../util/index.dart' show Http, Validations;
+import '../../widgets/index.dart'
     show Toast, BotigaAppBar, LoaderOverlay, BotigaTextFieldForm, ActiveButton;
 import 'signupApartmentScreen.dart';
 
@@ -224,7 +224,7 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
           email: _email,
         );
 
-        await KeyStore.setFirstRun();
+        // await KeyStore.setFirstRun();
         Navigator.pushNamed(
           context,
           SignupApartmentScreen.route,

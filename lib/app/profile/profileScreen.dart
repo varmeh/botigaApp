@@ -9,7 +9,7 @@ import '../../widgets/index.dart'
 import '../../providers/index.dart' show UserProvider, SellersProvider;
 import '../../theme/index.dart';
 import '../location/searchApartmentScreen.dart';
-import '../auth/login/loginScreen.dart';
+import '../auth/loginScreen.dart';
 import 'profileUpdateScreen.dart';
 
 class ProfileScreen extends StatefulWidget {

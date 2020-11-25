@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../shared/index.dart';
-import '../../tabbar.dart';
+import '../shared/index.dart';
+import '../tabbar.dart';
 
 class LoginOtpScreen extends StatelessWidget {
   static final route = 'loginOtp';
