@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../util/index.dart' show KeyStore;
-import '../../widgets/index.dart' show ActiveButton, Toast;
+import '../../widgets/index.dart' show ActiveButton;
 import '../../theme/index.dart';
 
-import '../tabbar.dart';
 import '../auth/index.dart' show LoginScreen;
-import '../location/index.dart' show SearchApartmentScreen;
+import '../location/index.dart' show SelectApartmentScreen;
 
 class OnboardingScreen extends StatelessWidget {
   static const route = 'onboarding';
@@ -74,26 +72,7 @@ class OnboardingScreen extends StatelessWidget {
               title: 'Select Your Community',
               width: 280.0,
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) =>
-                        SearchApartmentScreen(onSelection: (apartment) {
-                      KeyStore.shared
-                          .setApartment(
-                              apartmentId: apartment.id,
-                              apartmentName: apartment.name)
-                          .then(
-                            (_) => Navigator.pushNamed(context, Tabbar.route),
-                          )
-                          .catchError(
-                            (_) => Toast(
-                              message: 'Something went wrong. Select again.',
-                            ).show(context),
-                          );
-                    }),
-                  ),
-                );
+                Navigator.pushNamed(context, SelectApartmentScreen.route);
               },
             ),
             sizedBox24,
