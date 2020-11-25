@@ -19,7 +19,7 @@ class CartDeliveryInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
-    String house = 'Missing';
+    String house;
     String apartment = userProvider.apartmentName;
 
     if (userProvider.isLoggedIn) {
@@ -37,11 +37,11 @@ class CartDeliveryInfo extends StatelessWidget {
         ),
         DottedTimeline(
           start: Point(_horizontalPadding + _avatarRadius, 0),
-          height: 32,
+          height: 30,
         ),
         _info(
-          '$house',
-          '$apartment',
+          house,
+          apartment,
           null,
           false,
         ),
@@ -74,18 +74,20 @@ class CartDeliveryInfo extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: AppTheme.textStyle.w600.color100.size(15),
-                ),
-                subTitle != null
+                title != null
                     ? Padding(
-                        padding: const EdgeInsets.only(top: 5.0),
+                        padding: const EdgeInsets.only(bottom: 5.0),
                         child: Text(
-                          subTitle,
-                          softWrap: true,
-                          style: AppTheme.textStyle.w500.color50.size(13),
+                          title,
+                          style: AppTheme.textStyle.w600.color100.size(15),
                         ),
+                      )
+                    : Container(),
+                subTitle != null
+                    ? Text(
+                        subTitle,
+                        softWrap: true,
+                        style: AppTheme.textStyle.w500.color50.size(13),
                       )
                     : Container(),
               ],
