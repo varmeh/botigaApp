@@ -6,7 +6,7 @@ import '../../providers/userProvider.dart';
 import '../../util/index.dart';
 import '../../theme/index.dart';
 import '../../widgets/index.dart'
-    show LoaderOverlay, PinTextField, PrimaryButton, Toast;
+    show LoaderOverlay, PinTextField, ActiveButton, Toast;
 import 'background.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
@@ -69,7 +69,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                   SizedBox(height: 12),
                   resendWidget(),
                   SizedBox(height: 16),
-                  PrimaryButton(
+                  ActiveButton(
                     title: 'Verify',
                     onPressed: () {
                       if (_form.currentState.validate()) {

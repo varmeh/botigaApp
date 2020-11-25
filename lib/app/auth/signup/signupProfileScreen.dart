@@ -8,7 +8,7 @@ import '../../../providers/userProvider.dart';
 import '../../../theme/index.dart';
 import '../../../util/index.dart' show Http, Validations, KeyStore;
 import '../../../widgets/index.dart'
-    show Toast, BotigaAppBar, LoaderOverlay, BotigaTextFieldForm, PrimaryButton;
+    show Toast, BotigaAppBar, LoaderOverlay, BotigaTextFieldForm, ActiveButton;
 import 'signupApartmentScreen.dart';
 
 final Function(String) _nameValidator = (value) {
@@ -201,7 +201,7 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
               right: 10.0,
               bottom: 32.0,
             ),
-            child: PrimaryButton(
+            child: ActiveButton(
               title: 'Create Account',
               onPressed: _onPressed,
             ),

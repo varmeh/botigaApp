@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../theme/index.dart';
 
-class PrimaryButton extends StatelessWidget {
+class ActiveButton extends StatelessWidget {
   final String title;
   final Function onPressed;
   final Widget icon;
@@ -10,7 +10,7 @@ class PrimaryButton extends StatelessWidget {
   final double height;
   final bool bold;
 
-  PrimaryButton({
+  ActiveButton({
     @required this.title,
     @required this.onPressed,
     this.icon,

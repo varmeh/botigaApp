@@ -11,7 +11,7 @@ import '../../widgets/index.dart'
         LoaderOverlay,
         SearchBar,
         BotigaTextFieldForm,
-        PrimaryButton,
+        ActiveButton,
         BotigaBottomModal,
         Toast;
 
@@ -197,7 +197,7 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
             ),
           ),
           sizedBox24,
-          PrimaryButton(
+          ActiveButton(
             title: 'Continue',
             onPressed: () => _submitApartment(apartment),
           ),
