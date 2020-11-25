@@ -23,6 +23,7 @@ class UserProvider with ChangeNotifier {
     }
   }
 
+  bool get isLoggedIn => phone != null;
   String get apartmentId => address != null ? address.id : '';
 
   Future<void> getProfile() async {
