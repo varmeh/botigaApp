@@ -1,18 +1,29 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class KeyStore {
-  static const _keyFirstRun = 'firstRun';
-  static SharedPreferences _prefs;
+const _keyFirstRun = 'firstRun';
+const _keyLastApartment = 'apartment';
 
+class KeyStore {
+  KeyStore._privateConstructor();
+  static final shared = KeyStore._privateConstructor();
+
+  static SharedPreferences _prefs;
   static Future<void> initialize() async {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  static bool firstRun() {
-    return !_prefs.containsKey(_keyFirstRun);
+  bool get firstRun => !_prefs.containsKey(_keyFirstRun);
+  set firstRun(bool value) {
+    _prefs.setBool(_keyFirstRun, value).then((_) {}).catchError((_) {});
   }
 
-  static Future<void> setFirstRun() async {
-    await _prefs.setBool(_keyFirstRun, true);
+  String get lastApartmentId => _prefs.getStringList(_keyLastApartment)[0];
+  String get lastApartmentName => _prefs.getStringList(_keyLastApartment)[1];
+
+  void setApartment({String apartmentId, String apartmentName}) async {
+    try {
+      await _prefs
+          .setStringList(_keyLastApartment, [apartmentId, apartmentName]);
+    } catch (_) {}
   }
 }

@@ -1,93 +1,99 @@
 import 'package:flutter/material.dart';
-import 'package:intro_slider/intro_slider.dart';
-import 'package:intro_slider/slide_object.dart';
 
+import '../../widgets/index.dart' show ActiveButton;
 import '../../theme/index.dart';
-import '../auth/index.dart' show SignupWelcomeScreen;
+import '../auth/index.dart' show LoginScreen;
 
 class OnboardingScreen extends StatelessWidget {
   static const route = 'onboarding';
-
-  final List<Slide> _slides = [
-    Slide(
-      title: 'Buy amazing products in your community',
-      description:
-          'See an extensive catalog of the merchants serving in your community',
-      pathImage: 'assets/images/communities.png',
-    )
-  ];
-
-  Widget _customTab(Slide slide) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-              child: Image.asset(
-            slide.pathImage,
-            width: 331.0,
-            height: 246.0,
-            fit: BoxFit.contain,
-          )),
-          SizedBox(
-            height: 100,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Container(
-              width: double.infinity,
-              child: Text(
-                slide.title,
-                style: AppTheme.textStyle.w700.size(22).color100,
-                textAlign: TextAlign.left,
-              ),
-              margin: EdgeInsets.only(top: 20.0),
-            ),
-          ),
-          Flexible(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Container(
-                width: double.infinity,
-                child: Text(
-                  slide.description,
-                  style: AppTheme.textStyle.w500.size(15).color50,
-                  textAlign: TextAlign.left,
-                  maxLines: 3,
-                ),
-                margin: EdgeInsets.only(top: 20.0),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  final sizedBox24 = SizedBox(height: 24.0);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       body: SafeArea(
-        child: IntroSlider(
-          slides: this._slides,
-          colorDot: AppTheme.color25,
-          colorActiveDot: AppTheme.primaryColor,
-          onDonePress: () {
-            Navigator.of(context).pushNamed(SignupWelcomeScreen.route);
-          },
-          listCustomTabs: _slides.map((slide) => _customTab(slide)).toList(),
-          colorSkipBtn: AppTheme.backgroundColor,
-          styleNameSkipBtn: AppTheme.textStyle.w500.size(15).color50,
-          nameSkipBtn: 'Skip',
-          nameNextBtn: 'Next',
-          nameDoneBtn: 'Done',
-          colorDoneBtn: AppTheme.backgroundColor,
-          styleNameDoneBtn:
-              AppTheme.textStyle.w500.size(15).colored(AppTheme.primaryColor),
-          highlightColorDoneBtn: AppTheme.primaryColor,
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 64.0,
+            left: 20.0,
+            right: 20.0,
+          ),
+          child: _carousel(),
+        ),
+      ),
+      bottomNavigationBar: _callToAction(context),
+    );
+  }
+
+  Widget _carousel() {
+    return ListView(
+      children: [
+        Image.asset(
+          'assets/images/communities.png',
+        ),
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 24.0,
+            left: 20.0,
+            right: 20.0,
+          ),
+          child: Text(
+            'Buy amazing products in your community',
+            textAlign: TextAlign.center,
+            style: AppTheme.textStyle.w500.size(15.0).color50,
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _callToAction(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 20.0,
+          right: 20.0,
+          bottom: 44.0,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Ready to see an extensive catalog of the merchants serving in your community',
+              textAlign: TextAlign.center,
+              style: AppTheme.textStyle.w500.size(13.0).color50,
+            ),
+            sizedBox24,
+            ActiveButton(
+              title: 'Select Your Community',
+              width: 280.0,
+              onPressed: () {},
+            ),
+            sizedBox24,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Have an account?',
+                  style: AppTheme.textStyle.w500.size(13.0).color50,
+                ),
+                SizedBox(width: 4),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, LoginScreen.route);
+                  },
+                  child: Text(
+                    'Login',
+                    style: AppTheme.textStyle.w500
+                        .size(13.0)
+                        .colored(AppTheme.primaryColor),
+                  ),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );
