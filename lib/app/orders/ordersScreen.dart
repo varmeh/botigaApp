@@ -79,7 +79,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset('assets/images/avatar.png'),
+          Image.asset('assets/images/orderCart.png'),
           SizedBox(height: 16.0),
           Text(
             'Nothing here!',

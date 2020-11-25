@@ -132,7 +132,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 sizedBox8,
                 Text(
-                  'Login/Sign up to  manage your orders',
+                  'Login / Signup to  manage your orders',
                   style: AppTheme.textStyle.w500.color50
                       .size(15.0)
                       .lineHeight(1.3),
