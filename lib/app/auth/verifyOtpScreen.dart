@@ -7,9 +7,14 @@ import '../../util/index.dart';
 import '../../theme/index.dart';
 import '../../widgets/index.dart'
     show LoaderOverlay, PinTextField, ActiveButton, Toast;
-import 'background.dart';
+import '../shared/background.dart';
+
+import 'signupProfileScreen.dart';
+import '../tabbar.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
+  static final route = 'verifyOtp';
+
   final String phone;
   final Function onVerification;
 
@@ -150,8 +155,13 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
         sessionId: _sessionId,
         otp: _otp,
       );
-      widget
-          .onVerification(provider.firstName == null); // null only for new user
+
+      if (provider.firstName == null) {
+        Navigator.pushNamed(context, SignupProfileScreen.route,
+            arguments: widget.phone);
+      } else {
+        Navigator.of(context).pushNamed(Tabbar.route);
+      }
     } catch (error) {
       Toast(message: Http.message(error)).show(context);
     } finally {

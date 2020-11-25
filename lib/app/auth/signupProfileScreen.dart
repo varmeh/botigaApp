@@ -9,7 +9,8 @@ import '../../theme/index.dart';
 import '../../util/index.dart' show Http, Validations;
 import '../../widgets/index.dart'
     show Toast, BotigaAppBar, LoaderOverlay, BotigaTextFieldForm, ActiveButton;
-import 'signupApartmentScreen.dart';
+
+import '../tabbar.dart';
 
 final Function(String) _nameValidator = (value) {
   if (value.isEmpty) {
@@ -224,10 +225,9 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
           email: _email,
         );
 
-        // await KeyStore.setFirstRun();
         Navigator.pushNamed(
           context,
-          SignupApartmentScreen.route,
+          Tabbar.route,
         );
       } catch (error) {
         Toast(message: Http.message(error)).show(context);

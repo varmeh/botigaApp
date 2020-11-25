@@ -4,7 +4,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../../theme/index.dart';
 import '../../widgets/index.dart'
     show BotigaBottomModal, ActiveButton, BotigaTextFieldForm;
-import 'loginOtpScreen.dart';
+import 'verifyOtpScreen.dart';
 
 class LoginModal {
   BotigaBottomModal _bottomModal;
@@ -70,7 +70,7 @@ class LoginModal {
   void _onSubmitted(BuildContext context) {
     if (_phoneFormKey.currentState.validate()) {
       Navigator.of(context).pushNamed(
-        LoginOtpScreen.route,
+        VerifyOtpScreen.route,
         arguments: _phoneMaskFormatter.getUnmaskedText(),
       );
     }
