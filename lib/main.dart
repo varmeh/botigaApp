@@ -97,10 +97,11 @@ class BotigaApp extends StatelessWidget {
         // Login Screens
         LoginScreen.route: (_) => LoginScreen(),
         LoginOtpScreen.route: (_) => LoginOtpScreen(),
+        // Location Screens
+        AddAddressScreen.route: (_) => AddAddressScreen(),
         // Product Listing Screens
         Tabbar.route: (_) => Tabbar(index: 0),
         ProductListScreen.route: (_) => ProductListScreen(),
-        SelectCityScreen.route: (_) => SelectCityScreen(),
         ProfileUpdateScreen.route: (_) => ProfileUpdateScreen(),
       },
       navigatorObservers: <NavigatorObserver>[observer],

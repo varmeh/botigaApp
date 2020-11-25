@@ -9,7 +9,7 @@ class SignupApartmentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SearchApartmentScreen(onSelection: () {
+    return SearchApartmentScreen(onSelection: (_) {
       Navigator.pushNamed(context, Tabbar.route);
     });
   }

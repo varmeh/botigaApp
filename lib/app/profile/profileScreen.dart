@@ -221,7 +221,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     onPressed: openContainer,
                   ),
                   openBuilder: (_, __) =>
-                      SearchApartmentScreen(onSelection: () {
+                      SearchApartmentScreen(onSelection: (_) {
                     Provider.of<SellersProvider>(context, listen: false)
                         .empty();
                     Navigator.of(context).popUntil((route) => route.isFirst);

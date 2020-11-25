@@ -133,7 +133,7 @@ class HomeScreen extends StatelessWidget {
           context,
           PageRouteBuilder(
             pageBuilder: (_, __, ___) => SearchApartmentScreen(
-              onSelection: () => Navigator.pop(context),
+              onSelection: (_) => Navigator.pop(context),
             ),
           ),
         );
@@ -147,7 +147,7 @@ class HomeScreen extends StatelessWidget {
           SizedBox(width: 9),
           Flexible(
             child: AutoSizeText(
-              'Adarsh Palm Retreat',
+              'Select Apartment',
               style: AppTheme.textStyle.w700
                   .size(22.0)
                   .lineHeight(1.4)

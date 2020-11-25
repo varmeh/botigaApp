@@ -72,13 +72,17 @@ class _BotigaTextFieldFormState extends State<BotigaTextFieldForm> {
   @override
   void initState() {
     super.initState();
-    widget.focusNode.addListener(_focusListener);
+    if (widget.focusNode != null) {
+      widget.focusNode.addListener(_focusListener);
+    }
   }
 
   @override
   void dispose() {
     // Clean up the focus node when the Form is disposed.
-    widget.focusNode.removeListener(_focusListener);
+    if (widget.focusNode != null) {
+      widget.focusNode.removeListener(_focusListener);
+    }
     super.dispose();
   }
 
