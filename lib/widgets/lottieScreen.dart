@@ -7,9 +7,10 @@ class LottieScreen extends StatelessWidget {
   final String json;
   final String message;
   final String description;
-  // final String retryUrl;
   final String buttonTitle;
   final Function onTap;
+  final double width;
+  final double height;
 
   LottieScreen({
     @required this.json,
@@ -17,6 +18,8 @@ class LottieScreen extends StatelessWidget {
     @required this.description,
     @required this.buttonTitle,
     @required this.onTap,
+    this.width = 160.0,
+    this.height = 160.0,
   });
 
   @override
@@ -31,8 +34,8 @@ class LottieScreen extends StatelessWidget {
             children: [
               Lottie.asset(
                 json,
-                width: 200,
-                height: 200,
+                width: width,
+                height: height,
                 fit: BoxFit.fill,
               ),
               sizedBox,
