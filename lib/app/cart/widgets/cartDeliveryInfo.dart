@@ -17,7 +17,14 @@ class CartDeliveryInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final address = Provider.of<UserProvider>(context, listen: false).address;
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    String house = 'Missing';
+    String apartment = userProvider.apartmentName;
+
+    if (userProvider.isLoggedIn) {
+      apartment = userProvider.apartmentName;
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,8 +40,8 @@ class CartDeliveryInfo extends StatelessWidget {
           height: 32,
         ),
         _info(
-          '${address.house}',
-          '${address.apartment}',
+          '$house',
+          '$apartment',
           null,
           false,
         ),

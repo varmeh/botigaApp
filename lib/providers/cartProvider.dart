@@ -32,6 +32,7 @@ class CartProvider with ChangeNotifier {
   }
 
   bool get isEmpty => products.isEmpty;
+  bool get canCheckout => _userProvider.isLoggedIn;
 
   // Methods to manage cart - resetCart, addProduct & removeProduct
   void resetCart() {

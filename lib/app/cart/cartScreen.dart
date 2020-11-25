@@ -3,6 +3,7 @@ import 'package:botiga/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../auth/index.dart' show LoginModal;
 import '../tabbar.dart';
 import '../../models/index.dart' show ProductModel;
 import '../../providers/index.dart' show CartProvider, UserProvider;
@@ -109,12 +110,44 @@ class _CartScreenState extends State<CartScreen> {
               ),
               Positioned(
                 bottom: 0,
-                child: _proceedToPaymentModal(provider),
+                child: _modal(provider),
               ),
             ],
           ),
         );
       },
+    );
+  }
+
+  Widget _modal(CartProvider provider) {
+    return provider.canCheckout
+        ? _proceedToPaymentModal(provider)
+        : _openLoginModal();
+  }
+
+  Widget _openLoginModal() {
+    return GestureDetector(
+      onTap: () => LoginModal().show(context),
+      child: Container(
+        height: 56,
+        width: MediaQuery.of(context).size.width - 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(16.0),
+            topRight: const Radius.circular(16.0),
+          ),
+          color: AppTheme.primaryColor,
+        ),
+        child: Center(
+          child: Text(
+            'Proceed with Phone number',
+            style: AppTheme.textStyle.w700
+                .colored(AppTheme.backgroundColor)
+                .size(13)
+                .lineHeight(1.6),
+          ),
+        ),
+      ),
     );
   }
 
