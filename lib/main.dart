@@ -62,11 +62,13 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => SellersProvider()),
         ChangeNotifierProvider(create: (context) => ProductsProvider()),
-        ChangeNotifierProxyProvider2<SellersProvider, ProductsProvider,
-            CartProvider>(
+        ChangeNotifierProxyProvider3<UserProvider, SellersProvider,
+            ProductsProvider, CartProvider>(
           create: (context) => CartProvider(),
-          update: (context, sellersProvider, productsProvider, cartProvider) =>
-              cartProvider..update(sellersProvider, productsProvider),
+          update: (context, userProvider, sellersProvider, productsProvider,
+                  cartProvider) =>
+              cartProvider
+                ..update(userProvider, sellersProvider, productsProvider),
         ),
         ChangeNotifierProvider(create: (context) => OrdersProvider()),
       ],

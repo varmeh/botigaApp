@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../providers/index.dart' show SellersProvider, ProductsProvider;
+import '../providers/index.dart'
+    show UserProvider, SellersProvider, ProductsProvider;
 import '../util/index.dart' show Http;
 import '../models/index.dart' show SellerModel, ProductModel;
 
@@ -18,12 +19,15 @@ class CartProvider with ChangeNotifier {
   Map<ProductModel, int> products = {};
 
   // Providers to load cart at the beginning
+  UserProvider _userProvider;
   SellersProvider _sellersProvider;
   ProductsProvider _productsProvider;
 
   // Method to initialize providers. Setter DI.
-  void update(SellersProvider provider, ProductsProvider productsProvider) {
-    _sellersProvider = provider;
+  void update(UserProvider userProvider, SellersProvider sellerProvider,
+      ProductsProvider productsProvider) {
+    _userProvider = userProvider;
+    _sellersProvider = sellerProvider;
     _productsProvider = productsProvider;
   }
 
@@ -79,6 +83,10 @@ class CartProvider with ChangeNotifier {
   }
 
   Future<dynamic> checkout({String apartmentId, String house}) async {
+    if (_userProvider.isLoggedIn) {
+      throw new FormatException('Login to proceed with checkout');
+    }
+
     final productList = [];
     products.forEach((product, quantity) {
       productList.add({
@@ -195,7 +203,7 @@ class CartProvider with ChangeNotifier {
       false; // variable to control upload cart calls on every user action
 
   void _saveCartToServer() {
-    if (!_saveToServerInProgress) {
+    if (_userProvider.isLoggedIn && !_saveToServerInProgress) {
       _saveToServerInProgress = true;
       Timer(Duration(seconds: 2), () async {
         List<Map<String, dynamic>> _productList = [];
