@@ -15,13 +15,15 @@ class OnboardingScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            top: 64.0,
-            left: 20.0,
-            right: 20.0,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              // top: 64.0,
+              left: 20.0,
+              right: 20.0,
+            ),
+            child: _carousel(),
           ),
-          child: _carousel(),
         ),
       ),
       bottomNavigationBar: _callToAction(context),
@@ -29,7 +31,8 @@ class OnboardingScreen extends StatelessWidget {
   }
 
   Widget _carousel() {
-    return ListView(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(
           'assets/images/communities.png',

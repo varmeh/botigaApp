@@ -1,7 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import './extensions/stringExtension.dart';
-
 const _keyLastApartment = 'apartment';
 
 class KeyStore {
@@ -13,7 +11,7 @@ class KeyStore {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  bool get firstRun => lastApartmentId.isNullOrEmpty;
+  bool get firstRun => !_prefs.containsKey(_keyLastApartment);
 
   String get lastApartmentId => _prefs.getStringList(_keyLastApartment)[0];
   String get lastApartmentName => _prefs.getStringList(_keyLastApartment)[1];
