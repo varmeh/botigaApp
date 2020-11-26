@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-import '../location/index.dart' show SelectApartmenWhenNoUserLoggedInScreen;
+import '../location/index.dart'
+    show SelectApartmenWhenNoUserLoggedInScreen, ShowSavedAddressesModal;
 import '../../util/index.dart' show StringExtensions;
 import '../../models/sellerModel.dart';
 import '../../providers/index.dart' show SellersProvider, UserProvider;
@@ -138,10 +139,14 @@ class HomeScreen extends StatelessWidget {
   Widget _selectApartment(BuildContext context, UserProvider provider) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(
-          context,
-          SelectApartmenWhenNoUserLoggedInScreen.route,
-        );
+        if (provider.isLoggedIn) {
+          ShowSavedAddressesModal().show(context);
+        } else {
+          Navigator.pushNamed(
+            context,
+            SelectApartmenWhenNoUserLoggedInScreen.route,
+          );
+        }
       },
       child: Row(
         children: [

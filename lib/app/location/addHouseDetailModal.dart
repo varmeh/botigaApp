@@ -16,6 +16,7 @@ class AddHouseDetailModal {
   void show(
     BuildContext context,
     ApartmentModel apartment,
+    RoutePredicate predicate,
   ) {
     const sizedBox24 = SizedBox(height: 24);
 
@@ -59,13 +60,14 @@ class AddHouseDetailModal {
                 _houseNumber = value;
               },
               validator: (value) => value.isEmpty ? 'Required' : null,
-              onFieldSubmitted: (_) => _addAddress(context, apartment),
+              onFieldSubmitted: (_) =>
+                  _addAddress(context, apartment, predicate),
             ),
           ),
           sizedBox24,
           ActiveButton(
             title: 'Continue',
-            onPressed: () => _addAddress(context, apartment),
+            onPressed: () => _addAddress(context, apartment, predicate),
           ),
         ],
       ),
@@ -75,7 +77,8 @@ class AddHouseDetailModal {
     _bottomModal.show(context);
   }
 
-  void _addAddress(BuildContext context, ApartmentModel apartment) async {
+  void _addAddress(BuildContext context, ApartmentModel apartment,
+      RoutePredicate predicate) async {
     FocusScope.of(context).unfocus();
     _bottomModal.animation(true);
     if (_aptFormKey.currentState.validate()) {
@@ -85,8 +88,7 @@ class AddHouseDetailModal {
           house: _houseNumber,
           apartmentId: apartment.id,
         );
-        Navigator.pop(context); // pop once to exist bottom modal
-        Navigator.pop(context); // pop again to exist caller modal or screen
+        Navigator.popUntil(context, predicate);
       } catch (error) {
         Toast(message: Http.message(error)).show(context);
       } finally {

@@ -8,11 +8,11 @@ class AddAddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    RoutePredicate popUntil =
+        ModalRoute.of(context).settings.arguments ?? (route) => route.isFirst;
+
     return SearchApartmentScreen(onSelection: (apartment) {
-      AddHouseDetailModal().show(
-        context,
-        apartment,
-      );
+      AddHouseDetailModal().show(context, apartment, popUntil);
     });
   }
 }

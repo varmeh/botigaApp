@@ -49,30 +49,27 @@ class _ManageAddressesScreenState extends State<ManageAddressesScreen> {
 
   Widget _addressTile(AddressModel address) {
     const sizedBox16 = SizedBox(height: 16);
-    return GestureDetector(
-      onTap: () {},
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          sizedBox16,
-          Text(
-            '${address.house}, ${address.apartment}',
-            style: AppTheme.textStyle.w500.color100.size(17.0).lineHeight(1.3),
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            '${address.area}, ${address.city}, ${address.state} - ${address.pincode}',
-            style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
-          ),
-          sizedBox16,
-          _addressButtons(address),
-          sizedBox16,
-          Divider(
-            thickness: 1.0,
-            color: AppTheme.dividerColor,
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        sizedBox16,
+        Text(
+          '${address.house}, ${address.apartment}',
+          style: AppTheme.textStyle.w500.color100.size(17.0).lineHeight(1.3),
+        ),
+        SizedBox(height: 8.0),
+        Text(
+          '${address.area}, ${address.city}, ${address.state} - ${address.pincode}',
+          style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
+        ),
+        sizedBox16,
+        _addressButtons(address),
+        sizedBox16,
+        Divider(
+          thickness: 1.0,
+          color: AppTheme.dividerColor,
+        ),
+      ],
     );
   }
 
@@ -116,7 +113,11 @@ class _ManageAddressesScreenState extends State<ManageAddressesScreen> {
             Icons.add,
             color: AppTheme.color100,
           ),
-          onPressed: () => Navigator.pushNamed(context, AddAddressScreen.route),
+          onPressed: () => Navigator.pushNamed(
+            context,
+            AddAddressScreen.route,
+            arguments: ModalRoute.withName(ManageAddressesScreen.route),
+          ),
         ),
       ),
     );
