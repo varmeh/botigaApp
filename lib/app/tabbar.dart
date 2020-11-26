@@ -12,7 +12,7 @@ import 'cart/cartScreen.dart';
 import 'profile/profileScreen.dart';
 
 import '../providers/index.dart' show CartProvider, UserProvider;
-import '../util/index.dart' show FlavorBanner, Http;
+import '../util/index.dart' show FlavorBanner, Http, KeyStore;
 import '../theme/index.dart';
 
 class Tabbar extends StatefulWidget {
@@ -104,10 +104,13 @@ class _TabbarState extends State<Tabbar> with WidgetsBindingObserver {
   }
 
   void _saveToken() async {
-    final token = await _fbm.getToken();
-    try {
-      await Http.patch('/api/user/auth/token', body: {'token': token});
-    } catch (_) {}
+    if (KeyStore.shared.isPushTokenRegistered) {
+      final token = await _fbm.getToken();
+      try {
+        await Http.patch('/api/user/auth/token', body: {'token': token});
+        await KeyStore.shared.registerPushToken();
+      } catch (_) {}
+    }
   }
 
   @override
