@@ -4,7 +4,7 @@ import 'package:animations/animations.dart';
 
 import '../../util/index.dart' show Http;
 import '../../widgets/index.dart'
-    show ContactWidget, Toast, PassiveButton, ActiveButton;
+    show WhatsappIconButton, CallIconButton, Toast, PassiveButton, ActiveButton;
 import '../../providers/index.dart' show UserProvider;
 import '../../theme/index.dart';
 import '../auth/index.dart' show LoginScreen;
@@ -243,9 +243,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
             style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
           ),
           sizedBox24,
-          ContactWidget(
-            phone: '9910057232',
-            whatsapp: '9910057232',
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Monday - Friday',
+                    style: AppTheme.textStyle.w500.color100
+                        .size(15)
+                        .lineHeight(1.3),
+                  ),
+                  Text(
+                    '10 AM to 6 PM',
+                    style: AppTheme.textStyle.w500.color50
+                        .size(15)
+                        .lineHeight(1.3),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  WhatsappIconButton(number: '9910057232'),
+                  SizedBox(width: 16.0),
+                  CallIconButton(number: '9910057232'),
+                ],
+              )
+            ],
           )
         ],
       ),

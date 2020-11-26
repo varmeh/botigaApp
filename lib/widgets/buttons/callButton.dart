@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'passiveButton.dart';
+import 'botigaIconButton.dart';
 import '../toast.dart';
 
 import '../../theme/index.dart';
@@ -18,31 +19,49 @@ class CallButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PassiveButton(
-      height: 44,
-      icon: Icon(
+        height: 44,
+        icon: Icon(
+          BotigaIcons.call,
+          color: AppTheme.color100,
+          size: 16,
+        ),
+        onPressed: () => callToNumber(context, number),
+        title: title);
+  }
+}
+
+class CallIconButton extends StatelessWidget {
+  final String number;
+
+  CallIconButton({@required this.number});
+
+  @override
+  Widget build(BuildContext context) {
+    return BotigaIconButton(
+      child: Icon(
         BotigaIcons.call,
         color: AppTheme.color100,
         size: 16,
       ),
-      onPressed: () => _phone(context),
-      title: title,
+      onPressed: () => callToNumber(context, number),
     );
   }
+}
 
-  void _phone(BuildContext context) async {
-    final url = 'tel://$number';
-    if (await canLaunch(url)) {
-      Future.delayed(Duration(milliseconds: 300), () async {
-        await launch(url);
-      });
-    } else {
-      Toast(
-          message: 'Phone call is not supported on this device',
-          icon: Icon(
-            BotigaIcons.call,
-            size: 24,
-            color: AppTheme.backgroundColor,
-          )).show(context);
-    }
+void callToNumber(BuildContext context, String number) async {
+  final url = 'tel://$number';
+  if (await canLaunch(url)) {
+    Future.delayed(Duration(milliseconds: 300), () async {
+      await launch(url);
+    });
+  } else {
+    Toast(
+      message: 'Phone call is not supported on this device',
+      icon: Icon(
+        BotigaIcons.call,
+        size: 18,
+        color: AppTheme.backgroundColor,
+      ),
+    ).show(context);
   }
 }
