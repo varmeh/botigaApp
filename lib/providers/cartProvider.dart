@@ -8,10 +8,6 @@ import '../util/index.dart' show Http;
 import '../models/index.dart' show SellerModel, ProductModel;
 
 class CartProvider with ChangeNotifier {
-  CartProvider() {
-    Future.delayed(Duration(seconds: 2), () => _loadCartFromServer());
-  }
-
   // Cart Data
   SellerModel cartSeller;
   double totalPrice = 0.0;
@@ -40,6 +36,7 @@ class CartProvider with ChangeNotifier {
     numberOfItemsInCart = 0;
     products.clear();
     cartSeller = null;
+    notifyListeners();
   }
 
   void addProduct(SellerModel seller, ProductModel product) {
@@ -118,88 +115,14 @@ class CartProvider with ChangeNotifier {
   }
 
 /* 
-* Cart Validation Functionality
-* 	- allProductsAvailable
-*			- Used to validate products in cart once
-*			- Fills the products no longer available in _notAvailableProducts
-*			- If there are products in _notAvailableProducts, show user an alert about outdated cart
-*			- happens once during a session. Managed using _cartValidate state variable
-*			- reset _cartValidate variable if app goes to background.
-*				This manages the scenario where app is in background for quite some time
-*				& data in cart is now stale
-*
-*		- updateCart - Remove products which are no longer available
-* 
-*/
-
-  List<String> _notAvailableProducts =
-      []; // Products in cart which are no longer available
-  bool get cartUpdateRequired => _notAvailableProducts.length > 0;
-  bool _cartValidate = true; // state variable to avoid cartValidation again
-
-  void enableCartValidation() => _cartValidate = true;
-
-  // Validate products in cart. Used in cart screen
-  Future<void> allProductsAvailable() async {
-    if (_cartValidate) {
-      final _products = [];
-
-      products.forEach((product, quantity) {
-        _products.add({
-          'productId': product.id,
-          'quantity': quantity,
-        });
-      });
-
-      final json = await Http.post('/api/user/orders/validate', body: {
-        'sellerId': cartSeller.id,
-        'products': _products,
-      });
-
-      _cartValidate = false;
-      // Reset list of not available products
-      _notAvailableProducts.clear();
-
-      if (json['totalAmount'] != totalPrice) {
-        json['products'].forEach((product) {
-          if (!product['available']) {
-            _notAvailableProducts.add(product['productId']);
-          }
-        });
-      }
-    }
-  }
-
-  // Remove Products from cart not available. Relies on allProductsAvailable()
-  void updateCart() {
-    final _products = [...products.keys];
-
-    // Remove products in _notAvailableProducts list
-    for (ProductModel product in _products) {
-      if (_notAvailableProducts.contains(product.id)) {
-        totalPrice -= product.price * products[product];
-        numberOfItemsInCart -= this.products[product];
-        this.products.remove(product);
-      }
-    }
-    // Empty _notAvailable products
-    _notAvailableProducts.clear();
-
-    if (totalPrice == 0) {
-      resetCart();
-    }
-    _saveCartToServer();
-    notifyListeners();
-  }
-
-/* 
 * Cart Cloud Implementation
 * 	- _saveCartToServer - Method to upload cart to server
 *		
-*		- _loadCartFromServer 
+*		- loadCartFromServer 
 *			- Method to download cart from server
-*			- Called Once at initialization
+*			- Called Once after login
 */
+
   bool _saveToServerInProgress =
       false; // variable to control upload cart calls on every user action
 
@@ -225,37 +148,84 @@ class CartProvider with ChangeNotifier {
     }
   }
 
-  Future<void> _loadCartFromServer() async {
-    if (!_userProvider.isLoggedIn) return;
-    try {
-      // Get cart from database
-      final json = await Http.get('/api/user/cart');
-      if (json['products'].length > 0 && json['sellerId'] != null) {
-        // Get Seller from sellersList
-        cartSeller = _sellersProvider.seller(json['sellerId']);
-        if (cartSeller != null) {
-          // Seller exists. Fetch products for this seller to populate cart
-          await _productsProvider.getProducts(cartSeller.id);
+  void loadCartFromServer() {
+    Future.delayed(Duration(seconds: 2), () async {
+      try {
+        // Get cart from database
+        final json = await Http.get('/api/user/cart');
+        if (json['products'].length > 0 && json['sellerId'] != null) {
+          // Get Seller from sellersList
+          cartSeller = _sellersProvider.seller(json['sellerId']);
+          if (cartSeller != null) {
+            // Seller exists. Fetch products for this seller to populate cart
+            await _productsProvider.getProducts(cartSeller.id);
 
-          // create a map of product ids
-          Map<String, int> _productQuantityMap = {};
-          json['products'].forEach(((product) =>
-              _productQuantityMap[product['productId']] = product['quantity']));
+            // create a map of product ids
+            Map<String, int> _productQuantityMap = {};
+            json['products'].forEach(((product) =>
+                _productQuantityMap[product['productId']] =
+                    product['quantity']));
 
-          // Look for products in each category & add to cart when found
-          _productsProvider.products(cartSeller.id).forEach((category) {
-            category.products.forEach((product) {
-              if (_productQuantityMap[product.id] != null) {
-                products[product] = _productQuantityMap[product.id];
-                numberOfItemsInCart += products[product];
-                totalPrice += products[product] * product.price;
-                _productQuantityMap.remove(product.id);
-              }
+            // Look for products in each category & add to cart when found
+            _productsProvider.products(cartSeller.id).forEach((category) {
+              category.products.forEach((product) {
+                if (_productQuantityMap[product.id] != null) {
+                  products[product] = _productQuantityMap[product.id];
+                  numberOfItemsInCart += products[product];
+                  totalPrice += products[product] * product.price;
+                  _productQuantityMap.remove(product.id);
+                }
+              });
             });
-          });
-          notifyListeners();
+            await validateProducts();
+          }
         }
+      } catch (_) {}
+    });
+  }
+
+  // Validate products in cart
+  Future<void> validateProducts() async {
+    final _products = [];
+
+    products.forEach((product, quantity) {
+      _products.add({
+        'productId': product.id,
+        'quantity': quantity,
+      });
+    });
+
+    try {
+      final json = await Http.post('/api/user/orders/validate', body: {
+        'sellerId': cartSeller.id,
+        'products': _products,
+      });
+
+      if (json['totalAmount'] != totalPrice) {
+        List<String> _notAvailableProducts = [];
+
+        json['products'].forEach((product) {
+          if (!product['available']) {
+            _notAvailableProducts.add(product['productId']);
+          }
+        });
+
+        // Remove products in _notAvailableProducts list
+        for (ProductModel product in products.keys) {
+          if (_notAvailableProducts.contains(product.id)) {
+            totalPrice -= product.price * products[product];
+            numberOfItemsInCart -= this.products[product];
+            this.products.remove(product);
+          }
+        }
+
+        if (totalPrice == 0) {
+          resetCart();
+        }
+        _saveCartToServer();
       }
-    } catch (_) {}
+    } catch (_) {} finally {
+      notifyListeners();
+    }
   }
 }

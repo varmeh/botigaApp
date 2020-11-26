@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/userProvider.dart';
+import '../../providers/index.dart' show UserProvider, CartProvider;
 import '../../theme/index.dart';
 import '../../util/index.dart' show KeyStore;
 import '../tabbar.dart';
@@ -21,6 +21,7 @@ class _SplashScreenState extends State<SplashScreen>
   AnimationController _controller;
   bool _animationCompleted = false;
   bool _loadingComplete = false;
+  bool _hasProfile = false;
 
   @override
   void initState() {
@@ -46,6 +47,11 @@ class _SplashScreenState extends State<SplashScreen>
         next = OnboardingScreen.route;
       } else {
         next = Tabbar.route;
+        if (_hasProfile) {
+          // Get User Cart
+          Provider.of<CartProvider>(context, listen: false)
+              .loadCartFromServer();
+        }
       }
       Future.delayed(Duration.zero,
           () => Navigator.of(context).pushReplacementNamed(next));
@@ -75,6 +81,7 @@ class _SplashScreenState extends State<SplashScreen>
   Future<void> _getProfile() async {
     try {
       await Provider.of<UserProvider>(context, listen: false).getProfile();
+      _hasProfile = true;
     } catch (_) {} finally {
       setState(() => _loadingComplete = true);
     }

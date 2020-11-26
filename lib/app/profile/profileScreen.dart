@@ -5,7 +5,7 @@ import 'package:animations/animations.dart';
 import '../../util/index.dart' show Http;
 import '../../widgets/index.dart'
     show WhatsappIconButton, CallIconButton, Toast, PassiveButton, ActiveButton;
-import '../../providers/index.dart' show UserProvider;
+import '../../providers/index.dart' show UserProvider, CartProvider;
 import '../../theme/index.dart';
 import '../auth/index.dart' show LoginScreen;
 import '../location/index.dart' show ManageAddressesScreen;
@@ -54,6 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         try {
           await provider.logout();
 
+          Provider.of<CartProvider>(context, listen: false).resetCart();
           setState(() {});
         } catch (error) {
           Toast(message: Http.message(error)).show(context);

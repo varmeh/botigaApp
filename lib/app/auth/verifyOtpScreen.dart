@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/userProvider.dart';
+import '../../providers/index.dart' show UserProvider, CartProvider;
 import '../../util/index.dart';
 import '../../theme/index.dart';
 import '../../widgets/index.dart'
@@ -157,6 +157,8 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
         Navigator.pushNamed(context, SignupProfileScreen.route,
             arguments: _phoneNumber);
       } else {
+        // Load user cart
+        Provider.of<CartProvider>(context, listen: false).loadCartFromServer();
         Navigator.of(context).pushNamed(Tabbar.route);
       }
     } catch (error) {

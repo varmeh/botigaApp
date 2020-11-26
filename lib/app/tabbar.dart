@@ -96,13 +96,6 @@ class _TabbarState extends State<Tabbar> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      Provider.of<CartProvider>(context, listen: false).enableCartValidation();
-    }
-  }
-
   void _saveToken() async {
     if (KeyStore.shared.isPushTokenRegistered) {
       final token = await _fbm.getToken();

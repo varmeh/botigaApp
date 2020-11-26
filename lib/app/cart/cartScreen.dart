@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:botiga/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +21,6 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  final _memoizer = AsyncMemoizer();
   bool _isLoading = false;
   bool _showSellerNotLiveDialog = true;
 
@@ -69,53 +67,38 @@ class _CartScreenState extends State<CartScreen> {
       Future.delayed(Duration(milliseconds: 500), () => _sellerNotLiveDialog());
     }
 
-    return FutureBuilder(
-      future: _memoizer.runOnce(() => Future.delayed(
-            Duration(
-              milliseconds: 100,
-            ), // Delayed to ensure screen display first
-            () => provider.allProductsAvailable(),
-          )),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done &&
-            provider.cartUpdateRequired) {
-          _updateCartDialog(context, provider);
-        }
+    return LoaderOverlay(
+      isLoading: _isLoading,
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Positioned.fill(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                switch (index) {
+                  case 0:
+                    return CartDeliveryInfo(provider.cartSeller);
 
-        return LoaderOverlay(
-          isLoading: _isLoading,
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              Positioned.fill(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    switch (index) {
-                      case 0:
-                        return CartDeliveryInfo(provider.cartSeller);
+                  case 1:
+                    return _itemList(provider);
 
-                      case 1:
-                        return _itemList(provider);
+                  case 2:
+                    return _totalPrice(provider.totalPrice);
 
-                      case 2:
-                        return _totalPrice(provider.totalPrice);
-
-                      default:
-                        return Container();
-                    }
-                  },
-                ),
-              ),
-              Positioned(
-                bottom: 0,
-                child: _modal(provider),
-              ),
-            ],
+                  default:
+                    return Container();
+                }
+              },
+            ),
           ),
-        );
-      },
+          Positioned(
+            bottom: 0,
+            child: _modal(provider),
+          ),
+        ],
+      ),
     );
   }
 
@@ -229,36 +212,6 @@ class _CartScreenState extends State<CartScreen> {
             ),
             onPressed: () {
               Navigator.pop(context);
-            },
-          )
-        ],
-      ),
-    );
-  }
-
-  Future<void> _updateCartDialog(
-      BuildContext context, CartProvider provider) async {
-    await Future.delayed(Duration.zero);
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          'Cart Update',
-          style: AppTheme.textStyle.w500.color100,
-        ),
-        content: Text(
-          'Your cart contains products which are no longer available.\nWe will update your cart to reflect these changes.',
-          style: AppTheme.textStyle.w400.color100,
-        ),
-        actions: [
-          FlatButton(
-            child: Text(
-              'Close',
-              style: AppTheme.textStyle.w600.colored(AppTheme.primaryColor),
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-              provider.updateCart();
             },
           )
         ],
