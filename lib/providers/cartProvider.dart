@@ -204,7 +204,8 @@ class CartProvider with ChangeNotifier {
       false; // variable to control upload cart calls on every user action
 
   void _saveCartToServer() {
-    if (_userProvider.isLoggedIn && !_saveToServerInProgress) {
+    if (!_userProvider.isLoggedIn) return;
+    if (!_saveToServerInProgress) {
       _saveToServerInProgress = true;
       Timer(Duration(seconds: 2), () async {
         List<Map<String, dynamic>> _productList = [];
@@ -225,6 +226,7 @@ class CartProvider with ChangeNotifier {
   }
 
   Future<void> _loadCartFromServer() async {
+    if (!_userProvider.isLoggedIn) return;
     try {
       // Get cart from database
       final json = await Http.get('/api/user/cart');
