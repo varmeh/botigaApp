@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animations/animations.dart';
 
-import '../../models/addressModel.dart';
 import '../../util/index.dart' show Http;
 import '../../widgets/index.dart'
     show ContactWidget, Toast, PassiveButton, ActiveButton;
-import '../../providers/index.dart' show UserProvider, SellersProvider;
+import '../../providers/index.dart' show UserProvider;
 import '../../theme/index.dart';
-import '../location/searchApartmentScreen.dart';
 import '../auth/loginScreen.dart';
 import 'profileUpdateScreen.dart';
 
@@ -36,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: ListView(
             children: [
               _profile(provider),
-              _address(provider),
+              _addresses(provider),
               divider,
               _support(provider),
               divider,
@@ -101,11 +99,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 _infoTile('assets/images/smile.png',
                     '${provider.firstName} ${provider.lastName}'),
                 sizedBox8,
+                _infoTile('assets/images/whatsappOutline.png', provider.phone),
+                sizedBox8,
                 _infoTile('assets/images/email.png',
                     provider.email ?? 'Add your email'),
                 sizedBox8,
-                _infoTile(
-                    'assets/images/whatsappOutline.png', provider.whatsapp),
+                _infoTile('assets/images/whatsappOutline.png',
+                    provider.whatsapp ?? 'Add your whatsapp number'),
                 sizedBox24,
                 OpenContainer(
                   closedElevation: 0.0,
@@ -168,69 +168,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _address(UserProvider provider) {
-    AddressModel address = provider.address;
+  Widget _addresses(UserProvider provider) {
     return !provider.isLoggedIn
         ? Container()
-        : Container(
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+        : GestureDetector(
+            onTap: () {},
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 divider,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      'assets/images/homeOutline.png',
-                      color: AppTheme.color100,
-                    ),
-                    SizedBox(width: 12.0),
-                    Text(
-                      'Address',
-                      style: AppTheme.textStyle.w700.color100
-                          .size(15.0)
-                          .lineHeight(1.3),
-                    )
-                  ],
-                ),
-                address != null
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 24.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${address.house}, ${address.apartment}',
-                              style: AppTheme.textStyle.w500.color100
-                                  .size(15.0)
-                                  .lineHeight(1.3),
-                            ),
-                            sizedBox8,
-                            Text(
-                              '${address.area}, ${address.city}, ${address.state} - ${address.pincode}',
-                              style: AppTheme.textStyle.w500.color50
-                                  .size(13.0)
-                                  .lineHeight(1.5),
-                            ),
-                          ],
-                        ),
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Image.asset(
+                            'assets/images/homeOutline.png',
+                            color: AppTheme.color100,
+                          ),
+                          SizedBox(width: 12.0),
+                          Text(
+                            'Saved Addresses',
+                            style: AppTheme.textStyle.w700.color100
+                                .size(15.0)
+                                .lineHeight(1.3),
+                          )
+                        ],
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                        color: AppTheme.color100,
                       )
-                    : Container(),
-                sizedBox24,
-                OpenContainer(
-                  closedElevation: 0.0,
-                  transitionDuration: Duration(milliseconds: 500),
-                  closedBuilder: (context, openContainer) => PassiveButton(
-                    title: address != null ? 'Change Address' : 'Add Address',
-                    onPressed: openContainer,
+                    ],
                   ),
-                  openBuilder: (_, __) =>
-                      SearchApartmentScreen(onSelection: (_) {
-                    Provider.of<SellersProvider>(context, listen: false)
-                        .empty();
-                    Navigator.of(context).popUntil((route) => route.isFirst);
-                  }),
                 )
               ],
             ),
@@ -267,8 +242,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ContactWidget(
             phone: '9910057232',
             whatsapp: '9910057232',
-            whatsappMessage:
-                'Hello Team Botiga\nI am ${provider.firstName}, residing in ${provider.address?.apartment}, ${provider.address?.area}, ${provider.address?.city}',
           )
         ],
       ),

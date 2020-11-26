@@ -9,7 +9,15 @@ class UserProvider with ChangeNotifier {
   String phone;
   String whatsapp;
   String email;
-  AddressModel address;
+  List<AddressModel> addresses = [];
+
+  // Expects list of addresses or empty json
+  void _addAddresses(List<dynamic> json) {
+    addresses.clear();
+    if (json.isNotEmpty) {
+      json.forEach((address) => addresses.add(AddressModel.fromJson(address)));
+    }
+  }
 
   void _fillProvider(final json) {
     firstName = json['firstName'];
@@ -18,9 +26,7 @@ class UserProvider with ChangeNotifier {
     whatsapp = json['whatsapp'];
     email = json['email'];
 
-    if (json['address'] != null) {
-      address = AddressModel.fromJson(json['address']);
-    }
+    _addAddresses(json['addresses']);
   }
 
   bool get isLoggedIn => phone != null;
@@ -120,15 +126,15 @@ class UserProvider with ChangeNotifier {
     });
 
     // If successful, update apartment information in provider
-    address = AddressModel(
-      id: apartment.id,
-      house: house,
-      apartment: apartment.name,
-      area: apartment.area,
-      city: apartment.city,
-      state: apartment.state,
-      pincode: apartment.pincode,
-    );
+    // address = AddressModel(
+    //   id: apartment.id,
+    //   house: house,
+    //   apartment: apartment.name,
+    //   area: apartment.area,
+    //   city: apartment.city,
+    //   state: apartment.state,
+    //   pincode: apartment.pincode,
+    // );
 
     notifyListeners();
   }

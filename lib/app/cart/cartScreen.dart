@@ -159,7 +159,7 @@ class _CartScreenState extends State<CartScreen> {
         onTap: () async {
           setState(() => _isLoading = true);
           final address =
-              Provider.of<UserProvider>(context, listen: false).address;
+              Provider.of<UserProvider>(context, listen: false).addresses[0];
 
           try {
             final data = await provider.checkout(

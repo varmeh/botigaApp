@@ -6,6 +6,7 @@ part 'addressModel.g.dart';
 @JsonSerializable()
 class AddressModel {
   final String id;
+  final String aptId;
   final String house;
   final String apartment;
   final String area;
@@ -15,6 +16,7 @@ class AddressModel {
 
   AddressModel({
     @required this.id,
+    @required this.aptId,
     @required this.house,
     @required this.apartment,
     @required this.area,
