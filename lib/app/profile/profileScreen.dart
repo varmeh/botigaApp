@@ -54,11 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         try {
           await provider.logout();
 
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            LoginScreen.route,
-            (route) => false,
-          );
+          setState(() {});
         } catch (error) {
           Toast(message: Http.message(error)).show(context);
         }

@@ -45,6 +45,9 @@ class UserProvider with ChangeNotifier {
 
   Future<void> logout() async {
     await Http.post('/api/user/auth/signout');
+    phone = null;
+    firstName = null;
+    lastName = null;
     await Token.write('');
   }
 
