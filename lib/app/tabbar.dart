@@ -11,7 +11,7 @@ import 'orders/ordersScreen.dart';
 import 'cart/cartScreen.dart';
 import 'profile/profileScreen.dart';
 
-import '../providers/index.dart' show CartProvider;
+import '../providers/index.dart' show CartProvider, UserProvider;
 import '../util/index.dart' show FlavorBanner, Http;
 import '../theme/index.dart';
 
@@ -58,34 +58,36 @@ class _TabbarState extends State<Tabbar> with WidgetsBindingObserver {
     _selectedIndex = widget.index;
     setStatusBarBrightness();
 
-    // Configure Firebase Messaging
-    _fbm = FirebaseMessaging();
+    if (Provider.of<UserProvider>(context, listen: false).isLoggedIn) {
+      // Configure Firebase Messaging
+      _fbm = FirebaseMessaging();
 
-    // Request for permission on notification on Ios device
-    if (Platform.isIOS) {
-      _fbm.onIosSettingsRegistered.listen((data) {
+      // Request for permission on notification on Ios device
+      if (Platform.isIOS) {
+        _fbm.onIosSettingsRegistered.listen((data) {
+          _saveToken();
+        });
+        Future.delayed(
+          Duration(seconds: 1),
+          () => _fbm
+              .requestNotificationPermissions(), //Delay request to ensure screen loading
+        );
+      } else {
         _saveToken();
-      });
-      Future.delayed(
-        Duration(seconds: 1),
-        () => _fbm
-            .requestNotificationPermissions(), //Delay request to ensure screen loading
-      );
-    } else {
-      _saveToken();
-    }
+      }
 
-    _fbm.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        _selectedIndex = 1;
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        _selectedIndex = 1;
-      },
-      onResume: (Map<String, dynamic> message) async {
-        _selectedIndex = 1;
-      },
-    );
+      _fbm.configure(
+        onMessage: (Map<String, dynamic> message) async {
+          _selectedIndex = 1;
+        },
+        onLaunch: (Map<String, dynamic> message) async {
+          _selectedIndex = 1;
+        },
+        onResume: (Map<String, dynamic> message) async {
+          _selectedIndex = 1;
+        },
+      );
+    }
   }
 
   @override
