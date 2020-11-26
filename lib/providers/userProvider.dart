@@ -10,6 +10,7 @@ class UserProvider with ChangeNotifier {
   String whatsapp;
   String email;
   List<AddressModel> addresses = [];
+  String _createToken = '';
 
   // Expects list of addresses or empty json
   void _addAddresses(List<dynamic> json) {
@@ -58,7 +59,10 @@ class UserProvider with ChangeNotifier {
       'otpVal': otp,
     });
 
-    if (json['message'] != 'createUser') {
+    if (json['message'] == 'createUser') {
+      // Save create token
+      _createToken = json['createToken'];
+    } else {
       // Existing user
       _fillProvider(json);
     }
@@ -75,19 +79,20 @@ class UserProvider with ChangeNotifier {
       'firstName': firstName,
       'lastName': lastName,
       'phone': phone,
-      'whatsapp': whatsapp,
+      'createToken': _createToken,
     };
+
+    if (whatsapp.isNotEmpty) {
+      body['whatsapp'] = whatsapp;
+    }
 
     if (email.isNotEmpty) {
       body['email'] = email;
     }
 
-    await Http.postAuth('/api/user/auth/signup', body: body);
+    final json = await Http.postAuth('/api/user/auth/signup', body: body);
 
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.whatsapp = whatsapp;
-    this.email = email;
+    _fillProvider(json);
   }
 
   Future<void> updateProfile({

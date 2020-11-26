@@ -152,14 +152,13 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
         otp: _otp,
       );
 
-      if (provider.firstName == null) {
-        // TODO: pass createToken as well
-        Navigator.pushNamed(context, SignupProfileScreen.route,
-            arguments: _phoneNumber);
-      } else {
+      if (provider.isLoggedIn) {
         // Load user cart
         Provider.of<CartProvider>(context, listen: false).loadCartFromServer();
         Navigator.of(context).pushNamed(Tabbar.route);
+      } else {
+        Navigator.pushNamed(context, SignupProfileScreen.route,
+            arguments: _phoneNumber);
       }
     } catch (error) {
       Toast(message: Http.message(error)).show(context);

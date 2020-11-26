@@ -46,7 +46,7 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
   GlobalKey<FormState> _formKey;
 
   final _phoneMaskFormatter = MaskTextInputFormatter(
-    mask: '+91 #####-#####',
+    mask: '+91 ##### #####',
     filter: {"#": RegExp(r'[0-9]')},
   );
 
@@ -147,7 +147,7 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
                   },
                   validator: (_) {
                     if (_phoneMaskFormatter.getUnmaskedText().isEmpty) {
-                      return 'Required';
+                      return null;
                     } else if (_phoneMaskFormatter.getUnmaskedText().length !=
                         10) {
                       return 'Please provide a valid 10 digit Mobile Number';

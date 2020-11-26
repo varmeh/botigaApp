@@ -41,7 +41,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
   GlobalKey<FormState> _formKey;
 
   final _phoneMaskFormatter = MaskTextInputFormatter(
-    mask: '+91 #####-#####',
+    mask: '+91 ##### #####',
     filter: {"#": RegExp(r'[0-9]')},
   );
 
