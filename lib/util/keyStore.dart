@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _keyLastApartment = 'apartment';
+const _keyPushTokenRegistered = 'pushTokenRegisterd';
 
 class KeyStore {
   KeyStore._privateConstructor();
@@ -12,6 +13,12 @@ class KeyStore {
   }
 
   bool get firstRun => !_prefs.containsKey(_keyLastApartment);
+
+  bool get isPushTokenRegistered =>
+      !_prefs.containsKey(_keyPushTokenRegistered);
+  Future<void> registerPushToken() async {
+    await _prefs.setBool(_keyPushTokenRegistered, true);
+  }
 
   String get lastApartmentId => _prefs.getStringList(_keyLastApartment)[0];
   String get lastApartmentName => _prefs.getStringList(_keyLastApartment)[1];
