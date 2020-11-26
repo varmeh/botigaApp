@@ -177,7 +177,7 @@ class CartProvider with ChangeNotifier {
                 }
               });
             });
-            await validateProducts();
+            await _validateProducts();
           }
         }
       } catch (_) {}
@@ -185,7 +185,7 @@ class CartProvider with ChangeNotifier {
   }
 
   // Validate products in cart
-  Future<void> validateProducts() async {
+  Future<void> _validateProducts() async {
     final _products = [];
 
     products.forEach((product, quantity) {
