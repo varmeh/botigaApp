@@ -15,14 +15,6 @@ import '../tabbar.dart';
 class VerifyOtpScreen extends StatefulWidget {
   static final route = 'verifyOtp';
 
-  final String phone;
-  final Function onVerification;
-
-  VerifyOtpScreen({
-    @required this.phone,
-    @required this.onVerification,
-  });
-
   @override
   _VerifyOtpScreenState createState() => _VerifyOtpScreenState();
 }
@@ -30,9 +22,10 @@ class VerifyOtpScreen extends StatefulWidget {
 class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   GlobalKey<FormState> _form = GlobalKey();
   String _otp = '';
+  String _phoneNumber;
 
   Timer _timer;
-  int _start;
+  int _start = 30;
   bool _isloading = false;
 
   String _sessionId;
@@ -40,7 +33,10 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   @override
   void initState() {
     super.initState();
-    _getOtp();
+    Future.delayed(Duration.zero, () {
+      _phoneNumber = ModalRoute.of(context).settings.arguments;
+      _getOtp();
+    });
   }
 
   @override
@@ -63,7 +59,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                 children: [
                   sizedBox,
                   Text(
-                    'Please enter OTP sent to your phone number ${widget.phone}',
+                    'Please enter OTP sent to your phone number $_phoneNumber',
                     style: AppTheme.textStyle.w500.color100
                         .size(15)
                         .lineHeight(1.3),
@@ -138,7 +134,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   Future<void> _getOtp() async {
     try {
       startTimer();
-      final json = await Http.get('/api/user/auth/otp/${widget.phone}');
+      final json = await Http.get('/api/user/auth/otp/$_phoneNumber');
       _sessionId = json['sessionId'];
     } catch (error) {
       stopTimer();
@@ -151,14 +147,15 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     setState(() => _isloading = true);
     try {
       await provider.otpAuth(
-        phone: widget.phone,
+        phone: _phoneNumber,
         sessionId: _sessionId,
         otp: _otp,
       );
 
       if (provider.firstName == null) {
+        // TODO: pass createToken as well
         Navigator.pushNamed(context, SignupProfileScreen.route,
-            arguments: widget.phone);
+            arguments: _phoneNumber);
       } else {
         Navigator.of(context).pushNamed(Tabbar.route);
       }
