@@ -100,7 +100,9 @@ class BotigaApp extends StatelessWidget {
         VerifyOtpScreen.route: (_) => VerifyOtpScreen(),
         // Location Screens
         AddAddressScreen.route: (_) => AddAddressScreen(),
-        SelectApartmentScreen.route: (_) => SelectApartmentScreen(),
+        SelectApartmenWhenNoUserLoggedInScreen.route: (_) =>
+            SelectApartmenWhenNoUserLoggedInScreen(),
+        ManageAddressesScreen.route: (_) => ManageAddressesScreen(),
         // Product Listing Screens
         Tabbar.route: (_) => Tabbar(index: 0),
         ProductListScreen.route: (_) => ProductListScreen(),

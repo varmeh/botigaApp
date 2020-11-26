@@ -8,7 +8,7 @@ import '../../theme/index.dart';
 import '../../widgets/index.dart'
     show BotigaTextFieldForm, ActiveButton, BotigaBottomModal, Toast;
 
-class HouseDetailModal {
+class AddHouseDetailModal {
   BotigaBottomModal _bottomModal;
   String _houseNumber;
   GlobalKey<FormState> _aptFormKey = GlobalKey<FormState>();
@@ -59,13 +59,13 @@ class HouseDetailModal {
                 _houseNumber = value;
               },
               validator: (value) => value.isEmpty ? 'Required' : null,
-              onFieldSubmitted: (_) => _submitApartment(context, apartment),
+              onFieldSubmitted: (_) => _addAddress(context, apartment),
             ),
           ),
           sizedBox24,
           ActiveButton(
             title: 'Continue',
-            onPressed: () => _submitApartment(context, apartment),
+            onPressed: () => _addAddress(context, apartment),
           ),
         ],
       ),
@@ -75,16 +75,18 @@ class HouseDetailModal {
     _bottomModal.show(context);
   }
 
-  void _submitApartment(BuildContext context, ApartmentModel apartment) async {
+  void _addAddress(BuildContext context, ApartmentModel apartment) async {
     FocusScope.of(context).unfocus();
     _bottomModal.animation(true);
     if (_aptFormKey.currentState.validate()) {
       _aptFormKey.currentState.save();
       try {
-        await Provider.of<UserProvider>(context, listen: false).updateApartment(
+        await Provider.of<UserProvider>(context, listen: false).createAddress(
           house: _houseNumber,
-          apartment: apartment,
+          apartmentId: apartment.id,
         );
+        Navigator.pop(context); // pop once to exist bottom modal
+        Navigator.pop(context); // pop again to exist caller modal or screen
       } catch (error) {
         Toast(message: Http.message(error)).show(context);
       } finally {

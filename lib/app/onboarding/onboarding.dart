@@ -4,7 +4,7 @@ import '../../widgets/index.dart' show ActiveButton;
 import '../../theme/index.dart';
 
 import '../auth/index.dart' show LoginScreen;
-import '../location/index.dart' show SelectApartmentScreen;
+import '../location/index.dart' show SelectApartmenWhenNoUserLoggedInScreen;
 
 class OnboardingScreen extends StatelessWidget {
   static const route = 'onboarding';
@@ -69,7 +69,8 @@ class OnboardingScreen extends StatelessWidget {
               title: 'Select Your Community',
               width: 280.0,
               onPressed: () {
-                Navigator.pushNamed(context, SelectApartmentScreen.route);
+                Navigator.pushNamed(
+                    context, SelectApartmenWhenNoUserLoggedInScreen.route);
               },
             ),
             sizedBox24,

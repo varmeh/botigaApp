@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'searchApartmentScreen.dart';
-import 'houseDetailModal.dart';
+import 'addHouseDetailModal.dart';
 
 class AddAddressScreen extends StatelessWidget {
   static final route = 'addAddress';
@@ -9,7 +9,7 @@ class AddAddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SearchApartmentScreen(onSelection: (apartment) {
-      HouseDetailModal().show(
+      AddHouseDetailModal().show(
         context,
         apartment,
       );

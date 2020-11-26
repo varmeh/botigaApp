@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-import '../location/index.dart' show SelectApartmentScreen;
+import '../location/index.dart' show SelectApartmenWhenNoUserLoggedInScreen;
 import '../../util/index.dart' show StringExtensions;
 import '../../models/sellerModel.dart';
 import '../../providers/index.dart' show SellersProvider, UserProvider;
@@ -140,7 +140,7 @@ class HomeScreen extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(
           context,
-          SelectApartmentScreen.route,
+          SelectApartmenWhenNoUserLoggedInScreen.route,
         );
       },
       child: Row(

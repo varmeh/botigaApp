@@ -1,4 +1,6 @@
 export 'searchApartmentScreen.dart';
-export 'houseDetailModal.dart';
+export 'addHouseDetailModal.dart';
+export 'editHouseDetailModal.dart';
 export 'addAddressScreen.dart';
-export 'selectApartmentScreen.dart';
+export 'selectApartmenWhenNoUserLoggedInScreen.dart';
+export 'manageAddressesScreen.dart';

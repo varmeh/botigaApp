@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/index.dart' show AddressModel, ApartmentModel;
+import '../models/index.dart' show AddressModel;
 import '../util/index.dart' show Http, Token, KeyStore;
 
 class UserProvider with ChangeNotifier {
@@ -116,26 +116,37 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateApartment({
+  /* Address APIs */
+  Future<void> getAddresses() async {
+    final json = await Http.get('/api/user/auth/addresses');
+    _addAddresses(json);
+    notifyListeners();
+  }
+
+  Future<void> deleteAddress(String addressId) async {
+    await Http.delete('/api/user/auth/addresses/$addressId');
+    await getAddresses();
+  }
+
+  Future<void> createAddress({
     @required String house,
-    @required ApartmentModel apartment,
+    @required String apartmentId,
   }) async {
-    await Http.patch('/api/user/auth/address', body: {
-      'apartmentId': apartment.id,
+    await Http.post('/api/user/auth/addresses', body: {
+      'apartmentId': apartmentId,
       'house': house,
     });
+    await getAddresses();
+  }
 
-    // If successful, update apartment information in provider
-    // address = AddressModel(
-    //   id: apartment.id,
-    //   house: house,
-    //   apartment: apartment.name,
-    //   area: apartment.area,
-    //   city: apartment.city,
-    //   state: apartment.state,
-    //   pincode: apartment.pincode,
-    // );
-
-    notifyListeners();
+  Future<void> updateAddress({
+    @required String house,
+    @required AddressModel address,
+  }) async {
+    await Http.patch('/api/user/auth/addresses', body: {
+      'id': address.id,
+      'house': house,
+    });
+    await getAddresses();
   }
 }

@@ -7,7 +7,8 @@ import '../../widgets/index.dart'
     show ContactWidget, Toast, PassiveButton, ActiveButton;
 import '../../providers/index.dart' show UserProvider;
 import '../../theme/index.dart';
-import '../auth/loginScreen.dart';
+import '../auth/index.dart' show LoginScreen;
+import '../location/index.dart' show ManageAddressesScreen;
 import 'profileUpdateScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -172,7 +173,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return !provider.isLoggedIn
         ? Container()
         : GestureDetector(
-            onTap: () {},
+            onTap: () => Navigator.pushNamed(
+              context,
+              ManageAddressesScreen.route,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

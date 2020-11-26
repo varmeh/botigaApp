@@ -8,7 +8,7 @@ import '../../providers/index.dart' show SellersProvider;
 import '../tabbar.dart';
 import 'searchApartmentScreen.dart';
 
-class SelectApartmentScreen extends StatelessWidget {
+class SelectApartmenWhenNoUserLoggedInScreen extends StatelessWidget {
   static final route = 'selectApartment';
 
   @override
