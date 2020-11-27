@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/userProvider.dart';
+import '../../providers/index.dart' show UserProvider, ProviderUtil;
 import '../../models/index.dart' show AddressModel;
 import '../../theme/index.dart';
 import 'addAddressScreen.dart';
+import '../tabbar.dart';
 
 class ShowSavedAddressesModal {
   final sizedBox16 = SizedBox(height: 16);
@@ -79,7 +80,7 @@ class ShowSavedAddressesModal {
                   ),
                   sizedBox16,
                   divider,
-                  ...addresses.map((address) => _addressTile(address)),
+                  ...addresses.map((address) => _addressTile(context, address)),
                 ],
               ),
             ],
@@ -89,9 +90,18 @@ class ShowSavedAddressesModal {
     );
   }
 
-  Widget _addressTile(AddressModel address) {
+  Widget _addressTile(BuildContext context, AddressModel address) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        ProviderUtil.setAddress(context, address);
+        Navigator.of(context).pushAndRemoveUntil(
+          PageRouteBuilder(
+            pageBuilder: (_, __, ___) => Tabbar(index: 0),
+            transitionDuration: Duration.zero,
+          ),
+          (route) => false,
+        );
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
