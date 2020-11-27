@@ -153,10 +153,28 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
       );
 
       if (provider.isLoggedIn) {
-        // Load user cart
-        Provider.of<CartProvider>(context, listen: false).loadCartFromServer();
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil(Tabbar.route, (route) => false);
+        final cartProvider = Provider.of<CartProvider>(context, listen: false);
+        if (cartProvider.isEmpty) {
+          // Default SignIn Flow - Redirecting user to home screen
+          cartProvider.loadCartFromServer();
+          Navigator.of(context).pushAndRemoveUntil(
+            PageRouteBuilder(
+              pageBuilder: (_, __, ___) => Tabbar(index: 0),
+              transitionDuration: Duration.zero,
+            ),
+            (route) => false,
+          );
+        } else {
+          // User has browsed in non-login state & selected a few items for checkout
+          // Direct him to cart screen
+          Navigator.of(context).pushAndRemoveUntil(
+            PageRouteBuilder(
+              pageBuilder: (_, __, ___) => Tabbar(index: 2),
+              transitionDuration: Duration.zero,
+            ),
+            (route) => false,
+          );
+        }
       } else {
         Navigator.pushNamed(context, SignupProfileScreen.route,
             arguments: _phoneNumber);
