@@ -97,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 _infoTile('assets/images/smile.png',
                     '${provider.firstName} ${provider.lastName}'),
                 sizedBox8,
-                _infoTile('assets/images/whatsappOutline.png', provider.phone),
+                _infoTile('assets/images/callOutline.png', provider.phone),
                 sizedBox8,
                 _infoTile('assets/images/email.png',
                     provider.email ?? 'Add your email'),
