@@ -11,7 +11,6 @@ class CartProvider with ChangeNotifier {
   // Cart Data
   SellerModel cartSeller;
   double totalPrice = 0.0;
-  int numberOfItemsInCart = 0;
   Map<ProductModel, int> products = {};
 
   // Providers to load cart at the beginning
@@ -30,10 +29,13 @@ class CartProvider with ChangeNotifier {
   bool get isEmpty => products.isEmpty;
   bool get canCheckout => _userProvider.isLoggedIn;
 
+  int get numberOfItemsInCart => products.length == 0
+      ? 0
+      : products.values.reduce((cur, next) => cur + next);
+
   // Methods to manage cart - resetCart, addProduct & removeProduct
   void resetCart() {
     totalPrice = 0.0;
-    numberOfItemsInCart = 0;
     products.clear();
     cartSeller = null;
     notifyListeners();
@@ -44,13 +46,11 @@ class CartProvider with ChangeNotifier {
       products[product] =
           products.containsKey(product) ? products[product] + 1 : 1;
       totalPrice += product.price;
-      numberOfItemsInCart++;
     } else {
       resetCart();
       cartSeller = seller;
       products[product] = 1;
       totalPrice = product.price;
-      numberOfItemsInCart = 1;
     }
     _saveCartToServer();
     notifyListeners();
@@ -61,7 +61,6 @@ class CartProvider with ChangeNotifier {
       products[product]--;
 
       totalPrice -= product.price;
-      numberOfItemsInCart--;
     }
 
     if (products[product] == 0) {
@@ -175,7 +174,6 @@ class CartProvider with ChangeNotifier {
                     product.available) {
                   // add only available products
                   products[product] = _productQuantityMap[product.id];
-                  numberOfItemsInCart += products[product];
                   totalPrice += products[product] * product.price;
                 }
               });
