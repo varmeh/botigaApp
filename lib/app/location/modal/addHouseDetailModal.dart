@@ -1,31 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/userProvider.dart';
-import '../../models/index.dart' show AddressModel;
-import '../../util/index.dart' show Http;
-import '../../theme/index.dart';
-import '../../widgets/index.dart'
+import '../../../providers/userProvider.dart';
+import '../../../models/apartmentModel.dart';
+import '../../../util/index.dart' show Http;
+import '../../../theme/index.dart';
+import '../../../widgets/index.dart'
     show BotigaTextFieldForm, ActiveButton, BotigaBottomModal, Toast;
 
-class EditHouseDetailModal {
+class AddHouseDetailModal {
   BotigaBottomModal _bottomModal;
   String _houseNumber;
   GlobalKey<FormState> _aptFormKey = GlobalKey<FormState>();
 
-  void show(
-    BuildContext context,
-    AddressModel address,
-  ) {
-    _bottomModal = _modal(context, address);
-
-    // Show bottom modal
-    _bottomModal.show(context);
-  }
-
-  BotigaBottomModal _modal(BuildContext context, AddressModel address) {
+  void show(BuildContext context, ApartmentModel apartment) {
     const sizedBox24 = SizedBox(height: 24);
-    return BotigaBottomModal(
+
+    _bottomModal = BotigaBottomModal(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -38,7 +29,7 @@ class EditHouseDetailModal {
               ),
               SizedBox(width: 12.0),
               Text(
-                'Update Address',
+                'Your Address',
                 style: AppTheme.textStyle.w700.color100
                     .size(20.0)
                     .lineHeight(1.25),
@@ -47,12 +38,12 @@ class EditHouseDetailModal {
           ),
           sizedBox24,
           Text(
-            address.apartment,
+            apartment.name,
             style: AppTheme.textStyle.w500.color100.size(17.0).lineHeight(1.3),
           ),
           SizedBox(height: 8.0),
           Text(
-            '${address.area}, ${address.city}, ${address.state} - ${address.pincode}',
+            '${apartment.area}, ${apartment.city}, ${apartment.state} - ${apartment.pincode}',
             style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
           ),
           sizedBox24,
@@ -65,30 +56,33 @@ class EditHouseDetailModal {
                 _houseNumber = value;
               },
               validator: (value) => value.isEmpty ? 'Required' : null,
-              onFieldSubmitted: (_) => _updateAddress(context, address),
+              onFieldSubmitted: (_) => _addAddress(context, apartment),
             ),
           ),
           sizedBox24,
           ActiveButton(
             title: 'Continue',
-            onPressed: () => _updateAddress(context, address),
+            onPressed: () => _addAddress(context, apartment),
           ),
         ],
       ),
     );
+
+    // Show bottom modal
+    _bottomModal.show(context);
   }
 
-  void _updateAddress(BuildContext context, AddressModel address) async {
+  void _addAddress(BuildContext context, ApartmentModel apartment) async {
     FocusScope.of(context).unfocus();
     _bottomModal.animation(true);
     if (_aptFormKey.currentState.validate()) {
       _aptFormKey.currentState.save();
       try {
-        await Provider.of<UserProvider>(context, listen: false).updateAddress(
+        await Provider.of<UserProvider>(context, listen: false).createAddress(
           house: _houseNumber,
-          address: address,
+          apartmentId: apartment.id,
         );
-        Navigator.pop(context);
+        Navigator.popUntil(context, (route) => route.isFirst);
       } catch (error) {
         Toast(message: Http.message(error)).show(context);
       } finally {

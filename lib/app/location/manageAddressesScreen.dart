@@ -8,7 +8,7 @@ import '../../theme/index.dart';
 import '../../widgets/index.dart'
     show BotigaAppBar, LoaderOverlay, PassiveButton, Toast;
 
-import 'editHouseDetailModal.dart';
+import 'modal/editHouseDetailModal.dart';
 import 'addAddressScreen.dart';
 
 class ManageAddressesScreen extends StatefulWidget {

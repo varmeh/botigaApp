@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/index.dart' show UserProvider, ProviderUtil;
-import '../../models/index.dart' show AddressModel;
-import '../../theme/index.dart';
-import 'addAddressScreen.dart';
-import '../tabbar.dart';
+import '../../../providers/index.dart' show UserProvider, ProviderUtil;
+import '../../../models/index.dart' show AddressModel;
+import '../../../theme/index.dart';
+import '../addAddressScreen.dart';
+import '../../tabbar.dart';
 
 class ShowSavedAddressesModal {
   final sizedBox16 = SizedBox(height: 16);
