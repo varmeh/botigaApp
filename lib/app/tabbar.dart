@@ -97,7 +97,7 @@ class _TabbarState extends State<Tabbar> with WidgetsBindingObserver {
   }
 
   void _saveToken() async {
-    if (KeyStore.shared.isPushTokenRegistered) {
+    if (!KeyStore.shared.isPushTokenRegistered) {
       final token = await _fbm.getToken();
       try {
         await Http.patch('/api/user/auth/token', body: {'token': token});
