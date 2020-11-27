@@ -4,12 +4,13 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../providers/userProvider.dart';
+import '../../providers/index.dart' show UserProvider, CartProvider;
 import '../../theme/index.dart';
 import '../../util/index.dart' show Http, Validations;
 import '../../widgets/index.dart'
     show Toast, BotigaAppBar, LoaderOverlay, BotigaTextFieldForm, ActiveButton;
 
+import '../location/index.dart' show AddAddressScreen;
 import '../tabbar.dart';
 
 final Function(String) _nameValidator = (value) {
@@ -225,10 +226,20 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
           email: _email,
         );
 
-        Navigator.pushNamed(
-          context,
-          Tabbar.route,
-        );
+        if (Provider.of<CartProvider>(context, listen: false).isEmpty) {
+          // Make sure to user have atleast one address
+          Navigator.pushNamed(context, AddAddressScreen.route);
+        } else {
+          // User has browsed in non-login mode & added items to cart
+          // So, take him to the cart & show ask him to create the address
+          Navigator.of(context).pushAndRemoveUntil(
+            PageRouteBuilder(
+              pageBuilder: (_, __, ___) => Tabbar(index: 2),
+              transitionDuration: Duration.zero,
+            ),
+            (route) => false,
+          );
+        }
       } catch (error) {
         Toast(message: Http.message(error)).show(context);
       } finally {
