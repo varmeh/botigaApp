@@ -153,6 +153,8 @@ class CartProvider with ChangeNotifier {
       try {
         // Get cart from database
         final json = await Http.get('/api/user/cart');
+
+        // Check if cart has products
         if (json['products'].length > 0 && json['sellerId'] != null) {
           // Get Seller from sellersList
           cartSeller = _sellersProvider.seller(json['sellerId']);
@@ -169,63 +171,19 @@ class CartProvider with ChangeNotifier {
             // Look for products in each category & add to cart when found
             _productsProvider.products(cartSeller.id).forEach((category) {
               category.products.forEach((product) {
-                if (_productQuantityMap[product.id] != null) {
+                if (_productQuantityMap[product.id] != null &&
+                    product.available) {
+                  // add only available products
                   products[product] = _productQuantityMap[product.id];
                   numberOfItemsInCart += products[product];
                   totalPrice += products[product] * product.price;
-                  _productQuantityMap.remove(product.id);
                 }
               });
             });
-            await _validateProducts();
+            notifyListeners();
           }
         }
       } catch (_) {}
     });
-  }
-
-  // Validate products in cart
-  Future<void> _validateProducts() async {
-    final _products = [];
-
-    products.forEach((product, quantity) {
-      _products.add({
-        'productId': product.id,
-        'quantity': quantity,
-      });
-    });
-
-    try {
-      final json = await Http.post('/api/user/orders/validate', body: {
-        'sellerId': cartSeller.id,
-        'products': _products,
-      });
-
-      if (json['totalAmount'] != totalPrice) {
-        List<String> _notAvailableProducts = [];
-
-        json['products'].forEach((product) {
-          if (!product['available']) {
-            _notAvailableProducts.add(product['productId']);
-          }
-        });
-
-        // Remove products in _notAvailableProducts list
-        for (ProductModel product in products.keys) {
-          if (_notAvailableProducts.contains(product.id)) {
-            totalPrice -= product.price * products[product];
-            numberOfItemsInCart -= this.products[product];
-            this.products.remove(product);
-          }
-        }
-
-        if (totalPrice == 0) {
-          resetCart();
-        }
-        _saveCartToServer();
-      }
-    } catch (_) {} finally {
-      notifyListeners();
-    }
   }
 }
