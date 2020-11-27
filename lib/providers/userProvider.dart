@@ -43,7 +43,10 @@ class UserProvider with ChangeNotifier {
     lastUsedAddressId = json['lastUsedAddressId'];
 
     _addAddresses(json['addresses']);
+    _selectFromUserAddresses();
+  }
 
+  void _selectFromUserAddresses() {
     if (KeyStore.shared.lastAddressId.isEmpty) {
       // This happens only when user browse from onboarding screen without logging in
       // Check if apartment selected already part of an address
@@ -51,7 +54,7 @@ class UserProvider with ChangeNotifier {
       for (AddressModel address in addresses) {
         if (apartmentId == address.aptId) {
           _selectedAddress = address;
-          break;
+          return;
         }
       }
     } else {
@@ -188,6 +191,7 @@ class UserProvider with ChangeNotifier {
   Future<void> deleteAddress(String addressId) async {
     await Http.delete('/api/user/auth/addresses/$addressId');
     await getAddresses();
+    selectedAddress = addresses.first;
   }
 
   Future<void> createAddress({
@@ -199,7 +203,7 @@ class UserProvider with ChangeNotifier {
       'house': house,
     });
     await getAddresses();
-    _selectedAddress = addresses.last;
+    selectedAddress = addresses.last;
   }
 
   Future<void> updateAddress({
@@ -211,5 +215,6 @@ class UserProvider with ChangeNotifier {
       'house': house,
     });
     await getAddresses();
+    selectedAddress = address;
   }
 }

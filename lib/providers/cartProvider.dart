@@ -80,6 +80,7 @@ class CartProvider with ChangeNotifier {
     return products.containsKey(product) ? products[product] : 0;
   }
 
+  // Checkout works only when - userLoggedIn && has a valid saved address
   Future<dynamic> checkout() async {
     if (!userLoggedIn) {
       throw new FormatException('Login to proceed with checkout');
@@ -113,18 +114,11 @@ class CartProvider with ChangeNotifier {
     return data;
   }
 
-/* 
-* Cart Cloud Implementation
-* 	- _saveCartToServer - Method to upload cart to server
-*		
-*		- loadCartFromServer 
-*			- Method to download cart from server
-*			- Called Once after login
-*/
-
   bool _saveToServerInProgress =
       false; // variable to control upload cart calls on every user action
 
+// Upload User cart to server
+// Cart is saved specific to each address
   void _saveCartToServer() {
     if (!_userProvider.isLoggedIn) return;
     if (!_saveToServerInProgress) {
@@ -147,6 +141,7 @@ class CartProvider with ChangeNotifier {
     }
   }
 
+// Fetch cart for selected address
   void loadCartFromServer() {
     Future.delayed(Duration(seconds: 2), () async {
       try {
