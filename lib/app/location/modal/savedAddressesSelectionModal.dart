@@ -7,7 +7,7 @@ import '../../../theme/index.dart';
 import '../addAddressScreen.dart';
 import '../../tabbar.dart';
 
-class ShowSavedAddressesModal {
+class SavedAddressesSelectionModal {
   final sizedBox16 = SizedBox(height: 16);
   final divider = Divider(
     thickness: 1.0,

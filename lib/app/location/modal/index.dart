@@ -1,3 +1,3 @@
 export 'addHouseDetailModal.dart';
 export 'editHouseDetailModal.dart';
-export 'showSavedAddressesModal.dart';
+export 'savedAddressesSelectionModal.dart';
