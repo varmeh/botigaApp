@@ -9,6 +9,7 @@ import '../../providers/index.dart' show CartProvider, UserProvider;
 import '../../util/index.dart' show Http;
 import '../../widgets/index.dart'
     show IncrementButton, LottieScreen, BotigaAppBar, Toast, LoaderOverlay;
+import '../location/index.dart' show AddHouseDetailModal;
 
 import 'widgets/cartDeliveryInfo.dart';
 import 'paymentScreen.dart';
@@ -103,9 +104,12 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _modal(CartProvider provider) {
-    return provider.canCheckout
-        ? _proceedToPaymentModal(provider)
-        : _openLoginModal();
+    if (provider.userLoggedIn) {
+      return provider.hasAddress
+          ? _proceedToPaymentModal(provider)
+          : _addNewAddressModal();
+    }
+    return _openLoginModal();
   }
 
   Widget _openLoginModal() {
@@ -134,6 +138,46 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
+  Widget _addNewAddressModal() {
+    return GestureDetector(
+      onTap: () async {
+        setState(() => _isLoading = true);
+        try {
+          final userProvider =
+              Provider.of<UserProvider>(context, listen: false);
+          final apartment =
+              await userProvider.getApartmentById(userProvider.apartmentId);
+          AddHouseDetailModal().show(context, apartment);
+        } catch (_) {
+          Toast(message: Http.message('Something went wrong. Try again'))
+              .show(context);
+        } finally {
+          setState(() => _isLoading = false);
+        }
+      },
+      child: Container(
+        height: 56,
+        width: MediaQuery.of(context).size.width - 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(16.0),
+            topRight: const Radius.circular(16.0),
+          ),
+          color: AppTheme.primaryColor,
+        ),
+        child: Center(
+          child: Text(
+            'Add new address',
+            style: AppTheme.textStyle.w700
+                .colored(AppTheme.backgroundColor)
+                .size(13)
+                .lineHeight(1.6),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _proceedToPaymentModal(CartProvider provider) {
     return Material(
       elevation: 3.0,
@@ -141,14 +185,8 @@ class _CartScreenState extends State<CartScreen> {
       child: GestureDetector(
         onTap: () async {
           setState(() => _isLoading = true);
-          final address =
-              Provider.of<UserProvider>(context, listen: false).addresses[0];
-
           try {
-            final data = await provider.checkout(
-              apartmentId: address.id,
-              house: address.house,
-            );
+            final data = await provider.checkout();
 
             Navigator.pushReplacement(
               context,

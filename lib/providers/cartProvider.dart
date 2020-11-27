@@ -27,7 +27,8 @@ class CartProvider with ChangeNotifier {
   }
 
   bool get isEmpty => products.isEmpty;
-  bool get canCheckout => _userProvider.isLoggedIn;
+  bool get userLoggedIn => _userProvider.isLoggedIn;
+  bool get hasAddress => _userProvider.selectedAddress != null;
 
   int get numberOfItemsInCart => products.length == 0
       ? 0
@@ -79,8 +80,8 @@ class CartProvider with ChangeNotifier {
     return products.containsKey(product) ? products[product] : 0;
   }
 
-  Future<dynamic> checkout({String apartmentId, String house}) async {
-    if (_userProvider.isLoggedIn) {
+  Future<dynamic> checkout() async {
+    if (!userLoggedIn) {
       throw new FormatException('Login to proceed with checkout');
     }
 
@@ -96,8 +97,7 @@ class CartProvider with ChangeNotifier {
 
     final json = await Http.post('/api/user/orders', body: {
       'sellerId': cartSeller.id,
-      'apartmentId': apartmentId,
-      'house': house,
+      'addressId': _userProvider.selectedAddress.id,
       'totalAmount': totalPrice,
       'products': productList
     });
