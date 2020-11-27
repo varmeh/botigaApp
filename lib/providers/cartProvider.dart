@@ -137,7 +137,7 @@ class CartProvider with ChangeNotifier {
         try {
           await Http.patch('/api/user/cart', body: {
             'sellerId': cartSeller?.id,
-            'totalAmount': totalPrice,
+            'addressId': _userProvider.selectedAddress.id,
             'products': _productList,
           });
         } catch (_) {} finally {
@@ -151,7 +151,8 @@ class CartProvider with ChangeNotifier {
     Future.delayed(Duration(seconds: 2), () async {
       try {
         // Get cart from database
-        final json = await Http.get('/api/user/cart');
+        final json = await Http.get(
+            '/api/user/cart/${_userProvider.selectedAddress.id}');
 
         // Check if cart has products
         if (json['products'].length > 0 && json['sellerId'] != null) {

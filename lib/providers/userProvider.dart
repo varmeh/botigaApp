@@ -9,7 +9,9 @@ class UserProvider with ChangeNotifier {
   String phone;
   String whatsapp;
   String email;
+  String lastUsedAddressId;
   List<AddressModel> addresses = [];
+  AddressModel selectedAddress;
   String _createToken = '';
 
   // Expects list of addresses or empty json
@@ -26,14 +28,41 @@ class UserProvider with ChangeNotifier {
     phone = json['phone'];
     whatsapp = json['whatsapp'];
     email = json['email'];
+    lastUsedAddressId = json['lastUsedAddressId'];
 
     _addAddresses(json['addresses']);
+
+    if (addresses.isNotEmpty) {
+      if (lastUsedAddressId != null && lastUsedAddressId.isNotEmpty) {
+        for (AddressModel address in addresses) {
+          if (lastUsedAddressId == address.id) {
+            selectedAddress = address;
+            break;
+          }
+        }
+      } else {
+        selectedAddress = addresses[0];
+      }
+    }
   }
 
   bool get isLoggedIn => phone != null;
 
-  String get apartmentId => KeyStore.shared.lastApartmentId;
-  String get apartmentName => KeyStore.shared.lastApartmentName;
+  String get apartmentId {
+    if (isLoggedIn) {
+      return selectedAddress.aptId;
+    }
+    return KeyStore.shared.lastApartmentId;
+  }
+
+  String get apartmentName {
+    if (isLoggedIn) {
+      return selectedAddress.house;
+    }
+    return KeyStore.shared.lastApartmentName;
+  }
+
+  // String get address {}
 
   Future<void> getProfile() async {
     if (firstName != null) {
@@ -145,6 +174,7 @@ class UserProvider with ChangeNotifier {
       'house': house,
     });
     await getAddresses();
+    selectedAddress = addresses.last;
   }
 
   Future<void> updateAddress({
