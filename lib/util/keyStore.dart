@@ -22,8 +22,14 @@ class KeyStore {
 
   String get lastApartmentId => _prefs.getStringList(_keyLastApartment)[0];
   String get lastApartmentName => _prefs.getStringList(_keyLastApartment)[1];
+  String get lastAddressId => _prefs.getStringList(_keyLastApartment)[2];
 
-  Future<void> setApartment({String apartmentId, String apartmentName}) async {
-    await _prefs.setStringList(_keyLastApartment, [apartmentId, apartmentName]);
+  Future<void> setApartment({
+    String apartmentId,
+    String apartmentName,
+    String addressId,
+  }) async {
+    await _prefs.setStringList(
+        _keyLastApartment, [apartmentId, apartmentName, addressId]);
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../models/index.dart' show AddressModel;
-import '../util/index.dart' show Http, Token, KeyStore;
+import '../models/index.dart' show AddressModel, ApartmentModel;
+import '../util/index.dart' show Http, Token, KeyStore, StringExtensions;
 
 class UserProvider with ChangeNotifier {
   String firstName;
@@ -11,8 +11,20 @@ class UserProvider with ChangeNotifier {
   String email;
   String lastUsedAddressId;
   List<AddressModel> addresses = [];
-  AddressModel selectedAddress;
+  AddressModel _selectedAddress;
   String _createToken = '';
+
+  AddressModel get selectedAddress => _selectedAddress;
+  set selectedAddress(AddressModel address) {
+    Future.delayed(
+        Duration.zero,
+        () => KeyStore.shared.setApartment(
+              apartmentId: address.aptId,
+              apartmentName: address.house,
+              addressId: address.id,
+            ));
+    _selectedAddress = address;
+  }
 
   // Expects list of addresses or empty json
   void _addAddresses(List<dynamic> json) {
@@ -32,45 +44,52 @@ class UserProvider with ChangeNotifier {
 
     _addAddresses(json['addresses']);
 
-    if (addresses.isNotEmpty) {
-      if (lastUsedAddressId != null && lastUsedAddressId.isNotEmpty) {
+    if (KeyStore.shared.lastAddressId.isEmpty) {
+      // This happens only when user browse from onboarding screen without logging in
+      // Check if apartment selected already part of an address
+      final apartmentId = KeyStore.shared.lastApartmentId;
+      for (AddressModel address in addresses) {
+        if (apartmentId == address.aptId) {
+          _selectedAddress = address;
+          break;
+        }
+      }
+    } else {
+      if (addresses.isNotEmpty && lastUsedAddressId.isNotNullAndEmpty) {
         for (AddressModel address in addresses) {
           if (lastUsedAddressId == address.id) {
-            selectedAddress = address;
-            break;
+            _selectedAddress = address;
+            return;
           }
         }
-      } else {
-        selectedAddress = addresses[0];
       }
+      // In case lastUsedAddressId is not available or not added
+      _selectedAddress = addresses[0];
     }
   }
 
   bool get isLoggedIn => phone != null;
 
   String get apartmentId {
-    if (isLoggedIn) {
-      return selectedAddress.aptId;
+    if (_selectedAddress != null) {
+      return _selectedAddress.aptId;
     }
     return KeyStore.shared.lastApartmentId;
   }
 
   String get apartmentName {
-    if (isLoggedIn) {
-      return selectedAddress.house;
+    if (_selectedAddress != null) {
+      return _selectedAddress.house;
     }
     return KeyStore.shared.lastApartmentName;
   }
 
-  // String get address {}
-
   Future<void> getProfile() async {
-    if (firstName != null) {
+    if (phone != null) {
       return;
     }
     final json = await Http.get('/api/user/auth/profile');
     _fillProvider(json);
-    return this;
   }
 
   Future<void> logout() async {
@@ -78,6 +97,7 @@ class UserProvider with ChangeNotifier {
     phone = null;
     firstName = null;
     lastName = null;
+    _selectedAddress = null;
     await Token.write('');
   }
 
@@ -153,6 +173,11 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<ApartmentModel> getApartmentById(String id) async {
+    final json = await Http.get('/api/services/apartments/$id');
+    return ApartmentModel.fromJson(json);
+  }
+
   /* Address APIs */
   Future<void> getAddresses() async {
     final json = await Http.get('/api/user/auth/addresses');
@@ -174,7 +199,7 @@ class UserProvider with ChangeNotifier {
       'house': house,
     });
     await getAddresses();
-    selectedAddress = addresses.last;
+    _selectedAddress = addresses.last;
   }
 
   Future<void> updateAddress({
