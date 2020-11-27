@@ -155,7 +155,8 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
       if (provider.isLoggedIn) {
         // Load user cart
         Provider.of<CartProvider>(context, listen: false).loadCartFromServer();
-        Navigator.of(context).pushNamed(Tabbar.route);
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil(Tabbar.route, (route) => false);
       } else {
         Navigator.pushNamed(context, SignupProfileScreen.route,
             arguments: _phoneNumber);
