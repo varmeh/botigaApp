@@ -7,7 +7,8 @@ import '../location/index.dart'
     show SelectApartmenWhenNoUserLoggedInScreen, SavedAddressesSelectionModal;
 import '../../util/index.dart' show StringExtensions;
 import '../../models/sellerModel.dart';
-import '../../providers/index.dart' show SellersProvider, UserProvider;
+import '../../providers/index.dart'
+    show SellersProvider, UserProvider, CartProvider;
 
 import '../../widgets/index.dart'
     show
@@ -21,18 +22,35 @@ import 'products/productListScreen.dart';
 
 import '../tabbar.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(milliseconds: 200), () {
+      final cartProvider = Provider.of<CartProvider>(context, listen: false);
+      if (cartProvider.userLoggedIn &&
+          cartProvider.isEmpty &&
+          !cartProvider.hasAddress) {
+        SavedAddressesSelectionModal().show(context);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final _userProvider = Provider.of<UserProvider>(context);
-    final apartmentId = _userProvider.apartmentId;
 
-    return apartmentId.isNullOrEmpty
+    return _userProvider.apartmentId.isNullOrEmpty
         ? _noApartmentSelected(context, _userProvider)
         : Consumer<SellersProvider>(
             builder: (context, provider, child) {
               return FutureBuilder(
-                future: provider.getSellers(apartmentId),
+                future: provider.getSellers(_userProvider.apartmentId),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Loader();
