@@ -39,7 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               divider,
               _support(provider),
               divider,
-              _logout(provider),
+              provider.isLoggedIn ? _logout(provider) : Container(),
               SizedBox(height: 100.0)
             ],
           ),
