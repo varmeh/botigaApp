@@ -26,64 +26,62 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _userProvider = Provider.of<UserProvider>(context);
 
-    return _userProvider.apartmentId.isNullOrEmpty
-        ? _noApartmentSelected(context, _userProvider)
-        : Consumer<SellersProvider>(
-            builder: (context, provider, child) {
-              return FutureBuilder(
-                future: provider.getSellers(_userProvider.apartmentId),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Loader();
-                  } else if (snapshot.hasError) {
-                    return HttpServiceExceptionWidget(
-                      exception: snapshot.error,
-                      onTap: () {
-                        // Rebuild screen
-                        Navigator.pushReplacement(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (_, __, ___) => Tabbar(index: 0),
-                            transitionDuration: Duration.zero,
-                          ),
-                        );
-                      },
+    return Consumer<SellersProvider>(
+      builder: (context, provider, child) {
+        return FutureBuilder(
+          future: provider.getSellers(_userProvider.apartmentId),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Loader();
+            } else if (snapshot.hasError) {
+              return HttpServiceExceptionWidget(
+                exception: snapshot.error,
+                onTap: () {
+                  // Rebuild screen
+                  Navigator.pushReplacement(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (_, __, ___) => Tabbar(index: 0),
+                      transitionDuration: Duration.zero,
+                    ),
+                  );
+                },
+              );
+            } else {
+              return ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: provider.sellerList.length + 3,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return appBar(
+                      context,
+                      _userProvider,
+                      '${provider.sellerList.length} merchants delivering',
+                    );
+                  } else if (index <= provider.sellerList.length) {
+                    return _sellersTile(
+                      context,
+                      provider.sellerList[index - 1],
+                    );
+                  } else if (index == provider.sellerList.length + 1) {
+                    return Container(
+                      color: AppTheme.backgroundColor,
+                      padding: const EdgeInsets.only(top: 24.0),
+                      child: InviteTile(),
                     );
                   } else {
-                    return ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: provider.sellerList.length + 3,
-                      itemBuilder: (context, index) {
-                        if (index == 0) {
-                          return appBar(
-                            context,
-                            _userProvider,
-                            '${provider.sellerList.length} merchants delivering',
-                          );
-                        } else if (index <= provider.sellerList.length) {
-                          return _sellersTile(
-                            context,
-                            provider.sellerList[index - 1],
-                          );
-                        } else if (index == provider.sellerList.length + 1) {
-                          return Container(
-                            color: AppTheme.backgroundColor,
-                            padding: const EdgeInsets.only(top: 24.0),
-                            child: InviteTile(),
-                          );
-                        } else {
-                          return BrandingTile(
-                            'Thriving communities, empowering people',
-                            'Made by awesome team of Botiga',
-                          );
-                        }
-                      },
+                    return BrandingTile(
+                      'Thriving communities, empowering people',
+                      'Made by awesome team of Botiga',
                     );
                   }
                 },
               );
-            },
-          );
+            }
+          },
+        );
+      },
+    );
   }
 
   Widget appBar(BuildContext context, UserProvider provider, String message) {
@@ -113,21 +111,19 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Flexible(child: _selectApartment(context, provider)),
-              provider.apartmentName.isNullOrEmpty
-                  ? Container()
-                  : Padding(
-                      padding: const EdgeInsets.only(
-                        top: 4.0,
-                        left: 6.0,
-                      ),
-                      child: Text(
-                        message,
-                        style: AppTheme.textStyle.w700
-                            .size(13.0)
-                            .lineHeight(1.5)
-                            .colored(AppTheme.backgroundColor),
-                      ),
-                    )
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 4.0,
+                  left: 6.0,
+                ),
+                child: Text(
+                  message,
+                  style: AppTheme.textStyle.w700
+                      .size(13.0)
+                      .lineHeight(1.5)
+                      .colored(AppTheme.backgroundColor),
+                ),
+              )
             ],
           ),
         ),
@@ -156,9 +152,7 @@ class HomeScreen extends StatelessWidget {
           SizedBox(width: 9),
           Flexible(
             child: AutoSizeText(
-              provider.apartmentId.isNullOrEmpty
-                  ? 'Select Apartment'
-                  : provider.apartmentName,
+              provider.isLoggedIn ? provider.house : provider.apartmentName,
               style: AppTheme.textStyle.w700
                   .size(22.0)
                   .lineHeight(1.4)
@@ -236,19 +230,6 @@ class HomeScreen extends StatelessWidget {
         );
       },
       openBuilder: (_, __) => ProductListScreen(seller),
-    );
-  }
-
-  Widget _noApartmentSelected(BuildContext context, UserProvider provider) {
-    return ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        appBar(context, provider, ''),
-        BrandingTile(
-          'Interesting merchandize waiting for you. Just select your apartment',
-          'Do it now & buy amazing products from Botiga merchants serving in your community',
-        ),
-      ],
     );
   }
 }

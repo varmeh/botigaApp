@@ -19,12 +19,8 @@ class CartDeliveryInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
-    String house;
+    String house = userProvider.house;
     String apartment = userProvider.apartmentName;
-
-    if (userProvider.isLoggedIn) {
-      apartment = userProvider.apartmentName;
-    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

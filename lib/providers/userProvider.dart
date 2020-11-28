@@ -20,7 +20,7 @@ class UserProvider with ChangeNotifier {
         Duration.zero,
         () => KeyStore.shared.setApartment(
               apartmentId: address.aptId,
-              apartmentName: address.house,
+              apartmentName: address.apartment,
             ));
     _selectedAddress = address;
   }
@@ -46,19 +46,15 @@ class UserProvider with ChangeNotifier {
 
   bool get isLoggedIn => phone != null;
 
-  String get apartmentId {
-    if (_selectedAddress != null) {
-      return _selectedAddress.aptId;
-    }
-    return KeyStore.shared.lastApartmentId;
-  }
+  String get apartmentId => _selectedAddress != null
+      ? _selectedAddress.aptId
+      : KeyStore.shared.lastApartmentId;
 
-  String get apartmentName {
-    if (_selectedAddress != null) {
-      return _selectedAddress.house;
-    }
-    return KeyStore.shared.lastApartmentName;
-  }
+  String get apartmentName => _selectedAddress != null
+      ? _selectedAddress.apartment
+      : KeyStore.shared.lastApartmentName;
+
+  String get house => _selectedAddress?.house;
 
   Future<void> getProfile() async {
     if (phone != null) {
