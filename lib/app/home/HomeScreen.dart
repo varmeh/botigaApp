@@ -5,7 +5,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 import '../location/index.dart'
     show SelectApartmenWhenNoUserLoggedInScreen, SavedAddressesSelectionModal;
-import '../../util/index.dart' show StringExtensions;
 import '../../models/sellerModel.dart';
 import '../../providers/index.dart' show SellersProvider, UserProvider;
 

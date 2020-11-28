@@ -214,8 +214,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _support(UserProvider provider) {
+    final divider = Divider(thickness: 1.0, color: AppTheme.dividerColor);
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+      padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 24.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -266,10 +267,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(width: 16.0),
                   CallIconButton(number: '9910057232'),
                 ],
-              )
+              ),
             ],
-          )
+          ),
+          SizedBox(height: 32),
+          divider,
+          _policy('Privacy Policy', ''),
+          divider,
+          _policy('Terms & Conditions', ''),
+          SizedBox(height: 8),
         ],
+      ),
+    );
+  }
+
+  Widget _policy(String name, String url) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24.0),
+      child: GestureDetector(
+        onTap: () {},
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              name,
+              style:
+                  AppTheme.textStyle.w500.color100.size(15.0).lineHeight(1.3),
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+              color: AppTheme.color100,
+            )
+          ],
+        ),
       ),
     );
   }
