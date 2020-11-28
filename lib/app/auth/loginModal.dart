@@ -69,9 +69,12 @@ class LoginModal {
 
   void _onSubmitted(BuildContext context) {
     if (_phoneFormKey.currentState.validate()) {
-      Navigator.of(context).pushNamed(
-        VerifyOtpScreen.route,
-        arguments: _phoneMaskFormatter.getUnmaskedText(),
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => VerifyOtpScreen(
+            _phoneMaskFormatter.getUnmaskedText(),
+          ),
+        ),
       );
     }
   }

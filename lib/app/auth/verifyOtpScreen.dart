@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/index.dart' show UserProvider, CartProvider;
+import '../../providers/index.dart' show UserProvider, CartProvider, AuthUtil;
 import '../../util/index.dart';
 import '../../theme/index.dart';
 import '../../widgets/index.dart'
@@ -15,6 +15,10 @@ import '../tabbar.dart';
 class VerifyOtpScreen extends StatefulWidget {
   static final route = 'verifyOtp';
 
+  final String phone;
+
+  VerifyOtpScreen(this.phone);
+
   @override
   _VerifyOtpScreenState createState() => _VerifyOtpScreenState();
 }
@@ -22,7 +26,6 @@ class VerifyOtpScreen extends StatefulWidget {
 class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   GlobalKey<FormState> _form = GlobalKey();
   String _otp = '';
-  String _phoneNumber;
 
   Timer _timer;
   int _start = 30;
@@ -33,10 +36,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      _phoneNumber = ModalRoute.of(context).settings.arguments;
-      _getOtp();
-    });
+    _getOtp();
   }
 
   @override
@@ -59,7 +59,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                 children: [
                   sizedBox,
                   Text(
-                    'Please enter OTP sent to your phone number $_phoneNumber',
+                    'Please enter OTP sent to your phone number ${widget.phone}',
                     style: AppTheme.textStyle.w500.color100
                         .size(15)
                         .lineHeight(1.3),
@@ -134,7 +134,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   Future<void> _getOtp() async {
     try {
       startTimer();
-      final json = await Http.get('/api/user/auth/otp/$_phoneNumber');
+      final json = await Http.get('/api/user/auth/otp/${widget.phone}');
       _sessionId = json['sessionId'];
     } catch (error) {
       stopTimer();
@@ -146,17 +146,16 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   Future<void> _verifyOtp(UserProvider provider) async {
     setState(() => _isloading = true);
     try {
-      await provider.otpAuth(
-        phone: _phoneNumber,
+      await AuthUtil.verifyOtp(
+        context: context,
+        phone: widget.phone,
         sessionId: _sessionId,
         otp: _otp,
       );
 
       if (provider.isLoggedIn) {
-        final cartProvider = Provider.of<CartProvider>(context, listen: false);
-        if (cartProvider.isEmpty) {
-          // Default SignIn Flow - Redirecting user to home screen
-          cartProvider.loadCartFromServer();
+        if (Provider.of<CartProvider>(context, listen: false).isEmpty) {
+          // Cart is empty
           Navigator.of(context).pushAndRemoveUntil(
             PageRouteBuilder(
               pageBuilder: (_, __, ___) => Tabbar(index: 0),
@@ -177,7 +176,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
         }
       } else {
         Navigator.pushNamed(context, SignupProfileScreen.route,
-            arguments: _phoneNumber);
+            arguments: widget.phone);
       }
     } catch (error) {
       Toast(message: Http.message(error)).show(context);

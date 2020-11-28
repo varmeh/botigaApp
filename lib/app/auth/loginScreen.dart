@@ -11,9 +11,10 @@ class LoginScreen extends StatelessWidget {
     return PhoneScreen(
       title: 'Login',
       navigate: (String phoneNumber) {
-        Navigator.of(context).pushNamed(
-          VerifyOtpScreen.route,
-          arguments: phoneNumber,
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => VerifyOtpScreen(phoneNumber),
+          ),
         );
       },
     );
