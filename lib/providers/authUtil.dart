@@ -38,12 +38,14 @@ class AuthUtil {
         for (AddressModel address in addresses) {
           if (lastUsedAddressId == address.id) {
             userProvider.selectedAddress = address;
-            return;
+            break;
           }
         }
       }
       // In case lastUsedAddressId is not available or not added
-      userProvider.selectedAddress = addresses[0];
+      if (userProvider.selectedAddress == null) {
+        userProvider.selectedAddress = addresses[0];
+      }
       cartProvider.loadCartFromServer(); // Now load cart from server
     } else {
       // Cart has products
