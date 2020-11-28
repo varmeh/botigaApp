@@ -7,8 +7,7 @@ import '../location/index.dart'
     show SelectApartmenWhenNoUserLoggedInScreen, SavedAddressesSelectionModal;
 import '../../util/index.dart' show StringExtensions;
 import '../../models/sellerModel.dart';
-import '../../providers/index.dart'
-    show SellersProvider, UserProvider, CartProvider;
+import '../../providers/index.dart' show SellersProvider, UserProvider;
 
 import '../../widgets/index.dart'
     show
@@ -22,25 +21,7 @@ import 'products/productListScreen.dart';
 
 import '../tabbar.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration(milliseconds: 200), () {
-      final cartProvider = Provider.of<CartProvider>(context, listen: false);
-      if (cartProvider.userLoggedIn &&
-          cartProvider.isEmpty &&
-          !cartProvider.hasAddress) {
-        SavedAddressesSelectionModal().show(context);
-      }
-    });
-  }
-
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _userProvider = Provider.of<UserProvider>(context);

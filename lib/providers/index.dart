@@ -4,3 +4,4 @@ export 'cartProvider.dart';
 export 'ordersProvider.dart';
 export 'userProvider.dart';
 export 'addressUtil.dart';
+export 'authUtil.dart';

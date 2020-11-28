@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/index.dart' show UserProvider, CartProvider;
+import '../../providers/index.dart' show CartProvider, AuthUtil;
 import '../../theme/index.dart';
 import '../../util/index.dart' show KeyStore;
 import '../tabbar.dart';
@@ -80,7 +80,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> _getProfile() async {
     try {
-      await Provider.of<UserProvider>(context, listen: false).getProfile();
+      await AuthUtil.getProfile(context);
       _hasProfile = true;
     } catch (_) {} finally {
       setState(() => _loadingComplete = true);

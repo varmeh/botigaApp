@@ -16,9 +16,7 @@ class SelectApartmenWhenNoUserLoggedInScreen extends StatelessWidget {
     return SearchApartmentScreen(onSelection: (apartment) {
       KeyStore.shared
           .setApartment(
-              apartmentId: apartment.id,
-              apartmentName: apartment.name,
-              addressId: '')
+              apartmentId: apartment.id, apartmentName: apartment.name)
           .then((_) {
         Provider.of<SellersProvider>(context, listen: false).empty();
         Navigator.pushAndRemoveUntil(

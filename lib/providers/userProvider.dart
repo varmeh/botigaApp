@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/index.dart' show AddressModel, ApartmentModel;
-import '../util/index.dart' show Http, Token, KeyStore, StringExtensions;
+import '../util/index.dart' show Http, Token, KeyStore;
 
 class UserProvider with ChangeNotifier {
   String firstName;
@@ -21,7 +21,6 @@ class UserProvider with ChangeNotifier {
         () => KeyStore.shared.setApartment(
               apartmentId: address.aptId,
               apartmentName: address.house,
-              addressId: address.id,
             ));
     _selectedAddress = address;
   }
@@ -43,32 +42,6 @@ class UserProvider with ChangeNotifier {
     lastUsedAddressId = json['lastUsedAddressId'];
 
     _addAddresses(json['addresses']);
-    _selectFromUserAddresses();
-  }
-
-  void _selectFromUserAddresses() {
-    if (KeyStore.shared.lastAddressId.isEmpty) {
-      // This happens only when user browse from onboarding screen without logging in
-      // Check if apartment selected already part of an address
-      final apartmentId = KeyStore.shared.lastApartmentId;
-      for (AddressModel address in addresses) {
-        if (apartmentId == address.aptId) {
-          _selectedAddress = address;
-          return;
-        }
-      }
-    } else {
-      if (addresses.isNotEmpty && lastUsedAddressId.isNotNullAndEmpty) {
-        for (AddressModel address in addresses) {
-          if (lastUsedAddressId == address.id) {
-            _selectedAddress = address;
-            return;
-          }
-        }
-      }
-      // In case lastUsedAddressId is not available or not added
-      _selectedAddress = addresses[0];
-    }
   }
 
   bool get isLoggedIn => phone != null;
