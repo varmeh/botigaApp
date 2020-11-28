@@ -12,7 +12,11 @@ class AddHouseDetailModal {
   String _houseNumber;
   GlobalKey<FormState> _aptFormKey = GlobalKey<FormState>();
 
-  void show(BuildContext context, ApartmentModel apartment) {
+  void show({
+    BuildContext context,
+    ApartmentModel apartment,
+    bool clearCart,
+  }) {
     const sizedBox24 = SizedBox(height: 24);
 
     _bottomModal = BotigaBottomModal(
@@ -55,13 +59,14 @@ class AddHouseDetailModal {
                 _houseNumber = value;
               },
               validator: (value) => value.isEmpty ? 'Required' : null,
-              onFieldSubmitted: (_) => _addAddress(context, apartment),
+              onFieldSubmitted: (_) =>
+                  _addAddress(context, apartment, clearCart),
             ),
           ),
           sizedBox24,
           ActiveButton(
             title: 'Continue',
-            onPressed: () => _addAddress(context, apartment),
+            onPressed: () => _addAddress(context, apartment, clearCart),
           ),
         ],
       ),
@@ -71,7 +76,8 @@ class AddHouseDetailModal {
     _bottomModal.show(context);
   }
 
-  void _addAddress(BuildContext context, ApartmentModel apartment) async {
+  void _addAddress(
+      BuildContext context, ApartmentModel apartment, bool clearCart) async {
     FocusScope.of(context).unfocus();
     _bottomModal.animation(true);
     if (_aptFormKey.currentState.validate()) {
@@ -81,6 +87,7 @@ class AddHouseDetailModal {
           context: context,
           house: _houseNumber,
           apartmentId: apartment.id,
+          clearCart: clearCart,
         );
         Navigator.popUntil(context, (route) => route.isFirst);
       } catch (error) {

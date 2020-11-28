@@ -24,6 +24,7 @@ class AddressUtil {
     BuildContext context,
     String house,
     String apartmentId,
+    bool clearCart,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     await userProvider.createAddress(
@@ -31,17 +32,22 @@ class AddressUtil {
       apartmentId: apartmentId,
     );
     await userProvider.getAddresses(); // Fetch latest addresses
-    await setAddress(context, userProvider.addresses.last);
+    if (clearCart) {
+      await setAddress(context, userProvider.addresses.last);
+    } else {
+      userProvider.selectedAddress = userProvider.addresses.last;
+    }
   }
 
   static Future<void> deleteAddress(
       BuildContext context, String addressId) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    await userProvider.deleteAddress(addressId);
 
     // Delete destructs the context by removing address
     // So first set the address & then get the latest address list
     await setAddress(context, userProvider.addresses.first);
+
+    await userProvider.deleteAddress(addressId);
     await userProvider.getAddresses(); // Fetch latest addresses
   }
 

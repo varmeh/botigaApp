@@ -147,7 +147,11 @@ class _CartScreenState extends State<CartScreen> {
               Provider.of<UserProvider>(context, listen: false);
           final apartment =
               await userProvider.getApartmentById(userProvider.apartmentId);
-          AddHouseDetailModal().show(context, apartment);
+          AddHouseDetailModal().show(
+            context: context,
+            apartment: apartment,
+            clearCart: false,
+          );
         } catch (_) {
           Toast(message: Http.message('Something went wrong. Try again'))
               .show(context);

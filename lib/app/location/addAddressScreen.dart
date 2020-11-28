@@ -9,7 +9,11 @@ class AddAddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SearchApartmentScreen(onSelection: (apartment) {
-      AddHouseDetailModal().show(context, apartment);
+      AddHouseDetailModal().show(
+        context: context,
+        apartment: apartment,
+        clearCart: true,
+      );
     });
   }
 }
