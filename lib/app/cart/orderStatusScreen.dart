@@ -18,6 +18,10 @@ class OrderStatusScreen extends StatefulWidget {
 
 class _OrderStatusScreenState extends State<OrderStatusScreen> {
   bool _isLoading = false;
+  final divider = Divider(
+    thickness: 8.0,
+    color: AppTheme.dividerColor,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +36,9 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
           child: Column(
             children: [
               _sellerInfo(),
-              Divider(
-                thickness: 8.0,
-                color: AppTheme.dividerColor,
-              ),
+              divider,
+              _deliveryAddress(),
+              divider,
               Container(
                 padding: const EdgeInsets.only(top: 12.0),
                 child: OrderStatusWidget(
@@ -112,6 +115,44 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
               ),
             ],
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _deliveryAddress() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.asset(
+            'assets/images/homeOutline.png',
+            width: 24.0,
+            height: 24.0,
+          ),
+          SizedBox(width: 24),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Deliver To',
+                  style: AppTheme.textStyle.w600.color100
+                      .size(15.0)
+                      .lineHeight(1.3),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  '${widget.order.house}, ${widget.order.apartment}',
+                  style: AppTheme.textStyle.w500.color50
+                      .size(13.0)
+                      .lineHeight(1.5),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
