@@ -164,11 +164,12 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _availableSellers(BuildContext context, SellersProvider provider) {
+    final color = AppTheme.backgroundColor;
     return !provider.hasAvailableSellers
         ? Container()
         : Container(
             padding: const EdgeInsets.only(bottom: 48.0),
-            color: AppTheme.backgroundColor,
+            color: color,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -177,7 +178,7 @@ class HomeScreen extends StatelessWidget {
                   (index) => _sellersTile(
                     context,
                     provider.sellerList[index],
-                    AppTheme.backgroundColor,
+                    color,
                   ),
                 )
               ],
@@ -186,11 +187,12 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _notAvailableSellers(BuildContext context, SellersProvider provider) {
+    final color = AppTheme.color05;
     return !provider.hasNotAvailableSellers
         ? Container()
         : Container(
             padding: const EdgeInsets.only(top: 48.0, bottom: 65.0),
-            color: AppTheme.color05,
+            color: color,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -208,7 +210,7 @@ class HomeScreen extends StatelessWidget {
                   (index) => _sellersTile(
                     context,
                     provider.sellerList[provider.availableSellers + index],
-                    AppTheme.color05,
+                    color,
                   ),
                 )
               ],
