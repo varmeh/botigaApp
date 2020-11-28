@@ -52,11 +52,7 @@ class HomeScreen extends StatelessWidget {
                 itemCount: provider.sellerList.length + 3,
                 itemBuilder: (context, index) {
                   if (index == 0) {
-                    return appBar(
-                      context,
-                      _userProvider,
-                      '${provider.sellerList.length} merchants delivering',
-                    );
+                    return appBar(context, provider);
                   } else if (index <= provider.sellerList.length) {
                     return _sellersTile(
                       context,
@@ -83,11 +79,10 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget appBar(BuildContext context, UserProvider provider, String message) {
+  Widget appBar(BuildContext context, SellersProvider sellersProvider) {
     return Material(
       child: Container(
         width: double.infinity,
-        height: 155,
         child: Container(
           decoration: BoxDecoration(
             color: AppTheme.primaryColor,
@@ -107,16 +102,17 @@ class HomeScreen extends StatelessWidget {
             bottom: 32.0,
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Flexible(child: _selectApartment(context, provider)),
+              Flexible(child: _selectApartment(context)),
               Padding(
                 padding: const EdgeInsets.only(
                   top: 4.0,
                   left: 6.0,
                 ),
                 child: Text(
-                  message,
+                  '${sellersProvider.sellerList.length} merchants delivering',
                   style: AppTheme.textStyle.w700
                       .size(13.0)
                       .lineHeight(1.5)
@@ -130,10 +126,11 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _selectApartment(BuildContext context, UserProvider provider) {
+  Widget _selectApartment(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
     return GestureDetector(
       onTap: () {
-        if (provider.isLoggedIn) {
+        if (userProvider.isLoggedIn) {
           SavedAddressesSelectionModal().show(context);
         } else {
           Navigator.pushNamed(
@@ -151,13 +148,15 @@ class HomeScreen extends StatelessWidget {
           SizedBox(width: 9),
           Flexible(
             child: AutoSizeText(
-              provider.isLoggedIn ? provider.house : provider.apartmentName,
+              userProvider.isLoggedIn
+                  ? userProvider.house
+                  : userProvider.apartmentName,
               style: AppTheme.textStyle.w700
-                  .size(22.0)
+                  .size(20.0)
                   .lineHeight(1.4)
                   .colored(AppTheme.backgroundColor),
-              minFontSize: 15.0,
-              maxFontSize: 22.0,
+              minFontSize: 17.0,
+              maxFontSize: 20.0,
               maxLines: 2,
             ),
           ),
