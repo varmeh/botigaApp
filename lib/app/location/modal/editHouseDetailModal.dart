@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../../providers/userProvider.dart';
+import '../../../providers/index.dart' show ProviderUtil;
 import '../../../models/index.dart' show AddressModel;
 import '../../../util/index.dart' show Http;
 import '../../../theme/index.dart';
@@ -84,7 +83,8 @@ class EditHouseDetailModal {
     if (_aptFormKey.currentState.validate()) {
       _aptFormKey.currentState.save();
       try {
-        await Provider.of<UserProvider>(context, listen: false).updateAddress(
+        await ProviderUtil.updateAddress(
+          context: context,
           house: _houseNumber,
           address: address,
         );

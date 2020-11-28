@@ -190,8 +190,6 @@ class UserProvider with ChangeNotifier {
 
   Future<void> deleteAddress(String addressId) async {
     await Http.delete('/api/user/auth/addresses/$addressId');
-    await getAddresses();
-    selectedAddress = addresses.first;
   }
 
   Future<void> createAddress({
@@ -202,8 +200,6 @@ class UserProvider with ChangeNotifier {
       'apartmentId': apartmentId,
       'house': house,
     });
-    await getAddresses();
-    selectedAddress = addresses.last;
   }
 
   Future<void> updateAddress({
@@ -214,7 +210,5 @@ class UserProvider with ChangeNotifier {
       'id': address.id,
       'house': house,
     });
-    await getAddresses();
-    selectedAddress = address;
   }
 }

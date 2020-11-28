@@ -54,7 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         try {
           await provider.logout();
 
-          Provider.of<CartProvider>(context, listen: false).resetCart();
+          Provider.of<CartProvider>(context, listen: false).clearCart();
           setState(() {});
         } catch (error) {
           Toast(message: Http.message(error)).show(context);

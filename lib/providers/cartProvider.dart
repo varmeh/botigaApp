@@ -34,8 +34,8 @@ class CartProvider with ChangeNotifier {
       ? 0
       : products.values.reduce((cur, next) => cur + next);
 
-  // Methods to manage cart - resetCart, addProduct & removeProduct
-  void resetCart() {
+  // Methods to manage cart - clearCart, addProduct & removeProduct
+  void clearCart() {
     totalPrice = 0.0;
     products.clear();
     cartSeller = null;
@@ -48,7 +48,7 @@ class CartProvider with ChangeNotifier {
           products.containsKey(product) ? products[product] + 1 : 1;
       totalPrice += product.price;
     } else {
-      resetCart();
+      clearCart();
       cartSeller = seller;
       products[product] = 1;
       totalPrice = product.price;
@@ -70,7 +70,7 @@ class CartProvider with ChangeNotifier {
 
     if (products.length == 0) {
       // Cart is empty
-      resetCart();
+      clearCart();
     }
     _saveCartToServer();
     notifyListeners();
@@ -108,7 +108,7 @@ class CartProvider with ChangeNotifier {
     data['paymentToken'] = json['paymentToken'];
 
     // As order has been created, reset cart & update to cloud
-    resetCart();
+    clearCart();
     _saveCartToServer();
 
     return data;
