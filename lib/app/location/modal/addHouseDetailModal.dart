@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../providers/index.dart' show ProviderUtil;
+import '../../../providers/index.dart' show AddressUtil;
 import '../../../models/apartmentModel.dart';
 import '../../../util/index.dart' show Http;
 import '../../../theme/index.dart';
@@ -77,7 +77,7 @@ class AddHouseDetailModal {
     if (_aptFormKey.currentState.validate()) {
       _aptFormKey.currentState.save();
       try {
-        await ProviderUtil.addAddress(
+        await AddressUtil.addAddress(
           context: context,
           house: _houseNumber,
           apartmentId: apartment.id,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/index.dart' show UserProvider, ProviderUtil;
+import '../../providers/index.dart' show UserProvider, AddressUtil;
 import '../../models/index.dart' show AddressModel;
 import '../../util/index.dart' show Http;
 import '../../theme/index.dart';
@@ -154,7 +154,7 @@ class _ManageAddressesScreenState extends State<ManageAddressesScreen> {
               Navigator.of(context).pop();
               setState(() => _isLoading = true);
               try {
-                await ProviderUtil.deleteAddress(context, addressId);
+                await AddressUtil.deleteAddress(context, addressId);
               } catch (error) {
                 Toast(message: Http.message(error)).show(context);
               } finally {

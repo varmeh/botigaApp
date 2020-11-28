@@ -6,7 +6,7 @@ import 'userProvider.dart';
 import 'sellersProvider.dart';
 import 'cartProvider.dart';
 
-class ProviderUtil {
+class AddressUtil {
   static Future<void> setAddress(
       BuildContext context, AddressModel address) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);

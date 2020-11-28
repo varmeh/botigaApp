@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../providers/index.dart' show UserProvider, ProviderUtil;
+import '../../../providers/index.dart' show UserProvider, AddressUtil;
 import '../../../models/index.dart' show AddressModel;
 import '../../../theme/index.dart';
 import '../addAddressScreen.dart';
@@ -93,7 +93,7 @@ class SavedAddressesSelectionModal {
   Widget _addressTile(BuildContext context, AddressModel address) {
     return GestureDetector(
       onTap: () {
-        ProviderUtil.setAddress(context, address);
+        AddressUtil.setAddress(context, address);
         Navigator.of(context).pushAndRemoveUntil(
           PageRouteBuilder(
             pageBuilder: (_, __, ___) => Tabbar(index: 0),
