@@ -6,6 +6,7 @@ import '../../../util/index.dart' show Http;
 import '../../../theme/index.dart';
 import '../../../widgets/index.dart'
     show BotigaTextFieldForm, ActiveButton, BotigaBottomModal, Toast;
+import '../../tabbar.dart';
 
 class AddHouseDetailModal {
   BotigaBottomModal _bottomModal;
@@ -89,7 +90,14 @@ class AddHouseDetailModal {
           apartmentId: apartment.id,
           clearCart: clearCart,
         );
-        Navigator.popUntil(context, (route) => route.isFirst);
+        int screenIndex = clearCart ? 0 : 2;
+        Navigator.of(context).pushAndRemoveUntil(
+          PageRouteBuilder(
+            pageBuilder: (_, __, ___) => Tabbar(index: screenIndex),
+            transitionDuration: Duration.zero,
+          ),
+          (route) => false,
+        );
       } catch (error) {
         Toast(message: Http.message(error)).show(context);
       } finally {
