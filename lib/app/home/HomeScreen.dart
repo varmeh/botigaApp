@@ -47,30 +47,22 @@ class HomeScreen extends StatelessWidget {
                 },
               );
             } else {
-              return ListView.builder(
+              return ListView(
                 padding: EdgeInsets.zero,
-                itemCount: provider.sellerList.length + 3,
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return appBar(context, provider);
-                  } else if (index <= provider.sellerList.length) {
-                    return _sellersTile(
-                      context,
-                      provider.sellerList[index - 1],
-                    );
-                  } else if (index == provider.sellerList.length + 1) {
-                    return Container(
-                      color: AppTheme.backgroundColor,
-                      padding: const EdgeInsets.only(top: 24.0),
-                      child: InviteTile(),
-                    );
-                  } else {
-                    return BrandingTile(
-                      'Thriving communities, empowering people',
-                      'Made by awesome team of Botiga',
-                    );
-                  }
-                },
+                children: [
+                  appBar(context, provider),
+                  _availableSellers(context, provider),
+                  _notAvailableSellers(context, provider),
+                  Container(
+                    color: AppTheme.backgroundColor,
+                    padding: const EdgeInsets.only(top: 24.0),
+                    child: InviteTile(),
+                  ),
+                  BrandingTile(
+                    'Thriving communities, empowering people',
+                    'Made by awesome team of Botiga',
+                  ),
+                ],
               );
             }
           },
@@ -112,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                   left: 6.0,
                 ),
                 child: Text(
-                  '${sellersProvider.sellerList.length} merchants delivering',
+                  '${sellersProvider.availableSellers} merchants delivering',
                   style: AppTheme.textStyle.w700
                       .size(13.0)
                       .lineHeight(1.5)
@@ -171,7 +163,60 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _sellersTile(BuildContext context, SellerModel seller) {
+  Widget _availableSellers(BuildContext context, SellersProvider provider) {
+    return !provider.hasAvailableSellers
+        ? Container()
+        : Container(
+            padding: const EdgeInsets.only(bottom: 48.0),
+            color: AppTheme.backgroundColor,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ...List.generate(
+                  provider.availableSellers,
+                  (index) => _sellersTile(
+                    context,
+                    provider.sellerList[index],
+                    AppTheme.backgroundColor,
+                  ),
+                )
+              ],
+            ),
+          );
+  }
+
+  Widget _notAvailableSellers(BuildContext context, SellersProvider provider) {
+    return !provider.hasNotAvailableSellers
+        ? Container()
+        : Container(
+            padding: const EdgeInsets.only(top: 48.0, bottom: 65.0),
+            color: AppTheme.color05,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: Text(
+                    'Not accepting orders',
+                    style: AppTheme.textStyle.w700.color100
+                        .size(20.0)
+                        .lineHeight(1.2),
+                  ),
+                ),
+                ...List.generate(
+                  provider.notAvailableSellers,
+                  (index) => _sellersTile(
+                    context,
+                    provider.sellerList[provider.availableSellers + index],
+                    AppTheme.color05,
+                  ),
+                )
+              ],
+            ),
+          );
+  }
+
+  Widget _sellersTile(BuildContext context, SellerModel seller, Color color) {
     return OpenContainer(
       closedElevation: 0.0,
       transitionDuration: Duration(milliseconds: 500),
@@ -181,7 +226,7 @@ class HomeScreen extends StatelessWidget {
             left: 20,
             top: 24,
           ),
-          color: AppTheme.backgroundColor,
+          color: color,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,

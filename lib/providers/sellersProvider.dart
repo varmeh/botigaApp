@@ -6,12 +6,18 @@ import '../util/index.dart' show Http;
 
 class SellersProvider with ChangeNotifier {
   List<SellerModel> _sellerList = [];
+  int availableSellers = 0;
+
+  int get notAvailableSellers => _sellerList.length - availableSellers;
+  bool get hasNotAvailableSellers => notAvailableSellers > 0;
+  bool get hasAvailableSellers => availableSellers > 0;
 
   UnmodifiableListView<SellerModel> get sellerList =>
       UnmodifiableListView(_sellerList);
 
   void empty() {
     _sellerList.clear();
+    availableSellers = 0;
   }
 
   Future<void> getSellers(String apartmentId) async {
@@ -19,9 +25,13 @@ class SellersProvider with ChangeNotifier {
       return;
     } else {
       final json = await Http.get('/api/user/sellers/$apartmentId');
-      final _sellerIterable = json.map(
-        (item) => SellerModel.fromJson(item),
-      );
+      final _sellerIterable = json.map((item) {
+        final seller = SellerModel.fromJson(item);
+        if (seller.live) {
+          availableSellers++;
+        }
+        return seller;
+      });
 
       // Iterable returned above is of type of dynamic
       // Below method is used to convert supertype list to subtype list
