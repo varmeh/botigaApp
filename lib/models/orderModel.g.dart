@@ -35,6 +35,8 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) {
     refund: json['refund'] == null
         ? null
         : RefundModel.fromJson(json['refund'] as Map<String, dynamic>),
+    house: json['house'] as String,
+    apartment: json['apartment'] as String,
   );
 }
 
@@ -51,6 +53,8 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'products': instance.products,
       'payment': instance.payment,
       'refund': instance.refund,
+      'house': instance.house,
+      'apartment': instance.apartment,
     };
 
 OrderSellerModel _$OrderSellerModelFromJson(Map<String, dynamic> json) {

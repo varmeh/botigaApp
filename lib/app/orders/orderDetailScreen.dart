@@ -53,6 +53,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               children: [
                 _sellerInfo(),
                 divider,
+                _deliveryAddress(),
+                divider,
                 OrderStatusWidget(
                   order: order,
                   stateLoading: (value) {
@@ -219,9 +221,47 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     );
   }
 
+  Widget _deliveryAddress() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.asset(
+            'assets/images/homeOutline.png',
+            width: 24.0,
+            height: 24.0,
+          ),
+          SizedBox(width: 24),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Deliver To',
+                  style: AppTheme.textStyle.w600.color100
+                      .size(15.0)
+                      .lineHeight(1.3),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  '${order.house}, ${order.apartment}',
+                  style: AppTheme.textStyle.w500.color50
+                      .size(13.0)
+                      .lineHeight(1.5),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   Widget _itemizedBill() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
       child: Column(
         children: [
           ...order.products.map((product) => _productDetails(product)),

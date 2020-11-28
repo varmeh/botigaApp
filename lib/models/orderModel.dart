@@ -20,6 +20,8 @@ class OrderModel {
   final List<OrderProductModel> products;
   final PaymentModel payment;
   final RefundModel refund;
+  final String house;
+  final String apartment;
 
   OrderModel({
     @required this.id,
@@ -33,6 +35,8 @@ class OrderModel {
     @required this.products,
     this.payment,
     this.refund,
+    @required this.house,
+    @required this.apartment,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
