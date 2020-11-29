@@ -187,11 +187,12 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _notAvailableSellers(BuildContext context, SellersProvider provider) {
-    final color = AppTheme.backgroundColor;
+    final color = Color(0xfff7f7f7);
     return !provider.hasNotAvailableSellers
         ? Container()
         : Container(
             padding: const EdgeInsets.only(top: 48.0, bottom: 65.0),
+            margin: const EdgeInsets.only(top: 65),
             color: color,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
