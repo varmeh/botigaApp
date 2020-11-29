@@ -4,13 +4,18 @@ import 'package:animations/animations.dart';
 
 import '../../util/index.dart' show Http;
 import '../../widgets/index.dart'
-    show WhatsappIconButton, CallIconButton, Toast, PassiveButton, ActiveButton;
+    show
+        WhatsappIconButton,
+        CallIconButton,
+        Toast,
+        PassiveButton,
+        ActiveButton,
+        PolicyWebiewScreen;
 import '../../providers/index.dart' show UserProvider, CartProvider;
 import '../../theme/index.dart';
 import '../auth/index.dart' show LoginScreen;
 import '../location/index.dart' show ManageAddressesScreen;
 import 'profileUpdateScreen.dart';
-import 'policyWebviewScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key key}) : super(key: key);

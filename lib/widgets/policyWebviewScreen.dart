@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../widgets/index.dart' show BotigaAppBar;
-import '../../theme/index.dart';
+import 'index.dart' show BotigaAppBar;
+import '../theme/index.dart';
 
 class PolicyWebiewScreen extends StatefulWidget {
   final String url;
