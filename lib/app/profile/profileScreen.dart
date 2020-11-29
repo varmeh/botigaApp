@@ -275,12 +275,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           divider,
           _policy(
             'Privacy Policy',
-            'https://s3.ap-south-1.amazonaws.com/products.image.prod/termsAndConditions.pdf',
+            'https://s3.ap-south-1.amazonaws.com/products.image.prod/privacyPolicy.html',
           ),
           divider,
           _policy(
             'Terms & Conditions',
-            'https://s3.ap-south-1.amazonaws.com/products.image.prod/botigaPrivacyPolicy.pdf',
+            'https://s3.ap-south-1.amazonaws.com/products.image.prod/termsAndConditions.html',
           ),
           SizedBox(height: 8),
         ],
@@ -289,12 +289,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _policy(String name, String url) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24.0),
-      child: GestureDetector(
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => PolicyWebiewScreen(url)),
-        ),
+    return GestureDetector(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => PolicyWebiewScreen(url)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 24.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
