@@ -52,12 +52,12 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   appBar(context, provider),
                   _availableSellers(context, provider),
-                  _notAvailableSellers(context, provider),
                   Container(
                     color: AppTheme.backgroundColor,
                     padding: const EdgeInsets.only(top: 24.0),
                     child: InviteTile(),
                   ),
+                  _notAvailableSellers(context, provider),
                   BrandingTile(
                     'Thriving communities, empowering people',
                     'Made by awesome team of Botiga',
@@ -187,7 +187,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _notAvailableSellers(BuildContext context, SellersProvider provider) {
-    final color = AppTheme.color05;
+    final color = AppTheme.backgroundColor;
     return !provider.hasNotAvailableSellers
         ? Container()
         : Container(
