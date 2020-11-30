@@ -58,6 +58,7 @@ class EditHouseDetailModal {
           Form(
             key: _aptFormKey,
             child: BotigaTextFieldForm(
+              initialValue: address.house,
               focusNode: null,
               labelText: 'Flat No / House No',
               onSave: (value) {
