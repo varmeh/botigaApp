@@ -105,7 +105,6 @@ class InviteTile extends StatelessWidget {
           ),
         ),
         Container(
-          height: 150,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/images/coupan.png"),
