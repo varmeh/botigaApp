@@ -56,6 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _logout(UserProvider provider) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () async {
         try {
           await provider.logout();

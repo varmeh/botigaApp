@@ -56,6 +56,7 @@ class SavedAddressesSelectionModal {
                             .lineHeight(1.25),
                       ),
                       GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () => Navigator.pushNamed(
                             context, AddAddressScreen.route),
                         child: Row(
@@ -92,6 +93,7 @@ class SavedAddressesSelectionModal {
 
   Widget _addressTile(BuildContext context, AddressModel address) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         AddressUtil.setAddress(context, address);
         Navigator.of(context).pushAndRemoveUntil(

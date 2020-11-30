@@ -31,6 +31,7 @@ class OpenContainerBottomModal extends StatelessWidget {
           transitionDuration: Duration(milliseconds: 500),
           closedBuilder: (context, openContainer) {
             return GestureDetector(
+              behavior: HitTestBehavior.opaque,
               onTap: openContainer,
               child: this.child,
             );

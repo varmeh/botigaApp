@@ -114,6 +114,7 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget _openLoginModal() {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () => LoginModal().show(context),
       child: Container(
         height: 56,
@@ -140,6 +141,7 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget _addNewAddressModal() {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () async {
         setState(() => _isLoading = true);
         try {
@@ -187,6 +189,7 @@ class _CartScreenState extends State<CartScreen> {
       elevation: 3.0,
       shadowColor: Colors.transparent,
       child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: () async {
           setState(() => _isLoading = true);
           try {

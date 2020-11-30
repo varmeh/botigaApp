@@ -83,6 +83,7 @@ class OnboardingScreen extends StatelessWidget {
                 ),
                 SizedBox(width: 4),
                 GestureDetector(
+                  behavior: HitTestBehavior.opaque,
                   onTap: () {
                     Navigator.pushNamed(context, LoginScreen.route);
                   },

@@ -78,6 +78,7 @@ class _SearchApartmentScreenState extends State<SearchApartmentScreen> {
     final apartment = _apartments[index];
 
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         widget.onSelection(apartment);
       },

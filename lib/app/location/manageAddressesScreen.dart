@@ -81,6 +81,7 @@ class _ManageAddressesScreenState extends State<ManageAddressesScreen> {
     return Row(
       children: [
         GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: () => EditHouseDetailModal().show(context, address),
           child: Text(
             'Edit',
@@ -89,6 +90,7 @@ class _ManageAddressesScreenState extends State<ManageAddressesScreen> {
         ),
         SizedBox(width: 24.0),
         GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: () => _deleteAddress(address.id),
           child: Text(
             'Delete',

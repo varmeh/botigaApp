@@ -48,6 +48,7 @@ class IncrementButton extends StatelessWidget {
   Widget _iconButton(IconData icon, Color color, Function onTap) {
     return GestureDetector(
       onTap: onTap,
+      behavior: HitTestBehavior.opaque,
       child: Container(
         width: 28.0,
         child: Icon(

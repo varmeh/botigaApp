@@ -34,6 +34,7 @@ class Background extends StatelessWidget {
                 children: [
                   backNavigation
                       ? GestureDetector(
+                          behavior: HitTestBehavior.opaque,
                           onTap: () {
                             Navigator.of(context).pop();
                           },

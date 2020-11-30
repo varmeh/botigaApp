@@ -121,6 +121,7 @@ class HomeScreen extends StatelessWidget {
   Widget _selectApartment(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         if (userProvider.isLoggedIn) {
           SavedAddressesSelectionModal().show(context);

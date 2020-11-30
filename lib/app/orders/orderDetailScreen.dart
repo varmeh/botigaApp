@@ -74,6 +74,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   Widget _cancelButton(BuildContext context) {
     return order.isOpen || order.isDelayed
         ? GestureDetector(
+            behavior: HitTestBehavior.opaque,
             onTap: () {
               showDialog(
                 context: context,

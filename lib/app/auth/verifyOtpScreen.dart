@@ -104,9 +104,8 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
             style: AppTheme.textStyle.w500.color50.size(13).lineHeight(1.5),
           )
         : GestureDetector(
-            onTap: () {
-              _getOtp();
-            },
+            behavior: HitTestBehavior.opaque,
+            onTap: () => _getOtp(),
             child: Text(
               'Resend OTP',
               style: AppTheme.textStyle.w500
