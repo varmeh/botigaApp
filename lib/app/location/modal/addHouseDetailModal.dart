@@ -79,10 +79,11 @@ class AddHouseDetailModal {
 
   void _addAddress(
       BuildContext context, ApartmentModel apartment, bool clearCart) async {
-    FocusScope.of(context).unfocus();
-    _bottomModal.animation(true);
     if (_aptFormKey.currentState.validate()) {
       _aptFormKey.currentState.save();
+
+      FocusScope.of(context).unfocus();
+      _bottomModal.animation(true);
       try {
         await AddressUtil.addAddress(
           context: context,

@@ -19,7 +19,7 @@ class BotigaBottomModal {
   });
 
   bool _isLoading = false;
-  Function(bool) animation;
+  Function(bool) _animation;
 
   void show(BuildContext context) {
     showModalBottomSheet(
@@ -30,7 +30,7 @@ class BotigaBottomModal {
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setState) {
-            animation = (value) => setState(() => _isLoading = value);
+            _animation = (value) => setState(() => _isLoading = value);
             return LoaderOverlay(
               isLoading: _isLoading,
               child: Container(
@@ -68,4 +68,7 @@ class BotigaBottomModal {
       },
     );
   }
+
+  // This method used to control animation
+  void animation(bool value) => _animation != null ? _animation(value) : null;
 }

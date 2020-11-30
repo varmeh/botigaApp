@@ -79,10 +79,11 @@ class EditHouseDetailModal {
   }
 
   void _updateAddress(BuildContext context, AddressModel address) async {
-    FocusScope.of(context).unfocus();
-    _bottomModal.animation(true);
     if (_aptFormKey.currentState.validate()) {
       _aptFormKey.currentState.save();
+
+      FocusScope.of(context).unfocus();
+      _bottomModal.animation(true);
       try {
         await AddressUtil.updateAddress(
           context: context,
