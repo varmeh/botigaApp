@@ -34,7 +34,7 @@ class InviteTile extends StatelessWidget {
                     ),
                     SizedBox(height: 8.0),
                     Text(
-                      'Invite merchants to botiga by sharing the following link with them.',
+                      'Invite merchants to Botiga by sharing the following link with them.',
                       style: AppTheme.textStyle.w600
                           .size(13.0)
                           .lineHeight(1.5)

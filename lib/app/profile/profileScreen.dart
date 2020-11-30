@@ -176,6 +176,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return !provider.isLoggedIn
         ? Container()
         : GestureDetector(
+            behavior: HitTestBehavior.opaque,
             onTap: () => Navigator.pushNamed(
               context,
               ManageAddressesScreen.route,
@@ -295,6 +296,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _policy(String name, String url) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => PolicyWebiewScreen(url)),
       ),
