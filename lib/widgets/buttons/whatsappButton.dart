@@ -26,8 +26,8 @@ class WhatsappButton extends StatelessWidget {
       width: width,
       icon: Image.asset(
         'assets/images/whatsapp.png',
-        width: 18,
-        height: 18,
+        width: 20,
+        height: 20,
       ),
       onPressed: () => whatsapp(context, number, message),
       title: title,
@@ -49,8 +49,8 @@ class WhatsappIconButton extends StatelessWidget {
     return BotigaIconButton(
       child: Image.asset(
         'assets/images/whatsapp.png',
-        width: 18,
-        height: 18,
+        width: 20,
+        height: 20,
       ),
       onPressed: () => whatsapp(context, number, message),
     );

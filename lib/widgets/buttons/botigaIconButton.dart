@@ -13,15 +13,18 @@ class BotigaIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      height: 42.0,
-      minWidth: 42.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
+    return Container(
+      height: 42,
+      width: 42,
+      child: FlatButton(
+        padding: const EdgeInsets.all(0.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: child,
+        color: AppTheme.dividerColor,
+        onPressed: onPressed,
       ),
-      child: child,
-      color: AppTheme.dividerColor,
-      onPressed: onPressed,
     );
   }
 }

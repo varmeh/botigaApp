@@ -51,12 +51,15 @@ class CategoryList extends StatelessWidget {
               ),
               children: [
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Divider(
-                      color: AppTheme.color100,
-                      thickness: 1,
-                      indent: 0,
-                      endIndent: 300,
+                    Container(
+                      padding: const EdgeInsets.all(0.0),
+                      width: 40.0,
+                      child: Divider(
+                        color: AppTheme.color100,
+                        thickness: 1,
+                      ),
                     ),
                     // List all the products
                     ...category.products.map((product) =>

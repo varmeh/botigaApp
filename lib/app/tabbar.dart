@@ -114,7 +114,6 @@ class _TabbarState extends State<Tabbar> with WidgetsBindingObserver {
         body: _selectedTab.elementAt(_selectedIndex),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: AppTheme.backgroundColor,
-          selectedIconTheme: IconThemeData(size: 28),
           selectedItemColor: AppTheme.primaryColor,
           selectedLabelStyle: AppTheme.textStyle.w500.size(12),
           unselectedLabelStyle: AppTheme.textStyle.w500.size(13),

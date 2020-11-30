@@ -27,6 +27,7 @@ class CartBottomModal extends StatelessWidget {
                       Icon(
                         BotigaIcons.basket,
                         color: AppTheme.backgroundColor,
+                        size: 20,
                       ),
                       SizedBox(width: 16.0),
                       Text(

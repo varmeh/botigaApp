@@ -19,9 +19,7 @@ class ContactWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(child: CallButton(number: phone)),
-        SizedBox(
-          width: 13,
-        ),
+        SizedBox(width: 20),
         Expanded(
           child: WhatsappButton(
             number: whatsapp,

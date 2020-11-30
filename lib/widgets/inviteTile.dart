@@ -10,7 +10,7 @@ class InviteTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(20.0, 24.0, 0, 24.0),
+      padding: EdgeInsets.only(left: 20, top: 24.0, bottom: 24.0),
       color: Color(0xfffcf4ed),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +50,6 @@ class InviteTile extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 24.0),
           FlatButton(
             onPressed: () {
               BotigaBottomModal(child: share(context), color: Color(0xffF3F3F3))

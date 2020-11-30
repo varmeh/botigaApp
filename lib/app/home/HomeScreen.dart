@@ -169,7 +169,6 @@ class HomeScreen extends StatelessWidget {
     return !provider.hasAvailableSellers
         ? Container()
         : Container(
-            padding: const EdgeInsets.only(bottom: 48.0),
             color: color,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,7 +192,7 @@ class HomeScreen extends StatelessWidget {
         ? Container()
         : Container(
             padding: const EdgeInsets.only(top: 48.0, bottom: 65.0),
-            margin: const EdgeInsets.only(top: 65),
+            margin: const EdgeInsets.only(top: 16),
             color: color,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -261,12 +260,15 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       Text(
                         seller.brandName,
-                        style: AppTheme.textStyle.color100.w600.size(15),
+                        style: AppTheme.textStyle.color100.w600
+                            .size(15)
+                            .lineHeight(1.3),
                       ),
-                      SizedBox(height: 4.0),
                       Text(
                         seller.businessCategory,
-                        style: AppTheme.textStyle.color50.w500.size(13),
+                        style: AppTheme.textStyle.color50.w500
+                            .size(13)
+                            .lineHeight(1.5),
                       ),
                     ],
                   ),

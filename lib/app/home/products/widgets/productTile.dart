@@ -44,8 +44,7 @@ class _ProductTileState extends State<ProductTile> {
                   widget.product.name,
                   style: AppTheme.textStyle.w500.color100
                       .lineHeight(1.35)
-                      .size(15)
-                      .letterSpace(1),
+                      .size(15),
                 ),
                 Text(
                   widget.product.size,

@@ -38,8 +38,8 @@ class SavedAddressesSelectionModal {
           padding: const EdgeInsets.only(
             left: 22.0,
             right: 22.0,
-            top: 42.0,
-            bottom: 32.0,
+            top: 32.0,
+            bottom: 16.0,
           ),
           child: Stack(
             alignment: Alignment.topCenter,
@@ -112,7 +112,7 @@ class SavedAddressesSelectionModal {
             '${address.house}, ${address.apartment}',
             style: AppTheme.textStyle.w600.color100.size(15.0).lineHeight(1.3),
           ),
-          SizedBox(height: 8.0),
+          SizedBox(height: 4.0),
           Text(
             '${address.area}, ${address.city}, ${address.state} - ${address.pincode}',
             style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),

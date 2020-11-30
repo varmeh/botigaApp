@@ -12,7 +12,7 @@ class SellerBrandContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(20, 0, 32, 24),
+      padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 24),
       child: Column(
         children: [
           _brandInfo(context),

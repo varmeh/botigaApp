@@ -26,6 +26,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final sizedBox24 = SizedBox(height: 24.0);
+  final sizedBox16 = SizedBox(height: 16.0);
   final sizedBox8 = SizedBox(height: 8.0);
 
   final divider = Divider(
@@ -103,12 +104,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 sizedBox24,
                 _infoTile('assets/images/smile.png',
                     '${provider.firstName} ${provider.lastName}'),
-                sizedBox8,
+                sizedBox16,
                 _infoTile('assets/images/callOutline.png', provider.phone),
-                sizedBox8,
+                sizedBox16,
                 _infoTile('assets/images/email.png',
                     provider.email ?? 'Add your email'),
-                sizedBox8,
+                sizedBox16,
                 _infoTile('assets/images/whatsappOutline.png',
                     provider.whatsapp ?? 'Add your whatsapp number'),
                 sizedBox24,
@@ -211,7 +212,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Icon(
                         Icons.arrow_forward_ios,
                         size: 16,
-                        color: AppTheme.color100,
+                        color: AppTheme.color50,
                       )
                     ],
                   ),
@@ -243,12 +244,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               )
             ],
           ),
-          sizedBox24,
+          sizedBox8,
           Text(
             'Any queries or concerns. We are always available to help you out.',
             style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
           ),
-          sizedBox24,
+          sizedBox16,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -314,7 +315,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Icon(
               Icons.arrow_forward_ios,
               size: 16,
-              color: AppTheme.color100,
+              color: AppTheme.color50,
             )
           ],
         ),

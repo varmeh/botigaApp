@@ -67,6 +67,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           } else if (index == 1) {
                             return Divider(
                               thickness: 4.0,
+                              color: AppTheme.dividerColor,
                             );
                           } else if (index == 2) {
                             return _categoryList(context, seller);
