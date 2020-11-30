@@ -28,6 +28,7 @@ class BotigaAppBar extends StatelessWidget implements PreferredSizeWidget {
         titleSpacing: 0.0,
         automaticallyImplyLeading: hasBackButton,
         leading: GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: () {
             Navigator.pop(context);
           },
