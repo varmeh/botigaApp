@@ -33,6 +33,14 @@ rm -Rf ios/Flutter/Flutter.podspec
 
 -   [GeneratedPluginRegistrant.m Module not found](https://github.com/flutter/flutter/issues/43986)
 
+## App Version Number
+
+-   Flutter app version follows format `<version>+<buildNumber>` e.g. 0.2.1+2
+-   `version` update mandatory for apple appstore
+-   `buildNumber` update mandatory for playstore. Increment by 1 for every release
+
+-   In short, change both version & build number before pushing to appstore & playstore
+
 ## Android App Distribution
 
 ### For Testing
