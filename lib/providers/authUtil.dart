@@ -5,6 +5,7 @@ import '../models/index.dart' show AddressModel;
 import '../util/index.dart' show StringExtensions, KeyStore;
 import 'userProvider.dart';
 import 'cartProvider.dart';
+import 'sellersProvider.dart';
 
 class AuthUtil {
   static Future<void> verifyOtp({
@@ -31,22 +32,29 @@ class AuthUtil {
   static void selectUserAddress(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
     final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final sellerProvider = Provider.of<SellersProvider>(context, listen: false);
     if (cartProvider.isEmpty) {
       final addresses = userProvider.addresses;
       final lastUsedAddressId = userProvider.lastUsedAddressId;
-      if (addresses.isNotEmpty && lastUsedAddressId.isNotNullAndEmpty) {
-        for (AddressModel address in addresses) {
-          if (lastUsedAddressId == address.id) {
-            userProvider.selectedAddress = address;
-            break;
+      if (addresses.isNotEmpty) {
+        if (lastUsedAddressId.isNotNullAndEmpty) {
+          // Set selected address to lastSelectedAddress
+          for (AddressModel address in addresses) {
+            if (lastUsedAddressId == address.id) {
+              userProvider.selectedAddress = address;
+              break;
+            }
           }
         }
+
+        // In case lastUsedAddressId is not available or not added
+        if (userProvider.selectedAddress == null) {
+          userProvider.selectedAddress = addresses.first;
+        }
+
+        sellerProvider.empty(); //reset sellers list to selected apartment
+        cartProvider.loadCartFromServer(); // Now load cart from server
       }
-      // In case lastUsedAddressId is not available or not added
-      if (userProvider.selectedAddress == null) {
-        userProvider.selectedAddress = addresses[0];
-      }
-      cartProvider.loadCartFromServer(); // Now load cart from server
     } else {
       // Cart has products
       // ApartmentId & ApartmentName are saved in Keystore when not logged in.
