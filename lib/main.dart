@@ -47,6 +47,7 @@ Future<void> main() async {
 
   // Pass all uncaught errors to Crashlytics.
   if (kReleaseMode) {
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
     // Enable crashlytics only in release mode
     Function originalOnError = FlutterError.onError;
     FlutterError.onError = (FlutterErrorDetails errorDetails) async {
