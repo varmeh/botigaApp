@@ -282,12 +282,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SizedBox(height: 32),
           divider,
           _policy(
+            'Cancellation Policy',
+            'https://s3.ap-south-1.amazonaws.com/products.image.prod/cancellationPolicy.html',
+          ),
+          divider,
+          _policy(
             'Privacy Policy',
             'https://s3.ap-south-1.amazonaws.com/products.image.prod/privacyPolicy.html',
           ),
           divider,
           _policy(
             'Terms & Conditions',
+            'https://s3.ap-south-1.amazonaws.com/products.image.prod/termsAndConditions.html',
+          ),
+          divider,
+          _policy(
+            'Frequently Asked Questions',
             'https://s3.ap-south-1.amazonaws.com/products.image.prod/termsAndConditions.html',
           ),
           SizedBox(height: 8),
