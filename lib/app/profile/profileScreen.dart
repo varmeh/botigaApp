@@ -298,7 +298,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           divider,
           _policy(
             'Frequently Asked Questions',
-            'https://s3.ap-south-1.amazonaws.com/products.image.prod/termsAndConditions.html',
+            'https://s3.ap-south-1.amazonaws.com/products.image.prod/faqCustomers.html',
           ),
           SizedBox(height: 8),
         ],
