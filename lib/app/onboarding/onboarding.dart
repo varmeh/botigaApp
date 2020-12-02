@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../widgets/index.dart' show ActiveButton;
 import '../../theme/index.dart';
-
+import '../../widgets/index.dart' show ActiveButton;
 import '../auth/index.dart' show LoginScreen;
 import '../location/index.dart' show SelectApartmenWhenNoUserLoggedInScreen;
 

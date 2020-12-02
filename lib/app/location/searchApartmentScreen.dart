@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../models/apartmentModel.dart';
-import '../../util/index.dart' show Http;
 import '../../theme/index.dart';
+import '../../util/index.dart' show Http;
 import '../../widgets/index.dart'
     show BotigaAppBar, LoaderOverlay, SearchBar, Toast;
 

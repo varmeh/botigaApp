@@ -1,13 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart' show kReleaseMode;
-
-import 'package:provider/provider.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart' show kReleaseMode;
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
+import 'app/auth/index.dart';
+import 'app/home/products/productListScreen.dart';
+import 'app/location/index.dart';
+import 'app/onboarding/index.dart';
+import 'app/profile/index.dart';
+import 'app/tabbar.dart';
 import 'providers/index.dart'
     show
         SellersProvider,
@@ -16,14 +21,6 @@ import 'providers/index.dart'
         OrdersProvider,
         UserProvider;
 import 'util/index.dart' show Flavor, Http, KeyStore;
-
-import 'app/tabbar.dart';
-import 'app/auth/index.dart';
-import 'app/location/index.dart';
-import 'app/profile/index.dart';
-import 'app/onboarding/index.dart';
-
-import 'app/home/products/productListScreen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

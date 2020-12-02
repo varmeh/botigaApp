@@ -1,9 +1,10 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../providers/userProvider.dart';
 import '../../../models/index.dart' show SellerModel;
+import '../../../providers/userProvider.dart';
 import '../../../theme/index.dart';
 import '../../../widgets/index.dart' show CircleNetworkAvatar, DottedTimeline;
 

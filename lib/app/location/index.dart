@@ -1,5 +1,5 @@
-export 'searchApartmentScreen.dart';
 export 'addAddressScreen.dart';
-export 'selectApartmenWhenNoUserLoggedInScreen.dart';
 export 'manageAddressesScreen.dart';
 export 'modal/index.dart';
+export 'searchApartmentScreen.dart';
+export 'selectApartmenWhenNoUserLoggedInScreen.dart';

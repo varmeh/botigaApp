@@ -1,8 +1,8 @@
-import 'package:botiga/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/index.dart' show CartProvider;
+import '../../theme/index.dart';
 import '../../widgets/openContainerBottomModal.dart';
 import 'cartScreen.dart';
 

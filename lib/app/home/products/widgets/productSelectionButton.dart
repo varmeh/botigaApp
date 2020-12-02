@@ -1,10 +1,10 @@
-import 'package:botiga/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../models/index.dart' show ProductModel, SellerModel;
-import '../../../../widgets/index.dart' show IncrementButton;
 import '../../../../providers/index.dart' show CartProvider;
+import '../../../../theme/index.dart';
+import '../../../../widgets/index.dart' show IncrementButton;
 
 class ProductSelectionButton extends StatefulWidget {
   final ProductModel product;

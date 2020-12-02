@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './buttons/index.dart' show WhatsappButton, CallButton;
+import 'buttons/index.dart' show WhatsappButton, CallButton;
 
 class ContactWidget extends StatelessWidget {
   final String phone;

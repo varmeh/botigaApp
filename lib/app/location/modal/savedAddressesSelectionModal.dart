@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../providers/index.dart' show UserProvider, AddressUtil;
 import '../../../models/index.dart' show AddressModel;
+import '../../../providers/index.dart' show UserProvider, AddressUtil;
 import '../../../theme/index.dart';
-import '../addAddressScreen.dart';
 import '../../tabbar.dart';
+import '../addAddressScreen.dart';
 
 class SavedAddressesSelectionModal {
   final sizedBox16 = SizedBox(height: 16);

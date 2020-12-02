@@ -1,7 +1,9 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:animations/animations.dart';
 
+import '../../providers/index.dart' show UserProvider, CartProvider;
+import '../../theme/index.dart';
 import '../../util/index.dart' show Http;
 import '../../widgets/index.dart'
     show
@@ -11,8 +13,6 @@ import '../../widgets/index.dart'
         PassiveButton,
         ActiveButton,
         PolicyWebiewScreen;
-import '../../providers/index.dart' show UserProvider, CartProvider;
-import '../../theme/index.dart';
 import '../auth/index.dart' show LoginScreen;
 import '../location/index.dart' show ManageAddressesScreen;
 import 'profileUpdateScreen.dart';

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:flutter/material.dart';
 
 import '../theme/index.dart';
 

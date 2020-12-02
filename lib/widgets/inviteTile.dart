@@ -1,9 +1,9 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
-import 'package:clipboard/clipboard.dart';
 
-import '../widgets/index.dart';
 import '../theme/index.dart';
+import '../widgets/index.dart';
 import 'toast.dart';
 
 class InviteTile extends StatelessWidget {

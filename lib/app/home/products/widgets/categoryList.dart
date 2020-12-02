@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../theme/index.dart';
 import '../../../../models/index.dart' show CategoryModel, SellerModel;
-import './productTile.dart';
+import '../../../../theme/index.dart';
+import 'productTile.dart';
 
 class CategoryList extends StatelessWidget {
   final CategoryModel category;

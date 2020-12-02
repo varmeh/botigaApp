@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../cart/paymentScreen.dart';
+import '../../models/index.dart' show OrderModel;
 import '../../providers/index.dart' show OrdersProvider;
 import '../../theme/index.dart';
 import '../../util/index.dart' show DateExtension, Http;
-import '../../models/index.dart' show OrderModel;
 import '../../widgets/index.dart'
     show
         StatusImageWidget,
@@ -14,6 +13,7 @@ import '../../widgets/index.dart'
         BotigaBottomModal,
         WhatsappButton,
         Toast;
+import '../cart/paymentScreen.dart';
 
 class OrderStatusWidget extends StatelessWidget {
   final OrderModel order;

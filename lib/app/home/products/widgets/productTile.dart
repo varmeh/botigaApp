@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 
+import '../../../../models/index.dart' show SellerModel, ProductModel;
 import '../../../../theme/index.dart';
 import '../../../../util/index.dart' show StringExtensions;
-import '../../../../models/index.dart' show SellerModel, ProductModel;
 import 'productSelectionButton.dart';
 
 class ProductTile extends StatefulWidget {

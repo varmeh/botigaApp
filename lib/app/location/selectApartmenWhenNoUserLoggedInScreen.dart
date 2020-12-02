@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/index.dart' show SellersProvider;
 import '../../util/index.dart' show KeyStore;
 import '../../widgets/index.dart' show Toast;
-import '../../providers/index.dart' show SellersProvider;
-
 import '../tabbar.dart';
 import 'searchApartmentScreen.dart';
 

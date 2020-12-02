@@ -1,15 +1,14 @@
-import 'package:botiga/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'widgets/sellerBrandContainer.dart';
-import 'widgets/categoryList.dart';
-
 import '../../../models/index.dart' show SellerModel;
 import '../../../providers/index.dart' show ProductsProvider;
+import '../../../theme/index.dart';
+import '../../../widgets/index.dart';
 import '../../../widgets/index.dart' show HttpServiceExceptionWidget;
 import '../../cart/cartBottomModal.dart';
-import '../../../theme/index.dart';
+import 'widgets/categoryList.dart';
+import 'widgets/sellerBrandContainer.dart';
 
 class ProductListScreen extends StatefulWidget {
   static String route = 'productsScreen';

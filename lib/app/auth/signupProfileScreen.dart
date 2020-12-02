@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +14,6 @@ import '../../widgets/index.dart'
         BotigaTextFieldForm,
         ActiveButton,
         PolicyWebiewScreen;
-
 import '../location/index.dart' show AddAddressScreen;
 import '../tabbar.dart';
 

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'orderStatusWidget.dart';
-
-import '../../providers/ordersProvider.dart';
-import '../../util/index.dart' show Http, DateExtension;
-import '../../theme/index.dart';
 import '../../models/orderModel.dart';
+import '../../providers/ordersProvider.dart';
+import '../../theme/index.dart';
+import '../../util/index.dart' show Http, DateExtension;
 import '../../widgets/index.dart'
     show
         ContactWidget,
@@ -15,6 +13,7 @@ import '../../widgets/index.dart'
         Toast,
         WhatsappButton,
         BotigaBottomModal;
+import 'orderStatusWidget.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   static const route = 'orderDetails';

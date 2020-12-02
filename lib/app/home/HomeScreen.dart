@@ -1,13 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../location/index.dart'
-    show SelectApartmenWhenNoUserLoggedInScreen, SavedAddressesSelectionModal;
 import '../../models/sellerModel.dart';
 import '../../providers/index.dart' show SellersProvider, UserProvider;
-
+import '../../theme/index.dart';
 import '../../widgets/index.dart'
     show
         BrandingTile,
@@ -15,10 +13,10 @@ import '../../widgets/index.dart'
         Loader,
         HttpServiceExceptionWidget,
         CircleNetworkAvatar;
-import '../../theme/index.dart';
-import 'products/productListScreen.dart';
-
+import '../location/index.dart'
+    show SelectApartmenWhenNoUserLoggedInScreen, SavedAddressesSelectionModal;
 import '../tabbar.dart';
+import 'products/productListScreen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override

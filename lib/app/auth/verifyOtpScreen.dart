@@ -1,16 +1,16 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/index.dart' show UserProvider, CartProvider, AuthUtil;
-import '../../util/index.dart';
 import '../../theme/index.dart';
+import '../../util/index.dart';
 import '../../widgets/index.dart'
     show LoaderOverlay, PinTextField, ActiveButton, Toast;
 import '../shared/background.dart';
-
-import 'signupProfileScreen.dart';
 import '../tabbar.dart';
+import 'signupProfileScreen.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
   static final route = 'verifyOtp';

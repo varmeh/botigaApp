@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/index.dart' show AddressModel;
-import 'userProvider.dart';
-import 'sellersProvider.dart';
 import 'cartProvider.dart';
+import 'sellersProvider.dart';
+import 'userProvider.dart';
 
 class AddressUtil {
   static Future<void> setAddress(

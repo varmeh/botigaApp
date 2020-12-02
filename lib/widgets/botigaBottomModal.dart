@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'loaderOverlay.dart';
 import '../theme/index.dart';
+import 'loaderOverlay.dart';
 
 /*
  *  

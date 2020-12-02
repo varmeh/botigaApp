@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 
 import '../models/index.dart' show AddressModel;
 import '../util/index.dart' show StringExtensions, KeyStore;
-import 'userProvider.dart';
 import 'cartProvider.dart';
 import 'sellersProvider.dart';
+import 'userProvider.dart';
 
 class AuthUtil {
   static Future<void> verifyOtp({

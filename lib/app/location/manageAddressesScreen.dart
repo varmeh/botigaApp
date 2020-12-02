@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/index.dart' show UserProvider, AddressUtil;
 import '../../models/index.dart' show AddressModel;
-import '../../util/index.dart' show Http;
+import '../../providers/index.dart' show UserProvider, AddressUtil;
 import '../../theme/index.dart';
+import '../../util/index.dart' show Http;
 import '../../widgets/index.dart'
     show BotigaAppBar, LoaderOverlay, PassiveButton, Toast;
-
-import 'modal/editHouseDetailModal.dart';
 import 'addAddressScreen.dart';
+import 'modal/editHouseDetailModal.dart';
 
 class ManageAddressesScreen extends StatefulWidget {
   static final String route = 'manageAddressesScreen';

@@ -1,4 +1,4 @@
-import 'package:botiga/providers/index.dart';
+import '../../providers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animations/animations.dart';

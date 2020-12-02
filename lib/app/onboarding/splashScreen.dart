@@ -6,7 +6,6 @@ import '../../providers/index.dart' show CartProvider, AuthUtil;
 import '../../theme/index.dart';
 import '../../util/index.dart' show KeyStore;
 import '../tabbar.dart';
-
 import 'onboarding.dart';
 
 class SplashScreen extends StatefulWidget {

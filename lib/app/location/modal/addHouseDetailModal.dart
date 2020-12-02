@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../providers/index.dart' show AddressUtil;
 import '../../../models/apartmentModel.dart';
-import '../../../util/index.dart' show Http;
+import '../../../providers/index.dart' show AddressUtil;
 import '../../../theme/index.dart';
+import '../../../util/index.dart' show Http;
 import '../../../widgets/index.dart'
     show BotigaTextFieldForm, ActiveButton, BotigaBottomModal, Toast;
 import '../../tabbar.dart';

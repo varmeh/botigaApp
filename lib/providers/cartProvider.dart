@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../models/index.dart' show SellerModel, ProductModel;
 import '../providers/index.dart'
     show UserProvider, SellersProvider, ProductsProvider;
 import '../util/index.dart' show Http;
-import '../models/index.dart' show SellerModel, ProductModel;
 
 class CartProvider with ChangeNotifier {
   // Cart Data

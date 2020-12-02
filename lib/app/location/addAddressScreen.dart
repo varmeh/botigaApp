@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'searchApartmentScreen.dart';
 import 'modal/addHouseDetailModal.dart';
+import 'searchApartmentScreen.dart';
 
 class AddAddressScreen extends StatelessWidget {
   static final route = 'addAddress';

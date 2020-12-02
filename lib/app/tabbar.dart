@@ -1,19 +1,18 @@
 import 'dart:io';
 
+import 'package:badges/badges.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:provider/provider.dart';
-import 'package:badges/badges.dart';
-
-import 'home/HomeScreen.dart';
-import 'orders/ordersScreen.dart';
-import 'cart/cartScreen.dart';
-import 'profile/profileScreen.dart';
 
 import '../providers/index.dart' show CartProvider, UserProvider;
-import '../util/index.dart' show FlavorBanner, Http, KeyStore;
 import '../theme/index.dart';
+import '../util/index.dart' show FlavorBanner, Http, KeyStore;
+import 'cart/cartScreen.dart';
+import 'home/HomeScreen.dart';
+import 'orders/ordersScreen.dart';
+import 'profile/profileScreen.dart';
 
 class Tabbar extends StatefulWidget {
   static String route = 'tabbar';
