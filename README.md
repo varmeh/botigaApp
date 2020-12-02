@@ -1,4 +1,16 @@
-# Botiga
+- [Botiga App](#botiga-app)
+  - [Command to generate models using json_serializable](#command-to-generate-models-using-json_serializable)
+  - [Custom Icons](#custom-icons)
+  - [Issues with iOS build](#issues-with-ios-build)
+  - [App Version Number](#app-version-number)
+  - [Firebase App Distribution](#firebase-app-distribution)
+    - [Android](#android)
+    - [iOS](#ios)
+  - [App Distribution](#app-distribution)
+    - [On Play Store](#on-play-store)
+    - [On App Store](#on-app-store)
+
+# Botiga App
 
 Botiga eCommerce Platform hosts 2 mobile apps:
 
@@ -41,9 +53,14 @@ rm -Rf ios/Flutter/Flutter.podspec
 
 -   In short, change both version & build number before pushing to appstore & playstore
 
-## Android App Distribution
+## Firebase App Distribution
 
-### For Testing
+-   Firebase app distribution would be used for testing apps
+-   It should be done via `botiga-dev` project
+-   Select appropriate `app` in `firebase console` for testing & upload your version there
+-   Send the email to all testers & notify them
+
+### Android
 
 -   Create an apk version:
 
@@ -51,23 +68,9 @@ rm -Rf ios/Flutter/Flutter.podspec
 flutter build apk --flavor dev --release
 ```
 
--   Once ready, upload it to `botiga-dev` project, `BotigaDev` android app in`firebase console`
+-   Upload it
 
--   Select testers group & send a new email for testing
-
-### On Play Store
-
--   Create an **[obfuscated](https://flutter.dev/docs/deployment/obfuscate)** appbundle version for sharing with command:
-
-```
-flutter build appbundle --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaApp_0.1.0 --flavor prod --release
-```
-
-The reason to use appbundle has been detailed in [article](https://developer.android.com/guide/app-bundle?authuser=1).
-
-## Iphone App Distribution
-
-### For Testing - Firebase
+### iOS
 
 -   First, create an ios app version:
 
@@ -81,18 +84,31 @@ flutter build ios --flavor dev --release
 
 -   Use it to build an `Ad-hoc` distribution archieve. Once finished, `distribution archieve - ipa` will be exported at the path of your choice.
 
--   Upload the ipa to `botiga-dev` project, `iBotigaDev` android app in`firebase console`
+-   Upload the ipa
 
--   Select testers group & send a new email for testing
+## App Distribution
 
 ### On Play Store
 
 -   Create an **[obfuscated](https://flutter.dev/docs/deployment/obfuscate)** appbundle version for sharing with command:
 
 ```
-flutter build ios --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaAppIos_0.1.0 --flavor prod --release
+flutter build appbundle --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaApp_<version> --flavor prod --release
 ```
 
+-   `<version>` in command should match one in pubspec.yaml
+
+The reason to use appbundle has been detailed in [article](https://developer.android.com/guide/app-bundle?authuser=1).
+
+### On App Store
+
+-   Create an **[obfuscated](https://flutter.dev/docs/deployment/obfuscate)** appbundle version for sharing with command:
+
+```
+flutter build ios --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaAppIos_<version> --flavor prod --release
+```
+
+-   `<version>` in command should match one in pubspec.yaml
 -   Once app is built, archieve it as explaind [here](https://flutter.dev/docs/deployment/ios#create-a-build-archive)
 
 -   Once archieve is done, it will open distribution organizer
