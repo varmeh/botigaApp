@@ -34,5 +34,12 @@ class Flavor {
   String get bannerName => isProduction ? 'PROD' : 'DEV';
 
   String get baseUrl =>
-      isProduction ? 'https://dev.botiga.app' : 'https://dev.botiga.app';
+      isProduction ? 'https://prod.botiga.app' : 'https://dev.botiga.app';
+
+  String get paytmMid =>
+      isProduction ? 'BOTIGA19474156290102' : 'OJdkNI97902555723463';
+
+  String get paytmTransactionUrl => isProduction
+      ? 'https://securegw.paytm.in'
+      : 'https://securegw-stage.paytm.in';
 }

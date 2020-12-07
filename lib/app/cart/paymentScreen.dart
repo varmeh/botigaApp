@@ -5,7 +5,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../theme/index.dart';
-import '../../util/index.dart' show StringExtensions;
+import '../../util/index.dart' show StringExtensions, Flavor;
 import '../../widgets/index.dart' show LoaderOverlay;
 import '../../providers/index.dart' show OrdersProvider;
 
@@ -90,7 +90,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   // https://developer.paytm.com/docs/show-payment-page/?ref=payments
   String _showPaymentPage() {
-    const mid = 'OJdkNI97902555723463'; // TODO: update merchant id
+    final mid = Flavor.shared.paytmMid;
     return '''
 		<html>
 			<head>
@@ -100,7 +100,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 				<center>
 					<h1 ${Platform.isAndroid ? '' : 'style="font-size:500%"'}>Please do not refresh this page...</h1>
 				</center>
-				<form method="post" action="https://securegw-stage.paytm.in/theia/api/v1/showPaymentPage?mid=$mid&orderId=${widget.paymentId}" name="paytm">
+				<form method="post" action="${Flavor.shared.paytmTransactionUrl}/theia/api/v1/showPaymentPage?mid=$mid&orderId=${widget.paymentId}" name="paytm">
 					<table border="1">
 							<tbody>
 								<input type="hidden" name="mid" value="$mid">

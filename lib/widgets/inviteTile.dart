@@ -81,7 +81,7 @@ class InviteTile extends StatelessWidget {
     );
 
     const text =
-        'Hi, I am placing orders to all my merchants using Botiga. It takes only 3 mins to register and start selling.\nIt\'s absolutely free, try it out now. https://botiga.app/xcGha'; // TODO: update link
+        'Hi, I am placing orders to all my merchants using Botiga. It takes only 3 mins to register and start selling.\nIt\'s absolutely free, try it out now.'; // TODO: add merchant app link
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -95,7 +95,7 @@ class InviteTile extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              "SHARE WITH YOUR MERCHANTS",
+              'SHARE WITH YOUR MERCHANTS',
               style: AppTheme.textStyle.w700
                   .size(12)
                   .lineHeight(1.4)
@@ -106,7 +106,7 @@ class InviteTile extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/coupan.png"),
+              image: AssetImage('assets/images/coupan.png'),
               fit: BoxFit.fill,
             ),
           ),
