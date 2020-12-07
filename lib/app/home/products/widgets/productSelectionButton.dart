@@ -27,16 +27,17 @@ class _ProductSelectionButtonState extends State<ProductSelectionButton> {
         ? _AddButton(
             enabled: widget.product.available,
             onPressed: () {
-              provider.addProduct(widget.seller, widget.product);
-              setState(() => _value++);
+              if (provider.cartSeller != null &&
+                  provider.cartSeller != widget.seller) {
+                _showCartResetConfirmationDialog(provider);
+              } else {
+                _addProduct(provider);
+              }
             },
           )
         : IncrementButton(
             value: _value,
-            onIncrement: () {
-              provider.addProduct(widget.seller, widget.product);
-              setState(() => _value++);
-            },
+            onIncrement: () => _addProduct(provider),
             onDecrement: () {
               if (_value > 0) {
                 provider.removeProduct(widget.product);
@@ -44,6 +45,48 @@ class _ProductSelectionButtonState extends State<ProductSelectionButton> {
               }
             },
           );
+  }
+
+  void _addProduct(CartProvider provider) {
+    provider.addProduct(widget.seller, widget.product);
+    setState(() => _value++);
+  }
+
+  void _showCartResetConfirmationDialog(CartProvider provider) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          'Replace Cart',
+          style: AppTheme.textStyle.w500.color100,
+        ),
+        content: Text(
+          'Your cart contains items from ${provider.cartSeller.brandName}. Do you want to replace it?',
+          style: AppTheme.textStyle.w400.color100,
+        ),
+        actions: [
+          FlatButton(
+            child: Text(
+              'No',
+              style: AppTheme.textStyle.w600.colored(AppTheme.primaryColor),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          FlatButton(
+            child: Text(
+              'Yes',
+              style: AppTheme.textStyle.w600.color50,
+            ),
+            onPressed: () async {
+              Navigator.of(context).pop();
+              _addProduct(provider);
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
 
