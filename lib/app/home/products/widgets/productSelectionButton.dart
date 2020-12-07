@@ -61,7 +61,7 @@ class _ProductSelectionButtonState extends State<ProductSelectionButton> {
           style: AppTheme.textStyle.w500.color100,
         ),
         content: Text(
-          'Your cart contains items from ${provider.cartSeller.brandName}. Do you want to replace it?',
+          'Your cart contains items from ${provider.cartSeller.brandName}. Do you want to replace them?',
           style: AppTheme.textStyle.w400.color100,
         ),
         actions: [
@@ -77,7 +77,7 @@ class _ProductSelectionButtonState extends State<ProductSelectionButton> {
           FlatButton(
             child: Text(
               'Yes',
-              style: AppTheme.textStyle.w600.color50,
+              style: AppTheme.textStyle.w600.colored(AppTheme.primaryColor),
             ),
             onPressed: () async {
               Navigator.of(context).pop();
