@@ -73,7 +73,7 @@ class OrdersProvider with ChangeNotifier {
   }
 
   Future<Map<String, String>> retryPayment(String orderId) async {
-    final json = await Http.post('/api/user/orders/transaction/retry',
+    final json = await Http.post('/api/user/orders/transaction',
         body: {'orderId': orderId});
 
     final Map<String, String> data = {};
