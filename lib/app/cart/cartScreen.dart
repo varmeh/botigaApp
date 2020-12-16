@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/index.dart' show ProductModel;
+import '../../models/index.dart' show ProductModel, OrderModel;
 import '../../providers/index.dart' show CartProvider, UserProvider;
 import '../../theme/index.dart';
 import '../../util/index.dart' show Http;
@@ -12,6 +12,7 @@ import '../location/index.dart' show AddHouseDetailModal;
 import '../tabbar.dart';
 import 'paymentScreen.dart';
 import 'widgets/cartDeliveryInfo.dart';
+import 'orderStatusScreen.dart';
 
 class CartScreen extends StatefulWidget {
   final String route = 'cartScreen';
@@ -191,8 +192,11 @@ class _CartScreenState extends State<CartScreen> {
         behavior: HitTestBehavior.opaque,
         onTap: () async {
           setState(() => _isLoading = true);
+          OrderModel order;
           try {
-            final data = await provider.checkout();
+            order = await provider.checkout();
+
+            final data = await provider.orderPayment(order.id);
 
             Navigator.pushReplacement(
               context,
@@ -205,8 +209,23 @@ class _CartScreenState extends State<CartScreen> {
               ),
             );
           } catch (error) {
-            Toast(message: Http.message(error)).show(context);
+            if (order != null) {
+              Navigator.pushAndRemoveUntil(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => OrderStatusScreen(order),
+                  transitionDuration: Duration.zero,
+                ),
+                (route) => false,
+              );
+            } else {
+              Toast(message: Http.message(error)).show(context);
+            }
           } finally {
+            if (order != null) {
+              provider.clearCart();
+              provider.saveCartToServer();
+            }
             setState(() => _isLoading = false);
           }
         },

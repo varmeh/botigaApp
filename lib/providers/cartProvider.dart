@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../models/index.dart' show SellerModel, ProductModel;
+import '../models/index.dart' show SellerModel, ProductModel, OrderModel;
 import '../providers/index.dart'
     show UserProvider, SellersProvider, ProductsProvider;
 import '../util/index.dart' show Http;
@@ -53,7 +53,7 @@ class CartProvider with ChangeNotifier {
       products[product] = 1;
       totalPrice = product.price;
     }
-    _saveCartToServer();
+    saveCartToServer();
     notifyListeners();
   }
 
@@ -72,7 +72,7 @@ class CartProvider with ChangeNotifier {
       // Cart is empty
       clearCart();
     }
-    _saveCartToServer();
+    saveCartToServer();
     notifyListeners();
   }
 
@@ -103,13 +103,18 @@ class CartProvider with ChangeNotifier {
       'products': productList
     });
 
+    final order = OrderModel.fromJson(json);
+    // As order has been created, reset cart & update to cloud
+    return order;
+  }
+
+  Future<Map<String, String>> orderPayment(String orderId) async {
+    final json = await Http.post('/api/user/orders/transaction',
+        body: {'orderId': orderId});
+
     final Map<String, String> data = {};
     data['paymentId'] = json['paymentId'];
     data['paymentToken'] = json['paymentToken'];
-
-    // As order has been created, reset cart & update to cloud
-    clearCart();
-    _saveCartToServer();
 
     return data;
   }
@@ -119,7 +124,7 @@ class CartProvider with ChangeNotifier {
 
 // Upload User cart to server
 // Cart is saved specific to each address
-  void _saveCartToServer() {
+  void saveCartToServer() {
     if (!_userProvider.isLoggedIn) return;
     if (!_saveToServerInProgress) {
       _saveToServerInProgress = true;
