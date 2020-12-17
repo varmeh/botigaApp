@@ -93,7 +93,7 @@ flutter build ios --flavor dev --release
 -   Create an **[obfuscated](https://flutter.dev/docs/deployment/obfuscate)** appbundle version for sharing with command:
 
 ```
-flutter build appbundle --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaApp_<version> --flavor prod --release
+flutter build appbundle --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaAppAndroid_<version> --flavor prod --release
 ```
 
 -   `<version>` in command should match one in pubspec.yaml
