@@ -352,12 +352,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _appVersion(String version) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-        child: Center(
-          child: Text(
-            version,
-            style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
-          ),
-        ));
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+      child: Center(
+        child: Text(
+          version,
+          style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
+        ),
+      ),
+    );
   }
 }
