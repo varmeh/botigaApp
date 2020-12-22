@@ -61,8 +61,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _addresses(provider),
               divider,
               _support(provider),
-              divider,
+              provider.isLoggedIn ? divider : SizedBox.shrink(),
               provider.isLoggedIn ? _logout(provider) : Container(),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Divider(thickness: 1.0, color: AppTheme.dividerColor),
+              ),
               _appVersion(appVersion),
               SizedBox(height: 100.0)
             ],
@@ -353,11 +357,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _appVersion(String version) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-      child: Center(
-        child: Text(
-          version,
-          style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'App version',
+            style: AppTheme.textStyle.w500.color100.size(15.0).lineHeight(1.5),
+          ),
+          Text(
+            version,
+            style: AppTheme.textStyle.w500.color50.size(15.0).lineHeight(1.5),
+          ),
+        ],
       ),
     );
   }
