@@ -81,7 +81,7 @@ class InviteTile extends StatelessWidget {
     );
 
     const text =
-        'Hi, I am placing orders to all my merchants using Botiga. It takes only 3 mins to register and start selling.\nIt\'s absolutely free, try it out now.'; // TODO: add merchant app link
+        'Hi, I am placing orders to all my merchants using Botiga. It takes only 3 mins to register and start selling.\nIt\'s absolutely free, try it out now. https://www.botiga.app';
 
     return Column(
       mainAxisSize: MainAxisSize.min,
