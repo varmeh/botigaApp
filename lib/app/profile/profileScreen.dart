@@ -61,12 +61,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _addresses(provider),
               divider,
               _support(provider),
-              provider.isLoggedIn ? divider : SizedBox.shrink(),
+              divider,
               provider.isLoggedIn ? _logout(provider) : Container(),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Divider(thickness: 1.0, color: AppTheme.dividerColor),
-              ),
               _appVersion(appVersion),
               SizedBox(height: 100.0)
             ],
@@ -90,19 +86,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(
           children: [
-            Text(
-              'Logout',
-              style:
-                  AppTheme.textStyle.w500.color100.size(15.0).lineHeight(1.5),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Logout',
+                    style: AppTheme.textStyle.w500.color100
+                        .size(15.0)
+                        .lineHeight(1.5),
+                  ),
+                  Icon(
+                    Icons.logout,
+                    color: AppTheme.color50,
+                  ),
+                ],
+              ),
             ),
-            Icon(
-              Icons.logout,
-              color: AppTheme.color50,
-            ),
+            Divider(thickness: 1.0, color: AppTheme.dividerColor),
           ],
         ),
       ),
@@ -361,7 +366,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'App version',
+            'App Version',
             style: AppTheme.textStyle.w500.color100.size(15.0).lineHeight(1.5),
           ),
           Text(
