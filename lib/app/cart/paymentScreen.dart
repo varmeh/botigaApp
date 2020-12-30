@@ -10,7 +10,7 @@ import '../../widgets/index.dart' show LoaderOverlay;
 import '../../providers/index.dart' show OrdersProvider;
 
 import '../tabbar.dart';
-import 'orderStatusScreen.dart';
+import '../orders/orderStatusScreen.dart';
 
 class PaymentScreen extends StatefulWidget {
   static const route = 'payment';

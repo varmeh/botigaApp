@@ -4,7 +4,7 @@ import '../../models/index.dart' show OrderModel;
 import '../../theme/index.dart';
 import '../../util/index.dart' show DateExtension;
 import '../../widgets/index.dart' show BotigaAppBar, LoaderOverlay;
-import '../orders/orderStatusWidget.dart';
+import 'orderStatusWidget.dart';
 import '../tabbar.dart';
 
 class OrderStatusScreen extends StatefulWidget {

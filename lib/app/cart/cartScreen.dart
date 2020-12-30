@@ -12,7 +12,7 @@ import '../auth/index.dart' show LoginModal;
 import '../location/index.dart' show AddHouseDetailModal;
 import '../tabbar.dart';
 import 'widgets/cartDeliveryInfo.dart';
-import 'orderStatusScreen.dart';
+import '../orders/orderStatusScreen.dart';
 
 class CartScreen extends StatefulWidget {
   final String route = 'cartScreen';
@@ -43,6 +43,12 @@ class _CartScreenState extends State<CartScreen> {
   void _handlePaymentError(PaymentFailureResponse response) {
     _order.paymentSuccess(false);
     _updateOrderStatus();
+  }
+
+  @override
+  void dispose() {
+    _razorpay.clear();
+    super.dispose();
   }
 
   @override
