@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../../models/index.dart' show ProductModel, OrderModel;
 import '../../providers/index.dart' show CartProvider, UserProvider;
 import '../../theme/index.dart';
-import '../../util/index.dart' show Http;
+import '../../util/index.dart' show Http, Flavor;
 import '../../widgets/index.dart'
     show IncrementButton, LottieScreen, BotigaAppBar, Toast, LoaderOverlay;
 import '../auth/index.dart' show LoginModal;
 import '../location/index.dart' show AddHouseDetailModal;
 import '../tabbar.dart';
-import 'paymentScreen.dart';
 import 'widgets/cartDeliveryInfo.dart';
 import 'orderStatusScreen.dart';
 
@@ -24,6 +24,26 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   bool _isLoading = false;
   bool _showSellerNotLiveDialog = true;
+
+  final _razorpay = Razorpay();
+  OrderModel _order;
+
+  @override
+  void initState() {
+    super.initState();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    _order.paymentSuccess(true);
+    _updateOrderStatus();
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    _order.paymentSuccess(false);
+    _updateOrderStatus();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -192,41 +212,31 @@ class _CartScreenState extends State<CartScreen> {
         behavior: HitTestBehavior.opaque,
         onTap: () async {
           setState(() => _isLoading = true);
-          OrderModel order;
           try {
-            order = await provider.checkout();
+            _order = await provider.checkout();
 
-            final data = await provider.orderPayment(order.id);
+            final data = await provider.orderPayment(_order.id);
 
-            Navigator.pushReplacement(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (_, __, ___) => PaymentScreen(
-                  paymentId: data['paymentId'],
-                  paymentToken: data['paymentToken'],
-                ),
-                transitionDuration: Duration.zero,
-              ),
-            );
+            final userProvider =
+                Provider.of<UserProvider>(context, listen: false);
+
+            final options = {
+              'key': Flavor.shared.rpayId,
+              'amount': provider.totalPrice * 100,
+              'name': provider.cartSeller.brandName,
+              'order_id': data['id'],
+              'timeout': 60, // In secs,
+              'prefill': {
+                'contact': userProvider.phone,
+                'email': userProvider.email ?? 'noreply1@botiga.app'
+              },
+              'notes': {'orderId': _order.id} // used in payment webhook
+            };
+
+            _razorpay.open(options);
           } catch (error) {
-            if (order != null) {
-              Navigator.pushAndRemoveUntil(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (_, __, ___) => OrderStatusScreen(order),
-                  transitionDuration: Duration.zero,
-                ),
-                (route) => false,
-              );
-            } else {
-              Toast(message: Http.message(error)).show(context);
-            }
-          } finally {
-            if (order != null) {
-              provider.clearCart();
-              provider.saveCartToServer();
-            }
             setState(() => _isLoading = false);
+            Toast(message: Http.message(error)).show(context);
           }
         },
         child: provider.cartSeller.live
@@ -252,6 +262,23 @@ class _CartScreenState extends State<CartScreen> {
               )
             : Container(),
       ),
+    );
+  }
+
+  void _updateOrderStatus() {
+    setState(() => _isLoading = false);
+
+    final provider = Provider.of<CartProvider>(context, listen: false);
+    provider.clearCart();
+    provider.saveCartToServer();
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => OrderStatusScreen(_order),
+        transitionDuration: Duration.zero,
+      ),
+      (route) => false,
     );
   }
 

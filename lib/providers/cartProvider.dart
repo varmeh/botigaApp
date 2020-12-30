@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
@@ -109,12 +110,11 @@ class CartProvider with ChangeNotifier {
   }
 
   Future<Map<String, String>> orderPayment(String orderId) async {
-    final json = await Http.post('/api/user/orders/transaction',
+    final json = await Http.post('/api/user/orders/transaction/rpay',
         body: {'orderId': orderId});
 
     final Map<String, String> data = {};
-    data['paymentId'] = json['paymentId'];
-    data['paymentToken'] = json['paymentToken'];
+    data['id'] = json['id'];
 
     return data;
   }

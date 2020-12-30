@@ -80,6 +80,15 @@ class OrderModel {
       return Color(0xff787371);
     }
   }
+
+  void paymentSuccess(bool status) {
+    if (status) {
+      this.payment.status = 'success';
+    } else {
+      this.payment.status = 'failure';
+    }
+    this.payment.paymentMode = 'UPI';
+  }
 }
 
 @JsonSerializable()

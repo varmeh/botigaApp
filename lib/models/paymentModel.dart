@@ -6,10 +6,10 @@ part 'paymentModel.g.dart';
 class PaymentModel {
   @JsonKey(name: 'paymentId')
   final String id;
-  final String status;
+  String status;
   final String txnId;
   final DateTime txnDate;
-  final String paymentMode;
+  String paymentMode;
 
   PaymentModel({
     this.id,
