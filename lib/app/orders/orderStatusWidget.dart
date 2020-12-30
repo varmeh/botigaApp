@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
+import '../../providers/index.dart' show UserProvider;
 import '../../models/index.dart' show OrderModel;
-import '../../providers/index.dart' show OrdersProvider;
 import '../../theme/index.dart';
-import '../../util/index.dart' show DateExtension, Http;
+import '../../util/index.dart' show DateExtension, Http, Flavor;
 import '../../widgets/index.dart'
     show
         StatusImageWidget,
@@ -13,9 +14,9 @@ import '../../widgets/index.dart'
         BotigaBottomModal,
         WhatsappButton,
         Toast;
-import '../cart/paymentScreen.dart';
+import 'orderStatusScreen.dart';
 
-class OrderStatusWidget extends StatelessWidget {
+class OrderStatusWidget extends StatefulWidget {
   final OrderModel order;
   final Function(bool) stateLoading;
 
@@ -25,25 +26,55 @@ class OrderStatusWidget extends StatelessWidget {
   });
 
   @override
+  _OrderStatusWidgetState createState() => _OrderStatusWidgetState();
+}
+
+class _OrderStatusWidgetState extends State<OrderStatusWidget> {
+  final _razorpay = Razorpay();
+
+  @override
+  void initState() {
+    super.initState();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    widget.order.paymentSuccess(true);
+    _updateOrderStatus();
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    widget.order.paymentSuccess(false);
+    _updateOrderStatus();
+  }
+
+  @override
+  void dispose() {
+    _razorpay.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     String orderTitle = 'Order Placed';
     ImageStatus orderStatus = ImageStatus.success;
     String orderSubtitle;
 
     // Order Status Message
-    if (order.isCancelled) {
+    if (widget.order.isCancelled) {
       orderTitle = 'Order Cancelled';
       orderSubtitle =
-          'Cancelled on ${order.completionDate.dateFormatDayMonthTime}';
+          'Cancelled on ${widget.order.completionDate.dateFormatDayMonthTime}';
       orderStatus = ImageStatus.failure;
-    } else if (order.isDelivered) {
+    } else if (widget.order.isDelivered) {
       orderSubtitle =
-          'Delivered on ${order.completionDate.dateFormatDayMonthTime}';
-    } else if (order.isOutForDelivery) {
+          'Delivered on ${widget.order.completionDate.dateFormatDayMonthTime}';
+    } else if (widget.order.isOutForDelivery) {
       orderSubtitle = 'Out for delivery';
     } else {
       orderSubtitle =
-          'Delivery expected on ${order.expectedDeliveryDate.dateFormatDayMonthComplete}';
+          'Delivery expected on ${widget.order.expectedDeliveryDate.dateFormatDayMonthComplete}';
     }
 
     Widget button = Container();
@@ -52,30 +83,51 @@ class OrderStatusWidget extends StatelessWidget {
     String paymentSubtitle;
 
     // Order Payment Message
-    if (order.payment.isSuccess) {
+    if (widget.order.payment.isSuccess) {
       paymentStatus = ImageStatus.success;
-      paymentTitle = 'Paid via ${order.payment.paymentMode}';
-    } else if (order.payment.isPending) {
-      paymentStatus = ImageStatus.pending;
-      paymentTitle = 'Payment confirmation pending from the bank.';
+      paymentTitle = 'Paid via ${widget.order.payment.paymentMode}';
     } else {
       // for payment status - failure
       paymentStatus = ImageStatus.failure;
       paymentTitle = 'Payment Failed';
-      if (!order.isCancelled) {
+
+      if (!widget.order.isCancelled) {
         // Retry Button
         button = PassiveButton(
           width: 200,
           title: 'Retry Payment',
-          onPressed: () => _retryPayment(context),
+          onPressed: () async {
+            final userProvider =
+                Provider.of<UserProvider>(context, listen: false);
+            widget.stateLoading(true);
+            try {
+              final options = {
+                'key': Flavor.shared.rpayId,
+                'amount': widget.order.totalAmount * 100,
+                'name': widget.order.seller.brandName,
+                'order_id': widget.order.payment.orderId,
+                'timeout': 60, // In secs,
+                'prefill': {
+                  'contact': userProvider.phone,
+                  'email': userProvider.email ?? 'noreply1@botiga.app'
+                },
+                'notes': {'orderId': widget.order.id} // used in payment webhook
+              };
+
+              _razorpay.open(options);
+            } catch (error) {
+              widget.stateLoading(false);
+              Toast(message: Http.message(error)).show(context);
+            }
+          },
         );
       }
     }
 
     // Show Refund Information Only
-    if (order.refund.status != null) {
+    if (widget.order.refund.status != null) {
       // Refund Initiated
-      if (order.refund.isSuccess) {
+      if (widget.order.refund.isSuccess) {
         paymentSubtitle = 'Refund completed';
       } else {
         paymentSubtitle = 'Refund pending';
@@ -84,7 +136,7 @@ class OrderStatusWidget extends StatelessWidget {
           width: double.infinity,
           icon: Icon(Icons.update, size: 18.0),
           title: 'Remind Seller to Refund',
-          onPressed: () => _whatsappModal(context, order),
+          onPressed: () => _whatsappModal(context, widget.order),
         );
       }
     }
@@ -181,27 +233,16 @@ class OrderStatusWidget extends StatelessWidget {
     );
   }
 
-  void _retryPayment(BuildContext context) async {
-    stateLoading(true);
-    try {
-      final data = await Provider.of<OrdersProvider>(context, listen: false)
-          .retryPayment(order.id);
-
-      Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (_, __, ___) => PaymentScreen(
-            paymentId: data['paymentId'],
-            paymentToken: data['paymentToken'],
-          ),
-          transitionDuration: Duration.zero,
-        ),
-      );
-    } catch (error) {
-      Toast(message: Http.message(error)).show(context);
-    } finally {
-      stateLoading(false);
-    }
+  void _updateOrderStatus() {
+    widget.stateLoading(false);
+    Navigator.pushAndRemoveUntil(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => OrderStatusScreen(widget.order),
+        transitionDuration: Duration.zero,
+      ),
+      (route) => false,
+    );
   }
 
   void _whatsappModal(BuildContext context, OrderModel order) {

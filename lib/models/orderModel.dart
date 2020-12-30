@@ -12,6 +12,7 @@ class OrderModel {
   final String id;
   final OrderSellerModel seller;
   final String number;
+  final String email;
   final String status;
   final double totalAmount;
   final DateTime orderDate;
@@ -27,6 +28,7 @@ class OrderModel {
     @required this.id,
     @required this.seller,
     @required this.number,
+    this.email,
     @required this.status,
     @required this.totalAmount,
     @required this.orderDate,
