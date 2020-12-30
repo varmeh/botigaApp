@@ -109,7 +109,7 @@ class CartProvider with ChangeNotifier {
   }
 
   Future<Map<String, String>> orderPayment(String orderId) async {
-    final json = await Http.post('/api/user/orders/transaction/rpay',
+    final json = await Http.post('/api/user/orders/transaction',
         body: {'orderId': orderId});
 
     final Map<String, String> data = {};

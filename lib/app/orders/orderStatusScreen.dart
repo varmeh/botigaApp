@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/index.dart' show OrdersProvider;
 import '../../models/index.dart' show OrderModel;
 import '../../theme/index.dart';
 import '../../util/index.dart' show DateExtension;
@@ -22,6 +24,15 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
     thickness: 8.0,
     color: AppTheme.dividerColor,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(
+      Duration(milliseconds: 100),
+      () => Provider.of<OrdersProvider>(context, listen: false).resetOrders(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
