@@ -85,7 +85,8 @@ class _OrderStatusWidgetState extends State<OrderStatusWidget> {
     // Order Payment Message
     if (widget.order.payment.isSuccess) {
       paymentStatus = ImageStatus.success;
-      paymentTitle = 'Paid via ${widget.order.payment.paymentMode}';
+      paymentTitle =
+          'Paid via ${widget.order.payment.paymentMode.toUpperCase()}';
     } else {
       // for payment status - failure
       paymentStatus = ImageStatus.failure;
