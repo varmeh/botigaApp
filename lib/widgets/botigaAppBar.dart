@@ -9,18 +9,20 @@ class BotigaAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final double titlePadding;
   final List<Widget> actions;
+  final bool canPop;
 
   BotigaAppBar(
     this.title, {
     Key key,
     this.actions,
     this.titlePadding = 20.0,
+    this.canPop = true,
   })  : preferredSize = Size.fromHeight(56.0), //setting to default height
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final hasBackButton = Navigator.canPop(context);
+    final hasBackButton = canPop && Navigator.canPop(context);
 
     if (hasBackButton) {
       return AppBar(

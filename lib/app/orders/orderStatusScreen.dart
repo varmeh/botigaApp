@@ -38,7 +38,10 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
-      appBar: BotigaAppBar('Order Details'),
+      appBar: BotigaAppBar(
+        'Order Details',
+        canPop: false,
+      ),
       floatingActionButton: _homeButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SafeArea(
