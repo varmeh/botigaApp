@@ -39,7 +39,8 @@ class Flavor {
   String get paytmMid =>
       isProduction ? 'BOTIGA19474156290102' : 'OJdkNI97902555723463';
 
-  String get rpayId => isProduction ? '' : 'rzp_test_eB9RogNMlDSytd';
+  String get rpayId =>
+      isProduction ? 'rzp_live_U6Hf0upRNgYgtc' : 'rzp_test_eB9RogNMlDSytd';
 
   String get paytmTransactionUrl => isProduction
       ? 'https://securegw.paytm.in'
