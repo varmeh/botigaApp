@@ -241,7 +241,10 @@ class _CartScreenState extends State<CartScreen> {
 
             _razorpay.open(options);
           } catch (error) {
-            setState(() => _isLoading = false);
+            if (_order != null) {
+              _order.paymentSuccess(false);
+              _updateOrderStatus();
+            }
             Toast(message: Http.message(error)).show(context);
           }
         },
