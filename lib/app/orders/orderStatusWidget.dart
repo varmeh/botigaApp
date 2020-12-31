@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
-import '../../providers/index.dart' show UserProvider;
+import '../../providers/index.dart' show UserProvider, CartProvider;
 import '../../models/index.dart' show OrderModel;
 import '../../theme/index.dart';
 import '../../util/index.dart' show DateExtension, Http, Flavor;
@@ -101,14 +101,24 @@ class _OrderStatusWidgetState extends State<OrderStatusWidget> {
                 Provider.of<UserProvider>(context, listen: false);
             widget.stateLoading(true);
             try {
+              // Ensure a valid razor pay orderId before initiating payment
+              String orderId = widget.order.payment.orderId;
+              if (orderId == null) {
+                // orderId is null if initial payment try failed due to any reason
+                final data =
+                    await Provider.of<CartProvider>(context, listen: false)
+                        .orderPayment(widget.order.id);
+                orderId = data['id'];
+              }
+
               final options = {
                 'key': Flavor.shared.rpayId,
                 'amount': widget.order.totalAmount * 100,
                 'name': widget.order.seller.brandName,
-                'order_id': widget.order.payment.orderId,
+                'order_id': orderId,
                 'timeout': 60, // In secs,
                 'prefill': {
-                  'contact': userProvider.phone,
+                  'contact': '91${userProvider.phone}',
                   'email': userProvider.email ?? 'noreply1@botiga.app'
                 },
                 'notes': {'orderId': widget.order.id} // used in payment webhook
