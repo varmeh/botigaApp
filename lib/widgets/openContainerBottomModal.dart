@@ -28,7 +28,7 @@ class OpenContainerBottomModal extends StatelessWidget {
             ),
           ),
           closedColor: AppTheme.primaryColor,
-          transitionDuration: Duration(milliseconds: 500),
+          transitionDuration: Duration(milliseconds: 300),
           closedBuilder: (context, openContainer) {
             return GestureDetector(
               behavior: HitTestBehavior.opaque,

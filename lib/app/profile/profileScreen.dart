@@ -141,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 sizedBox24,
                 OpenContainer(
                   closedElevation: 0.0,
-                  transitionDuration: Duration(milliseconds: 500),
+                  transitionDuration: Duration(milliseconds: 300),
                   closedBuilder: (context, openContainer) => PassiveButton(
                     title: 'Edit Profile',
                     onPressed: openContainer,

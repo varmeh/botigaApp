@@ -220,7 +220,7 @@ class HomeScreen extends StatelessWidget {
   Widget _sellersTile(BuildContext context, SellerModel seller, Color color) {
     return OpenContainer(
       closedElevation: 0.0,
-      transitionDuration: Duration(milliseconds: 500),
+      transitionDuration: Duration(milliseconds: 300),
       closedBuilder: (context, openContainer) {
         return Container(
           padding: EdgeInsets.only(

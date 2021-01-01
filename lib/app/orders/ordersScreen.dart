@@ -171,7 +171,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
   Widget _orderTile(OrderModel order) {
     return OpenContainer(
       closedElevation: 0.0,
-      transitionDuration: Duration(milliseconds: 500),
+      transitionDuration: Duration(milliseconds: 300),
       closedBuilder: (context, openContainer) {
         return GestureDetector(
           onTap: openContainer,
