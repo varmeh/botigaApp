@@ -231,7 +231,7 @@ class _CartScreenState extends State<CartScreen> {
               'amount': provider.totalPrice * 100,
               'name': provider.cartSeller.brandName,
               'order_id': data['id'],
-              'timeout': 60 * 10, // In secs,
+              'timeout': 60 * 5, // In secs,
               'prefill': {
                 'contact': '91${userProvider.phone}',
                 'email': userProvider.email ?? 'noreply1@botiga.app'

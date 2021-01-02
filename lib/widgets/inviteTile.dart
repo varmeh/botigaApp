@@ -10,63 +10,79 @@ class InviteTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 20, top: 24.0, bottom: 24.0),
-      color: Color(0xfffcf4ed),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 4,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Don\'t see your favorite merchant?',
-                      style: AppTheme.textStyle.w600
-                          .size(15.0)
-                          .lineHeight(1.3)
-                          .colored(
-                            Color(0xff47270A),
-                          ),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      'Invite merchants to Botiga by sharing the following link with them.',
-                      style: AppTheme.textStyle.w600
-                          .size(13.0)
-                          .lineHeight(1.5)
-                          .colored(
-                            Color(0xff743F11),
-                          ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Image.asset('assets/images/invite.png'),
-              ),
-            ],
-          ),
-          FlatButton(
-            onPressed: () {
-              BotigaBottomModal(child: share(context), color: Color(0xffF3F3F3))
-                  .show(context);
-            },
-            child: Text(
-              'Invite merchant',
-              style: AppTheme.textStyle.w500
-                  .size(15)
-                  .lineHeight(1.5)
-                  .colored(AppTheme.backgroundColor),
+      margin: EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      height: 180,
+      decoration: BoxDecoration(
+        color: AppTheme.backgroundColor,
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xff121714).withOpacity(0.12),
+            blurRadius: 40.0, // soften the shadow
+            spreadRadius: 0.0, //extend the shadow
+            offset: Offset(
+              0.0, // Move to right 10  horizontally
+              0.0, // Move to bottom 10 Vertically
             ),
-            color: AppTheme.color100,
-            height: 44.0,
-            minWidth: 136.0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
+          )
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 12.0, bottom: 24, top: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Share with neighbours',
+                    style: AppTheme.textStyle.w700
+                        .size(17.0)
+                        .lineHeight(1.3)
+                        .color100,
+                  ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    'Help your neighbours to explore products they might love :)',
+                    style: AppTheme.textStyle.w500
+                        .size(13.0)
+                        .lineHeight(1.5)
+                        .color50,
+                  ),
+                  SizedBox(height: 16.0),
+                  FlatButton(
+                    onPressed: () {
+                      BotigaBottomModal(
+                        child: share(context),
+                        color: Color(0xffF3F3F3),
+                      ).show(context);
+                    },
+                    child: Text(
+                      'Share Now',
+                      style: AppTheme.textStyle.w600
+                          .size(15)
+                          .lineHeight(1.5)
+                          .colored(AppTheme.backgroundColor),
+                    ),
+                    color: AppTheme.color100,
+                    height: 42.0,
+                    minWidth: 136.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: Image.asset(
+              'assets/images/invite.png',
+              fit: BoxFit.fill,
             ),
           )
         ],
@@ -81,7 +97,7 @@ class InviteTile extends StatelessWidget {
     );
 
     const text =
-        'Hi, I am placing orders to all my merchants using Botiga. It takes only 3 mins to register and start selling.\nIt\'s absolutely free, try it out now. https://www.botiga.app';
+        'Hello friends,\nI have been ordering amazing products from our apartment online mall - Botiga.\nDownload it to buy wonderful products - http://onelink.to/husbnk';
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -95,7 +111,7 @@ class InviteTile extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              'SHARE WITH YOUR MERCHANTS',
+              'SHARE WITH YOUR FRIENDS',
               style: AppTheme.textStyle.w700
                   .size(12)
                   .lineHeight(1.4)
