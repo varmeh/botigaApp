@@ -1,10 +1,7 @@
-import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
-import 'package:share/share.dart';
 
 import '../theme/index.dart';
 import '../widgets/index.dart' show ShareModal;
-import 'toast.dart';
 
 class InviteTile extends StatelessWidget {
   @override
