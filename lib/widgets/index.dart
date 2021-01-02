@@ -18,3 +18,4 @@ export 'policyWebviewScreen.dart';
 export 'searchBar.dart';
 export 'statusImageWidget.dart';
 export 'toast.dart';
+export 'shareModal.dart';
