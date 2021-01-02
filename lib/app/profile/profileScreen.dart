@@ -345,7 +345,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Image.asset(
-                'assets/images/shop.png',
+                'assets/images/store.png',
                 color: AppTheme.color100,
               ),
               SizedBox(width: 12.0),
