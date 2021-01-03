@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                   _availableSellers(context, provider),
                   Container(
                     color: AppTheme.backgroundColor,
-                    padding: const EdgeInsets.only(top: 24.0),
+                    padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
                     child: InviteTile(),
                   ),
                   _notAvailableSellers(context, provider),
@@ -189,8 +189,7 @@ class HomeScreen extends StatelessWidget {
     return !provider.hasNotAvailableSellers
         ? Container()
         : Container(
-            padding: const EdgeInsets.only(top: 48.0, bottom: 65.0),
-            margin: const EdgeInsets.only(top: 16),
+            padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
             color: color,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
