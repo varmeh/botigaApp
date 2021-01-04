@@ -234,7 +234,8 @@ class _CartScreenState extends State<CartScreen> {
               'timeout': 60 * 5, // In secs,
               'prefill': {
                 'contact': '91${userProvider.phone}',
-                'email': userProvider.email ?? 'noreply1@botiga.app'
+                'email': userProvider.email ?? 'noreply1@botiga.app',
+                'method': 'upi',
               },
               'notes': {'orderId': _order.id} // used in payment webhook
             };

@@ -120,7 +120,8 @@ class _OrderStatusWidgetState extends State<OrderStatusWidget> {
                 'timeout': 60, // In secs,
                 'prefill': {
                   'contact': '91${userProvider.phone}',
-                  'email': userProvider.email ?? 'noreply1@botiga.app'
+                  'email': userProvider.email ?? 'noreply1@botiga.app',
+                  'method': 'upi',
                 },
                 'notes': {'orderId': widget.order.id} // used in payment webhook
               };
