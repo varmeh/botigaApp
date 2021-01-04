@@ -93,7 +93,7 @@ flutter build ios --flavor dev --release
 -   Create an **[obfuscated](https://flutter.dev/docs/deployment/obfuscate)** appbundle version for sharing with command:
 
 ```
-flutter build appbundle --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaApp_1.1.0+5 --flavor prod --release
+flutter build appbundle --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaApp_1.1.1+6 --flavor prod --release
 ```
 
 -   Update version - `1.1.0+5` in command should match one in pubspec.yaml
@@ -105,7 +105,7 @@ The reason to use appbundle has been detailed in [article](https://developer.and
 -   Create an **[obfuscated](https://flutter.dev/docs/deployment/obfuscate)** appbundle version for sharing with command:
 
 ```
-flutter build ios --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaApp_1.1.0+5 --flavor prod --release
+flutter build ios --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaApp_1.1.1+6 --flavor prod --release
 ```
 
 -   Update version - `1.1.0+5` in command should match one in pubspec.yaml
