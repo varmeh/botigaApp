@@ -117,7 +117,7 @@ class _OrderStatusWidgetState extends State<OrderStatusWidget> {
                 'amount': widget.order.totalAmount * 100,
                 'name': widget.order.seller.brandName,
                 'order_id': orderId,
-                'timeout': 60, // In secs,
+                'timeout': 60 * 5, // In secs,
                 'prefill': {
                   'contact': '91${userProvider.phone}',
                   'email': userProvider.email ?? 'noreply1@botiga.app',
