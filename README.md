@@ -96,7 +96,7 @@ flutter build ios --flavor dev --release
 flutter build appbundle --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaApp_1.1.1+6 --flavor prod --release
 ```
 
--   Update version - `1.1.0+5` in command should match one in pubspec.yaml
+-   `botigaApp_<version>` Version here should match one in pubspec.yaml
 
 The reason to use appbundle has been detailed in [article](https://developer.android.com/guide/app-bundle?authuser=1).
 
@@ -108,7 +108,7 @@ The reason to use appbundle has been detailed in [article](https://developer.and
 flutter build ios --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaApp_1.1.1+6 --flavor prod --release
 ```
 
--   Update version - `1.1.0+5` in command should match one in pubspec.yaml
+-   `botigaApp_<version>` Version here should match one in pubspec.yaml
 -   Once app is built, archieve it as explaind [here](https://flutter.dev/docs/deployment/ios#create-a-build-archive)
 
 -   Once archieve is done, it will open distribution organizer
