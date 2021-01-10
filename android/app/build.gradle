@@ -74,6 +74,11 @@ android {
             applicationIdSuffix ".dev"
             resValue "string", "app_name", "Botiga Dev" 
         }
+        qa {
+            dimension "app"
+            applicationIdSuffix ".qa"
+            resValue "string", "app_name", "Botiga QA" 
+        }
         prod {
             dimension "app"
             resValue "string", "app_name", "Botiga"
