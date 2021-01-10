@@ -12,18 +12,18 @@
 			"args": ["--flavor", "dev"]
 		},
 		{
+			"name": "QA Debug",
+			"program": "lib/main.dart",
+			"request": "launch",
+			"type": "dart",
+			"args": ["--flavor", "qa"]
+		},
+		{
 			"name": "Prod Debug",
 			"program": "lib/main.dart",
 			"request": "launch",
 			"type": "dart",
 			"args": ["--flavor", "prod"]
-		},
-		{
-			"name": "Prod Release",
-			"program": "lib/main.dart",
-			"request": "launch",
-			"type": "dart",
-			"args": ["--flavor", "prod", "--release"]
 		}
 	]
 }
