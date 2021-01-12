@@ -58,10 +58,13 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: BotigaAppBar(''),
-      body: SafeArea(
-        child: _provider.numberOfItemsInCart > 0
-            ? _cartDetails(_provider)
-            : _cartEmpty(context),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: SafeArea(
+          child: _provider.numberOfItemsInCart > 0
+              ? _cartDetails(_provider)
+              : _cartEmpty(context),
+        ),
       ),
     );
   }
@@ -338,7 +341,7 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget _itemTile(CartProvider provider, ProductModel product, int quantity) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(vertical: 24.0),
       child: Row(
         children: [
           Expanded(
@@ -386,7 +389,7 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget _totalPrice(double totalPrice) {
     return Container(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.symmetric(vertical: 20.0),
       child: Column(
         children: [
           Divider(
