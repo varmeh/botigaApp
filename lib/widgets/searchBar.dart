@@ -8,11 +8,12 @@ class SearchBar extends StatefulWidget {
   final Function(String) onChange;
   final Function onClear;
 
-  SearchBar(
-      {@required this.placeholder,
-      @required this.onSubmit,
-      this.onChange,
-      this.onClear});
+  SearchBar({
+    @required this.placeholder,
+    @required this.onSubmit,
+    this.onChange,
+    this.onClear,
+  });
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -115,8 +116,8 @@ class _SearchBarState extends State<SearchBar> {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: _onSubmit,
-        child: Icon(
-          Icons.search,
+        child: Image.asset(
+          'assets/images/search.png',
           color: AppTheme.color100,
         ),
       ),

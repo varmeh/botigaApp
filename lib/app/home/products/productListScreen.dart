@@ -150,7 +150,12 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   if (product.name
                       .toLowerCase()
                       .contains(_query.toLowerCase())) {
-                    products.add(ProductTile(seller: seller, product: product));
+                    products.add(
+                      ProductTile(
+                        seller: seller,
+                        product: product,
+                      ),
+                    );
                   }
                 },
               );
@@ -177,21 +182,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
     );
   }
 
-  Widget _getBackButton() {
-    return IconButton(
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      icon: Icon(
-        Icons.arrow_back,
-        color: AppTheme.color100,
-      ),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-  }
-
   Widget _getProductSearchBar() {
+    const _actionRightPadding = const EdgeInsets.only(right: 10.0);
     return AppBar(
       backgroundColor: AppTheme.backgroundColor,
       brightness: Brightness.light,
@@ -199,7 +191,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
       leading: _getBackButton(),
       title: _showSearch
           ? SearchBar(
-              placeholder: 'Search product ...',
+              placeholder: 'Search Product...',
               onClear: () {
                 setState(() => _query = '');
               },
@@ -211,34 +203,52 @@ class _ProductListScreenState extends State<ProductListScreen> {
           : Text(''),
       actions: [
         !_showSearch
-            ? IconButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                icon: Icon(
-                  BotigaIcons.search,
-                  color: AppTheme.color100,
+            ? Padding(
+                padding: _actionRightPadding,
+                child: IconButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  icon: Image.asset(
+                    'assets/images/search.png',
+                    color: AppTheme.color100,
+                  ),
+                  onPressed: () {
+                    setState(() => _showSearch = true);
+                  },
                 ),
-                onPressed: () {
-                  setState(() {
-                    _showSearch = true;
-                  });
-                },
               )
-            : IconButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                icon: Icon(
-                  Icons.close,
-                  color: AppTheme.color100,
+            : Padding(
+                padding: _actionRightPadding,
+                child: IconButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  icon: Icon(
+                    Icons.close,
+                    color: AppTheme.color100,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _showSearch = false;
+                      _query = '';
+                    });
+                  },
                 ),
-                onPressed: () {
-                  setState(() {
-                    _showSearch = false;
-                    _query = '';
-                  });
-                },
               )
       ],
+    );
+  }
+
+  Widget _getBackButton() {
+    return IconButton(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      icon: Icon(
+        Icons.arrow_back,
+        color: AppTheme.color100,
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
     );
   }
 }
