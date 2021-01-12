@@ -198,21 +198,15 @@ class _ProductListScreenState extends State<ProductListScreen> {
       elevation: 0.0,
       leading: _getBackButton(),
       title: _showSearch
-          ? Expanded(
-              child: SearchBar(
-                placeholder: "Search product ...",
-                onClear: () {
-                  setState(() {
-                    _query = '';
-                  });
-                },
-                onChange: (value) {
-                  setState(() {
-                    _query = value;
-                  });
-                },
-                onSubmit: (_) {},
-              ),
+          ? SearchBar(
+              placeholder: 'Search product ...',
+              onClear: () {
+                setState(() => _query = '');
+              },
+              onChange: (value) {
+                setState(() => _query = value);
+              },
+              onSubmit: (_) {},
             )
           : Text(''),
       actions: [
