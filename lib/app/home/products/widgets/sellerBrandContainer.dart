@@ -12,7 +12,7 @@ class SellerBrandContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 24),
+      padding: EdgeInsets.only(left: 20, top: 6, right: 20, bottom: 24),
       child: Column(
         children: [
           _brandInfo(context),
@@ -63,7 +63,7 @@ class SellerBrandContainer extends StatelessWidget {
         ),
         CircleNetworkAvatar(
           imageUrl: seller.brandImageUrl,
-          radius: 32.0,
+          radius: 28.0,
           isColored: seller.live,
         ),
       ],

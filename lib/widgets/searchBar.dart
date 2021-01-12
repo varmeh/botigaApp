@@ -6,11 +6,13 @@ class SearchBar extends StatefulWidget {
   final String placeholder;
   final Function(String) onSubmit;
   final Function(String) onChange;
+  final Function onClear;
 
   SearchBar({
     @required this.placeholder,
     @required this.onSubmit,
     this.onChange,
+    this.onClear,
   });
 
   @override
@@ -94,6 +96,9 @@ class _SearchBarState extends State<SearchBar> {
               onTap: () {
                 _textEditingController.clear();
                 setState(() => _query = '');
+                if (widget.onClear != null) {
+                  widget.onClear();
+                }
               },
               child: Icon(
                 Icons.clear,
@@ -111,8 +116,8 @@ class _SearchBarState extends State<SearchBar> {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: _onSubmit,
-        child: Icon(
-          Icons.search,
+        child: Image.asset(
+          'assets/images/search.png',
           color: AppTheme.color100,
         ),
       ),

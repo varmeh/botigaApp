@@ -9,6 +9,7 @@ import '../../../widgets/index.dart' show HttpServiceExceptionWidget;
 import '../../cart/cartBottomModal.dart';
 import 'widgets/categoryList.dart';
 import 'widgets/sellerBrandContainer.dart';
+import './widgets/productTile.dart';
 
 class ProductListScreen extends StatefulWidget {
   static String route = 'productsScreen';
@@ -24,6 +25,8 @@ class ProductListScreen extends StatefulWidget {
 class _ProductListScreenState extends State<ProductListScreen> {
   bool _isLoading = false;
   Exception _error;
+  bool _showSearch = false;
+  String _query = '';
 
   @override
   void initState() {
@@ -44,7 +47,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
-      appBar: BotigaAppBar(''),
+      appBar: _getProductSearchBar(),
       body: SafeArea(
         child: _isLoading
             ? Loader()
@@ -69,6 +72,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
                               color: AppTheme.dividerColor,
                             );
                           } else if (index == 2) {
+                            if (_query != '' && _query != null) {
+                              return _filteredProductList(context, seller);
+                            }
                             return _categoryList(context, seller);
                           } else {
                             return SizedBox(height: 60.0);
@@ -127,6 +133,121 @@ class _ProductListScreenState extends State<ProductListScreen> {
             )
           ],
         );
+      },
+    );
+  }
+
+  Widget _filteredProductList(BuildContext context, SellerModel seller) {
+    return Consumer<ProductsProvider>(
+      builder: (context, provider, child) {
+        final categoryList = provider.products(seller.id);
+        List<ProductTile> products = [];
+        categoryList.forEach(
+          (category) {
+            if (category.products.length > 0) {
+              category.products.forEach(
+                (product) {
+                  if (product.name
+                      .toLowerCase()
+                      .contains(_query.toLowerCase())) {
+                    products.add(
+                      ProductTile(
+                        seller: seller,
+                        product: product,
+                      ),
+                    );
+                  }
+                },
+              );
+            }
+          },
+        );
+        return Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Products',
+                style: AppTheme.textStyle.w700.color100.size(17),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ...products
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _getProductSearchBar() {
+    const _actionRightPadding = const EdgeInsets.only(right: 10.0);
+    return AppBar(
+      backgroundColor: AppTheme.backgroundColor,
+      brightness: Brightness.light,
+      elevation: 0.0,
+      leading: _getBackButton(),
+      title: _showSearch
+          ? SearchBar(
+              placeholder: 'Search Product...',
+              onClear: () {
+                setState(() => _query = '');
+              },
+              onChange: (value) {
+                setState(() => _query = value);
+              },
+              onSubmit: (_) {},
+            )
+          : Text(''),
+      actions: [
+        !_showSearch
+            ? Padding(
+                padding: _actionRightPadding,
+                child: IconButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  icon: Image.asset(
+                    'assets/images/search.png',
+                    color: AppTheme.color100,
+                  ),
+                  onPressed: () {
+                    setState(() => _showSearch = true);
+                  },
+                ),
+              )
+            : Padding(
+                padding: _actionRightPadding,
+                child: IconButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  icon: Icon(
+                    Icons.close,
+                    color: AppTheme.color100,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _showSearch = false;
+                      _query = '';
+                    });
+                  },
+                ),
+              )
+      ],
+    );
+  }
+
+  Widget _getBackButton() {
+    return IconButton(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      icon: Icon(
+        Icons.arrow_back,
+        color: AppTheme.color100,
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
       },
     );
   }
