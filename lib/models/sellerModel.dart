@@ -19,7 +19,7 @@ class SellerModel {
   final String whatsapp;
 
   final String deliveryMessage;
-  final String deliveryDate;
+  final DateTime deliveryDate;
 
   SellerModel({
     @required this.id,

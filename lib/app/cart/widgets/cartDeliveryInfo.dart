@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../util/index.dart' show DateExtension;
 import '../../../models/index.dart' show SellerModel;
 import '../../../providers/userProvider.dart';
 import '../../../theme/index.dart';
@@ -19,6 +20,11 @@ class CartDeliveryInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final _sizedBox = SizedBox(height: 16);
+    final _divider = Divider(
+      thickness: 4,
+      color: AppTheme.dividerColor,
+    );
 
     String house = userProvider.house;
     String apartment = userProvider.apartmentName;
@@ -43,10 +49,30 @@ class CartDeliveryInfo extends StatelessWidget {
           false,
         ),
         SizedBox(height: 32),
-        Divider(
-          thickness: 8,
-          color: AppTheme.dividerColor,
+        _divider,
+        _sizedBox,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
+          child: Row(
+            children: [
+              Image.asset('assets/images/pin.png'),
+              SizedBox(width: 6.0),
+              Expanded(
+                child: Text(
+                  seller.live
+                      ? 'Delivery expected on ${seller.deliveryDate.toLocal().dateFormatWeekDayMonthDay}'
+                      : 'Not Serving at the moment',
+                  style: AppTheme.textStyle.w500.color100
+                      .size(15)
+                      .lineHeight(1.25),
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+            ],
+          ),
         ),
+        _sizedBox,
+        _divider,
       ],
     );
   }
