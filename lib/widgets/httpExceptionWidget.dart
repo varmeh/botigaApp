@@ -29,7 +29,7 @@ class HttpServiceExceptionWidget extends StatelessWidget {
         json: 'assets/lotties/fish.json',
         message: 'Something went wrong',
         description:
-            'Our teams are working hard to fix it.\nPlease try again after sometime',
+            'Our team is working hard to fix it.\nPlease try again after sometime',
         buttonTitle: 'Retry',
         onTap: onTap,
       );
