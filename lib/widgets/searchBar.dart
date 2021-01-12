@@ -6,12 +6,13 @@ class SearchBar extends StatefulWidget {
   final String placeholder;
   final Function(String) onSubmit;
   final Function(String) onChange;
+  final Function onClear;
 
-  SearchBar({
-    @required this.placeholder,
-    @required this.onSubmit,
-    this.onChange,
-  });
+  SearchBar(
+      {@required this.placeholder,
+      @required this.onSubmit,
+      this.onChange,
+      this.onClear});
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -94,6 +95,9 @@ class _SearchBarState extends State<SearchBar> {
               onTap: () {
                 _textEditingController.clear();
                 setState(() => _query = '');
+                if (widget.onClear != null) {
+                  widget.onClear();
+                }
               },
               child: Icon(
                 Icons.clear,
