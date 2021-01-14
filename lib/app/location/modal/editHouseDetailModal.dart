@@ -60,7 +60,7 @@ class EditHouseDetailModal {
             child: BotigaTextFieldForm(
               initialValue: address.house,
               focusNode: null,
-              labelText: 'Flat No / House No',
+              labelText: 'Flat No + Tower or House No',
               onSave: (value) {
                 _houseNumber = value;
               },

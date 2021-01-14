@@ -55,7 +55,7 @@ class AddHouseDetailModal {
             key: _aptFormKey,
             child: BotigaTextFieldForm(
               focusNode: null,
-              labelText: 'Flat No / House No',
+              labelText: 'Flat No + Tower or House No',
               onSave: (value) {
                 _houseNumber = value;
               },
