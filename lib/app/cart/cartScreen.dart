@@ -285,6 +285,10 @@ class _CartScreenState extends State<CartScreen> {
     provider.clearCart();
     provider.saveCartToServer();
 
+    if (_order.payment.isFailure) {
+      provider.paymentCancelled(_order.id);
+    }
+
     Navigator.pushAndRemoveUntil(
       context,
       PageRouteBuilder(

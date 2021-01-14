@@ -118,6 +118,11 @@ class CartProvider with ChangeNotifier {
     return data;
   }
 
+  Future<void> paymentCancelled(String orderId) async {
+    await Http.post('/api/user/orders/transaction/cancelled',
+        body: {'orderId': orderId});
+  }
+
   bool _saveToServerInProgress =
       false; // variable to control upload cart calls on every user action
 
