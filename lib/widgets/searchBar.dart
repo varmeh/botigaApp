@@ -7,13 +7,16 @@ class SearchBar extends StatefulWidget {
   final Function(String) onSubmit;
   final Function(String) onChange;
   final Function onClear;
+  final bool showLeadingSearch;
+  final bool autoFocus;
 
-  SearchBar({
-    @required this.placeholder,
-    @required this.onSubmit,
-    this.onChange,
-    this.onClear,
-  });
+  SearchBar(
+      {@required this.placeholder,
+      @required this.onSubmit,
+      this.onChange,
+      this.onClear,
+      this.autoFocus = false,
+      this.showLeadingSearch = false});
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -52,17 +55,21 @@ class _SearchBarState extends State<SearchBar> {
       ),
       child: Row(
         children: [
+          widget.showLeadingSearch ? _searchButton() : SizedBox.shrink(),
           Expanded(
             flex: 6,
             child: TextField(
+              autofocus: widget.autoFocus,
               cursorHeight: 16.0,
               cursorColor: AppTheme.color05,
               textInputAction: TextInputAction.search,
               controller: _textEditingController,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                contentPadding:
-                    const EdgeInsets.only(left: 16.0, top: 12.0, bottom: 12.0),
+                contentPadding: widget.showLeadingSearch
+                    ? const EdgeInsets.only(left: 4.0, top: 12.0, bottom: 12.0)
+                    : const EdgeInsets.only(
+                        left: 16.0, top: 12.0, bottom: 12.0),
                 hintText: widget.placeholder,
                 hintStyle:
                     AppTheme.textStyle.w500.color50.size(15.0).lineHeight(1.3),
@@ -79,8 +86,8 @@ class _SearchBarState extends State<SearchBar> {
               onEditingComplete: _onSubmit,
             ),
           ),
+          widget.showLeadingSearch ? SizedBox.shrink() : _searchButton(),
           _clearButton(),
-          _searchButton(),
         ],
       ),
     );
