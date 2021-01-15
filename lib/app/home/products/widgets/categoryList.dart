@@ -7,8 +7,9 @@ import 'productTile.dart';
 class CategoryList extends StatelessWidget {
   final CategoryModel category;
   final SellerModel seller;
+  final bool isLast;
 
-  CategoryList(this.category, this.seller);
+  CategoryList({this.category, this.seller, this.isLast = false});
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +72,7 @@ class CategoryList extends StatelessWidget {
           ),
         ),
         SizedBox(height: 5),
-        Divider(thickness: 1.0)
+        !this.isLast ? Divider(thickness: 1.0) : SizedBox.shrink()
       ],
     );
   }

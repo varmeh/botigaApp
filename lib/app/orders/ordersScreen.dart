@@ -203,12 +203,19 @@ class _OrderListScreenState extends State<OrderListScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      order.orderDate.dateCompleteWithTime,
-                      style: AppTheme.textStyle.w500.color50
-                          .size(12)
-                          .lineHeight(1.3),
-                    ),
+                    order.isOpen || order.isDelayed || order.isOutForDelivery
+                        ? Text(
+                            'expected on ${order.expectedDeliveryDate.dateFormatDayMonth}',
+                            style: AppTheme.textStyle.w500.color50
+                                .size(12)
+                                .lineHeight(1.3),
+                          )
+                        : Text(
+                            order.completionDate.dateCompleteWithTime,
+                            style: AppTheme.textStyle.w500.color50
+                                .size(12)
+                                .lineHeight(1.3),
+                          ),
                     SizedBox(width: 8.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,

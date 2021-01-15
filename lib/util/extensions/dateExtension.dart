@@ -14,4 +14,7 @@ extension DateExtension on DateTime {
 
   String get dateFormatDayMonthTime =>
       DateFormat('d MMMM hh:mm a').format(this.toLocal());
+
+  String get dateFormatCompleteWeekDayMonthDay =>
+      DateFormat('EEEE, MMM d').format(this.toLocal());
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../models/index.dart' show SellerModel;
+import '../../../models/index.dart' show SellerModel, CategoryModel;
 import '../../../providers/index.dart' show ProductsProvider;
 import '../../../theme/index.dart';
 import '../../../widgets/index.dart';
@@ -107,7 +107,19 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           } else if (index == 2) {
                             return _categoryList(context, seller);
                           } else {
-                            return SizedBox(height: 60.0);
+                            return Column(
+                              children: [
+                                Divider(
+                                  thickness: 5.0,
+                                  color: AppTheme.dividerColor,
+                                ),
+                                FssaiTile(
+                                    'House of Rasda',
+                                    'Rohini Colony, Radha Nagar, A.S Ram Nagar, Bengaluru, Karnataka 560002',
+                                    '11212138765689'),
+                                SizedBox(height: 60.0),
+                              ],
+                            );
                           }
                         },
                       ),
@@ -153,14 +165,20 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Widget _productList(BuildContext context, SellerModel seller) {
     return Consumer<ProductsProvider>(
       builder: (context, provider, child) {
-        final categoryList = provider.products(seller.id);
+        final categoryList = provider
+            .products(seller.id)
+            .where((category) => category.products.length > 0)
+            .toList();
+
         return Column(
           children: [
-            ...categoryList.map(
-              (category) => category.products.length > 0
-                  ? CategoryList(category, seller)
-                  : Container(),
-            )
+            ...categoryList.asMap().entries.map((entry) {
+              int idx = entry.key;
+              CategoryModel category = entry.value;
+              bool isLast = idx == categoryList.length - 1;
+              return CategoryList(
+                  category: category, seller: seller, isLast: isLast);
+            })
           ],
         );
       },

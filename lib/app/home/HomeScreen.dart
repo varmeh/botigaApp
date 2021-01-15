@@ -17,6 +17,7 @@ import '../location/index.dart'
     show SelectApartmenWhenNoUserLoggedInScreen, SavedAddressesSelectionModal;
 import '../tabbar.dart';
 import 'products/productListScreen.dart';
+import '../../util/index.dart' show DateExtension;
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -267,6 +268,23 @@ class HomeScreen extends StatelessWidget {
                             .size(13)
                             .lineHeight(1.5),
                       ),
+                      (seller.deliveryDate != null &&
+                              seller.deliveryDate
+                                      .difference(DateTime.now())
+                                      .inDays >=
+                                  1)
+                          ? Text(
+                              'Delivery by ${seller.deliveryDate.dateFormatCompleteWeekDayMonthDay}',
+                              style: AppTheme.textStyle.color100.w500
+                                  .size(13)
+                                  .lineHeight(1.5),
+                            )
+                          : Text(
+                              "Delivery Tomorrow",
+                              style: AppTheme.textStyle.color100.w500
+                                  .size(13)
+                                  .lineHeight(1.5),
+                            )
                     ],
                   ),
                 ),

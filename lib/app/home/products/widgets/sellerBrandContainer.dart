@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../models/index.dart' show SellerModel;
 import '../../../../theme/index.dart';
+import '../../../../util/index.dart' show DateExtension;
 import '../../../../widgets/index.dart' show ContactWidget, CircleNetworkAvatar;
 
 class SellerBrandContainer extends StatelessWidget {
@@ -22,7 +23,13 @@ class SellerBrandContainer extends StatelessWidget {
           _iconInfo(
             context,
             'assets/images/pin.png',
-            seller.live ? seller.deliveryMessage : 'Not Serving at the moment',
+            seller.live
+                ? (seller.deliveryDate != null &&
+                        seller.deliveryDate.difference(DateTime.now()).inDays >=
+                            1)
+                    ? 'Delivery by ${seller.deliveryDate.dateFormatCompleteWeekDayMonthDay}'
+                    : "Delivery Tomorrow"
+                : 'Not Serving at the moment',
           ),
           SizedBox(height: 24.0),
           ContactWidget(
