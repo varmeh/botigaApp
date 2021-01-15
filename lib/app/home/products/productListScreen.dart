@@ -113,10 +113,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                   thickness: 5.0,
                                   color: AppTheme.dividerColor,
                                 ),
-                                FssaiTile(
-                                    'House of Rasda',
-                                    'Rohini Colony, Radha Nagar, A.S Ram Nagar, Bengaluru, Karnataka 560002',
-                                    '11212138765689'),
+                                FssaiTile(seller),
                                 SizedBox(height: 60.0),
                               ],
                             );

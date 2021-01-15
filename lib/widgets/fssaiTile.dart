@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import '../theme/index.dart';
+import '../models/index.dart' show SellerModel;
 
 class FssaiTile extends StatelessWidget {
-  final String fssaiAddressTitle;
-  final String fssaiAddress;
-  final String fssaiNumber;
+  final SellerModel seller;
 
-  FssaiTile(this.fssaiAddressTitle, this.fssaiAddress, this.fssaiNumber);
+  FssaiTile(this.seller);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,7 @@ class FssaiTile extends StatelessWidget {
             ListTile(
               contentPadding: EdgeInsets.only(left: 0, right: 0),
               title: Text(
-                fssaiAddressTitle,
+                seller.brandName,
                 style: AppTheme.textStyle
                     .size(12)
                     .lineHeight(1.5)
@@ -28,7 +27,7 @@ class FssaiTile extends StatelessWidget {
                     .letterSpace(0.2),
               ),
               subtitle: Text(
-                fssaiAddress,
+                seller.address ?? 'Address will be updated soon',
                 style: AppTheme.textStyle
                     .size(10)
                     .lineHeight(1.5)
@@ -40,26 +39,30 @@ class FssaiTile extends StatelessWidget {
                 'assets/images/pin.png',
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 12.0, bottom: 0),
-              child: Divider(
-                thickness: 1.0,
-                color: AppTheme.dividerColor,
-              ),
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.only(left: 0, right: 0),
-              title: Text("License No. $fssaiNumber",
-                  style: AppTheme.textStyle
-                      .size(12)
-                      .lineHeight(1.5)
-                      .w500
-                      .color50
-                      .letterSpace(0.2)),
-              trailing: Image.asset(
-                'assets/images/fssai.png',
-              ),
-            ),
+            seller.fssaiLicenseNumber != null
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 12.0, bottom: 0),
+                    child: Divider(
+                      thickness: 1.0,
+                      color: AppTheme.dividerColor,
+                    ),
+                  )
+                : Container(),
+            seller.fssaiLicenseNumber != null
+                ? ListTile(
+                    contentPadding: EdgeInsets.only(left: 0, right: 0),
+                    title: Text('License No. ${seller.fssaiLicenseNumber}',
+                        style: AppTheme.textStyle
+                            .size(12)
+                            .lineHeight(1.5)
+                            .w500
+                            .color50
+                            .letterSpace(0.2)),
+                    trailing: Image.asset(
+                      'assets/images/fssai.png',
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),

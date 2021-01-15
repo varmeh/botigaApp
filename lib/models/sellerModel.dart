@@ -21,6 +21,9 @@ class SellerModel {
   final String deliveryMessage;
   final DateTime deliveryDate;
 
+  final String address;
+  final String fssaiLicenseNumber;
+
   SellerModel({
     @required this.id,
     @required this.brandName,
@@ -32,6 +35,8 @@ class SellerModel {
     @required this.whatsapp,
     @required this.deliveryMessage,
     @required this.deliveryDate,
+    this.address,
+    this.fssaiLicenseNumber,
   });
 
   factory SellerModel.fromJson(Map<String, dynamic> json) =>

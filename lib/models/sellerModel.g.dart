@@ -20,6 +20,8 @@ SellerModel _$SellerModelFromJson(Map<String, dynamic> json) {
     deliveryDate: json['deliveryDate'] == null
         ? null
         : DateTime.parse(json['deliveryDate'] as String),
+    address: json['address'] as String,
+    fssaiLicenseNumber: json['fssaiLicenseNumber'] as String,
   );
 }
 
@@ -35,4 +37,6 @@ Map<String, dynamic> _$SellerModelToJson(SellerModel instance) =>
       'whatsapp': instance.whatsapp,
       'deliveryMessage': instance.deliveryMessage,
       'deliveryDate': instance.deliveryDate?.toIso8601String(),
+      'address': instance.address,
+      'fssaiLicenseNumber': instance.fssaiLicenseNumber,
     };
