@@ -374,7 +374,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ShareModal(
                 title: 'SHARE WITH YOUR MERCHANT',
                 message:
-                    'Hello,\nI am placing orders to all my merchants using Botiga. It takes only 3 mins to register and start selling.\nIt\'s absolutely free, try it out now. https://www.botiga.app',
+                    'Hello,\nI am placing orders to all my merchants using Botiga. It takes only 3 mins to register and start selling.\nIt\'s absolutely free, try it out now. https://www.botigabusiness.app',
               ).show(context);
             },
             title: 'Invite Merchant',
