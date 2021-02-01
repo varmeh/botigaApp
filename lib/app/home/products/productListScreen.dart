@@ -42,45 +42,14 @@ class _ProductListScreenState extends State<ProductListScreen> {
   @override
   Widget build(BuildContext context) {
     final seller = _getSeller();
+    final _divider = Divider(
+      thickness: 4.0,
+      color: AppTheme.dividerColor,
+    );
 
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
-      appBar: BotigaAppBar(
-        '',
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 10.0),
-            child: IconButton(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              icon: Image.asset(
-                'assets/images/search.png',
-                color: AppTheme.color100,
-              ),
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  backgroundColor: Colors.transparent,
-                  builder: (builder) {
-                    return Container(
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height * 0.90,
-                        decoration: BoxDecoration(
-                          color: AppTheme.backgroundColor,
-                          borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(16.0),
-                            topRight: const Radius.circular(16.0),
-                          ),
-                        ),
-                        child: ProductSearchScreen(_getSeller()));
-                  },
-                );
-              },
-            ),
-          )
-        ],
-      ),
+      appBar: _appBar(context),
       body: SafeArea(
         child: _isLoading
             ? Loader()
@@ -100,9 +69,20 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           if (index == 0) {
                             return SellerBrandContainer(seller);
                           } else if (index == 1) {
-                            return Divider(
-                              thickness: 4.0,
-                              color: AppTheme.dividerColor,
+                            return Column(
+                              children: [
+                                _divider,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0,
+                                    vertical: 16.0,
+                                  ),
+                                  child: MerchantContactWidget(
+                                      phone: seller.phone,
+                                      whatsapp: seller.whatsapp),
+                                ),
+                                _divider
+                              ],
                             );
                           } else if (index == 2) {
                             return _categoryList(context, seller);
@@ -124,6 +104,48 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     ],
                   ),
       ),
+    );
+  }
+
+  BotigaAppBar _appBar(BuildContext context) {
+    return BotigaAppBar(
+      '',
+      actions: [
+        Padding(
+          padding: EdgeInsets.only(right: 10.0),
+          child: IconButton(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            icon: Image.asset(
+              'assets/images/search.png',
+              color: AppTheme.color100,
+            ),
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (builder) {
+                  return Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.90,
+                    decoration: BoxDecoration(
+                      color: AppTheme.backgroundColor,
+                      borderRadius: BorderRadius.only(
+                        topLeft: const Radius.circular(16.0),
+                        topRight: const Radius.circular(16.0),
+                      ),
+                    ),
+                    child: ProductSearchScreen(
+                      _getSeller(),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 

@@ -7,7 +7,7 @@ import '../../theme/index.dart';
 import '../../util/index.dart' show Http, DateExtension;
 import '../../widgets/index.dart'
     show
-        ContactWidget,
+        MerchantContactWidget,
         LoaderOverlay,
         BotigaAppBar,
         Toast,
@@ -212,7 +212,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             ],
           ),
           SizedBox(height: 24.0),
-          ContactWidget(
+          MerchantContactWidget(
             phone: order.seller.phone,
             whatsapp: order.seller.whatsapp,
           )

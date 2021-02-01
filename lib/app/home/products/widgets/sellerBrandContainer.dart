@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../models/index.dart' show SellerModel;
 import '../../../../theme/index.dart';
 import '../../../../util/index.dart' show DateExtension;
-import '../../../../widgets/index.dart' show ContactWidget, CircleNetworkAvatar;
+import '../../../../widgets/index.dart' show CircleNetworkAvatar;
 
 class SellerBrandContainer extends StatelessWidget {
   final SellerModel seller;
@@ -22,7 +22,7 @@ class SellerBrandContainer extends StatelessWidget {
           SizedBox(height: 10.0),
           _iconInfo(
             context,
-            'assets/images/pin.png',
+            'assets/images/truck.png',
             seller.live
                 ? (seller.deliveryDate != null &&
                         seller.deliveryDate.difference(DateTime.now()).inDays >=
@@ -31,11 +31,6 @@ class SellerBrandContainer extends StatelessWidget {
                     : "Delivery Tomorrow"
                 : 'Not Serving at the moment',
           ),
-          SizedBox(height: 24.0),
-          ContactWidget(
-            phone: seller.phone,
-            whatsapp: seller.whatsapp,
-          )
         ],
       ),
     );
@@ -79,13 +74,18 @@ class SellerBrandContainer extends StatelessWidget {
 
   Widget _iconInfo(BuildContext context, String image, String info) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(image),
-        SizedBox(width: 6.0),
+        Image.asset(
+          image,
+          width: 24.0,
+          height: 24.0,
+        ),
+        SizedBox(width: 12.0),
         Expanded(
           child: Text(
             info,
-            style: AppTheme.textStyle.w500.color100.size(14),
+            style: AppTheme.textStyle.w500.color100.size(14).lineHeight(1.5),
             textAlign: TextAlign.justify,
           ),
         ),
