@@ -51,7 +51,7 @@ class FssaiTile extends StatelessWidget {
             seller.fssaiLicenseNumber != null
                 ? ListTile(
                     contentPadding: EdgeInsets.only(left: 0, right: 0),
-                    title: Text('License No. ${seller.fssaiLicenseNumber}',
+                    title: Text('Registration No. ${seller.fssaiLicenseNumber}',
                         style: AppTheme.textStyle
                             .size(12)
                             .lineHeight(1.5)
