@@ -4,7 +4,7 @@ export 'botigaTextFieldForm.dart';
 export 'brandingTile.dart';
 export 'buttons/index.dart';
 export 'circleNetworkAvatar.dart';
-export 'contactWidget.dart';
+export 'merchantContactWidget.dart';
 export 'dottedTimeline.dart';
 export 'httpExceptionWidget.dart';
 export 'incrementButton.dart';
