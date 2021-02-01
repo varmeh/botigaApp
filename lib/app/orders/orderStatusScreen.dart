@@ -20,10 +20,6 @@ class OrderStatusScreen extends StatefulWidget {
 
 class _OrderStatusScreenState extends State<OrderStatusScreen> {
   bool _isLoading = false;
-  final divider = Divider(
-    thickness: 8.0,
-    color: AppTheme.dividerColor,
-  );
 
   @override
   void initState() {
@@ -50,11 +46,12 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
           child: Column(
             children: [
               _sellerInfo(),
-              divider,
-              _deliveryAddress(),
-              divider,
+              Divider(
+                thickness: 4.0,
+                color: AppTheme.dividerColor,
+              ),
               Container(
-                padding: const EdgeInsets.only(top: 12.0),
+                padding: const EdgeInsets.only(top: 12.0, bottom: 4.0),
                 child: OrderStatusWidget(
                   order: widget.order,
                   stateLoading: (value) {
@@ -62,6 +59,7 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
                   },
                 ),
               ),
+              _refundMessage(),
             ],
           ),
         ),
@@ -134,44 +132,6 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
     );
   }
 
-  Widget _deliveryAddress() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.asset(
-            'assets/images/homeOutline.png',
-            width: 24.0,
-            height: 24.0,
-          ),
-          SizedBox(width: 24),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Deliver To',
-                  style: AppTheme.textStyle.w600.color100
-                      .size(15.0)
-                      .lineHeight(1.3),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  '${widget.order.house}, ${widget.order.apartment}',
-                  style: AppTheme.textStyle.w500.color50
-                      .size(13.0)
-                      .lineHeight(1.5),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
   Widget _homeButton() {
     return Container(
       margin: const EdgeInsets.only(bottom: 20.0),
@@ -226,6 +186,24 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _refundMessage() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.all(20.0),
+      decoration: BoxDecoration(
+        color: Color(0xfffdf0d5),
+        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      ),
+      child: Text(
+        'Incase any amount is deducted from your bank account, it will credited back to the same account in 2 to 3 business days.',
+        style: AppTheme.textStyle.color100.w500
+            .size(12.0)
+            .lineHeight(1.5)
+            .letterSpace(0.2),
       ),
     );
   }

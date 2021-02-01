@@ -34,7 +34,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final divider = Divider(
-      thickness: 8.0,
+      thickness: 4.0,
       color: AppTheme.dividerColor,
     );
 
@@ -223,7 +223,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
   Widget _deliveryAddress() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
