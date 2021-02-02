@@ -191,20 +191,22 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
   }
 
   Widget _refundMessage() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20.0),
-      padding: const EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        color: Color(0xfffdf0d5),
-        borderRadius: BorderRadius.all(Radius.circular(4.0)),
-      ),
-      child: Text(
-        'Incase any amount is deducted from your bank account, it will credited back to the same account in 2 to 3 business days.',
-        style: AppTheme.textStyle.color100.w500
-            .size(12.0)
-            .lineHeight(1.5)
-            .letterSpace(0.2),
-      ),
-    );
+    return widget.order.payment.isFailure
+        ? Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+              color: Color(0xfffdf0d5),
+              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+            ),
+            child: Text(
+              'Incase any amount is deducted from your bank account, it will credited back to the same account in 2 to 3 business days.',
+              style: AppTheme.textStyle.color100.w500
+                  .size(12.0)
+                  .lineHeight(1.5)
+                  .letterSpace(0.2),
+            ),
+          )
+        : Container();
   }
 }
