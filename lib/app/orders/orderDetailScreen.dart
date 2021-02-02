@@ -52,6 +52,17 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               children: [
                 _sellerInfo(),
                 divider,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16.0,
+                    horizontal: 20.0,
+                  ),
+                  child: MerchantContactWidget(
+                    phone: order.seller.phone,
+                    whatsapp: order.seller.whatsapp,
+                  ),
+                ),
+                divider,
                 _deliveryAddress(),
                 divider,
                 OrderStatusWidget(
@@ -211,11 +222,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               ),
             ],
           ),
-          SizedBox(height: 24.0),
-          MerchantContactWidget(
-            phone: order.seller.phone,
-            whatsapp: order.seller.whatsapp,
-          )
         ],
       ),
     );
