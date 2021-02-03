@@ -63,8 +63,12 @@ class CategoryList extends StatelessWidget {
                       ),
                     ),
                     // List all the products
-                    ...category.products.map((product) =>
-                        ProductTile(seller: seller, product: product))
+                    ...category.products.map(
+                      (product) => ProductTile(
+                        seller: seller,
+                        product: product,
+                      ),
+                    ),
                   ],
                 )
               ],

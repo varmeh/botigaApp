@@ -196,7 +196,10 @@ class _ProductListScreenState extends State<ProductListScreen> {
               CategoryModel category = entry.value;
               bool isLast = idx == categoryList.length - 1;
               return CategoryList(
-                  category: category, seller: seller, isLast: isLast);
+                category: category,
+                seller: seller,
+                isLast: isLast,
+              );
             })
           ],
         );

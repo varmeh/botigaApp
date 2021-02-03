@@ -31,6 +31,8 @@ class _ProductTileState extends State<ProductTile> {
 
   @override
   Widget build(BuildContext context) {
+    final _hasMrp = widget.product.mrp != null;
+
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15),
       child: Row(
@@ -52,12 +54,29 @@ class _ProductTileState extends State<ProductTile> {
                       AppTheme.textStyle.w500.color50.lineHeight(1.6).size(13),
                 ),
                 SizedBox(height: 3),
-                Text(
-                  '₹${widget.product.price}',
-                  style: AppTheme.textStyle.w500.color100
-                      .lineHeight(1.6)
-                      .size(13)
-                      .letterSpace(0.5),
+                Row(
+                  children: [
+                    _hasMrp
+                        ? Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Text(
+                              '₹${widget.product.mrp}',
+                              style: AppTheme.textStyle.w500.color50
+                                  .lineHeight(1.6)
+                                  .size(13)
+                                  .letterSpace(0.5)
+                                  .lineThrough,
+                            ),
+                          )
+                        : Container(),
+                    Text(
+                      '₹${widget.product.price}',
+                      style: AppTheme.textStyle.w500.color100
+                          .lineHeight(1.6)
+                          .size(13)
+                          .letterSpace(0.5),
+                    ),
+                  ],
                 ),
                 widget.product.description != null
                     ? Padding(

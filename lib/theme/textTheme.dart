@@ -15,6 +15,8 @@ extension TextStyleHelpers on TextStyle {
   TextStyle get color25 => copyWith(color: AppTheme.color25);
   TextStyle get color05 => copyWith(color: AppTheme.color05);
 
+  TextStyle get lineThrough => copyWith(decoration: TextDecoration.lineThrough);
+
   TextStyle colored(Color value) => copyWith(color: value);
 
   TextStyle weight(FontWeight value) => copyWith(fontWeight: value);
