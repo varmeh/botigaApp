@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../models/index.dart' show SellerModel;
 import '../../../../theme/index.dart';
-import '../../../../util/index.dart' show DateExtension;
+import '../../../../util/index.dart' show DateExtension, StringExtensions;
 import '../../../../widgets/index.dart' show CircleNetworkAvatar;
 
 class SellerBrandContainer extends StatelessWidget {
@@ -12,6 +12,15 @@ class SellerBrandContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _deliverySchedule = (seller.deliveryDate != null &&
+            seller.deliveryDate.difference(DateTime.now()).inDays >= 1)
+        ? 'Delivery by ${seller.deliveryDate.dateFormatDayDateMonth}'
+        : 'Delivery Tomorrow';
+
+    if (seller.deliverySlot.isNotNullAndEmpty) {
+      _deliverySchedule += '・${seller.deliverySlot}';
+    }
+
     return Container(
       padding: EdgeInsets.only(left: 20, top: 6, right: 20, bottom: 24),
       child: Column(
@@ -23,13 +32,7 @@ class SellerBrandContainer extends StatelessWidget {
           _iconInfo(
             context,
             'assets/images/truck.png',
-            seller.live
-                ? (seller.deliveryDate != null &&
-                        seller.deliveryDate.difference(DateTime.now()).inDays >=
-                            1)
-                    ? 'Delivery by ${seller.deliveryDate.dateFormatCompleteWeekDayMonthDay}'
-                    : "Delivery Tomorrow"
-                : 'Not Serving at the moment',
+            seller.live ? _deliverySchedule : 'Not Serving at the moment',
           ),
         ],
       ),

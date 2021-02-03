@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../util/index.dart' show DateExtension;
+import '../../../util/index.dart' show DateExtension, StringExtensions;
 import '../../../models/index.dart' show SellerModel;
 import '../../../providers/userProvider.dart';
 import '../../../theme/index.dart';
@@ -87,6 +87,13 @@ class CartDeliveryInfo extends StatelessWidget {
   }
 
   Widget _deliveryDate(SellerModel seller) {
+    var _deliveryTime =
+        'Delivery on ${seller.deliveryDate.toLocal().dateFormatDayDateMonth}';
+
+    if (seller.deliverySlot.isNotNullAndEmpty) {
+      _deliveryTime += '・${seller.deliverySlot}';
+    }
+
     return Padding(
       padding: const EdgeInsets.only(left: 10.0, top: 16, bottom: 16),
       child: Row(
@@ -95,9 +102,7 @@ class CartDeliveryInfo extends StatelessWidget {
           SizedBox(width: 26.0),
           Expanded(
             child: Text(
-              seller.live
-                  ? 'Delivery expected on ${seller.deliveryDate.toLocal().dateFormatWeekDayMonthDay}'
-                  : 'Not Serving at the moment',
+              seller.live ? _deliveryTime : 'Not Serving at the moment',
               style: AppTheme.textStyle.w500.color100.size(13).lineHeight(1.5),
               textAlign: TextAlign.justify,
             ),
