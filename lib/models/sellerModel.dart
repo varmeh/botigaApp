@@ -20,6 +20,7 @@ class SellerModel {
 
   final String deliveryMessage;
   final DateTime deliveryDate;
+  final String deliverySlot;
 
   final String address;
   final String fssaiLicenseNumber;
@@ -35,6 +36,7 @@ class SellerModel {
     @required this.whatsapp,
     @required this.deliveryMessage,
     @required this.deliveryDate,
+    this.deliverySlot,
     this.address,
     this.fssaiLicenseNumber,
   });

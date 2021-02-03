@@ -17,6 +17,7 @@ class OrderModel {
   final double totalAmount;
   final DateTime orderDate;
   final DateTime expectedDeliveryDate;
+  final String deliverySlot;
   final DateTime completionDate;
   final List<OrderProductModel> products;
   final PaymentModel payment;
@@ -33,6 +34,7 @@ class OrderModel {
     @required this.totalAmount,
     @required this.orderDate,
     @required this.expectedDeliveryDate,
+    this.deliverySlot,
     @required this.completionDate,
     @required this.products,
     this.payment,
