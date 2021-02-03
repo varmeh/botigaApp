@@ -41,32 +41,34 @@ class _ProductTileState extends State<ProductTile> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _hasTag
-              ? Row(
-                  children: [
-                    Container(color: _ribbonColor, width: 3, height: 24),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(4.0),
-                          bottomRight: Radius.circular(4.0),
+              ? Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Row(
+                    children: [
+                      Container(color: _ribbonColor, width: 3, height: 24),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(4.0),
+                            bottomRight: Radius.circular(4.0),
+                          ),
+                          color: _ribbonColor.withOpacity(0.1),
                         ),
-                        color: _ribbonColor.withOpacity(0.1),
+                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                        height: 24,
+                        child: Text(
+                          widget.product.tag,
+                          style: AppTheme.textStyle.w600
+                              .size(11.0)
+                              .lineHeight(1.9)
+                              .letterSpace(0.5)
+                              .colored(_ribbonColor),
+                        ),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                      height: 24,
-                      child: Text(
-                        widget.product.tag,
-                        style: AppTheme.textStyle.w600
-                            .size(11.0)
-                            .lineHeight(1.9)
-                            .letterSpace(0.5)
-                            .colored(_ribbonColor),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 )
               : Container(),
-          SizedBox(height: 8.0),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
