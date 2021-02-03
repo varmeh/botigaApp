@@ -207,49 +207,63 @@ class _OrderListScreenState extends State<OrderListScreen> {
                     )
                   ],
                 ),
-                SizedBox(height: 4.0),
-                Row(
-                  children: [
-                    Text(
-                      dateMessage,
-                      textAlign: TextAlign.start,
-                      style: AppTheme.textStyle.w500.color50
-                          .size(12)
-                          .lineHeight(1.3)
-                          .letterSpace(0.2),
-                    ),
-                    order.isCompleted || order.deliverySlot.isNullOrEmpty
-                        ? Container()
-                        : Text(
-                            ' ・ ${order.deliverySlot}',
-                            style: AppTheme.textStyle.w500.color50
-                                .size(12)
-                                .lineHeight(1.3)
-                                .letterSpace(0.2),
-                          )
-                  ],
-                ),
                 SizedBox(height: 8.0),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    order.isCompleted
-                        ? Image.asset(image)
-                        : Container(
-                            width: 12.0,
-                            height: 12.0,
-                            decoration: BoxDecoration(
-                              color: order.statusColor,
-                              shape: BoxShape.circle,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              dateMessage,
+                              textAlign: TextAlign.start,
+                              style: AppTheme.textStyle.w500.color50
+                                  .size(12)
+                                  .lineHeight(1.3)
+                                  .letterSpace(0.2),
                             ),
-                          ),
-                    SizedBox(width: 4.0),
-                    Text(
-                      order.statusMessage,
-                      style: AppTheme.textStyle.w500.color50
-                          .size(12)
-                          .lineHeight(1.3),
+                            order.isCompleted ||
+                                    order.deliverySlot.isNullOrEmpty
+                                ? Container()
+                                : Text(
+                                    ' ・ ${order.deliverySlot}',
+                                    style: AppTheme.textStyle.w500.color50
+                                        .size(12)
+                                        .lineHeight(1.3)
+                                        .letterSpace(0.2),
+                                  )
+                          ],
+                        ),
+                        SizedBox(height: 8.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            order.isCompleted
+                                ? Image.asset(image)
+                                : Container(
+                                    width: 12.0,
+                                    height: 12.0,
+                                    decoration: BoxDecoration(
+                                      color: order.statusColor,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                            SizedBox(width: 4.0),
+                            Text(
+                              order.statusMessage,
+                              style: AppTheme.textStyle.w500.color50
+                                  .size(12)
+                                  .lineHeight(1.3),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
+                    order.payment.isSuccess
+                        ? Image.asset('assets/images/stampPaid.png')
+                        : Container(),
                   ],
                 ),
                 SizedBox(height: 16.0),
