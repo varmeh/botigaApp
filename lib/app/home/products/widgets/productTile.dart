@@ -32,108 +32,145 @@ class _ProductTileState extends State<ProductTile> {
   @override
   Widget build(BuildContext context) {
     final _hasMrp = widget.product.mrp != null;
+    final _hasTag = widget.product.tag.isNotNullAndEmpty;
+    final _ribbonColor = Color(0xfff49302);
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.product.name,
-                  style: AppTheme.textStyle.w500.color100
-                      .lineHeight(1.35)
-                      .size(15),
-                ),
-                Text(
-                  widget.product.size,
-                  style:
-                      AppTheme.textStyle.w500.color50.lineHeight(1.6).size(13),
-                ),
-                SizedBox(height: 3),
-                Row(
+          _hasTag
+              ? Row(
                   children: [
-                    _hasMrp
+                    Container(color: _ribbonColor, width: 3, height: 24),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(4.0),
+                          bottomRight: Radius.circular(4.0),
+                        ),
+                        color: _ribbonColor.withOpacity(0.1),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                      height: 24,
+                      child: Text(
+                        widget.product.tag,
+                        style: AppTheme.textStyle.w600
+                            .size(11.0)
+                            .lineHeight(1.9)
+                            .letterSpace(0.5)
+                            .colored(_ribbonColor),
+                      ),
+                    ),
+                  ],
+                )
+              : Container(),
+          SizedBox(height: 8.0),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.product.name,
+                      style: AppTheme.textStyle.w500.color100
+                          .lineHeight(1.35)
+                          .size(15),
+                    ),
+                    Text(
+                      widget.product.size,
+                      style: AppTheme.textStyle.w500.color50
+                          .lineHeight(1.6)
+                          .size(13),
+                    ),
+                    SizedBox(height: 3),
+                    Row(
+                      children: [
+                        _hasMrp
+                            ? Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Text(
+                                  '₹${widget.product.mrp}',
+                                  style: AppTheme.textStyle.w500.color50
+                                      .lineHeight(1.6)
+                                      .size(13)
+                                      .letterSpace(0.5)
+                                      .lineThrough,
+                                ),
+                              )
+                            : Container(),
+                        Text(
+                          '₹${widget.product.price}',
+                          style: AppTheme.textStyle.w500.color100
+                              .lineHeight(1.6)
+                              .size(13)
+                              .letterSpace(0.5),
+                        ),
+                      ],
+                    ),
+                    widget.product.description != null
                         ? Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
+                            padding: const EdgeInsets.only(top: 6.0),
                             child: Text(
-                              '₹${widget.product.mrp}',
+                              widget.product.description,
                               style: AppTheme.textStyle.w500.color50
-                                  .lineHeight(1.6)
-                                  .size(13)
-                                  .letterSpace(0.5)
-                                  .lineThrough,
+                                  .lineHeight(1.3)
+                                  .letterSpace(0.2)
+                                  .size(12),
+                            ),
+                          )
+                        : Container()
+                  ],
+                ),
+              ),
+              SizedBox(width: 20.0),
+              SizedBox(
+                width: 120,
+                height: 110,
+                child: Stack(
+                  children: [
+                    _hasImage
+                        ? Container(
+                            width: 120.0,
+                            height: 90.0,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                onError: (_, __) =>
+                                    setState(() => _hasImage = false),
+                                fit: BoxFit.fill,
+                                colorFilter: widget.product.available
+                                    ? ColorFilter.mode(
+                                        Colors.transparent,
+                                        BlendMode.multiply,
+                                      )
+                                    : ColorFilter.mode(
+                                        Colors.grey,
+                                        BlendMode.saturation,
+                                      ),
+                                image: CachedNetworkImageProvider(
+                                    widget.product.imageUrl),
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4.0)),
                             ),
                           )
                         : Container(),
-                    Text(
-                      '₹${widget.product.price}',
-                      style: AppTheme.textStyle.w500.color100
-                          .lineHeight(1.6)
-                          .size(13)
-                          .letterSpace(0.5),
+                    Positioned(
+                      bottom: _hasImage ? 0 : 40,
+                      left: 20,
+                      child: ProductSelectionButton(
+                        seller: widget.seller,
+                        product: widget.product,
+                      ),
                     ),
                   ],
                 ),
-                widget.product.description != null
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 6.0),
-                        child: Text(
-                          widget.product.description,
-                          style: AppTheme.textStyle.w500.color50
-                              .lineHeight(1.3)
-                              .letterSpace(0.2)
-                              .size(12),
-                        ),
-                      )
-                    : Container()
-              ],
-            ),
-          ),
-          SizedBox(width: 20.0),
-          SizedBox(
-            width: 120,
-            height: 110,
-            child: Stack(
-              children: [
-                _hasImage
-                    ? Container(
-                        width: 120.0,
-                        height: 90.0,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            onError: (_, __) =>
-                                setState(() => _hasImage = false),
-                            fit: BoxFit.fill,
-                            colorFilter: widget.product.available
-                                ? ColorFilter.mode(
-                                    Colors.transparent,
-                                    BlendMode.multiply,
-                                  )
-                                : ColorFilter.mode(
-                                    Colors.grey,
-                                    BlendMode.saturation,
-                                  ),
-                            image: CachedNetworkImageProvider(
-                                widget.product.imageUrl),
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                        ),
-                      )
-                    : Container(),
-                Positioned(
-                  bottom: _hasImage ? 0 : 40,
-                  left: 20,
-                  child: ProductSelectionButton(
-                    seller: widget.seller,
-                    product: widget.product,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
