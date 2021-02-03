@@ -54,6 +54,8 @@ class OrderModel {
   bool get isDelivered => status == 'delivered';
   bool get isCancelled => status == 'cancelled';
 
+  bool get isCompleted => isDelivered || isCancelled;
+
   String get statusMessage {
     if (isOpen) {
       return 'Order Placed';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animations/animations.dart';
 
-import '../../util/index.dart' show DateExtension;
+import '../../util/index.dart' show DateExtension, StringExtensions;
 import '../../models/orderModel.dart';
 import '../../providers/ordersProvider.dart';
 import '../../theme/index.dart';
@@ -169,6 +169,14 @@ class _OrderListScreenState extends State<OrderListScreen> {
   }
 
   Widget _orderTile(OrderModel order) {
+    final dateMessage = order.isCompleted
+        ? '${order.completionDate.dateFormatDayMonth}・${order.completionDate.dateFormatTime}'
+        : 'Delivery by ${order.expectedDeliveryDate.dateFormatWeekDayMonthDay}';
+
+    final image = order.isDelivered
+        ? 'assets/images/success.png'
+        : 'assets/images/failure.png';
+
     return OpenContainer(
       closedElevation: 0.0,
       transitionDuration: Duration(milliseconds: 300),
@@ -176,7 +184,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
         return GestureDetector(
           onTap: openContainer,
           child: Container(
-            padding: EdgeInsets.only(top: 20.0),
+            padding: EdgeInsets.only(top: 16.0),
             child: Column(
               children: [
                 Row(
@@ -201,45 +209,50 @@ class _OrderListScreenState extends State<OrderListScreen> {
                 ),
                 SizedBox(height: 4.0),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    order.isOpen || order.isDelayed || order.isOutForDelivery
-                        ? Text(
-                            'expected on ${order.expectedDeliveryDate.dateFormatDayMonth}',
-                            style: AppTheme.textStyle.w500.color50
-                                .size(12)
-                                .lineHeight(1.3),
-                          )
+                    Text(
+                      dateMessage,
+                      textAlign: TextAlign.start,
+                      style: AppTheme.textStyle.w500.color50
+                          .size(12)
+                          .lineHeight(1.3)
+                          .letterSpace(0.2),
+                    ),
+                    order.isCompleted || order.deliverySlot.isNullOrEmpty
+                        ? Container()
                         : Text(
-                            order.completionDate.dateCompleteWithTime,
+                            ' ・ ${order.deliverySlot}',
                             style: AppTheme.textStyle.w500.color50
                                 .size(12)
-                                .lineHeight(1.3),
+                                .lineHeight(1.3)
+                                .letterSpace(0.2),
+                          )
+                  ],
+                ),
+                SizedBox(height: 8.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    order.isCompleted
+                        ? Image.asset(image)
+                        : Container(
+                            width: 12.0,
+                            height: 12.0,
+                            decoration: BoxDecoration(
+                              color: order.statusColor,
+                              shape: BoxShape.circle,
+                            ),
                           ),
-                    SizedBox(width: 8.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          order.statusMessage,
-                          style: AppTheme.textStyle.w500.color50
-                              .size(12)
-                              .lineHeight(1.3),
-                        ),
-                        Container(
-                          width: 12.0,
-                          height: 12.0,
-                          margin: const EdgeInsets.only(left: 4.0),
-                          decoration: BoxDecoration(
-                            color: order.statusColor,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      ],
+                    SizedBox(width: 4.0),
+                    Text(
+                      order.statusMessage,
+                      style: AppTheme.textStyle.w500.color50
+                          .size(12)
+                          .lineHeight(1.3),
                     ),
                   ],
                 ),
-                SizedBox(height: 20.0),
+                SizedBox(height: 16.0),
                 Divider(
                   thickness: 1.0,
                   color: AppTheme.dividerColor,
