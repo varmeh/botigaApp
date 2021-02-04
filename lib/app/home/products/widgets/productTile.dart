@@ -134,13 +134,13 @@ class _ProductTileState extends State<ProductTile> {
                 ),
               ),
               SizedBox(width: 20.0),
-              SizedBox(
-                width: 120,
-                height: 110,
-                child: Stack(
-                  children: [
-                    _hasImage
-                        ? Container(
+              _hasImage
+                  ? SizedBox(
+                      width: 120,
+                      height: 110,
+                      child: Stack(
+                        children: [
+                          Container(
                             width: 120.0,
                             height: 90.0,
                             decoration: BoxDecoration(
@@ -163,19 +163,25 @@ class _ProductTileState extends State<ProductTile> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(4.0)),
                             ),
-                          )
-                        : Container(),
-                    Positioned(
-                      bottom: _hasImage ? 0 : 40,
-                      left: 20,
+                          ),
+                          Positioned(
+                            bottom: _hasImage ? 0 : 40,
+                            left: 20,
+                            child: ProductSelectionButton(
+                              seller: widget.seller,
+                              product: widget.product,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(right: 20.0),
                       child: ProductSelectionButton(
                         seller: widget.seller,
                         product: widget.product,
                       ),
                     ),
-                  ],
-                ),
-              ),
             ],
           ),
         ],
