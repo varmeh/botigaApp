@@ -45,7 +45,7 @@ class _ProductTileState extends State<ProductTile> {
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Row(
                     children: [
-                      Container(color: _ribbonColor, width: 3, height: 24),
+                      Container(color: _ribbonColor, width: 3, height: 20),
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
@@ -55,14 +55,16 @@ class _ProductTileState extends State<ProductTile> {
                           color: _ribbonColor.withOpacity(0.1),
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                        height: 24,
-                        child: Text(
-                          widget.product.tag,
-                          style: AppTheme.textStyle.w600
-                              .size(11.0)
-                              .lineHeight(1.9)
-                              .letterSpace(0.5)
-                              .colored(_ribbonColor),
+                        height: 20,
+                        child: Center(
+                          child: Text(
+                            widget.product.tag,
+                            style: AppTheme.textStyle.w600
+                                .size(11.0)
+                                .lineHeight(1.2)
+                                .letterSpace(0.5)
+                                .colored(_ribbonColor),
+                          ),
                         ),
                       ),
                     ],
