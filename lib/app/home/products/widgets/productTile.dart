@@ -70,7 +70,9 @@ class _ProductTileState extends State<ProductTile> {
                 )
               : Container(),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: _hasImage
+                ? CrossAxisAlignment.start
+                : CrossAxisAlignment.center,
             children: [
               Expanded(
                 child: Column(
