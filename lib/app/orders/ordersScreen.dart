@@ -215,29 +215,21 @@ class _OrderListScreenState extends State<OrderListScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              Text(
-                                dateMessage,
-                                textAlign: TextAlign.start,
+                          RichText(
+                            text: TextSpan(
+                                text: dateMessage,
                                 style: AppTheme.textStyle.w500.color50
                                     .size(12)
                                     .lineHeight(1.3)
                                     .letterSpace(0.2),
-                              ),
-                              order.isCompleted ||
-                                      order.deliverySlot.isNullOrEmpty
-                                  ? Container()
-                                  : Expanded(
-                                      child: Text(
-                                        ' ・ ${order.deliverySlot}',
-                                        style: AppTheme.textStyle.w500.color50
-                                            .size(12)
-                                            .lineHeight(1.3)
-                                            .letterSpace(0.2),
-                                      ),
-                                    )
-                            ],
+                                children: [
+                                  order.isCompleted ||
+                                          order.deliverySlot.isNullOrEmpty
+                                      ? TextSpan(text: '')
+                                      : TextSpan(
+                                          text: ' ・ ${order.deliverySlot}',
+                                        ),
+                                ]),
                           ),
                           SizedBox(height: 8.0),
                           Row(
