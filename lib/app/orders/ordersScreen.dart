@@ -211,55 +211,59 @@ class _OrderListScreenState extends State<OrderListScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              dateMessage,
-                              textAlign: TextAlign.start,
-                              style: AppTheme.textStyle.w500.color50
-                                  .size(12)
-                                  .lineHeight(1.3)
-                                  .letterSpace(0.2),
-                            ),
-                            order.isCompleted ||
-                                    order.deliverySlot.isNullOrEmpty
-                                ? Container()
-                                : Text(
-                                    ' ・ ${order.deliverySlot}',
-                                    style: AppTheme.textStyle.w500.color50
-                                        .size(12)
-                                        .lineHeight(1.3)
-                                        .letterSpace(0.2),
-                                  )
-                          ],
-                        ),
-                        SizedBox(height: 8.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            order.isCompleted
-                                ? Image.asset(image)
-                                : Container(
-                                    width: 12.0,
-                                    height: 12.0,
-                                    decoration: BoxDecoration(
-                                      color: order.statusColor,
-                                      shape: BoxShape.circle,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                dateMessage,
+                                textAlign: TextAlign.start,
+                                style: AppTheme.textStyle.w500.color50
+                                    .size(12)
+                                    .lineHeight(1.3)
+                                    .letterSpace(0.2),
+                              ),
+                              order.isCompleted ||
+                                      order.deliverySlot.isNullOrEmpty
+                                  ? Container()
+                                  : Expanded(
+                                      child: Text(
+                                        ' ・ ${order.deliverySlot}',
+                                        style: AppTheme.textStyle.w500.color50
+                                            .size(12)
+                                            .lineHeight(1.3)
+                                            .letterSpace(0.2),
+                                      ),
+                                    )
+                            ],
+                          ),
+                          SizedBox(height: 8.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              order.isCompleted
+                                  ? Image.asset(image)
+                                  : Container(
+                                      width: 12.0,
+                                      height: 12.0,
+                                      decoration: BoxDecoration(
+                                        color: order.statusColor,
+                                        shape: BoxShape.circle,
+                                      ),
                                     ),
-                                  ),
-                            SizedBox(width: 4.0),
-                            Text(
-                              order.statusMessage,
-                              style: AppTheme.textStyle.w500.color50
-                                  .size(12)
-                                  .lineHeight(1.3),
-                            ),
-                          ],
-                        ),
-                      ],
+                              SizedBox(width: 4.0),
+                              Text(
+                                order.statusMessage,
+                                style: AppTheme.textStyle.w500.color50
+                                    .size(12)
+                                    .lineHeight(1.3),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     order.payment.isSuccess
                         ? Image.asset('assets/images/stampPaid.png')
