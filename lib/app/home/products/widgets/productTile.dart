@@ -58,7 +58,7 @@ class _ProductTileState extends State<ProductTile> {
                         height: 20,
                         child: Center(
                           child: Text(
-                            widget.product.tag,
+                            widget.product.tag.toUpperCase(),
                             style: AppTheme.textStyle.w600
                                 .size(11.0)
                                 .lineHeight(1.2)
