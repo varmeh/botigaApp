@@ -3,8 +3,9 @@ import 'package:provider/provider.dart';
 
 import '../../../models/index.dart' show SellerModel;
 import '../../../providers/index.dart' show ProductsProvider;
-import '../../../widgets/index.dart';
-import '../../../widgets/index.dart' show HttpServiceExceptionWidget;
+import '../../../theme/index.dart';
+import '../../../widgets/index.dart'
+    show HttpServiceExceptionWidget, Loader, SearchBar;
 import './widgets/productTile.dart';
 
 class ProductSearchScreen extends StatefulWidget {
@@ -137,13 +138,40 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
             }
           },
         );
-        return Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [...products],
-          ),
-        );
+        return products.length > 0
+            ? Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [...products],
+                ),
+              )
+            : Padding(
+                padding: const EdgeInsets.only(top: 48.0),
+                child: Column(
+                  children: [
+                    Image.asset(
+                      'assets/images/searchFailure.png',
+                      width: 200,
+                      height: 200,
+                    ),
+                    SizedBox(height: 14),
+                    Text(
+                      'Nothing here',
+                      style: AppTheme.textStyle.w700.color100
+                          .size(17)
+                          .lineHeight(1.3),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      'Try searching other words',
+                      style: AppTheme.textStyle.w500.color50
+                          .size(12)
+                          .lineHeight(1.3),
+                    ),
+                  ],
+                ),
+              );
       },
     );
   }
