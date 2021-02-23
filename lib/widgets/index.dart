@@ -20,3 +20,4 @@ export 'statusImageWidget.dart';
 export 'toast.dart';
 export 'shareModal.dart';
 export 'fssaiTile.dart';
+export 'bannerCarousel.dart';

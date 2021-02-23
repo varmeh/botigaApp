@@ -8,16 +8,22 @@ import '../util/index.dart' show Http;
 class SellersProvider with ChangeNotifier {
   List<SellerModel> _sellerList = [];
   int availableSellers = 0;
+  List<String> _bannerList = [];
 
   int get notAvailableSellers => _sellerList.length - availableSellers;
   bool get hasNotAvailableSellers => notAvailableSellers > 0;
   bool get hasAvailableSellers => availableSellers > 0;
+  bool get hasBanners => _bannerList.length > 0;
 
   UnmodifiableListView<SellerModel> get sellerList =>
       UnmodifiableListView(_sellerList);
 
+  UnmodifiableListView<String> get bannerList =>
+      UnmodifiableListView(_bannerList);
+
   void empty() {
     _sellerList.clear();
+    _bannerList.clear();
     availableSellers = 0;
   }
 
@@ -25,6 +31,11 @@ class SellersProvider with ChangeNotifier {
     if (_sellerList.length > 0) {
       return;
     } else {
+      final jsonApartment = await Http.get('/api/user/apartments/$apartmentId');
+      if (jsonApartment['banners'].length > 0) {
+        jsonApartment['banners'].forEach((url) => _bannerList.add(url));
+      }
+
       final json = await Http.get('/api/user/sellers/$apartmentId');
       final _sellerIterable = json.map((item) {
         final seller = SellerModel.fromJson(item);

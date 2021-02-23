@@ -12,7 +12,8 @@ import '../../widgets/index.dart'
         InviteTile,
         Loader,
         HttpServiceExceptionWidget,
-        CircleNetworkAvatar;
+        CircleNetworkAvatar,
+        BannerCarosuel;
 import '../location/index.dart'
     show SelectApartmenWhenNoUserLoggedInScreen, SavedAddressesSelectionModal;
 import '../tabbar.dart';
@@ -50,6 +51,7 @@ class HomeScreen extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 children: [
                   appBar(context, provider),
+                  _banners(provider),
                   _availableSellers(context, provider),
                   Container(
                     color: AppTheme.backgroundColor,
@@ -115,6 +117,16 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _banners(SellersProvider provider) {
+    return provider.hasBanners
+        ? Container(
+            color: AppTheme.backgroundColor,
+            padding: const EdgeInsets.only(top: 24.0),
+            child: BannerCarosuel(provider.bannerList),
+          )
+        : Container();
   }
 
   Widget _selectApartment(BuildContext context) {
