@@ -14,6 +14,8 @@ class ProductModel {
   final String description;
   final String imageUrl;
   final String tag;
+  final String imageUrlLarge;
+  List<String> secondaryImageUrls;
 
   ProductModel({
     @required this.id,
@@ -25,6 +27,8 @@ class ProductModel {
     this.tag,
     this.description,
     this.imageUrl,
+    this.imageUrlLarge,
+    this.secondaryImageUrls,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) =>
