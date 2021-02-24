@@ -4,8 +4,14 @@ import 'package:provider/provider.dart';
 import '../../../models/index.dart' show SellerModel, CategoryModel;
 import '../../../providers/index.dart' show SellerProvider;
 import '../../../theme/index.dart';
-import '../../../widgets/index.dart';
-import '../../../widgets/index.dart' show HttpServiceExceptionWidget;
+import '../../../widgets/index.dart'
+    show
+        HttpServiceExceptionWidget,
+        Loader,
+        MerchantContactWidget,
+        FssaiTile,
+        BotigaAppBar,
+        BannerCarosuel;
 import '../../cart/cartBottomModal.dart';
 import 'widgets/categoryList.dart';
 import 'widgets/sellerBrandContainer.dart';
@@ -64,7 +70,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     alignment: Alignment.bottomCenter,
                     children: [
                       ListView.builder(
-                        itemCount: 4,
+                        itemCount: 5,
                         itemBuilder: (context, index) {
                           if (index == 0) {
                             return SellerBrandContainer(seller);
@@ -85,6 +91,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                               ],
                             );
                           } else if (index == 2) {
+                            return _bannerCarosuel();
+                          } else if (index == 3) {
                             return _categoryList(context, seller);
                           } else {
                             return Column(
@@ -147,6 +155,18 @@ class _ProductListScreenState extends State<ProductListScreen> {
         ),
       ],
     );
+  }
+
+  Widget _bannerCarosuel() {
+    final provider = Provider.of<SellerProvider>(context, listen: false);
+
+    return provider.hasBanners(widget.seller.id)
+        ? Container(
+            color: AppTheme.backgroundColor,
+            padding: const EdgeInsets.only(top: 24.0),
+            child: BannerCarosuel(provider.banners(widget.seller.id)),
+          )
+        : Container();
   }
 
   Future<void> _getProducts() async {
