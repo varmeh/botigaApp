@@ -31,13 +31,12 @@ class SellersProvider with ChangeNotifier {
     if (_sellerList.length > 0) {
       return;
     } else {
-      final jsonApartment = await Http.get('/api/user/apartments/$apartmentId');
-      if (jsonApartment['banners'].length > 0) {
-        jsonApartment['banners'].forEach((url) => _bannerList.add(url));
+      final json = await Http.get('/api/user/apartments/$apartmentId');
+      if (json['banners'].length > 0) {
+        json['banners'].forEach((url) => _bannerList.add(url));
       }
 
-      final json = await Http.get('/api/user/sellers/$apartmentId');
-      final _sellerIterable = json.map((item) {
+      final _sellerIterable = json['sellers'].map((item) {
         final seller = SellerModel.fromJson(item);
         if (seller.live) {
           availableSellers++;
