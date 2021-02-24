@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/index.dart' show AddressModel;
 import '../util/index.dart' show StringExtensions, KeyStore;
 import 'cartProvider.dart';
-import 'sellersProvider.dart';
+import 'apartmentProvider.dart';
 import 'userProvider.dart';
 
 class AuthUtil {
