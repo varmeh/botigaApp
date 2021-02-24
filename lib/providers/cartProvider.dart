@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../models/index.dart' show SellerModel, ProductModel, OrderModel;
 import '../providers/index.dart'
-    show UserProvider, ApartmentProvider, ProductsProvider;
+    show UserProvider, ApartmentProvider, SellerProvider;
 import '../util/index.dart' show Http;
 
 class CartProvider with ChangeNotifier {
@@ -15,15 +15,15 @@ class CartProvider with ChangeNotifier {
 
   // Providers to load cart at the beginning
   UserProvider _userProvider;
-  ApartmentProvider _sellersProvider;
-  ProductsProvider _productsProvider;
+  ApartmentProvider _apartmentProvider;
+  SellerProvider _sellerProvider;
 
   // Method to initialize providers. Setter DI.
-  void update(UserProvider userProvider, ApartmentProvider sellerProvider,
-      ProductsProvider productsProvider) {
+  void update(UserProvider userProvider, ApartmentProvider apartmentProvider,
+      SellerProvider sellerProvider) {
     _userProvider = userProvider;
-    _sellersProvider = sellerProvider;
-    _productsProvider = productsProvider;
+    _apartmentProvider = apartmentProvider;
+    _sellerProvider = sellerProvider;
   }
 
   bool get isEmpty => products.isEmpty;
@@ -161,10 +161,10 @@ class CartProvider with ChangeNotifier {
         // Check if cart has products
         if (json['products'].length > 0 && json['sellerId'] != null) {
           // Get Seller from sellersList
-          cartSeller = _sellersProvider.seller(json['sellerId']);
+          cartSeller = _apartmentProvider.seller(json['sellerId']);
           if (cartSeller != null) {
             // Seller exists. Fetch products for this seller to populate cart
-            await _productsProvider.getProducts(cartSeller.id);
+            await _sellerProvider.getProducts(cartSeller.id);
 
             // create a map of product ids
             Map<String, int> _productQuantityMap = {};
@@ -173,7 +173,7 @@ class CartProvider with ChangeNotifier {
                     product['quantity']));
 
             // Look for products in each category & add to cart when found
-            _productsProvider.products(cartSeller.id).forEach((category) {
+            _sellerProvider.products(cartSeller.id).forEach((category) {
               category.products.forEach((product) {
                 if (_productQuantityMap[product.id] != null &&
                     product.available) {

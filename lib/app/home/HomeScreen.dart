@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget appBar(BuildContext context, ApartmentProvider sellersProvider) {
+  Widget appBar(BuildContext context, ApartmentProvider apartmentProvider) {
     return Material(
       child: Container(
         width: double.infinity,
@@ -105,7 +105,7 @@ class HomeScreen extends StatelessWidget {
                   left: 6.0,
                 ),
                 child: Text(
-                  '${sellersProvider.availableSellers} merchants delivering',
+                  '${apartmentProvider.availableSellers} merchants delivering',
                   style: AppTheme.textStyle.w700
                       .size(13.0)
                       .lineHeight(1.5)

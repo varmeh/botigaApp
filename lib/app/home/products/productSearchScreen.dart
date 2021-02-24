@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/index.dart' show SellerModel;
-import '../../../providers/index.dart' show ProductsProvider;
+import '../../../providers/index.dart' show SellerProvider;
 import '../../../theme/index.dart';
 import '../../../widgets/index.dart'
     show HttpServiceExceptionWidget, Loader, SearchBar;
@@ -101,7 +101,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
       _error = null;
     });
     try {
-      await Provider.of<ProductsProvider>(context, listen: false)
+      await Provider.of<SellerProvider>(context, listen: false)
           .getProducts(_getSeller().id);
     } catch (error) {
       _error = error;
@@ -114,7 +114,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
     if (_query.isEmpty) {
       return SizedBox.shrink();
     }
-    return Consumer<ProductsProvider>(
+    return Consumer<SellerProvider>(
       builder: (context, provider, child) {
         final categoryList = provider.products(seller.id);
         List<ProductTile> products = [];

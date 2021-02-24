@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/index.dart' show CategoryModel;
 import '../util/index.dart' show Http;
 
-class ProductsProvider with ChangeNotifier {
+class SellerProvider with ChangeNotifier {
   Map<String, List<CategoryModel>> _sellerProducts = {};
 
   List<CategoryModel> products(String sellerId) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/index.dart' show SellerModel, CategoryModel;
-import '../../../providers/index.dart' show ProductsProvider;
+import '../../../providers/index.dart' show SellerProvider;
 import '../../../theme/index.dart';
 import '../../../widgets/index.dart';
 import '../../../widgets/index.dart' show HttpServiceExceptionWidget;
@@ -155,7 +155,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
       _error = null;
     });
     try {
-      await Provider.of<ProductsProvider>(context, listen: false)
+      await Provider.of<SellerProvider>(context, listen: false)
           .getProducts(_getSeller().id);
     } catch (error) {
       _error = error;
@@ -182,7 +182,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   }
 
   Widget _productList(BuildContext context, SellerModel seller) {
-    return Consumer<ProductsProvider>(
+    return Consumer<SellerProvider>(
       builder: (context, provider, child) {
         final categoryList = provider
             .products(seller.id)
