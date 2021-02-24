@@ -240,7 +240,7 @@ class _ProductTileState extends State<ProductTile> {
                                 BorderRadius.all(Radius.circular(12.0)),
                             child: Image.network(
                               _imageList[index],
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
                               width: double.infinity,
                             ),
                           );
