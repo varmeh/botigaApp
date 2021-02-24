@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/index.dart' show SellersProvider;
+import '../../providers/index.dart' show ApartmentProvider;
 import '../../util/index.dart' show KeyStore;
 import '../../widgets/index.dart' show Toast;
 import '../tabbar.dart';
@@ -17,7 +17,7 @@ class SelectApartmenWhenNoUserLoggedInScreen extends StatelessWidget {
           .setApartment(
               apartmentId: apartment.id, apartmentName: apartment.name)
           .then((_) {
-        Provider.of<SellersProvider>(context, listen: false).empty();
+        Provider.of<ApartmentProvider>(context, listen: false).empty();
         Navigator.pushAndRemoveUntil(
           context,
           PageRouteBuilder(

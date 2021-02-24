@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../models/index.dart' show SellerModel, ProductModel, OrderModel;
 import '../providers/index.dart'
-    show UserProvider, SellersProvider, ProductsProvider;
+    show UserProvider, ApartmentProvider, ProductsProvider;
 import '../util/index.dart' show Http;
 
 class CartProvider with ChangeNotifier {
@@ -15,11 +15,11 @@ class CartProvider with ChangeNotifier {
 
   // Providers to load cart at the beginning
   UserProvider _userProvider;
-  SellersProvider _sellersProvider;
+  ApartmentProvider _sellersProvider;
   ProductsProvider _productsProvider;
 
   // Method to initialize providers. Setter DI.
-  void update(UserProvider userProvider, SellersProvider sellerProvider,
+  void update(UserProvider userProvider, ApartmentProvider sellerProvider,
       ProductsProvider productsProvider) {
     _userProvider = userProvider;
     _sellersProvider = sellerProvider;

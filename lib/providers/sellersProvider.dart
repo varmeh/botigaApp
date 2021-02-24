@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../models/index.dart' show SellerModel;
 import '../util/index.dart' show Http;
 
-class SellersProvider with ChangeNotifier {
+class ApartmentProvider with ChangeNotifier {
   List<SellerModel> _sellerList = [];
   int availableSellers = 0;
   List<String> _bannerList = [];

@@ -13,7 +13,7 @@ class AddressUtil {
     userProvider.selectedAddress = address;
 
     // Empty Sellers List
-    Provider.of<SellersProvider>(context, listen: false).empty();
+    Provider.of<ApartmentProvider>(context, listen: false).empty();
 
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
     cartProvider.clearCart();

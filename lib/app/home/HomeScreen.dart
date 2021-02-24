@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/sellerModel.dart';
-import '../../providers/index.dart' show SellersProvider, UserProvider;
+import '../../providers/index.dart' show ApartmentProvider, UserProvider;
 import '../../theme/index.dart';
 import '../../widgets/index.dart'
     show
@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _userProvider = Provider.of<UserProvider>(context);
 
-    return Consumer<SellersProvider>(
+    return Consumer<ApartmentProvider>(
       builder: (context, provider, child) {
         return FutureBuilder(
           future: provider.getSellers(_userProvider.apartmentId),
@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget appBar(BuildContext context, SellersProvider sellersProvider) {
+  Widget appBar(BuildContext context, ApartmentProvider sellersProvider) {
     return Material(
       child: Container(
         width: double.infinity,
@@ -119,7 +119,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _banners(SellersProvider provider) {
+  Widget _banners(ApartmentProvider provider) {
     return provider.hasBanners
         ? Container(
             color: AppTheme.backgroundColor,
@@ -175,7 +175,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _availableSellers(BuildContext context, SellersProvider provider) {
+  Widget _availableSellers(BuildContext context, ApartmentProvider provider) {
     final color = AppTheme.backgroundColor;
     return !provider.hasAvailableSellers
         ? Container()
@@ -197,7 +197,8 @@ class HomeScreen extends StatelessWidget {
           );
   }
 
-  Widget _notAvailableSellers(BuildContext context, SellersProvider provider) {
+  Widget _notAvailableSellers(
+      BuildContext context, ApartmentProvider provider) {
     final color = Color(0xfff7f7f7);
     return !provider.hasNotAvailableSellers
         ? Container()

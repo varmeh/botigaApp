@@ -15,7 +15,7 @@ import 'app/profile/index.dart';
 import 'app/tabbar.dart';
 import 'providers/index.dart'
     show
-        SellersProvider,
+        ApartmentProvider,
         ProductsProvider,
         CartProvider,
         OrdersProvider,
@@ -58,9 +58,9 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
-        ChangeNotifierProvider(create: (context) => SellersProvider()),
+        ChangeNotifierProvider(create: (context) => ApartmentProvider()),
         ChangeNotifierProvider(create: (context) => ProductsProvider()),
-        ChangeNotifierProxyProvider3<UserProvider, SellersProvider,
+        ChangeNotifierProxyProvider3<UserProvider, ApartmentProvider,
             ProductsProvider, CartProvider>(
           create: (context) => CartProvider(),
           update: (context, userProvider, sellersProvider, productsProvider,

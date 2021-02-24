@@ -32,7 +32,8 @@ class AuthUtil {
   static void selectUserAddress(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final sellerProvider = Provider.of<SellersProvider>(context, listen: false);
+    final sellerProvider =
+        Provider.of<ApartmentProvider>(context, listen: false);
     if (cartProvider.isEmpty) {
       final addresses = userProvider.addresses;
       final lastUsedAddressId = userProvider.lastUsedAddressId;
