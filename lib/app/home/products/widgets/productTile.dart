@@ -39,6 +39,7 @@ class _ProductTileState extends State<ProductTile> {
     final _ribbonColor = Color(0xfff49302);
 
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         if (_hasZoomImages) {
           _showZoomBottomModal();
