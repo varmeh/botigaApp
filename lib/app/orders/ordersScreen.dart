@@ -8,7 +8,7 @@ import '../../models/orderModel.dart';
 import '../../providers/ordersProvider.dart';
 import '../../theme/index.dart';
 import '../../widgets/index.dart'
-    show Loader, HttpServiceExceptionWidget, ActiveButton;
+    show Loader, HttpServiceExceptionWidget, ActiveButton, ShimmerWidget;
 
 import '../tabbar.dart';
 import '../auth/loginScreen.dart';
@@ -37,7 +37,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
                 // Show central level loading on empty screen
                 if (snapshot.connectionState == ConnectionState.waiting &&
                     initialLoad) {
-                  return Loader();
+                  return initialLoad ? _shimmerWidget() : Loader();
                 } else if (snapshot.hasError) {
                   return HttpServiceExceptionWidget(
                     exception: snapshot.error,
@@ -273,6 +273,98 @@ class _OrderListScreenState extends State<OrderListScreen> {
         );
       },
       openBuilder: (_, __) => OrderDetailScreen(order.id),
+    );
+  }
+
+  Widget _shimmerWidget() {
+    return Container(
+      padding: EdgeInsets.all(20.0),
+      child: ListView(
+        children: [
+          ShimmerWidget(
+            child: Text(
+              'Orders',
+              style: AppTheme.textStyle.w700.size(22).lineHeight(1.4),
+            ),
+          ),
+          ...List<Widget>.generate(
+            10,
+            (index) => ShimmerWidget(
+              child: Container(
+                padding: EdgeInsets.only(top: 16.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            height: 15,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(width: 48.0),
+                        Expanded(
+                          child: Container(
+                            height: 15,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 12,
+                                color: Colors.white,
+                              ),
+                              SizedBox(height: 8.0),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 12,
+                                    height: 12,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(width: 4.0),
+                                  Container(
+                                    width: 100,
+                                    height: 12,
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 48),
+                        Image.asset('assets/images/stampPaid.png')
+                      ],
+                    ),
+                    SizedBox(height: 16.0),
+                    Divider(
+                      thickness: 1.0,
+                      color: AppTheme.color25,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
