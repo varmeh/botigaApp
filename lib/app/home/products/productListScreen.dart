@@ -7,11 +7,11 @@ import '../../../theme/index.dart';
 import '../../../widgets/index.dart'
     show
         HttpServiceExceptionWidget,
-        Loader,
         MerchantContactWidget,
         FssaiTile,
         BotigaAppBar,
-        BannerCarosuel;
+        BannerCarosuel,
+        ShimmerWidget;
 import '../../cart/cartBottomModal.dart';
 import 'widgets/categoryList.dart';
 import 'widgets/sellerBrandContainer.dart';
@@ -32,6 +32,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
   bool _isLoading = false;
   Exception _error;
 
+  final _divider = Divider(
+    thickness: 4.0,
+    color: AppTheme.dividerColor,
+  );
+
   @override
   void initState() {
     super.initState();
@@ -48,17 +53,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
   @override
   Widget build(BuildContext context) {
     final seller = _getSeller();
-    final _divider = Divider(
-      thickness: 4.0,
-      color: AppTheme.dividerColor,
-    );
 
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: _appBar(context),
       body: SafeArea(
         child: _isLoading
-            ? Loader()
+            ? _shimmerWidget()
             : _error != null
                 ? HttpServiceExceptionWidget(
                     exception: _error,
@@ -224,6 +225,105 @@ class _ProductListScreenState extends State<ProductListScreen> {
           ],
         );
       },
+    );
+  }
+
+  Widget _shimmerWidget() {
+    final seller = _getSeller();
+
+    return ListView(
+      children: [
+        SellerBrandContainer(seller),
+        Column(
+          children: [
+            _divider,
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 16.0,
+              ),
+              child: MerchantContactWidget(
+                  phone: seller.phone, whatsapp: seller.whatsapp),
+            ),
+            _divider
+          ],
+        ),
+        ShimmerWidget(
+          child: Container(
+            width: double.infinity,
+            height: 136,
+            margin:
+                const EdgeInsets.only(left: 32, right: 32, top: 24, bottom: 8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(12.0)),
+            ),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ...List<Widget>.generate(
+              3,
+              (index) => Container(
+                width: 8.0,
+                height: 8.0,
+                margin: EdgeInsets.only(left: 4.0, right: 4.0, bottom: 24),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppTheme.color25,
+                ),
+              ),
+            ),
+          ],
+        ),
+        Container(
+          padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+          child: ShimmerWidget(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'Categories',
+                  style: AppTheme.textStyle.w700.color100.size(17),
+                ),
+                SizedBox(height: 20),
+                ...List<Widget>.generate(
+                  10,
+                  (index) => Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: AppTheme.color50),
+                      ),
+                    ),
+                    padding: const EdgeInsets.only(
+                      top: 24.0,
+                      bottom: 24.0,
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          '00',
+                          style: AppTheme.textStyle.w600.color100.size(12),
+                        ),
+                        SizedBox(width: 18),
+                        Expanded(
+                          child: Container(
+                            height: 14,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(width: 24),
+                        Icon(Icons.expand_more, color: AppTheme.color100),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

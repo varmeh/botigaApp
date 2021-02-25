@@ -76,7 +76,9 @@ class CategoryList extends StatelessWidget {
           ),
         ),
         SizedBox(height: 5),
-        !this.isLast ? Divider(thickness: 1.0) : SizedBox.shrink()
+        !this.isLast
+            ? Divider(thickness: 1.0, color: AppTheme.dividerColor)
+            : SizedBox.shrink()
       ],
     );
   }
