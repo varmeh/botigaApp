@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../../../models/index.dart' show SellerModel, ProductModel;
 import '../../../../theme/index.dart';
+import '../../../../widgets/index.dart' show ShimmerWidget;
 import '../../../../util/index.dart' show StringExtensions;
 import 'productSelectionButton.dart';
 
@@ -207,6 +208,13 @@ class _ProductTileState extends State<ProductTile> {
       ..._product.secondaryImageUrls
     ];
 
+    // Precaching images
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _imageList.forEach((imageUrl) {
+        precacheImage(CachedNetworkImageProvider(imageUrl), context);
+      });
+    });
+
     _current = 0;
     showModalBottomSheet(
         context: context,
@@ -239,22 +247,28 @@ class _ProductTileState extends State<ProductTile> {
                           return ClipRRect(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(12.0)),
-                            child: Image.network(
-                              _imageList[index],
+                            child: CachedNetworkImage(
+                              imageUrl: _imageList[index],
                               fit: BoxFit.fill,
                               width: double.infinity,
+                              placeholder: (_, __) => ShimmerWidget(
+                                child: Container(
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
                           );
                         },
                         options: CarouselOptions(
-                            aspectRatio: 1,
-                            viewportFraction: 1.0,
-                            initialPage: 0,
-                            reverse: false,
-                            enlargeCenterPage: true,
-                            scrollDirection: Axis.horizontal,
-                            onPageChanged: (index, reason) =>
-                                updateState(() => _current = index)),
+                          aspectRatio: 1,
+                          viewportFraction: 1.0,
+                          initialPage: 0,
+                          reverse: false,
+                          enlargeCenterPage: true,
+                          scrollDirection: Axis.horizontal,
+                          onPageChanged: (index, reason) =>
+                              updateState(() => _current = index),
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
