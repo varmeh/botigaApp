@@ -10,10 +10,10 @@ import '../../widgets/index.dart'
     show
         BrandingTile,
         InviteTile,
-        Loader,
         HttpServiceExceptionWidget,
         CircleNetworkAvatar,
-        BannerCarosuel;
+        BannerCarosuel,
+        ShimmerWidget;
 import '../location/index.dart'
     show SelectApartmenWhenNoUserLoggedInScreen, SavedAddressesSelectionModal;
 import '../tabbar.dart';
@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
           future: provider.getSellers(_userProvider.apartmentId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Loader();
+              return _shimmerWidget();
             } else if (snapshot.hasError) {
               return HttpServiceExceptionWidget(
                 exception: snapshot.error,
@@ -191,7 +191,7 @@ class HomeScreen extends StatelessWidget {
                     provider.sellerList[index],
                     color,
                   ),
-                )
+                ),
               ],
             ),
           );
@@ -293,7 +293,7 @@ class HomeScreen extends StatelessWidget {
                                   .lineHeight(1.5),
                             )
                           : Text(
-                              "Delivery Tomorrow",
+                              'Delivery Tomorrow',
                               style: AppTheme.textStyle.color100.w500
                                   .size(13)
                                   .lineHeight(1.5),
@@ -307,6 +307,117 @@ class HomeScreen extends StatelessWidget {
         );
       },
       openBuilder: (_, __) => ProductListScreen(seller),
+    );
+  }
+
+  Widget _shimmerWidget() {
+    return ListView(
+      padding: const EdgeInsets.all(0),
+      children: [
+        ShimmerWidget(
+          child: Container(
+            width: double.infinity,
+            height: 125,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomLeft: const Radius.circular(16.0),
+                bottomRight: const Radius.circular(16.0),
+              ),
+            ),
+          ),
+        ),
+        ShimmerWidget(
+          child: Container(
+            width: double.infinity,
+            height: 136,
+            margin:
+                const EdgeInsets.only(left: 32, right: 32, top: 24, bottom: 8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(12.0)),
+            ),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ...List<Widget>.generate(
+              5,
+              (index) => Container(
+                width: 8.0,
+                height: 8.0,
+                margin: EdgeInsets.only(left: 4.0, right: 4.0, bottom: 24),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppTheme.color25,
+                ),
+              ),
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            ...List<Widget>.generate(
+              10,
+              (index) => ShimmerWidget(
+                child: Container(
+                  padding: const EdgeInsets.only(
+                    left: 20.0,
+                    top: 24.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircleAvatar(radius: 28),
+                      SizedBox(width: 12),
+                      Expanded(
+                        flex: 4,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(color: AppTheme.color05),
+                            ),
+                          ),
+                          padding: const EdgeInsets.only(
+                            left: 2.0,
+                            top: 12.0,
+                            bottom: 20.0,
+                            right: 20.0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                height: 15.0,
+                                color: Colors.white,
+                              ),
+                              SizedBox(height: 8),
+                              Container(
+                                width: 200,
+                                height: 13.0,
+                                color: Colors.white,
+                              ),
+                              SizedBox(height: 8),
+                              Container(
+                                width: double.infinity,
+                                height: 13.0,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
