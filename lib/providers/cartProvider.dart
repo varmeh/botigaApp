@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../models/index.dart' show SellerModel, ProductModel, OrderModel;
+import '../models/index.dart'
+    show SellerModel, ProductModel, OrderModel, CouponModel;
 import '../providers/index.dart'
     show UserProvider, ApartmentProvider, SellerProvider;
 import '../util/index.dart' show Http;
@@ -11,6 +12,7 @@ class CartProvider with ChangeNotifier {
   // Cart Data
   SellerModel cartSeller;
   double totalPrice = 0.0;
+  CouponModel couponApplied;
   Map<ProductModel, int> products = {};
 
   // Providers to load cart at the beginning
@@ -29,6 +31,17 @@ class CartProvider with ChangeNotifier {
   bool get isEmpty => products.isEmpty;
   bool get userLoggedIn => _userProvider.isLoggedIn;
   bool get hasAddress => _userProvider.selectedAddress != null;
+  bool get isCouponApplied => couponApplied != null;
+
+  void removeCoupon() {
+    couponApplied = null;
+    notifyListeners();
+  }
+
+  void applyCoupon(CouponModel coupon) {
+    couponApplied = coupon;
+    notifyListeners();
+  }
 
   int get numberOfItemsInCart => products.length == 0
       ? 0

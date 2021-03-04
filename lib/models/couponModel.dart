@@ -6,6 +6,7 @@ part 'couponModel.g.dart';
 @JsonSerializable()
 class CouponModel {
   final String couponId;
+  final String couponCode;
   final String discountType;
   final int discountValue;
   final DateTime expiryDate;
@@ -15,6 +16,7 @@ class CouponModel {
 
   CouponModel({
     @required this.couponId,
+    @required this.couponCode,
     @required this.discountType,
     @required this.discountValue,
     @required this.expiryDate,
@@ -24,6 +26,14 @@ class CouponModel {
   });
 
   bool get isPercentageDiscount => discountType == 'percentage';
+  bool get isNotExpired => expiryDate.isAfter(DateTime.now());
+
+  bool get isValidCoupon => visibleToAllCustomers && isNotExpired;
+
+  String get discountAmountString =>
+      isPercentageDiscount ? '$discountValue%' : '₹$discountValue';
+
+  bool isApplicable(double amount) => minimumOrderValue.toDouble() < amount;
 
   factory CouponModel.fromJson(Map<String, dynamic> json) =>
       _$CouponModelFromJson(json);

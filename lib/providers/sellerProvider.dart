@@ -31,7 +31,7 @@ class SellerProvider with ChangeNotifier {
 
       _sellerCoupons[sellerId] = json['coupons']
           .map(
-            (item) => CouponModel.fromJson(json),
+            (item) => CouponModel.fromJson(item),
           )
           .cast<CouponModel>()
           .toList();

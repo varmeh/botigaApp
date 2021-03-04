@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../../models/index.dart' show ProductModel, OrderModel;
-import '../../providers/index.dart' show CartProvider, UserProvider;
+import '../../providers/index.dart'
+    show CartProvider, UserProvider, SellerProvider;
 import '../../theme/index.dart';
 import '../../util/index.dart' show Http, Flavor;
 import '../../widgets/index.dart'
@@ -13,6 +14,7 @@ import '../location/index.dart' show AddHouseDetailModal;
 import '../tabbar.dart';
 import 'widgets/cartDeliveryInfo.dart';
 import '../orders/orderStatusScreen.dart';
+import 'couponScreen.dart';
 
 class CartScreen extends StatefulWidget {
   final String route = 'cartScreen';
@@ -58,36 +60,36 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: BotigaAppBar(''),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: SafeArea(
-          child: _provider.numberOfItemsInCart > 0
-              ? _cartDetails(_provider)
-              : _cartEmpty(context),
-        ),
+      body: SafeArea(
+        child: _provider.numberOfItemsInCart > 0
+            ? _cartDetails(_provider)
+            : _cartEmpty(context),
       ),
     );
   }
 
   Widget _cartEmpty(BuildContext context) {
-    return LottieScreen(
-      json: 'assets/lotties/windmill.json',
-      message: 'Nothing here',
-      description: 'Look around, you will find something you love',
-      buttonTitle: 'Browse Merchants',
-      onTap: () {
-        // Remove all the screens on stack when in product detail screen cart
-        if (Navigator.canPop(context)) {
-          Navigator.popUntil(context, (route) => route.isFirst);
-        }
-        Navigator.pushReplacement(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (_, __, ___) => Tabbar(index: 0),
-            transitionDuration: Duration.zero,
-          ),
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: LottieScreen(
+        json: 'assets/lotties/windmill.json',
+        message: 'Nothing here',
+        description: 'Look around, you will find something you love',
+        buttonTitle: 'Browse Merchants',
+        onTap: () {
+          // Remove all the screens on stack when in product detail screen cart
+          if (Navigator.canPop(context)) {
+            Navigator.popUntil(context, (route) => route.isFirst);
+          }
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (_, __, ___) => Tabbar(index: 0),
+              transitionDuration: Duration.zero,
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -105,16 +107,19 @@ class _CartScreenState extends State<CartScreen> {
           Positioned.fill(
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: 3,
+              itemCount: 4,
               itemBuilder: (context, index) {
                 switch (index) {
                   case 0:
                     return CartDeliveryInfo(provider.cartSeller);
 
                   case 1:
-                    return _itemList(provider);
+                    return _sellerCoupons(provider);
 
                   case 2:
+                    return _itemList(provider);
+
+                  case 3:
                     return _totalPrice(provider.totalPrice);
 
                   default:
@@ -130,6 +135,77 @@ class _CartScreenState extends State<CartScreen> {
         ],
       ),
     );
+  }
+
+  Widget _sellerCoupons(CartProvider cartProvider) {
+    final _sellerProvider = Provider.of<SellerProvider>(context, listen: false);
+    final _divider = Divider(
+      thickness: 4,
+      color: AppTheme.dividerColor,
+    );
+
+    String couponText = 'Apply Coupon';
+    Widget trailingWidget = Icon(
+      Icons.arrow_forward_ios_rounded,
+      color: AppTheme.color50,
+      size: 18,
+    );
+    Function onTap = () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CouponScreen(
+                _sellerProvider.coupons(cartProvider.cartSeller.id)),
+          ),
+        );
+
+    if (cartProvider.isCouponApplied) {
+      couponText = '${cartProvider.couponApplied.couponCode} Applied';
+      trailingWidget = Image.asset(
+        'assets/images/cancelRounded.png',
+        width: 20,
+        height: 20,
+      );
+      onTap = () => cartProvider.removeCoupon();
+    }
+
+    return _sellerProvider.hasCoupons(cartProvider.cartSeller.id)
+        ? Column(
+            children: [
+              _divider,
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: onTap,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 22, horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/coupon.png',
+                            width: 20,
+                            height: 20,
+                          ),
+                          SizedBox(width: 12),
+                          Text(
+                            couponText,
+                            style: AppTheme.textStyle.w600.color100
+                                .size(15)
+                                .lineHeight(1.3),
+                          ),
+                        ],
+                      ),
+                      trailingWidget
+                    ],
+                  ),
+                ),
+              ),
+              _divider
+            ],
+          )
+        : Container();
   }
 
   Widget _modal(CartProvider provider) {
@@ -334,12 +410,15 @@ class _CartScreenState extends State<CartScreen> {
       },
     );
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        SizedBox(height: 8),
-        ...productList,
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(height: 8),
+          ...productList,
+        ],
+      ),
     );
   }
 
@@ -393,7 +472,7 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget _totalPrice(double totalPrice) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20.0),
+      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
       child: Column(
         children: [
           Divider(

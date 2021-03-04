@@ -27,17 +27,20 @@ class CartDeliveryInfo extends StatelessWidget {
     String house = userProvider.house;
     String apartment = userProvider.apartmentName;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _info(seller.brandName, seller.tagline, seller.brandImageUrl, true),
-        DottedTimeline(start: Point(_avatarRadius, 0), height: 30),
-        _info(house, apartment, null, false),
-        SizedBox(height: 24),
-        _divider,
-        _deliveryDate(seller),
-        _divider,
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _info(seller.brandName, seller.tagline, seller.brandImageUrl, true),
+          DottedTimeline(start: Point(_avatarRadius, 0), height: 30),
+          _info(house, apartment, null, false),
+          SizedBox(height: 24),
+          _divider,
+          _deliveryDate(seller),
+          _divider,
+        ],
+      ),
     );
   }
 

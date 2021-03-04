@@ -6,6 +6,9 @@ extension DateExtension on DateTime {
 
   String get dateFormatDayMonth => DateFormat('d MMM').format(this.toLocal());
 
+  String get dateFormatDayMonthYear =>
+      DateFormat('d MMM yyyy').format(this.toLocal());
+
   String get dateFormatWeekDayMonthDay =>
       DateFormat('E, MMM d').format(this.toLocal());
 

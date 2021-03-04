@@ -9,6 +9,7 @@ part of 'couponModel.dart';
 CouponModel _$CouponModelFromJson(Map<String, dynamic> json) {
   return CouponModel(
     couponId: json['couponId'] as String,
+    couponCode: json['couponCode'] as String,
     discountType: json['discountType'] as String,
     discountValue: json['discountValue'] as int,
     expiryDate: json['expiryDate'] == null
