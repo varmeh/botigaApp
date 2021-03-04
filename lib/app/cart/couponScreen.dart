@@ -16,6 +16,15 @@ class CouponScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _provider = Provider.of<CartProvider>(context, listen: false);
 
+    List<CouponModel> _sortedCoupons = [];
+    coupons.forEach((coupon) {
+      if (coupon.isApplicable(_provider.totalPrice)) {
+        _sortedCoupons.insert(0, coupon);
+      } else {
+        _sortedCoupons.add(coupon);
+      }
+    });
+
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: BotigaAppBar('Apply Coupon'),
@@ -33,7 +42,7 @@ class CouponScreen extends StatelessWidget {
                     .letterSpace(0.2),
               ),
               SizedBox(height: 8),
-              ...coupons
+              ..._sortedCoupons
                   .map((coupon) => _couponTile(context, coupon, _provider))
             ],
           ),
@@ -59,7 +68,6 @@ class CouponScreen extends StatelessWidget {
             padding: const EdgeInsets.only(top: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   title,
