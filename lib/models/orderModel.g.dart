@@ -16,6 +16,8 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) {
     email: json['email'] as String,
     status: json['status'] as String,
     totalAmount: (json['totalAmount'] as num)?.toDouble(),
+    discountAmount: (json['discountAmount'] as num)?.toDouble(),
+    couponCode: json['couponCode'] as String,
     orderDate: json['orderDate'] == null
         ? null
         : DateTime.parse(json['orderDate'] as String),
@@ -50,6 +52,8 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'email': instance.email,
       'status': instance.status,
       'totalAmount': instance.totalAmount,
+      'discountAmount': instance.discountAmount,
+      'couponCode': instance.couponCode,
       'orderDate': instance.orderDate?.toIso8601String(),
       'expectedDeliveryDate': instance.expectedDeliveryDate?.toIso8601String(),
       'deliverySlot': instance.deliverySlot,

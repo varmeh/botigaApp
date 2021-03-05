@@ -271,13 +271,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       child: Column(
         children: [
           ...order.products.map((product) => _productDetails(product)),
-          SizedBox(height: 16.0),
-          Divider(
-            thickness: 1,
-            color: AppTheme.dividerColor,
-          ),
           SizedBox(height: 24.0),
-          _total()
+          _discountData(),
+          _total(),
         ],
       ),
     );
@@ -336,34 +332,94 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     );
   }
 
+  Widget _discountData() {
+    final _sizedBox20 = SizedBox(height: 20);
+    final _style =
+        AppTheme.textStyle.w500.size(13).lineHeight(1.2).letterSpace(0.2);
+
+    return order.hasCoupon
+        ? Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      'Items total',
+                      style: _style.color100,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      '₹${order.totalAmount + order.discountAmount}',
+                      style: _style.color100,
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                ],
+              ),
+              _sizedBox20,
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      'Saved with Coupon',
+                      style: _style.color100,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      '-₹${order.discountAmount}',
+                      style: _style.colored(AppTheme.primaryColor),
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                ],
+              ),
+              _sizedBox20,
+            ],
+          )
+        : Container();
+  }
+
   Widget _total() {
     final style = AppTheme.textStyle.w600.color100.size(13).lineHeight(1.6);
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 52.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Total',
-            style: style,
-          ),
-          RichText(
-            text: TextSpan(
-              text: '₹',
-              style:
-                  AppTheme.textStyle.w400.color100.size(13.0).lineHeight(1.6),
+        padding: const EdgeInsets.only(bottom: 52.0),
+        child: Column(
+          children: [
+            Divider(
+              thickness: 1,
+              color: AppTheme.dividerColor,
+            ),
+            SizedBox(height: 20.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextSpan(
-                  text: order.totalAmount.toString(),
+                Text(
+                  'Total',
                   style: style,
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: '₹',
+                    style: AppTheme.textStyle.w400.color100
+                        .size(13.0)
+                        .lineHeight(1.6),
+                    children: [
+                      TextSpan(
+                        text: order.totalAmount.toString(),
+                        style: style,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ));
   }
 
   void _whatsappModal({

@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import '../util/index.dart' show StringExtensions;
+
 import 'paymentModel.dart';
 import 'refundModel.dart';
 
@@ -15,6 +17,8 @@ class OrderModel {
   final String email;
   final String status;
   final double totalAmount;
+  final double discountAmount;
+  final String couponCode;
   final DateTime orderDate;
   final DateTime expectedDeliveryDate;
   final String deliverySlot;
@@ -32,6 +36,8 @@ class OrderModel {
     this.email,
     @required this.status,
     @required this.totalAmount,
+    this.discountAmount,
+    this.couponCode,
     @required this.orderDate,
     @required this.expectedDeliveryDate,
     this.deliverySlot,
@@ -55,6 +61,8 @@ class OrderModel {
   bool get isCancelled => status == 'cancelled';
 
   bool get isCompleted => isDelivered || isCancelled;
+
+  bool get hasCoupon => couponCode.isNotNullAndEmpty;
 
   String get statusMessage {
     if (isOpen) {

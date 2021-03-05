@@ -24,6 +24,7 @@ CouponModel _$CouponModelFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$CouponModelToJson(CouponModel instance) =>
     <String, dynamic>{
       'couponId': instance.couponId,
+      'couponCode': instance.couponCode,
       'discountType': instance.discountType,
       'discountValue': instance.discountValue,
       'expiryDate': instance.expiryDate?.toIso8601String(),
