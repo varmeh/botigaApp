@@ -11,7 +11,8 @@ import '../util/index.dart' show Http;
 class CartProvider with ChangeNotifier {
   // Cart Data
   SellerModel cartSeller;
-  double totalPrice = 0.0;
+  double totalAmount = 0.0;
+  double discountAmount = 0.0;
   CouponModel couponApplied;
   Map<ProductModel, int> products = {};
 
@@ -33,13 +34,20 @@ class CartProvider with ChangeNotifier {
   bool get hasAddress => _userProvider.selectedAddress != null;
   bool get isCouponApplied => couponApplied != null;
 
+  double get totalAmountAfterDiscount {
+    final _totalAmountAfterDiscount = totalAmount - discountAmount;
+    return _totalAmountAfterDiscount > 0 ? _totalAmountAfterDiscount : 0;
+  }
+
   void removeCoupon() {
     couponApplied = null;
+    discountAmount = 0.0;
     notifyListeners();
   }
 
   void applyCoupon(CouponModel coupon) {
     couponApplied = coupon;
+    discountAmount = coupon.finalDiscountAmount(totalAmount);
     notifyListeners();
   }
 
@@ -49,7 +57,7 @@ class CartProvider with ChangeNotifier {
 
   // Methods to manage cart - clearCart, addProduct & removeProduct
   void clearCart() {
-    totalPrice = 0.0;
+    totalAmount = 0.0;
     products.clear();
     cartSeller = null;
     notifyListeners();
@@ -59,12 +67,12 @@ class CartProvider with ChangeNotifier {
     if (cartSeller == seller) {
       products[product] =
           products.containsKey(product) ? products[product] + 1 : 1;
-      totalPrice += product.price;
+      totalAmount += product.price;
     } else {
       clearCart();
       cartSeller = seller;
       products[product] = 1;
-      totalPrice = product.price;
+      totalAmount = product.price;
     }
     saveCartToServer();
     notifyListeners();
@@ -74,7 +82,7 @@ class CartProvider with ChangeNotifier {
     if (products[product] > 0) {
       products[product]--;
 
-      totalPrice -= product.price;
+      totalAmount -= product.price;
     }
 
     if (products[product] == 0) {
@@ -112,7 +120,7 @@ class CartProvider with ChangeNotifier {
     final json = await Http.post('/api/user/orders', body: {
       'sellerId': cartSeller.id,
       'addressId': _userProvider.selectedAddress.id,
-      'totalAmount': totalPrice,
+      'totalAmount': totalAmountAfterDiscount,
       'products': productList
     });
 
@@ -192,7 +200,7 @@ class CartProvider with ChangeNotifier {
                     product.available) {
                   // add only available products
                   products[product] = _productQuantityMap[product.id];
-                  totalPrice += products[product] * product.price;
+                  totalAmount += products[product] * product.price;
                 }
               });
             });

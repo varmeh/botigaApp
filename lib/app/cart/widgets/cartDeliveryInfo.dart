@@ -19,28 +19,45 @@ class CartDeliveryInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final _divider = Divider(
-      thickness: 1,
-      color: AppTheme.dividerColor,
-    );
 
     String house = userProvider.house;
     String apartment = userProvider.apartmentName;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _info(seller.brandName, seller.tagline, seller.brandImageUrl, true),
-          DottedTimeline(start: Point(_avatarRadius, 0), height: 30),
-          _info(house, apartment, null, false),
-          SizedBox(height: 24),
-          _divider,
-          _deliveryDate(seller),
-          _divider,
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _info(
+                seller.brandName,
+                seller.tagline,
+                seller.brandImageUrl,
+                true,
+              ),
+              DottedTimeline(start: Point(_avatarRadius, 0), height: 30),
+              _info(
+                house,
+                apartment,
+                null,
+                false,
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 24),
+        Divider(
+          thickness: 1,
+          color: AppTheme.dividerColor,
+        ),
+        _deliveryDate(seller),
+        Divider(
+          thickness: 4,
+          color: AppTheme.dividerColor,
+        ),
+      ],
     );
   }
 
@@ -98,7 +115,7 @@ class CartDeliveryInfo extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(left: 10.0, top: 16, bottom: 16),
+      padding: const EdgeInsets.only(left: 30.0, top: 16, bottom: 16),
       child: Row(
         children: [
           Image.asset('assets/images/truck.png'),

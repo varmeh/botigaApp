@@ -37,7 +37,7 @@ class CartBottomModal extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    'Rs. ${provider.totalPrice}',
+                    'Rs. ${provider.totalAmount}',
                     style: textStyle,
                   ),
                 ],

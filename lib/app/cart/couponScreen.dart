@@ -18,7 +18,7 @@ class CouponScreen extends StatelessWidget {
 
     List<CouponModel> _sortedCoupons = [];
     coupons.forEach((coupon) {
-      if (coupon.isApplicable(_provider.totalPrice)) {
+      if (coupon.isApplicable(_provider.totalAmount)) {
         _sortedCoupons.insert(0, coupon);
       } else {
         _sortedCoupons.add(coupon);
@@ -98,7 +98,7 @@ class CouponScreen extends StatelessWidget {
                             .letterSpace(0.2),
                       ),
                     ),
-                    coupon.isApplicable(provider.totalPrice)
+                    coupon.isApplicable(provider.totalAmount)
                         ? GestureDetector(
                             behavior: HitTestBehavior.opaque,
                             onTap: () =>

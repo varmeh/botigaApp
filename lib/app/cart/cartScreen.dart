@@ -120,7 +120,9 @@ class _CartScreenState extends State<CartScreen> {
                     return _itemList(provider);
 
                   case 3:
-                    return _totalPrice(provider.totalPrice);
+                    return provider.isCouponApplied
+                        ? _totalPriceWithDiscount(provider)
+                        : _totalPrice(provider);
 
                   default:
                     return Container();
@@ -139,10 +141,6 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget _sellerCoupons(CartProvider cartProvider) {
     final _sellerProvider = Provider.of<SellerProvider>(context, listen: false);
-    final _divider = Divider(
-      thickness: 4,
-      color: AppTheme.dividerColor,
-    );
 
     String couponText = 'Apply Coupon';
     Widget trailingWidget = Icon(
@@ -171,7 +169,6 @@ class _CartScreenState extends State<CartScreen> {
     return _sellerProvider.hasCoupons(cartProvider.cartSeller.id)
         ? Column(
             children: [
-              _divider,
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: onTap,
@@ -202,7 +199,10 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ),
               ),
-              _divider
+              Divider(
+                thickness: 4,
+                color: AppTheme.dividerColor,
+              ),
             ],
           )
         : Container();
@@ -307,7 +307,7 @@ class _CartScreenState extends State<CartScreen> {
 
             final options = {
               'key': Flavor.shared.rpayId,
-              'amount': provider.totalPrice * 100,
+              'amount': provider.totalAmount * 100,
               'name': provider.cartSeller.brandName,
               'order_id': data['id'],
               'timeout': 60 * 5, // In secs,
@@ -470,7 +470,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _totalPrice(double totalPrice) {
+  Widget _totalPrice(CartProvider provider) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
       child: Column(
@@ -480,34 +480,101 @@ class _CartScreenState extends State<CartScreen> {
             thickness: 1.0,
           ),
           SizedBox(height: 20),
+          _finalPriceTile(provider.totalAmountAfterDiscount),
+          SizedBox(height: 70),
+        ],
+      ),
+    );
+  }
+
+  Widget _totalPriceWithDiscount(CartProvider provider) {
+    final _sizedBox20 = SizedBox(height: 20);
+    final _style =
+        AppTheme.textStyle.w500.size(13).lineHeight(1.2).letterSpace(0.2);
+    return Container(
+      padding: const EdgeInsets.only(top: 20.0, bottom: 150),
+      child: Column(
+        children: [
+          Divider(
+            thickness: 4.0,
+            color: AppTheme.dividerColor,
+          ),
+          _sizedBox20,
           Padding(
-            padding: const EdgeInsets.only(bottom: 50.0),
-            child: Row(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
               children: [
-                Expanded(
-                  flex: 2,
-                  child: Text(
-                    'Total to pay',
-                    style: AppTheme.textStyle.w600.color100
-                        .size(13)
-                        .lineHeight(1.6),
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        'Items total',
+                        style: _style.color100,
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        '₹${provider.totalAmount}',
+                        style: _style.color100,
+                        textAlign: TextAlign.end,
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: Text(
-                    '₹${totalPrice.toString()}',
-                    style: AppTheme.textStyle.w600.color100
-                        .size(13)
-                        .lineHeight(1.6),
-                    textAlign: TextAlign.end,
-                  ),
+                _sizedBox20,
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        'Saved with Coupon',
+                        style: _style.color100,
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        '-₹${provider.discountAmount}',
+                        style: _style.colored(AppTheme.primaryColor),
+                        textAlign: TextAlign.end,
+                      ),
+                    ),
+                  ],
                 ),
+                _sizedBox20,
+                Divider(
+                  thickness: 1.0,
+                  color: AppTheme.dividerColor,
+                ),
+                _sizedBox20,
+                _finalPriceTile(provider.totalAmountAfterDiscount),
               ],
             ),
           ),
-          SizedBox(height: 20),
         ],
       ),
+    );
+  }
+
+  Widget _finalPriceTile(double amount) {
+    final _style = AppTheme.textStyle.w600.color100.size(13).lineHeight(1.6);
+    return Row(
+      children: [
+        Expanded(
+          flex: 2,
+          child: Text(
+            'Total to pay',
+            style: _style,
+          ),
+        ),
+        Expanded(
+          child: Text(
+            '₹$amount',
+            style: _style,
+            textAlign: TextAlign.end,
+          ),
+        ),
+      ],
     );
   }
 }
