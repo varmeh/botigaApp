@@ -75,7 +75,7 @@ class CartProvider with ChangeNotifier {
       totalAmount = product.price;
     }
     saveCartToServer();
-    notifyListeners();
+    removeCoupon();
   }
 
   void removeProduct(ProductModel product) {
@@ -94,7 +94,7 @@ class CartProvider with ChangeNotifier {
       clearCart();
     }
     saveCartToServer();
-    notifyListeners();
+    removeCoupon();
   }
 
   int quantityInCart(ProductModel product) {
