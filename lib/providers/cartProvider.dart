@@ -121,6 +121,8 @@ class CartProvider with ChangeNotifier {
       'sellerId': cartSeller.id,
       'addressId': _userProvider.selectedAddress.id,
       'totalAmount': totalAmountAfterDiscount,
+      'discountAmount': discountAmount,
+      'couponCode': couponApplied.couponCode,
       'products': productList
     });
 
