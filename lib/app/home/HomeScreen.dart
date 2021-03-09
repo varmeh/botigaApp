@@ -54,11 +54,6 @@ class HomeScreen extends StatelessWidget {
                   appBar(context, provider),
                   _banners(context, provider),
                   _availableSellers(context, provider),
-                  Container(
-                    color: AppTheme.backgroundColor,
-                    padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
-                    child: InviteTile(),
-                  ),
                   _notAvailableSellers(context, provider),
                   BrandingTile(
                     'Thriving communities, empowering people',
@@ -195,6 +190,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget _availableSellers(BuildContext context, ApartmentProvider provider) {
     final color = AppTheme.backgroundColor;
+    final halfMark = (provider.availableSellers / 2).ceil();
     return !provider.hasAvailableSellers
         ? Container()
         : Container(
@@ -202,14 +198,21 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ...List.generate(
-                  provider.availableSellers,
-                  (index) => _sellersTile(
-                    context,
-                    provider.sellerList[index],
-                    color,
-                  ),
-                ),
+                ...List.generate(provider.availableSellers + 1, (index) {
+                  if (index < halfMark) {
+                    return _sellersTile(
+                        context, provider.sellerList[index], color);
+                  } else if (index > halfMark) {
+                    return _sellersTile(
+                        context, provider.sellerList[index - 1], color);
+                  } else {
+                    return Container(
+                      color: AppTheme.backgroundColor,
+                      padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
+                      child: InviteTile(),
+                    );
+                  }
+                }),
               ],
             ),
           );
