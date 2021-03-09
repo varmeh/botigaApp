@@ -122,7 +122,7 @@ class CartProvider with ChangeNotifier {
       'addressId': _userProvider.selectedAddress.id,
       'totalAmount': totalAmountAfterDiscount,
       'discountAmount': discountAmount,
-      'couponCode': couponApplied.couponCode,
+      'couponCode': couponApplied != null ? couponApplied.couponCode : '',
       'products': productList
     });
 
