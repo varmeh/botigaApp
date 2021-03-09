@@ -33,12 +33,14 @@ class ApartmentProvider with ChangeNotifier {
     } else {
       final json = await Http.get('/api/user/apartments/$apartmentId');
 
-      _banners = json['marketingBanners']
-          .map(
-            (item) => BannerModel.fromJson(item),
-          )
-          .cast<BannerModel>()
-          .toList();
+      if (json['marketingBanners'] != null) {
+        _banners = json['marketingBanners']
+            .map(
+              (item) => BannerModel.fromJson(item),
+            )
+            .cast<BannerModel>()
+            .toList();
+      }
 
       final _sellerIterable = json['sellers'].map((item) {
         final seller = SellerModel.fromJson(item);
