@@ -4,10 +4,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import '../theme/index.dart';
 
-class BannerCarosuel extends StatefulWidget {
-  final List<String> imageList;
+class TapBannerModel {
+  final String url;
+  final Function onTap;
 
-  BannerCarosuel(this.imageList);
+  TapBannerModel({@required this.url, this.onTap});
+}
+
+class BannerCarosuel extends StatefulWidget {
+  final List<TapBannerModel> bannerList;
+
+  BannerCarosuel(this.bannerList);
 
   @override
   _BannerCarosuelState createState() => _BannerCarosuelState();
@@ -25,16 +32,24 @@ class _BannerCarosuelState extends State<BannerCarosuel> {
         mainAxisSize: MainAxisSize.min,
         children: [
           CarouselSlider.builder(
-            itemCount: widget.imageList.length,
+            itemCount: widget.bannerList.length,
             itemBuilder: (context, index, realIndex) {
-              return Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: CachedNetworkImageProvider(widget.imageList[index]),
+              return GestureDetector(
+                onTap: () {
+                  if (widget.bannerList[index].onTap != null) {
+                    widget.bannerList[index].onTap();
+                  }
+                },
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: CachedNetworkImageProvider(
+                          widget.bannerList[index].url),
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
                 ),
               );
             },
@@ -43,7 +58,7 @@ class _BannerCarosuelState extends State<BannerCarosuel> {
                 viewportFraction: 0.85,
                 initialPage: 0,
                 reverse: false,
-                autoPlay: widget.imageList.length > 1,
+                autoPlay: widget.bannerList.length > 1,
                 enlargeCenterPage: true,
                 scrollDirection: Axis.horizontal,
                 onPageChanged: (index, reason) =>
@@ -52,7 +67,7 @@ class _BannerCarosuelState extends State<BannerCarosuel> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ...widget.imageList.asMap().entries.map((entry) {
+              ...widget.bannerList.asMap().entries.map((entry) {
                 return Container(
                   width: 8.0,
                   height: 8.0,

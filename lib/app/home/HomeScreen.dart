@@ -13,6 +13,7 @@ import '../../widgets/index.dart'
         HttpServiceExceptionWidget,
         CircleNetworkAvatar,
         BannerCarosuel,
+        TapBannerModel,
         ShimmerWidget;
 import '../location/index.dart'
     show SelectApartmenWhenNoUserLoggedInScreen, SavedAddressesSelectionModal;
@@ -51,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 children: [
                   appBar(context, provider),
-                  _banners(provider),
+                  _banners(context, provider),
                   _availableSellers(context, provider),
                   Container(
                     color: AppTheme.backgroundColor,
@@ -119,14 +120,31 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _banners(ApartmentProvider provider) {
-    return provider.hasBanners
-        ? Container(
-            color: AppTheme.backgroundColor,
-            padding: const EdgeInsets.only(top: 24.0),
-            child: BannerCarosuel(provider.bannerList),
-          )
-        : Container();
+  Widget _banners(BuildContext context, ApartmentProvider provider) {
+    if (provider.hasBanners) {
+      final tapBannerList = provider.banners
+          .map((banner) => TapBannerModel(
+                url: banner.url,
+                onTap: () {
+                  final seller = provider.seller(banner.sellerId);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ProductListScreen(seller),
+                    ),
+                  );
+                },
+              ))
+          .cast<TapBannerModel>()
+          .toList();
+
+      return Container(
+        color: AppTheme.backgroundColor,
+        padding: const EdgeInsets.only(top: 24.0),
+        child: BannerCarosuel(tapBannerList),
+      );
+    }
+    return Container();
   }
 
   Widget _selectApartment(BuildContext context) {

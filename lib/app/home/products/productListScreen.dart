@@ -11,6 +11,7 @@ import '../../../widgets/index.dart'
         FssaiTile,
         BotigaAppBar,
         BannerCarosuel,
+        TapBannerModel,
         ShimmerWidget;
 import '../../cart/cartBottomModal.dart';
 import 'widgets/categoryList.dart';
@@ -161,13 +162,20 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Widget _bannerCarosuel() {
     final provider = Provider.of<SellerProvider>(context, listen: false);
 
-    return provider.hasBanners(widget.seller.id)
-        ? Container(
-            color: AppTheme.backgroundColor,
-            padding: const EdgeInsets.only(top: 24.0),
-            child: BannerCarosuel(provider.banners(widget.seller.id)),
-          )
-        : Container();
+    if (provider.hasBanners(widget.seller.id)) {
+      final bannerUrlList = provider.banners(widget.seller.id);
+      final tapBannerList = bannerUrlList
+          .map((e) => TapBannerModel(url: e))
+          .cast<TapBannerModel>()
+          .toList();
+
+      return Container(
+        color: AppTheme.backgroundColor,
+        padding: const EdgeInsets.only(top: 24.0),
+        child: BannerCarosuel(tapBannerList),
+      );
+    }
+    return Container();
   }
 
   Future<void> _getProducts() async {

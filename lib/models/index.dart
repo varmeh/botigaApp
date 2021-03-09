@@ -6,3 +6,4 @@ export 'orderModel.dart';
 export 'productModel.dart';
 export 'sellerModel.dart';
 export 'couponModel.dart';
+export 'bannerModel.dart';
