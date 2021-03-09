@@ -31,29 +31,30 @@ class _BannerCarosuelState extends State<BannerCarosuel> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          CarouselSlider.builder(
-            itemCount: widget.bannerList.length,
-            itemBuilder: (context, index, realIndex) {
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  if (widget.bannerList[index].onTap != null) {
-                    widget.bannerList[index].onTap();
-                  }
-                },
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: CachedNetworkImageProvider(
-                          widget.bannerList[index].url),
+          CarouselSlider(
+            items: widget.bannerList.map((banner) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return InkWell(
+                    onTap: () {
+                      if (banner.onTap != null) {
+                        banner.onTap();
+                      }
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: CachedNetworkImageProvider(banner.url),
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                      ),
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                  ),
-                ),
+                  );
+                },
               );
-            },
+            }).toList(),
             options: CarouselOptions(
                 height: 160,
                 viewportFraction: 0.85,
