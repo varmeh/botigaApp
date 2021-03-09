@@ -16,7 +16,7 @@ class CategoryModel {
     @required this.categoryId,
     @required this.name,
     @required this.products,
-    this.visible,
+    this.visible = true,
   });
 
   bool get showCategory => visible && products.length > 0;
