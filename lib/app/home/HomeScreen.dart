@@ -122,12 +122,14 @@ class HomeScreen extends StatelessWidget {
                 url: banner.url,
                 onTap: () {
                   final seller = provider.seller(banner.sellerId);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => ProductListScreen(seller),
-                    ),
-                  );
+                  if (seller != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ProductListScreen(seller),
+                      ),
+                    );
+                  }
                 },
               ))
           .cast<TapBannerModel>()
