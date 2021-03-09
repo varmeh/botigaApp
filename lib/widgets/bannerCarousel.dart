@@ -35,6 +35,7 @@ class _BannerCarosuelState extends State<BannerCarosuel> {
             itemCount: widget.bannerList.length,
             itemBuilder: (context, index, realIndex) {
               return GestureDetector(
+                behavior: HitTestBehavior.opaque,
                 onTap: () {
                   if (widget.bannerList[index].onTap != null) {
                     widget.bannerList[index].onTap();
