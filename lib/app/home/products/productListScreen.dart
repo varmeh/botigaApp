@@ -207,7 +207,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
       builder: (context, provider, child) {
         final categoryList = provider
             .products(seller.id)
-            .where((category) => category.products.length > 0)
+            .where((category) => category.showCategory)
             .toList();
 
         return Column(

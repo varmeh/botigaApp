@@ -9,13 +9,17 @@ part 'categoryModel.g.dart';
 class CategoryModel {
   final String categoryId;
   final String name;
+  final bool visible;
   final List<ProductModel> products;
 
   CategoryModel({
     @required this.categoryId,
     @required this.name,
     @required this.products,
+    this.visible,
   });
+
+  bool get showCategory => visible && products.length > 0;
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) =>
       _$CategoryModelFromJson(json);
