@@ -23,6 +23,8 @@ SellerModel _$SellerModelFromJson(Map<String, dynamic> json) {
     deliverySlot: json['deliverySlot'] as String,
     address: json['address'] as String,
     fssaiLicenseNumber: json['fssaiLicenseNumber'] as String,
+    deliveryFee: json['deliveryFee'] as int,
+    deliveryMinOrder: json['deliveryMinOrder'] as int,
   );
 }
 
@@ -39,6 +41,8 @@ Map<String, dynamic> _$SellerModelToJson(SellerModel instance) =>
       'deliveryMessage': instance.deliveryMessage,
       'deliveryDate': instance.deliveryDate?.toIso8601String(),
       'deliverySlot': instance.deliverySlot,
+      'deliveryFee': instance.deliveryFee,
+      'deliveryMinOrder': instance.deliveryMinOrder,
       'address': instance.address,
       'fssaiLicenseNumber': instance.fssaiLicenseNumber,
     };

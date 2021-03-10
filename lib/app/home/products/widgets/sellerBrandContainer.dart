@@ -21,18 +21,28 @@ class SellerBrandContainer extends StatelessWidget {
       _deliverySchedule += '・${seller.deliverySlot}';
     }
 
+    const _sizedBox = const SizedBox(height: 12);
+
     return Container(
       padding: EdgeInsets.only(left: 20, top: 6, right: 20, bottom: 24),
       child: Column(
         children: [
           _brandInfo(context),
-          SizedBox(height: 10.0),
+          _sizedBox,
           _iconInfo(context, 'assets/images/shop.png', seller.businessCategory),
-          SizedBox(height: 10.0),
+          _sizedBox,
           _iconInfo(
             context,
             'assets/images/truck.png',
             seller.live ? _deliverySchedule : 'Not Serving at the moment',
+          ),
+          _sizedBox,
+          _iconInfo(
+            context,
+            'assets/images/cart.png',
+            seller.deliveryFee == 0
+                ? 'Free Delivery'
+                : 'Free Delivery above ${seller.deliveryMinOrder}',
           ),
         ],
       ),
@@ -52,20 +62,24 @@ class SellerBrandContainer extends StatelessWidget {
             children: [
               Text(
                 seller.brandName,
-                style: AppTheme.textStyle.w700.color100.size(17),
+                style:
+                    AppTheme.textStyle.w700.color100.size(17).lineHeight(1.3),
               ),
               seller.tagline != null
-                  ? Text(
-                      seller.tagline,
-                      style: AppTheme.textStyle.w500.color50.size(13),
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 2.0),
+                      child: Text(
+                        seller.tagline,
+                        style: AppTheme.textStyle.w500.color50
+                            .size(13)
+                            .lineHeight(1.5),
+                      ),
                     )
                   : Container(),
             ],
           ),
         ),
-        SizedBox(
-          width: 12,
-        ),
+        SizedBox(width: 12),
         CircleNetworkAvatar(
           imageUrl: seller.brandImageUrl,
           radius: 28.0,
@@ -81,14 +95,14 @@ class SellerBrandContainer extends StatelessWidget {
       children: [
         Image.asset(
           image,
-          width: 24.0,
-          height: 24.0,
+          width: 18.0,
+          height: 18.0,
         ),
         SizedBox(width: 12.0),
         Expanded(
           child: Text(
             info,
-            style: AppTheme.textStyle.w500.color100.size(14).lineHeight(1.5),
+            style: AppTheme.textStyle.w500.color100.size(13).lineHeight(1.5),
             textAlign: TextAlign.justify,
           ),
         ),

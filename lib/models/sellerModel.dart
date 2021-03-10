@@ -21,6 +21,8 @@ class SellerModel {
   final String deliveryMessage;
   final DateTime deliveryDate;
   final String deliverySlot;
+  final int deliveryFee;
+  final int deliveryMinOrder;
 
   final String address;
   final String fssaiLicenseNumber;
@@ -39,6 +41,8 @@ class SellerModel {
     this.deliverySlot,
     this.address,
     this.fssaiLicenseNumber,
+    this.deliveryFee = 0,
+    this.deliveryMinOrder = 0,
   });
 
   factory SellerModel.fromJson(Map<String, dynamic> json) =>

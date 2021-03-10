@@ -9,8 +9,10 @@ import 'cartScreen.dart';
 class CartBottomModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final textStyle =
-        AppTheme.textStyle.w600.size(15).colored(AppTheme.backgroundColor);
+    final textStyle = AppTheme.textStyle.w600
+        .size(15)
+        .lineHeight(1.3)
+        .colored(AppTheme.backgroundColor);
     return Consumer<CartProvider>(
       builder: (context, provider, child) {
         if (provider.numberOfItemsInCart <= 0) {
@@ -31,13 +33,13 @@ class CartBottomModal extends StatelessWidget {
                       ),
                       SizedBox(width: 16.0),
                       Text(
-                        '${provider.numberOfItemsInCart} Item${provider.numberOfItemsInCart > 1 ? 's' : ''}',
+                        '${provider.numberOfItemsInCart} Item${provider.numberOfItemsInCart > 1 ? 's' : ''} • ₹${provider.totalAmount}',
                         style: textStyle,
                       ),
                     ],
                   ),
                   Text(
-                    'Rs. ${provider.totalAmount}',
+                    'GO TO CART',
                     style: textStyle,
                   ),
                 ],
