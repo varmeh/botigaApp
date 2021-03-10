@@ -47,7 +47,7 @@ class _ProductTileState extends State<ProductTile> {
         }
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 15),
+        padding: EdgeInsets.only(top: 24, bottom: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -148,12 +148,12 @@ class _ProductTileState extends State<ProductTile> {
                 _hasImage
                     ? SizedBox(
                         width: 120,
-                        height: 110,
+                        height: 140,
                         child: Stack(
                           children: [
                             Container(
                               width: 120.0,
-                              height: 90.0,
+                              height: 120.0,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   onError: (_, __) =>
