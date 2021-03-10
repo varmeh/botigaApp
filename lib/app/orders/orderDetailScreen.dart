@@ -312,7 +312,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       .letterSpace(0.5),
                   children: [
                     TextSpan(
-                      text: product.price.toString(),
+                      text: (product.price * product.quantity).toString(),
                       style: AppTheme.textStyle.w500.color100
                           .size(13.0)
                           .lineHeight(1.6)
