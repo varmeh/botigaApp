@@ -469,10 +469,6 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _billDetails(CartProvider provider) {
-    const _sizedBox20 = const SizedBox(height: 20);
-    final _style =
-        AppTheme.textStyle.w500.size(13).lineHeight(1.2).letterSpace(0.2);
-
     return Container(
       padding: const EdgeInsets.only(bottom: 150),
       child: Column(
@@ -481,60 +477,48 @@ class _CartScreenState extends State<CartScreen> {
             thickness: 4.0,
             color: AppTheme.dividerColor,
           ),
-          _sizedBox20,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        'Items total',
-                        style: _style.color100,
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        '₹${provider.totalAmount}',
-                        style: _style.color100,
-                        textAlign: TextAlign.end,
-                      ),
-                    ),
-                  ],
+                _billTile(
+                  title: 'Items total',
+                  amount: '₹${provider.totalAmount}',
                 ),
-                _sizedBox20,
-                _deliveryFeeTile(provider),
-                _sizedBox20,
-                provider.isCouponApplied
-                    ? Padding(
-                        padding: const EdgeInsets.only(bottom: 20.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Text(
-                                'Saved with Coupon',
-                                style: _style.color100,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                '-₹${provider.discountAmount}',
-                                style: _style.colored(AppTheme.primaryColor),
-                                textAlign: TextAlign.end,
-                              ),
-                            ),
-                          ],
+                _billTile(
+                  title: 'Delivery Fee',
+                  amount: '₹${provider.deliveryFee}',
+                ),
+                provider.deliveryFee > 0
+                    ? Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(top: 12),
+                        padding: const EdgeInsets.only(
+                            top: 10, bottom: 10, left: 16),
+                        decoration: BoxDecoration(
+                          color: Color(0xfff5f2de),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(4),
+                          ),
                         ),
+                        child: Text(
+                            'Add ₹${provider.purchaseAmountForFreeDelivery} more for Free Shipping'),
                       )
                     : Container(),
-                Divider(
-                  thickness: 1.0,
-                  color: AppTheme.dividerColor,
+                provider.isCouponApplied
+                    ? _billTile(
+                        title: 'Saved with Coupon',
+                        amount: '-₹${provider.discountAmount}',
+                        color: AppTheme.primaryColor,
+                      )
+                    : Container(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: Divider(
+                    thickness: 1.0,
+                    color: AppTheme.dividerColor,
+                  ),
                 ),
-                _sizedBox20,
                 _finalPriceTile(provider.totalToPay),
               ],
             ),
@@ -544,63 +528,45 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _deliveryFeeTile(CartProvider provider) {
+  Widget _billTile({String title, String amount, Color color}) {
     final _style = AppTheme.textStyle.w500.color100
         .size(13)
         .lineHeight(1.2)
         .letterSpace(0.2);
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Delivery Fee',
-              style: _style,
-            ),
-            Text(
-              '₹${provider.deliveryFee}',
-              style: _style,
-              textAlign: TextAlign.end,
-            ),
-          ],
-        ),
-        provider.deliveryFee > 0
-            ? Container(
-                width: double.infinity,
-                margin: const EdgeInsets.only(top: 12),
-                padding: const EdgeInsets.only(top: 10, bottom: 10, left: 16),
-                decoration: BoxDecoration(
-                  color: Color(0xfff5f2de),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(4),
-                  ),
-                ),
-                child: Text(
-                    'Add ₹${provider.purchaseAmountForFreeDelivery} more for Free Shipping'),
-              )
-            : Container(),
-      ],
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: _style.color100,
+          ),
+          SizedBox(width: 24),
+          Text(
+            amount,
+            style: color != null ? _style.colored(color) : _style,
+            textAlign: TextAlign.end,
+          ),
+        ],
+      ),
     );
   }
 
   Widget _finalPriceTile(double amount) {
     final _style = AppTheme.textStyle.w600.color100.size(13).lineHeight(1.6);
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(
-          flex: 2,
-          child: Text(
-            'Total to pay',
-            style: _style,
-          ),
+        Text(
+          'Total to pay',
+          style: _style,
         ),
-        Expanded(
-          child: Text(
-            '₹$amount',
-            style: _style,
-            textAlign: TextAlign.end,
-          ),
+        Text(
+          '₹$amount',
+          style: _style,
+          textAlign: TextAlign.end,
         ),
       ],
     );
