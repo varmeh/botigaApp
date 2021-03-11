@@ -29,22 +29,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = false;
   Exception _error;
-
-  final _filterList = [
-    'All',
-    'Fruits & Veggies',
-    'Grocery',
-    'Home Decor',
-    'Homemade',
-    'Fresh Meat',
-  ];
   String _selectedFilter;
 
   @override
   void initState() {
     super.initState();
-    _selectedFilter = _filterList[0];
-
     Future.delayed(Duration(milliseconds: 0), () => _getApartmentData());
   }
 
@@ -94,8 +83,11 @@ class _HomeScreenState extends State<HomeScreen> {
       });
       final apartmentId =
           Provider.of<UserProvider>(context, listen: false).apartmentId;
-      await Provider.of<ApartmentProvider>(context, listen: false)
-          .getApartmentData(apartmentId);
+      final apartmentProvider =
+          Provider.of<ApartmentProvider>(context, listen: false);
+      await apartmentProvider.getApartmentData(apartmentId);
+
+      _selectedFilter = apartmentProvider.filters[0].value;
     } catch (error) {
       _error = error;
     } finally {
@@ -186,47 +178,50 @@ class _HomeScreenState extends State<HomeScreen> {
         .letterSpace(0.2);
     final _selectedFilterColor = AppTheme.primaryColor.withOpacity(0.15);
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 20),
-      child: Container(
-        height: 26,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: [
-            ..._filterList.map(
-              (val) => Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: GestureDetector(
-                  onTap: () => setState(() => _selectedFilter = val),
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: _selectedFilter == val
-                            ? Colors.transparent
-                            : AppTheme.dividerColor,
+    return provider.hasFilters
+        ? Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Container(
+              height: 26,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  ...provider.filters.map(
+                    (filter) => Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: GestureDetector(
+                        onTap: () =>
+                            setState(() => _selectedFilter = filter.value),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 4, horizontal: 10),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: _selectedFilter == filter.value
+                                  ? Colors.transparent
+                                  : AppTheme.dividerColor,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                            color: _selectedFilter == filter.value
+                                ? _selectedFilterColor
+                                : AppTheme.backgroundColor,
+                          ),
+                          child: Text(
+                            filter.displayName,
+                            textAlign: TextAlign.center,
+                            style: _selectedFilter == filter.value
+                                ? _style.colored(AppTheme.primaryColor)
+                                : _style,
+                          ),
+                        ),
                       ),
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      color: _selectedFilter == val
-                          ? _selectedFilterColor
-                          : AppTheme.backgroundColor,
-                    ),
-                    child: Text(
-                      val,
-                      textAlign: TextAlign.center,
-                      style: _selectedFilter == val
-                          ? _style.colored(AppTheme.primaryColor)
-                          : _style,
                     ),
                   ),
-                ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          )
+        : Container();
   }
 
   Widget _selectApartment(BuildContext context) {
