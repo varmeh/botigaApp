@@ -27,7 +27,7 @@ class ApartmentProvider with ChangeNotifier {
     availableSellers = 0;
   }
 
-  Future<void> getSellers(String apartmentId) async {
+  Future<void> getApartmentData(String apartmentId) async {
     if (_sellerList.length > 0) {
       return;
     } else {

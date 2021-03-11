@@ -21,51 +21,86 @@ import '../tabbar.dart';
 import 'products/productListScreen.dart';
 import '../../util/index.dart' show DateExtension;
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool _isLoading = false;
+  Exception _error;
+
+  final _filterList = [
+    'All',
+    'Fruits & Veggies',
+    'Grocery',
+    'Home Decor',
+    'Homemade',
+    'Fresh Meat',
+  ];
+  String _selectedFilter;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedFilter = _filterList[0];
+
+    Future.delayed(Duration(milliseconds: 0), () => _getApartmentData());
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _userProvider = Provider.of<UserProvider>(context);
+    if (_isLoading) {
+      return _shimmerWidget();
+    } else if (_error != null) {
+      return HttpServiceExceptionWidget(
+        exception: _error,
+        onTap: () {
+          // Rebuild screen
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (_, __, ___) => Tabbar(index: 0),
+              transitionDuration: Duration.zero,
+            ),
+          );
+        },
+      );
+    } else {
+      final provider = Provider.of<ApartmentProvider>(context);
+      return ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          appBar(context, provider),
+          _banners(context, provider),
+          provider.hasBanners ? SizedBox(height: 12) : SizedBox(height: 24),
+          _filter(provider),
+          _availableSellers(context, provider),
+          _notAvailableSellers(context, provider),
+          BrandingTile(
+            'Thriving communities, empowering people',
+            'Made by awesome team of Botiga',
+          ),
+        ],
+      );
+    }
+  }
 
-    return Consumer<ApartmentProvider>(
-      builder: (context, provider, child) {
-        return FutureBuilder(
-          future: provider.getSellers(_userProvider.apartmentId),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return _shimmerWidget();
-            } else if (snapshot.hasError) {
-              return HttpServiceExceptionWidget(
-                exception: snapshot.error,
-                onTap: () {
-                  // Rebuild screen
-                  Navigator.pushReplacement(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (_, __, ___) => Tabbar(index: 0),
-                      transitionDuration: Duration.zero,
-                    ),
-                  );
-                },
-              );
-            } else {
-              return ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  appBar(context, provider),
-                  _banners(context, provider),
-                  _availableSellers(context, provider),
-                  _notAvailableSellers(context, provider),
-                  BrandingTile(
-                    'Thriving communities, empowering people',
-                    'Made by awesome team of Botiga',
-                  ),
-                ],
-              );
-            }
-          },
-        );
-      },
-    );
+  void _getApartmentData() async {
+    try {
+      setState(() {
+        _isLoading = true;
+        _error = null;
+      });
+      final apartmentId =
+          Provider.of<UserProvider>(context, listen: false).apartmentId;
+      await Provider.of<ApartmentProvider>(context, listen: false)
+          .getApartmentData(apartmentId);
+    } catch (error) {
+      _error = error;
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
   Widget appBar(BuildContext context, ApartmentProvider apartmentProvider) {
@@ -144,6 +179,56 @@ class HomeScreen extends StatelessWidget {
     return Container();
   }
 
+  Widget _filter(ApartmentProvider provider) {
+    final _style = AppTheme.textStyle.color50.w500
+        .size(12)
+        .lineHeight(1.3)
+        .letterSpace(0.2);
+    final _selectedFilterColor = AppTheme.primaryColor.withOpacity(0.15);
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 20),
+      child: Container(
+        height: 26,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: [
+            ..._filterList.map(
+              (val) => Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: GestureDetector(
+                  onTap: () => setState(() => _selectedFilter = val),
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: _selectedFilter == val
+                            ? Colors.transparent
+                            : AppTheme.dividerColor,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      color: _selectedFilter == val
+                          ? _selectedFilterColor
+                          : AppTheme.backgroundColor,
+                    ),
+                    child: Text(
+                      val,
+                      textAlign: TextAlign.center,
+                      style: _selectedFilter == val
+                          ? _style.colored(AppTheme.primaryColor)
+                          : _style,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _selectApartment(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
     return GestureDetector(
@@ -195,27 +280,30 @@ class HomeScreen extends StatelessWidget {
     final halfMark = (provider.availableSellers / 2).ceil();
     return !provider.hasAvailableSellers
         ? Container()
-        : Container(
-            color: color,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ...List.generate(provider.availableSellers + 1, (index) {
-                  if (index < halfMark) {
-                    return _sellersTile(
-                        context, provider.sellerList[index], color);
-                  } else if (index > halfMark) {
-                    return _sellersTile(
-                        context, provider.sellerList[index - 1], color);
-                  } else {
-                    return Container(
-                      color: AppTheme.backgroundColor,
-                      padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
-                      child: InviteTile(),
-                    );
-                  }
-                }),
-              ],
+        : Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Container(
+              color: color,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ...List.generate(provider.availableSellers + 1, (index) {
+                    if (index < halfMark) {
+                      return _sellersTile(
+                          context, provider.sellerList[index], color);
+                    } else if (index > halfMark) {
+                      return _sellersTile(
+                          context, provider.sellerList[index - 1], color);
+                    } else {
+                      return Container(
+                        color: AppTheme.backgroundColor,
+                        padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
+                        child: InviteTile(),
+                      );
+                    }
+                  }),
+                ],
+              ),
             ),
           );
   }
@@ -259,35 +347,28 @@ class HomeScreen extends StatelessWidget {
       transitionDuration: Duration(milliseconds: 300),
       closedBuilder: (context, openContainer) {
         return Container(
-          padding: EdgeInsets.only(
-            left: 20,
-            top: 24,
-          ),
+          margin: const EdgeInsets.only(left: 20, right: 20, top: 24),
           color: color,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleNetworkAvatar(
-                imageUrl: seller.brandImageUrl,
-                radius: 28.0,
-                isColored: seller.live,
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: CircleNetworkAvatar(
+                  imageUrl: seller.brandImageUrl,
+                  radius: 28.0,
+                  isColored: seller.live,
+                ),
               ),
               SizedBox(width: 12),
               Expanded(
-                flex: 4,
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border(
-                      bottom: BorderSide(color: AppTheme.dividerColor),
-                    ),
+                        bottom: BorderSide(color: AppTheme.dividerColor)),
                   ),
-                  padding: const EdgeInsets.only(
-                    left: 2.0,
-                    top: 12.0,
-                    bottom: 20.0,
-                    right: 20.0,
-                  ),
+                  padding: const EdgeInsets.only(left: 4, bottom: 16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -298,12 +379,14 @@ class HomeScreen extends StatelessWidget {
                             .size(15)
                             .lineHeight(1.3),
                       ),
+                      SizedBox(height: 2),
                       Text(
                         seller.businessCategory,
                         style: AppTheme.textStyle.color50.w500
                             .size(13)
                             .lineHeight(1.5),
                       ),
+                      SizedBox(height: 2),
                       (seller.deliveryDate != null &&
                               seller.deliveryDate
                                       .difference(DateTime.now())
