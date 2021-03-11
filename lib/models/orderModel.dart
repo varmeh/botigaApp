@@ -19,6 +19,7 @@ class OrderModel {
   final double totalAmount;
   final double discountAmount;
   final String couponCode;
+  final int deliveryFee;
   final DateTime orderDate;
   final DateTime expectedDeliveryDate;
   final String deliverySlot;
@@ -38,6 +39,7 @@ class OrderModel {
     @required this.totalAmount,
     this.discountAmount,
     this.couponCode,
+    this.deliveryFee = 0,
     @required this.orderDate,
     @required this.expectedDeliveryDate,
     this.deliverySlot,

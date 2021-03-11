@@ -265,20 +265,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     );
   }
 
-  Widget _itemizedBill() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-      child: Column(
-        children: [
-          ...order.products.map((product) => _productDetails(product)),
-          SizedBox(height: 24.0),
-          _discountData(),
-          _total(),
-        ],
-      ),
-    );
-  }
-
   Widget _productDetails(OrderProductModel product) {
     return Container(
       padding: EdgeInsets.only(bottom: 8.0),
@@ -332,62 +318,69 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     );
   }
 
-  Widget _discountData() {
-    final _sizedBox20 = SizedBox(height: 20);
-    final _style =
-        AppTheme.textStyle.w500.size(13).lineHeight(1.2).letterSpace(0.2);
+  Widget _itemizedBill() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+      child: Column(
+        children: [
+          ...order.products.map((product) => _productDetails(product)),
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: Divider(thickness: 1, color: AppTheme.dividerColor),
+          ),
+          _billTile(
+            title: 'Items total',
+            amount:
+                '₹${order.totalAmount - order.deliveryFee + order.discountAmount}',
+          ),
+          _billTile(
+            title: 'Delivery Fee',
+            amount: '₹${order.deliveryFee}',
+          ),
+          order.hasCoupon
+              ? _billTile(
+                  title: 'Saved with Coupon',
+                  amount: '-₹${order.discountAmount}',
+                  color: AppTheme.primaryColor,
+                )
+              : Container(),
+          _total(),
+        ],
+      ),
+    );
+  }
 
-    return order.hasCoupon
-        ? Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Text(
-                      'Items total',
-                      style: _style.color100,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      '₹${order.totalAmount + order.discountAmount}',
-                      style: _style.color100,
-                      textAlign: TextAlign.end,
-                    ),
-                  ),
-                ],
-              ),
-              _sizedBox20,
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Text(
-                      'Saved with Coupon',
-                      style: _style.color100,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      '-₹${order.discountAmount}',
-                      style: _style.colored(AppTheme.primaryColor),
-                      textAlign: TextAlign.end,
-                    ),
-                  ),
-                ],
-              ),
-              _sizedBox20,
-            ],
-          )
-        : Container();
+  Widget _billTile({String title, String amount, Color color}) {
+    final _style = AppTheme.textStyle.w500.color100
+        .size(13)
+        .lineHeight(1.2)
+        .letterSpace(0.2);
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: _style.color100,
+          ),
+          SizedBox(width: 24),
+          Text(
+            amount,
+            style: color != null ? _style.colored(color) : _style,
+            textAlign: TextAlign.end,
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _total() {
     final style = AppTheme.textStyle.w600.color100.size(13).lineHeight(1.6);
 
     return Padding(
-        padding: const EdgeInsets.only(bottom: 52.0),
+        padding: const EdgeInsets.only(top: 20, bottom: 52.0),
         child: Column(
           children: [
             Divider(
