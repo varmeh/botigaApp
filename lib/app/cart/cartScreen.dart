@@ -120,9 +120,7 @@ class _CartScreenState extends State<CartScreen> {
                     return _itemList(provider);
 
                   case 3:
-                    return provider.isCouponApplied
-                        ? _totalPriceWithDiscount(provider)
-                        : _totalPrice(provider);
+                    return _billDetails(provider);
 
                   default:
                     return Container();
@@ -424,7 +422,7 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget _itemTile(CartProvider provider, ProductModel product, int quantity) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24.0),
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Row(
         children: [
           Expanded(
@@ -470,29 +468,13 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _totalPrice(CartProvider provider) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
-      child: Column(
-        children: [
-          Divider(
-            color: AppTheme.dividerColor,
-            thickness: 1.0,
-          ),
-          SizedBox(height: 20),
-          _finalPriceTile(provider.totalAmountAfterDiscount),
-          SizedBox(height: 70),
-        ],
-      ),
-    );
-  }
-
-  Widget _totalPriceWithDiscount(CartProvider provider) {
-    final _sizedBox20 = SizedBox(height: 20);
+  Widget _billDetails(CartProvider provider) {
+    const _sizedBox20 = const SizedBox(height: 20);
     final _style =
         AppTheme.textStyle.w500.size(13).lineHeight(1.2).letterSpace(0.2);
+
     return Container(
-      padding: const EdgeInsets.only(top: 20.0, bottom: 150),
+      padding: const EdgeInsets.only(bottom: 150),
       child: Column(
         children: [
           Divider(
@@ -523,36 +505,82 @@ class _CartScreenState extends State<CartScreen> {
                   ],
                 ),
                 _sizedBox20,
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        'Saved with Coupon',
-                        style: _style.color100,
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        '-₹${provider.discountAmount}',
-                        style: _style.colored(AppTheme.primaryColor),
-                        textAlign: TextAlign.end,
-                      ),
-                    ),
-                  ],
-                ),
+                _deliveryFeeTile(provider),
                 _sizedBox20,
+                provider.isCouponApplied
+                    ? Padding(
+                        padding: const EdgeInsets.only(bottom: 20.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                'Saved with Coupon',
+                                style: _style.color100,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                '-₹${provider.discountAmount}',
+                                style: _style.colored(AppTheme.primaryColor),
+                                textAlign: TextAlign.end,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : Container(),
                 Divider(
                   thickness: 1.0,
                   color: AppTheme.dividerColor,
                 ),
                 _sizedBox20,
-                _finalPriceTile(provider.totalAmountAfterDiscount),
+                _finalPriceTile(provider.totalToPay),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _deliveryFeeTile(CartProvider provider) {
+    final _style = AppTheme.textStyle.w500.color100
+        .size(13)
+        .lineHeight(1.2)
+        .letterSpace(0.2);
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Delivery Fee',
+              style: _style,
+            ),
+            Text(
+              '₹${provider.deliveryFee}',
+              style: _style,
+              textAlign: TextAlign.end,
+            ),
+          ],
+        ),
+        provider.deliveryFee > 0
+            ? Container(
+                width: double.infinity,
+                margin: const EdgeInsets.only(top: 12),
+                padding: const EdgeInsets.only(top: 10, bottom: 10, left: 16),
+                decoration: BoxDecoration(
+                  color: Color(0xfff5f2de),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(4),
+                  ),
+                ),
+                child: Text(
+                    'Add ₹${provider.purchaseAmountForFreeDelivery} more for Free Shipping'),
+              )
+            : Container(),
+      ],
     );
   }
 

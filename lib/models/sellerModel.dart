@@ -45,6 +45,8 @@ class SellerModel {
     this.deliveryMinOrder = 0,
   });
 
+  bool get hasDeliveryFee => deliveryFee > 0;
+
   factory SellerModel.fromJson(Map<String, dynamic> json) =>
       _$SellerModelFromJson(json);
 

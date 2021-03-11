@@ -34,9 +34,14 @@ class CartProvider with ChangeNotifier {
   bool get hasAddress => _userProvider.selectedAddress != null;
   bool get isCouponApplied => couponApplied != null;
 
-  double get totalAmountAfterDiscount {
-    final _totalAmountAfterDiscount = totalAmount - discountAmount;
-    return _totalAmountAfterDiscount > 0 ? _totalAmountAfterDiscount : 0;
+  int get deliveryFee =>
+      totalAmount < cartSeller.deliveryMinOrder ? cartSeller.deliveryFee : 0;
+  int get purchaseAmountForFreeDelivery =>
+      cartSeller.deliveryMinOrder - totalAmount.ceil();
+
+  double get totalToPay {
+    final _totalToPay = totalAmount + deliveryFee - discountAmount;
+    return _totalToPay > 0 ? _totalToPay : 0;
   }
 
   void removeCoupon() {
@@ -120,9 +125,10 @@ class CartProvider with ChangeNotifier {
     final json = await Http.post('/api/user/orders', body: {
       'sellerId': cartSeller.id,
       'addressId': _userProvider.selectedAddress.id,
-      'totalAmount': totalAmountAfterDiscount,
+      'totalAmount': totalToPay,
       'discountAmount': discountAmount,
       'couponCode': couponApplied != null ? couponApplied.couponCode : '',
+      'deliveryFee': deliveryFee,
       'products': productList
     });
 
