@@ -85,8 +85,6 @@ class _HomeScreenState extends State<HomeScreen> {
       final apartmentProvider =
           Provider.of<ApartmentProvider>(context, listen: false);
       await apartmentProvider.getApartmentData(apartmentId);
-
-      // _selectedFilter = apartmentProvider.filters[0].value;
     } catch (error) {
       _error = error;
     } finally {
@@ -171,17 +169,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _filter(ApartmentProvider provider) {
-    final _style = AppTheme.textStyle.color50.w500
-        .size(12)
-        .lineHeight(1.3)
-        .letterSpace(0.2);
+    final _style = AppTheme.textStyle.color50.w500.size(12).letterSpace(0.2);
     final _selectedFilterColor = AppTheme.primaryColor.withOpacity(0.15);
 
     return provider.hasFilters
         ? Padding(
             padding: const EdgeInsets.only(left: 20),
             child: Container(
-              height: 26,
+              height: 28,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
@@ -189,6 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     (filter) => Padding(
                       padding: const EdgeInsets.only(right: 8),
                       child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () =>
                             setState(() => provider.selectFilter(filter)),
                         child: Container(
@@ -274,48 +270,42 @@ class _HomeScreenState extends State<HomeScreen> {
     final halfMark = (provider.availableSellers / 2).ceil();
     return !provider.hasAvailableSellers
         ? Container()
-        : Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Container(
-              color: color,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ...provider.showAllSellers
-                      ? List.generate(provider.availableSellers + 1, (index) {
-                          // Show Invite Tile in middle
-                          if (index < halfMark) {
-                            return _sellersTile(
-                                context, provider.sellers[index], color);
-                          } else if (index > halfMark) {
-                            return _sellersTile(
-                                context, provider.sellers[index - 1], color);
-                          } else {
-                            return Container(
-                              color: AppTheme.backgroundColor,
-                              padding: const EdgeInsets.only(
-                                  top: 24.0, bottom: 24.0),
-                              child: InviteTile(),
-                            );
-                          }
-                        })
-                      : List.generate(
-                          provider.availableSellers + 1,
-                          (index) => index < provider.availableSellers
-                              ? _sellersTile(
-                                  context,
-                                  provider.sellers[index],
-                                  color,
-                                )
-                              : Container(
-                                  color: AppTheme.backgroundColor,
-                                  padding: const EdgeInsets.only(
-                                      top: 24.0, bottom: 24.0),
-                                  child: InviteTile(),
-                                ),
-                        ),
-                ],
-              ),
+        : Container(
+            margin: const EdgeInsets.only(top: 8.0),
+            color: color,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ...provider.showAllSellers
+                    ? List.generate(provider.availableSellers + 1, (index) {
+                        // Show Invite Tile in middle
+                        if (index < halfMark) {
+                          return _sellersTile(
+                            context,
+                            provider.sellers[index],
+                            color,
+                          );
+                        } else if (index > halfMark) {
+                          return _sellersTile(
+                            context,
+                            provider.sellers[index - 1],
+                            color,
+                          );
+                        } else {
+                          return InviteTile();
+                        }
+                      })
+                    : List.generate(
+                        provider.availableSellers + 1,
+                        (index) => index < provider.availableSellers
+                            ? _sellersTile(
+                                context,
+                                provider.sellers[index],
+                                color,
+                              )
+                            : InviteTile(),
+                      ),
+              ],
             ),
           );
   }
@@ -326,7 +316,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return !provider.hasNotAvailableSellers
         ? Container()
         : Container(
-            padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
+            padding: const EdgeInsets.only(top: 24, bottom: 24),
+            margin: const EdgeInsets.only(top: 24, bottom: 24),
             color: color,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
