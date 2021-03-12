@@ -63,19 +63,19 @@ class CategoryList extends StatelessWidget {
                       ),
                     ),
                     // List all the products
-                    ...category.products.map(
-                      (product) => ProductTile(
-                        seller: seller,
-                        product: product,
-                      ),
-                    ),
+                    ...category.products.asMap().entries.map(
+                          (entry) => ProductTile(
+                            seller: seller,
+                            product: entry.value,
+                            lastTile: entry.key == numberOfProducts - 1,
+                          ),
+                        ),
                   ],
                 )
               ],
             ),
           ),
         ),
-        SizedBox(height: 5),
         !this.isLast
             ? Divider(thickness: 1.0, color: AppTheme.dividerColor)
             : SizedBox.shrink()
