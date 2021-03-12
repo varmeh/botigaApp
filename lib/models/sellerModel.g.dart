@@ -25,6 +25,7 @@ SellerModel _$SellerModelFromJson(Map<String, dynamic> json) {
     fssaiLicenseNumber: json['fssaiLicenseNumber'] as String,
     deliveryFee: json['deliveryFee'] as int,
     deliveryMinOrder: json['deliveryMinOrder'] as int,
+    filters: (json['filters'] as List)?.map((e) => e as String)?.toList(),
   );
 }
 
@@ -45,4 +46,5 @@ Map<String, dynamic> _$SellerModelToJson(SellerModel instance) =>
       'deliveryMinOrder': instance.deliveryMinOrder,
       'address': instance.address,
       'fssaiLicenseNumber': instance.fssaiLicenseNumber,
+      'filters': instance.filters,
     };

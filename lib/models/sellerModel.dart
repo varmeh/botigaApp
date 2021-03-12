@@ -27,6 +27,8 @@ class SellerModel {
   final String address;
   final String fssaiLicenseNumber;
 
+  List<String> filters;
+
   SellerModel({
     @required this.id,
     @required this.brandName,
@@ -43,6 +45,7 @@ class SellerModel {
     this.fssaiLicenseNumber,
     this.deliveryFee = 0,
     this.deliveryMinOrder = 0,
+    this.filters,
   });
 
   bool get hasDeliveryFee => deliveryFee > 0;
