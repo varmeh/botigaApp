@@ -29,7 +29,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = false;
   Exception _error;
-  String _selectedFilter;
 
   @override
   void initState() {
@@ -87,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Provider.of<ApartmentProvider>(context, listen: false);
       await apartmentProvider.getApartmentData(apartmentId);
 
-      _selectedFilter = apartmentProvider.filters[0].value;
+      // _selectedFilter = apartmentProvider.filters[0].value;
     } catch (error) {
       _error = error;
     } finally {
@@ -191,25 +190,25 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.only(right: 8),
                       child: GestureDetector(
                         onTap: () =>
-                            setState(() => _selectedFilter = filter.value),
+                            setState(() => provider.selectFilter(filter)),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               vertical: 4, horizontal: 10),
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: _selectedFilter == filter.value
+                              color: provider.selectedFilter == filter
                                   ? Colors.transparent
                                   : AppTheme.dividerColor,
                             ),
                             borderRadius: BorderRadius.all(Radius.circular(12)),
-                            color: _selectedFilter == filter.value
+                            color: provider.selectedFilter == filter
                                 ? _selectedFilterColor
                                 : AppTheme.backgroundColor,
                           ),
                           child: Text(
                             filter.displayName,
                             textAlign: TextAlign.center,
-                            style: _selectedFilter == filter.value
+                            style: provider.selectedFilter == filter
                                 ? _style.colored(AppTheme.primaryColor)
                                 : _style,
                           ),
@@ -282,21 +281,39 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ...List.generate(provider.availableSellers + 1, (index) {
-                    if (index < halfMark) {
-                      return _sellersTile(
-                          context, provider.sellerList[index], color);
-                    } else if (index > halfMark) {
-                      return _sellersTile(
-                          context, provider.sellerList[index - 1], color);
-                    } else {
-                      return Container(
-                        color: AppTheme.backgroundColor,
-                        padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
-                        child: InviteTile(),
-                      );
-                    }
-                  }),
+                  ...provider.showAllSellers
+                      ? List.generate(provider.availableSellers + 1, (index) {
+                          // Show Invite Tile in middle
+                          if (index < halfMark) {
+                            return _sellersTile(
+                                context, provider.sellers[index], color);
+                          } else if (index > halfMark) {
+                            return _sellersTile(
+                                context, provider.sellers[index - 1], color);
+                          } else {
+                            return Container(
+                              color: AppTheme.backgroundColor,
+                              padding: const EdgeInsets.only(
+                                  top: 24.0, bottom: 24.0),
+                              child: InviteTile(),
+                            );
+                          }
+                        })
+                      : List.generate(
+                          provider.availableSellers + 1,
+                          (index) => index < provider.availableSellers
+                              ? _sellersTile(
+                                  context,
+                                  provider.sellers[index],
+                                  color,
+                                )
+                              : Container(
+                                  color: AppTheme.backgroundColor,
+                                  padding: const EdgeInsets.only(
+                                      top: 24.0, bottom: 24.0),
+                                  child: InviteTile(),
+                                ),
+                        ),
                 ],
               ),
             ),
@@ -327,7 +344,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   provider.notAvailableSellers,
                   (index) => _sellersTile(
                     context,
-                    provider.sellerList[provider.availableSellers + index],
+                    provider.sellers[provider.availableSellers + index],
                     color,
                   ),
                 )
@@ -342,7 +359,7 @@ class _HomeScreenState extends State<HomeScreen> {
       transitionDuration: Duration(milliseconds: 300),
       closedBuilder: (context, openContainer) {
         return Container(
-          margin: const EdgeInsets.only(left: 20, right: 20, top: 24),
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
           color: color,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,

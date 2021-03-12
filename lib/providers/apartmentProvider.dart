@@ -11,14 +11,26 @@ class ApartmentProvider with ChangeNotifier {
   List<BannerModel> _banners = [];
   List<SellerFilterModel> _filters = [];
 
-  int get notAvailableSellers => _sellerList.length - availableSellers;
-  bool get hasNotAvailableSellers => notAvailableSellers > 0;
-  bool get hasAvailableSellers => availableSellers > 0;
+  final allFilter = SellerFilterModel(displayName: 'All', value: 'all');
+  SellerFilterModel selectedFilter;
+
   bool get hasBanners => _banners.length > 0;
   bool get hasFilters => _filters.length > 0;
+  bool get hasAvailableSellers => availableSellers > 0;
+  bool get showAllSellers => selectedFilter == allFilter;
 
-  UnmodifiableListView<SellerModel> get sellerList =>
-      UnmodifiableListView(_sellerList);
+  int get notAvailableSellers => sellers.length - availableSellers;
+  bool get hasNotAvailableSellers => notAvailableSellers > 0;
+
+  UnmodifiableListView<SellerModel> get sellers {
+    if (selectedFilter == allFilter) {
+      return UnmodifiableListView(_sellerList);
+    }
+    List<SellerModel> _sellers = _sellerList
+        .where((seller) => seller.filters.contains(selectedFilter.value))
+        .toList();
+    return UnmodifiableListView(_sellers);
+  }
 
   UnmodifiableListView<BannerModel> get banners =>
       UnmodifiableListView(_banners);
@@ -26,10 +38,22 @@ class ApartmentProvider with ChangeNotifier {
   UnmodifiableListView<SellerFilterModel> get filters =>
       UnmodifiableListView(_filters);
 
+  void selectFilter(SellerFilterModel filter) {
+    selectedFilter = filter;
+    availableSellers = 0;
+
+    sellers.forEach((seller) {
+      if (seller.live) {
+        availableSellers++;
+      }
+    });
+  }
+
   void empty() {
     _sellerList.clear();
     _banners.clear();
     _filters.clear();
+    selectedFilter = allFilter;
     availableSellers = 0;
   }
 
@@ -48,13 +72,15 @@ class ApartmentProvider with ChangeNotifier {
             .toList();
       }
 
-      if (json['filters'] != null) {
+      if (json['filters'] != null && json['filters'].length > 0) {
         _filters = json['filters']
             .map(
               (item) => SellerFilterModel.fromJson(item),
             )
             .cast<SellerFilterModel>()
             .toList();
+        _filters.insert(0, allFilter);
+        selectedFilter = allFilter;
       }
 
       final _sellerIterable = json['sellers'].map((item) {
