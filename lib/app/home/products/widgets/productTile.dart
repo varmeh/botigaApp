@@ -190,9 +190,16 @@ class _ProductTileState extends State<ProductTile> {
                         Positioned(
                           bottom: _hasImage ? 0 : 40,
                           left: 20,
-                          child: ProductSelectionButton(
-                            seller: widget.seller,
-                            product: widget.product,
+                          child: Material(
+                            elevation: 4,
+                            color: Colors.transparent,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(6.0)),
+                            borderOnForeground: false,
+                            child: ProductSelectionButton(
+                              seller: widget.seller,
+                              product: widget.product,
+                            ),
                           ),
                         ),
                       ],
@@ -200,12 +207,9 @@ class _ProductTileState extends State<ProductTile> {
                   )
                 : Padding(
                     padding: const EdgeInsets.only(right: 20.0),
-                    child: Material(
-                      elevation: 4.0,
-                      child: ProductSelectionButton(
-                        seller: widget.seller,
-                        product: widget.product,
-                      ),
+                    child: ProductSelectionButton(
+                      seller: widget.seller,
+                      product: widget.product,
                     ),
                   ),
           ],
