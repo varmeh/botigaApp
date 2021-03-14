@@ -170,8 +170,13 @@ class _OrderListScreenState extends State<OrderListScreen> {
 
   Widget _orderTile(OrderModel order) {
     final dateMessage = order.isCompleted
-        ? '${order.completionDate.dateFormatDayMonth}・${order.completionDate.dateFormatTime}'
+        ? '${order.completionDate.dateFormatDayMonth} • ${order.completionDate.dateFormatTime}'
         : 'Delivery by ${order.expectedDeliveryDate.dateFormatWeekDayMonthDay}';
+
+    final deliverySlotMessage =
+        order.isCompleted || order.deliverySlot.isNullOrEmpty
+            ? ''
+            : ' • ${order.deliverySlot}';
 
     final image = order.isDelivered
         ? 'assets/images/success.png'
@@ -182,6 +187,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
       transitionDuration: Duration(milliseconds: 300),
       closedBuilder: (context, openContainer) {
         return GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: openContainer,
           child: Container(
             padding: EdgeInsets.only(top: 16.0),
@@ -215,21 +221,11 @@ class _OrderListScreenState extends State<OrderListScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          RichText(
-                            text: TextSpan(
-                                text: dateMessage,
-                                style: AppTheme.textStyle.w500.color50
-                                    .size(12)
-                                    .lineHeight(1.3)
-                                    .letterSpace(0.2),
-                                children: [
-                                  order.isCompleted ||
-                                          order.deliverySlot.isNullOrEmpty
-                                      ? TextSpan(text: '')
-                                      : TextSpan(
-                                          text: ' ・ ${order.deliverySlot}',
-                                        ),
-                                ]),
+                          Text(
+                            '$dateMessage$deliverySlotMessage',
+                            style: AppTheme.textStyle.w500.color50
+                                .size(12)
+                                .lineHeight(1.3),
                           ),
                           SizedBox(height: 8.0),
                           Row(

@@ -101,6 +101,7 @@ class _AddButton extends StatelessWidget {
     final color = this.enabled ? AppTheme.primaryColor : AppTheme.color50;
 
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: this.enabled ? this.onPressed : () {},
       child: Container(
         width: 80.0,
