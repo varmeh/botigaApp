@@ -125,24 +125,23 @@ class _OrderListScreenState extends State<OrderListScreen> {
   Widget _orderList(OrdersProvider provider) {
     final addButtonForMoreOrders =
         provider.currentPage + 1 < provider.pages ? 1 : 0;
-    return GestureDetector(
-      onTap: () {
-        setState(() => initialLoad = false);
-      },
-      child: Container(
-        padding: EdgeInsets.all(20.0),
-        child: ListView.builder(
-          itemCount: provider.orders.length + 1 + addButtonForMoreOrders,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return Text(
-                'Orders',
-                style: AppTheme.textStyle.w700.size(22).lineHeight(1.4),
-              );
-            } else if (index <= provider.orders.length) {
-              return _orderTile(provider.orders[index - 1]);
-            } else {
-              return Container(
+    return Container(
+      padding: EdgeInsets.all(20.0),
+      child: ListView.builder(
+        itemCount: provider.orders.length + 1 + addButtonForMoreOrders,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return Text(
+              'Orders',
+              style: AppTheme.textStyle.w700.size(22).lineHeight(1.4),
+            );
+          } else if (index <= provider.orders.length) {
+            return _orderTile(provider.orders[index - 1]);
+          } else {
+            return GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => setState(() => initialLoad = false),
+              child: Container(
                 padding: EdgeInsets.symmetric(vertical: 24.0),
                 decoration: BoxDecoration(
                   border: Border(
@@ -160,10 +159,10 @@ class _OrderListScreenState extends State<OrderListScreen> {
                         .colored(AppTheme.primaryColor),
                   ),
                 ),
-              );
-            }
-          },
-        ),
+              ),
+            );
+          }
+        },
       ),
     );
   }
