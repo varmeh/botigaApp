@@ -201,12 +201,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ? _selectedFilterColor
                                 : AppTheme.backgroundColor,
                           ),
-                          child: Text(
-                            filter.displayName,
-                            textAlign: TextAlign.center,
-                            style: provider.selectedFilter == filter
-                                ? _style.colored(AppTheme.primaryColor)
-                                : _style,
+                          child: Center(
+                            child: Text(
+                              filter.displayName,
+                              textAlign: TextAlign.center,
+                              style: provider.selectedFilter == filter
+                                  ? _style.colored(AppTheme.primaryColor)
+                                  : _style,
+                            ),
                           ),
                         ),
                       ),
