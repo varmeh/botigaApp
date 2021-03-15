@@ -78,20 +78,20 @@ class _OrderListScreenState extends State<OrderListScreen> {
         _error = error;
       } finally {
         setState(() => _isLoading = false);
-
-        if (userProvider.notificationOrderId.isNotNullAndEmpty) {
-          final order =
-              orderProvider.getOrderWithId(userProvider.notificationOrderId);
-          if (order != null) {
-            Future.delayed(
-              Duration(seconds: 1),
-              () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => OrderDetailScreen(order.id)),
-              ),
-            );
-          }
-        }
+      }
+    }
+    if (userProvider.notificationOrderId.isNotNullAndEmpty) {
+      final order =
+          orderProvider.getOrderWithId(userProvider.notificationOrderId);
+      userProvider.notificationOrderId = '';
+      if (order != null) {
+        Future.delayed(
+          Duration(seconds: 1),
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => OrderDetailScreen(order.id)),
+          ),
+        );
       }
     }
   }

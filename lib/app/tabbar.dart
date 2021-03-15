@@ -57,8 +57,7 @@ class _TabbarState extends State<Tabbar> with WidgetsBindingObserver {
     _selectedIndex = widget.index;
     setStatusBarBrightness();
 
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    if (userProvider.isLoggedIn) {
+    if (Provider.of<UserProvider>(context, listen: false).isLoggedIn) {
       // Configure Firebase Messaging
       _fbm = FirebaseMessaging();
 
@@ -77,22 +76,43 @@ class _TabbarState extends State<Tabbar> with WidgetsBindingObserver {
       }
 
       _fbm.configure(
-        onMessage: (Map<String, dynamic> message) async {},
-        onLaunch: (Map<String, dynamic> message) async {
-          _selectedIndex = 1;
-          if (message['data'] != null) {
-            if (message['data']['sellerId'] != null) {
-              userProvider.notificationSellerId = message['data']['sellerId'];
-              _selectedIndex = 0;
-            } else if (message['data']['orderId'] != null) {
-              userProvider.notificationOrderId = message['data']['orderId'];
-              _selectedIndex = 1;
-            }
-          }
+        onMessage: (Map<String, dynamic> message) async {
+          _configureNotification(message);
         },
-        onResume: (Map<String, dynamic> message) async {},
+        onLaunch: (Map<String, dynamic> message) async {
+          _configureNotification(message);
+        },
+        onResume: (Map<String, dynamic> message) async {
+          _configureNotification(message);
+        },
       );
     }
+  }
+
+  void _configureNotification(Map<String, dynamic> message) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    _selectedIndex = 1;
+    if (Platform.isIOS) {
+      if (message['sellerId'] != null) {
+        userProvider.notificationSellerId = message['sellerId'];
+        _selectedIndex = 0;
+      } else if (message['orderId'] != null) {
+        userProvider.notificationOrderId = message['orderId'];
+        _selectedIndex = 1;
+      }
+    } else {
+      if (message['data'] != null) {
+        if (message['data']['sellerId'] != null) {
+          userProvider.notificationSellerId = message['data']['sellerId'];
+          _selectedIndex = 0;
+        } else if (message['data']['orderId'] != null) {
+          userProvider.notificationOrderId = message['data']['orderId'];
+          _selectedIndex = 1;
+        }
+      }
+    }
+    changeTab(_selectedIndex);
   }
 
   @override

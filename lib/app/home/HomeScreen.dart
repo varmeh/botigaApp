@@ -92,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
       if (userProvider.notificationSellerId.isNotNullAndEmpty) {
         final seller =
             apartmentProvider.seller(userProvider.notificationSellerId);
+        userProvider.notificationSellerId = '';
         if (seller != null) {
           Future.delayed(
             Duration(seconds: 1),
