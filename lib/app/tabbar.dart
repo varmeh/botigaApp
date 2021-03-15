@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/index.dart' show CartProvider, UserProvider;
 import '../theme/index.dart';
+import '../widgets/index.dart' show Toast;
 import '../util/index.dart' show FlavorBanner, Http, KeyStore;
 import 'cart/cartScreen.dart';
 import 'home/HomeScreen.dart';
@@ -77,7 +78,16 @@ class _TabbarState extends State<Tabbar> with WidgetsBindingObserver {
 
       _fbm.configure(
         onMessage: (Map<String, dynamic> message) async {
-          _configureNotification(message);
+          String title;
+          if (Platform.isIOS) {
+            title = message['aps']['alert']['body'];
+          } else {
+            title = message['notification']['body'];
+          }
+
+          if (title != null) {
+            Toast(message: title).show(context);
+          }
         },
         onLaunch: (Map<String, dynamic> message) async {
           _configureNotification(message);

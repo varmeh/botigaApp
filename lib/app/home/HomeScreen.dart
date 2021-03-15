@@ -26,14 +26,31 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   bool _isLoading = false;
   Exception _error;
 
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addObserver(this);
     Future.delayed(Duration(milliseconds: 0), () => _getApartmentData());
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // This ensures transition to product list screen if resumed by a notification
+      _getApartmentData();
+    }
   }
 
   @override
@@ -89,19 +106,21 @@ class _HomeScreenState extends State<HomeScreen> {
       _error = error;
     } finally {
       setState(() => _isLoading = false);
-      if (userProvider.notificationSellerId.isNotNullAndEmpty) {
-        final seller =
-            apartmentProvider.seller(userProvider.notificationSellerId);
-        userProvider.notificationSellerId = '';
-        if (seller != null) {
-          Future.delayed(
-            Duration(seconds: 1),
-            () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => ProductListScreen(seller)),
-            ),
-          );
-        }
+    }
+
+    // See if a notification has been processed
+    if (userProvider.notificationSellerId.isNotNullAndEmpty) {
+      final seller =
+          apartmentProvider.seller(userProvider.notificationSellerId);
+      userProvider.notificationSellerId = '';
+      if (seller != null) {
+        Future.delayed(
+          Duration(seconds: 1),
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => ProductListScreen(seller)),
+          ),
+        );
       }
     }
   }

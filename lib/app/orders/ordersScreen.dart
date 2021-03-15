@@ -19,7 +19,8 @@ class OrderListScreen extends StatefulWidget {
   _OrderListScreenState createState() => _OrderListScreenState();
 }
 
-class _OrderListScreenState extends State<OrderListScreen> {
+class _OrderListScreenState extends State<OrderListScreen>
+    with WidgetsBindingObserver {
   bool _isLoading;
   Exception _error;
 
@@ -28,7 +29,24 @@ class _OrderListScreenState extends State<OrderListScreen> {
     super.initState();
 
     _isLoading = false;
+    WidgetsBinding.instance.addObserver(this);
+
     Future.delayed(Duration.zero, () => _getOrders());
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // This ensures transition to detail screen if resumed by a notification
+      _getOrders();
+    }
   }
 
   @override
