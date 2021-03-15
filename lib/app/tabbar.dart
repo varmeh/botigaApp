@@ -57,7 +57,8 @@ class _TabbarState extends State<Tabbar> with WidgetsBindingObserver {
     _selectedIndex = widget.index;
     setStatusBarBrightness();
 
-    if (Provider.of<UserProvider>(context, listen: false).isLoggedIn) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    if (userProvider.isLoggedIn) {
       // Configure Firebase Messaging
       _fbm = FirebaseMessaging();
 
@@ -76,15 +77,20 @@ class _TabbarState extends State<Tabbar> with WidgetsBindingObserver {
       }
 
       _fbm.configure(
-        onMessage: (Map<String, dynamic> message) async {
-          _selectedIndex = 1;
-        },
+        onMessage: (Map<String, dynamic> message) async {},
         onLaunch: (Map<String, dynamic> message) async {
           _selectedIndex = 1;
+          if (message['data'] != null) {
+            if (message['data']['sellerId'] != null) {
+              userProvider.notificationSellerId = message['data']['sellerId'];
+              _selectedIndex = 0;
+            } else if (message['data']['orderId'] != null) {
+              userProvider.notificationOrderId = message['data']['orderId'];
+              _selectedIndex = 1;
+            }
+          }
         },
-        onResume: (Map<String, dynamic> message) async {
-          _selectedIndex = 1;
-        },
+        onResume: (Map<String, dynamic> message) async {},
       );
     }
   }

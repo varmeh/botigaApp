@@ -14,6 +14,9 @@ class UserProvider with ChangeNotifier {
   AddressModel _selectedAddress;
   String _createToken = '';
 
+  String notificationSellerId;
+  String notificationOrderId;
+
   AddressModel get selectedAddress => _selectedAddress;
   set selectedAddress(AddressModel address) {
     Future.delayed(

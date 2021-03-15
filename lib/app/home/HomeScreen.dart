@@ -19,7 +19,7 @@ import '../location/index.dart'
     show SelectApartmenWhenNoUserLoggedInScreen, SavedAddressesSelectionModal;
 import '../tabbar.dart';
 import 'products/productListScreen.dart';
-import '../../util/index.dart' show DateExtension;
+import '../../util/index.dart' show DateExtension, StringExtensions;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -75,20 +75,33 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _getApartmentData() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final apartmentProvider =
+        Provider.of<ApartmentProvider>(context, listen: false);
     try {
       setState(() {
         _isLoading = true;
         _error = null;
       });
-      final apartmentId =
-          Provider.of<UserProvider>(context, listen: false).apartmentId;
-      final apartmentProvider =
-          Provider.of<ApartmentProvider>(context, listen: false);
+      final apartmentId = userProvider.apartmentId;
       await apartmentProvider.getApartmentData(apartmentId);
     } catch (error) {
       _error = error;
     } finally {
       setState(() => _isLoading = false);
+      if (userProvider.notificationSellerId.isNotNullAndEmpty) {
+        final seller =
+            apartmentProvider.seller(userProvider.notificationSellerId);
+        if (seller != null) {
+          Future.delayed(
+            Duration(seconds: 1),
+            () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => ProductListScreen(seller)),
+            ),
+          );
+        }
+      }
     }
   }
 
