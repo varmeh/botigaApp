@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animations/animations.dart';
 
-import '../../util/index.dart' show DateExtension, StringExtensions;
+import '../../util/index.dart' show DateExtension, StringExtensions, Http;
 import '../../models/orderModel.dart';
 import '../../providers/ordersProvider.dart';
 import '../../theme/index.dart';
 import '../../widgets/index.dart'
-    show Loader, HttpServiceExceptionWidget, ActiveButton, ShimmerWidget;
+    show Loader, HttpServiceExceptionWidget, ActiveButton, ShimmerWidget, Toast;
 
 import '../tabbar.dart';
 import '../auth/loginScreen.dart';
@@ -20,57 +20,92 @@ class OrderListScreen extends StatefulWidget {
 }
 
 class _OrderListScreenState extends State<OrderListScreen> {
-  var initialLoad = true;
+  bool _isLoading;
+  Exception _error;
 
-  final String route = 'ordersScreen';
+  @override
+  void initState() {
+    super.initState();
+
+    _isLoading = false;
+    Future.delayed(Duration.zero, () => _getOrders());
+  }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<OrdersProvider>(context);
-    final userProvider = Provider.of<UserProvider>(context);
-    return SafeArea(
-      child: userProvider.isLoggedIn
-          ? FutureBuilder(
-              future:
-                  initialLoad ? provider.getOrders() : provider.nextOrders(),
-              builder: (context, snapshot) {
-                // Show central level loading on empty screen
-                if (snapshot.connectionState == ConnectionState.waiting &&
-                    initialLoad) {
-                  return initialLoad ? _shimmerWidget() : Loader();
-                } else if (snapshot.hasError) {
-                  return HttpServiceExceptionWidget(
-                    exception: snapshot.error,
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => Tabbar(index: 1),
-                          transitionDuration: Duration.zero,
-                        ),
-                      );
-                    },
-                  );
-                } else {
-                  return Stack(
-                    children: [
-                      Consumer<OrdersProvider>(
-                        builder: (context, provider, child) {
-                          return provider.orders.length > 0
-                              ? _orderList(provider)
-                              : _noOrders();
-                        },
-                      ),
-                      snapshot.connectionState == ConnectionState.waiting
-                          ? Loader()
-                          : Container()
-                    ],
-                  );
-                }
-              },
-            )
-          : _userNotLoggedIn(),
-    );
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final orderProvider = Provider.of<OrdersProvider>(context);
+
+    if (!userProvider.isLoggedIn) {
+      return _userNotLoggedIn();
+    } else if (_error != null) {
+      return HttpServiceExceptionWidget(
+        exception: _error,
+        onTap: () {
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (_, __, ___) => Tabbar(index: 1),
+              transitionDuration: Duration.zero,
+            ),
+          );
+        },
+      );
+    } else if (_isLoading && orderProvider.isEmpty) {
+      return _shimmerWidget();
+    } else {
+      return Stack(
+        children: [
+          orderProvider.isEmpty ? _noOrders() : _orderList(orderProvider),
+          _isLoading ? Loader() : Container()
+        ],
+      );
+    }
+  }
+
+  Future<void> _getOrders() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final orderProvider = Provider.of<OrdersProvider>(context, listen: false);
+    if (userProvider.isLoggedIn && orderProvider.isEmpty) {
+      // If user is logged in, download order list
+      try {
+        setState(() {
+          _isLoading = true;
+          _error = null;
+        });
+        await orderProvider.getOrders();
+      } catch (error) {
+        _error = error;
+      } finally {
+        setState(() => _isLoading = false);
+
+        if (userProvider.notificationOrderId.isNotNullAndEmpty) {
+          final order =
+              orderProvider.getOrderWithId(userProvider.notificationOrderId);
+          if (order != null) {
+            Future.delayed(
+              Duration(seconds: 1),
+              () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => OrderDetailScreen(order.id)),
+              ),
+            );
+          }
+        }
+      }
+    }
+  }
+
+  Future<void> _nextOrders() async {
+    // If user is logged in, download order list
+    try {
+      setState(() => _isLoading = true);
+      await Provider.of<OrdersProvider>(context, listen: false).nextOrders();
+    } catch (error) {
+      Toast(message: Http.message(error)).show(context);
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
   Widget _userNotLoggedIn() {
@@ -140,7 +175,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
           } else {
             return GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: () => setState(() => initialLoad = false),
+              onTap: () => _nextOrders(),
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 24.0),
                 decoration: BoxDecoration(

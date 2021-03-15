@@ -13,6 +13,8 @@ class OrdersProvider with ChangeNotifier {
 
   UnmodifiableListView<OrderModel> get orders => UnmodifiableListView(_orders);
 
+  bool get isEmpty => _orders.length == 0;
+
   void resetOrders() {
     pages = 1;
     currentPage = 1;
