@@ -49,6 +49,12 @@ class OrdersProvider with ChangeNotifier {
     }
   }
 
+  Future<OrderModel> fetchOrderWithId(String orderId) async {
+    final json = await Http.get('/api/user/orders/$orderId');
+    final order = OrderModel.fromJson(json);
+    return order;
+  }
+
   OrderModel getOrderWithId(String orderId) {
     var _order;
 

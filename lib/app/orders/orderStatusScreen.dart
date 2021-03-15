@@ -19,15 +19,30 @@ class OrderStatusScreen extends StatefulWidget {
 }
 
 class _OrderStatusScreenState extends State<OrderStatusScreen> {
-  bool _isLoading = false;
+  bool _isLoading;
+  OrderModel _order;
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(
-      Duration(milliseconds: 100),
-      () => Provider.of<OrdersProvider>(context, listen: false).resetOrders(),
-    );
+    _isLoading = false;
+    _order = widget.order;
+
+    Future.delayed(Duration(milliseconds: 25), () => _getOrderStatus());
+  }
+
+  Future<void> _getOrderStatus() async {
+    try {
+      setState(() => _isLoading = false);
+
+      final provider = Provider.of<OrdersProvider>(context, listen: false);
+      provider.resetOrders();
+
+      // Get Order status from backend
+      _order = await provider.fetchOrderWithId(widget.order.id);
+    } catch (_) {} finally {
+      setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -53,7 +68,7 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
               Container(
                 padding: const EdgeInsets.only(top: 12.0, bottom: 4.0),
                 child: OrderStatusWidget(
-                  order: widget.order,
+                  order: _order,
                   stateLoading: (value) {
                     setState(() => _isLoading = value);
                   },
