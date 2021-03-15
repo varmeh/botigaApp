@@ -132,6 +132,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - Firebase/Messaging
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
@@ -228,6 +229,6 @@ SPEC CHECKSUMS:
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96
 
-PODFILE CHECKSUM: f2087c8b8a656a60451dc6d54530d6fe92d9f2c8
+PODFILE CHECKSUM: c0c35017a94e0beaf4b4a67ff2b9ec56a46e959f
 
 COCOAPODS: 1.10.0
