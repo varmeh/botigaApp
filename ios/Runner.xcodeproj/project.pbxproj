@@ -334,7 +334,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin\n";
 		};
 		751D315D515068CE9B149AE5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -759,7 +759,7 @@
 		};
 		B905476425FF88D500C4679C /* Debug-prod */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6C2E8438509D21E6262227DC /* Pods-ImageNotification.debug-prod.xcconfig */;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -833,7 +833,7 @@
 		};
 		B905476525FF88D500C4679C /* Debug-dev */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63C3208A86C515E4AA7DA6ED /* Pods-ImageNotification.debug-dev.xcconfig */;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -907,7 +907,7 @@
 		};
 		B905476625FF88D500C4679C /* Debug-qa */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 232B2CEC26FA30C59284298E /* Pods-ImageNotification.debug-qa.xcconfig */;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -981,7 +981,7 @@
 		};
 		B905476725FF88D500C4679C /* Release-prod */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B9B5C7718301E684F081A06 /* Pods-ImageNotification.release-prod.xcconfig */;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1049,7 +1049,7 @@
 		};
 		B905476825FF88D500C4679C /* Release-dev */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F37104AE42C2AD4355077539 /* Pods-ImageNotification.release-dev.xcconfig */;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1117,7 +1117,7 @@
 		};
 		B905476925FF88D500C4679C /* Release-qa */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B028A7A4ECBBBD68AA6C6687 /* Pods-ImageNotification.release-qa.xcconfig */;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1185,7 +1185,7 @@
 		};
 		B905476A25FF88D500C4679C /* Profile-prod */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AAEC0BB89D7520021DD003FC /* Pods-ImageNotification.profile-prod.xcconfig */;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1253,7 +1253,7 @@
 		};
 		B905476B25FF88D500C4679C /* Profile-dev */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 15B12EE412BDE22BAE358EF2 /* Pods-ImageNotification.profile-dev.xcconfig */;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1321,7 +1321,7 @@
 		};
 		B905476C25FF88D500C4679C /* Profile-qa */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CC17CB48404E68D49CDD698F /* Pods-ImageNotification.profile-qa.xcconfig */;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
