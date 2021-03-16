@@ -79,10 +79,11 @@ class _TabbarState extends State<Tabbar> with WidgetsBindingObserver {
       _fbm.configure(
         onMessage: (Map<String, dynamic> message) async {
           String title;
-          if (Platform.isIOS) {
-            title = message['aps']['alert']['body'];
-          } else {
+          if (message['notification'] != null) {
             title = message['notification']['body'];
+          } else if (message['aps'] != null &&
+              message['aps']['alert'] != null) {
+            title = message['aps']['alert']['body'];
           }
 
           if (title != null) {
