@@ -31,6 +31,7 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
+  pod 'GoogleUtilities'
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 
@@ -46,6 +47,10 @@ end
 target 'ImageNotification' do
   use_frameworks!
   use_modular_headers!
-  
+
+  # Pod explicitly defined to avoid issues during archieve
+  # Refer link - https://github.com/firebase/firebase-ios-sdk/issues/4087
+  # https://github.com/CocoaPods/CocoaPods/issues/8206
+  pod 'GoogleUtilities'
   pod 'Firebase/Messaging'
 end
