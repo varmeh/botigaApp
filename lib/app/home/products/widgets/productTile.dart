@@ -233,6 +233,8 @@ class _ProductTileState extends State<ProductTile> {
     });
 
     _current = 0;
+    bool _hasMoreThan1Image = _imageList.length > 1;
+
     showModalBottomSheet(
         context: context,
         backgroundColor: Colors.transparent,
@@ -282,30 +284,36 @@ class _ProductTileState extends State<ProductTile> {
                           initialPage: 0,
                           reverse: false,
                           enlargeCenterPage: true,
+                          enableInfiniteScroll: _hasMoreThan1Image,
                           scrollDirection: Axis.horizontal,
                           onPageChanged: (index, reason) =>
                               updateState(() => _current = index),
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ..._imageList.asMap().entries.map((entry) {
-                            return Container(
-                              width: 8.0,
-                              height: 8.0,
-                              margin: EdgeInsets.symmetric(
-                                  vertical: 12.0, horizontal: 4.0),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: _current == entry.key
-                                    ? AppTheme.color100
-                                    : AppTheme.color25,
-                              ),
-                            );
-                          }),
-                        ],
-                      ),
+                      _hasMoreThan1Image
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ..._imageList.asMap().entries.map((entry) {
+                                  return Container(
+                                    width: 8.0,
+                                    height: 8.0,
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 12.0, horizontal: 4.0),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: _current == entry.key
+                                          ? AppTheme.color100
+                                          : AppTheme.color25,
+                                    ),
+                                  );
+                                }),
+                              ],
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(top: 12.0),
+                              child: Container(),
+                            ),
                       SizedBox(height: 16),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
