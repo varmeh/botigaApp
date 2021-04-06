@@ -352,16 +352,14 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  void _updateOrderStatus() {
-    setState(() => _isLoading = false);
-
-    final provider = Provider.of<CartProvider>(context, listen: false);
-    provider.clearCart();
-    provider.saveCartToServer();
-
+  void _updateOrderStatus() async {
+    // Change order state to failure if cancelled by user
     if (_order.payment.isFailure) {
-      provider.paymentCancelled(_order.id);
+      final provider = Provider.of<CartProvider>(context, listen: false);
+      await provider.paymentCancelled(_order.id);
     }
+
+    setState(() => _isLoading = false);
 
     Navigator.pushAndRemoveUntil(
       context,
