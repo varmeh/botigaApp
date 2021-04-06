@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 
-import '../../providers/index.dart' show UserProvider, CartProvider;
 import '../../models/index.dart' show OrderModel;
 import '../../theme/index.dart';
-import '../../util/index.dart' show DateExtension, Http, Flavor;
+import '../../util/index.dart' show DateExtension;
 import '../../widgets/index.dart'
     show
         StatusImageWidget,
         ImageStatus,
         PassiveButton,
         BotigaBottomModal,
-        WhatsappButton,
-        Toast;
-import 'orderStatusScreen.dart';
+        WhatsappButton;
 
 class OrderStatusWidget extends StatefulWidget {
   final OrderModel order;
@@ -30,31 +25,6 @@ class OrderStatusWidget extends StatefulWidget {
 }
 
 class _OrderStatusWidgetState extends State<OrderStatusWidget> {
-  final _razorpay = Razorpay();
-
-  @override
-  void initState() {
-    super.initState();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-  }
-
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    widget.order.paymentSuccess(true);
-    _updateOrderStatus();
-  }
-
-  void _handlePaymentError(PaymentFailureResponse response) {
-    widget.order.paymentSuccess(false);
-    _updateOrderStatus();
-  }
-
-  @override
-  void dispose() {
-    _razorpay.clear();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     String orderTitle = 'Order Placed';
@@ -91,49 +61,6 @@ class _OrderStatusWidgetState extends State<OrderStatusWidget> {
       // for payment status - failure
       paymentStatus = ImageStatus.failure;
       paymentTitle = 'Payment Failed';
-
-      if (!widget.order.isCancelled) {
-        // Retry Button
-        button = PassiveButton(
-          width: 200,
-          title: 'Retry Payment',
-          onPressed: () async {
-            final userProvider =
-                Provider.of<UserProvider>(context, listen: false);
-            widget.stateLoading(true);
-            try {
-              // Ensure a valid razor pay orderId before initiating payment
-              String orderId = widget.order.payment.orderId;
-              if (orderId == null) {
-                // orderId is null if initial payment try failed due to any reason
-                final data =
-                    await Provider.of<CartProvider>(context, listen: false)
-                        .orderPayment(widget.order.id);
-                orderId = data['id'];
-              }
-
-              final options = {
-                'key': Flavor.shared.rpayId,
-                'amount': widget.order.totalAmount * 100,
-                'name': widget.order.seller.brandName,
-                'order_id': orderId,
-                'timeout': 60 * 5, // In secs,
-                'prefill': {
-                  'contact': '91${userProvider.phone}',
-                  'email': userProvider.email ?? 'noreply1@botiga.app',
-                  'method': 'upi',
-                },
-                'notes': {'orderId': widget.order.id} // used in payment webhook
-              };
-
-              _razorpay.open(options);
-            } catch (error) {
-              widget.stateLoading(false);
-              Toast(message: Http.message(error)).show(context);
-            }
-          },
-        );
-      }
     }
 
     // Show Refund Information Only
@@ -242,18 +169,6 @@ class _OrderStatusWidgetState extends State<OrderStatusWidget> {
           ),
         ],
       ),
-    );
-  }
-
-  void _updateOrderStatus() {
-    widget.stateLoading(false);
-    Navigator.pushAndRemoveUntil(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, __, ___) => OrderStatusScreen(widget.order),
-        transitionDuration: Duration.zero,
-      ),
-      (route) => false,
     );
   }
 
