@@ -167,6 +167,7 @@ class _ProductTileState extends State<ProductTile> {
                           width: 120.0,
                           height: 120.0,
                           decoration: BoxDecoration(
+                            border: Border.all(color: AppTheme.dividerColor),
                             image: DecorationImage(
                               onError: (_, __) =>
                                   setState(() => _hasImage = false),
