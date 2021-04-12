@@ -313,7 +313,10 @@ class _CartScreenState extends State<CartScreen> {
                 'contact': '91${userProvider.phone}',
                 'email': userProvider.email ?? 'noreply1@botiga.app',
               },
-              'notes': {'orderId': _order.id} // used in payment webhook
+              'notes': {
+                'orderId': _order.id,
+                'orderNumber': _order.number
+              } // used in payment webhook
             };
 
             _razorpay.open(options);
