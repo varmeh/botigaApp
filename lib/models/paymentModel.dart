@@ -8,12 +8,14 @@ class PaymentModel {
   final String paymentId;
   String status;
   String paymentMode;
+  String description;
 
   PaymentModel({
     this.orderId,
     this.paymentId,
     this.status,
     this.paymentMode,
+    this.description,
   });
 
   bool get isInitiated => status == 'initiated';

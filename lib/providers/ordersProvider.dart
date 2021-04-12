@@ -27,7 +27,7 @@ class OrdersProvider with ChangeNotifier {
       return;
     } else {
       final json =
-          await Http.get('/api/user/orders?limit=10&page=$currentPage');
+          await Http.get('/api/user/orders?limit=15&page=$currentPage');
 
       pages = json['pages'];
       currentPage = json['currentPage'];

@@ -12,6 +12,7 @@ PaymentModel _$PaymentModelFromJson(Map<String, dynamic> json) {
     paymentId: json['paymentId'] as String,
     status: json['status'] as String,
     paymentMode: json['paymentMode'] as String,
+    description: json['description'] as String,
   );
 }
 

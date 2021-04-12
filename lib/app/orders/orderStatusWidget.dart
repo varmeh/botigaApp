@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/index.dart' show OrderModel;
 import '../../theme/index.dart';
-import '../../util/index.dart' show DateExtension;
+import '../../util/index.dart' show DateExtension, StringExtensions;
 import '../../widgets/index.dart'
     show
         StatusImageWidget,
@@ -31,20 +31,22 @@ class _OrderStatusWidgetState extends State<OrderStatusWidget> {
     ImageStatus orderStatus = ImageStatus.success;
     String orderSubtitle;
 
+    final _order = widget.order;
+
     // Order Status Message
-    if (widget.order.isCancelled) {
+    if (_order.isCancelled) {
       orderTitle = 'Order Cancelled';
       orderSubtitle =
-          'Cancelled on ${widget.order.completionDate.dateFormatDayMonthTime}';
+          'Cancelled on ${_order.completionDate.dateFormatDayMonthTime}';
       orderStatus = ImageStatus.failure;
-    } else if (widget.order.isDelivered) {
+    } else if (_order.isDelivered) {
       orderSubtitle =
-          'Delivered on ${widget.order.completionDate.dateFormatDayMonthTime}';
-    } else if (widget.order.isOutForDelivery) {
+          'Delivered on ${_order.completionDate.dateFormatDayMonthTime}';
+    } else if (_order.isOutForDelivery) {
       orderSubtitle = 'Out for delivery';
     } else {
       orderSubtitle =
-          'Delivery expected on ${widget.order.expectedDeliveryDate.dateFormatDayMonthComplete}';
+          'Delivery expected on ${_order.expectedDeliveryDate.dateFormatDayMonthComplete}';
     }
 
     Widget button = Container();
@@ -53,10 +55,13 @@ class _OrderStatusWidgetState extends State<OrderStatusWidget> {
     String paymentSubtitle;
 
     // Order Payment Message
-    if (widget.order.payment.isSuccess) {
+    if (_order.payment.isSuccess) {
       paymentStatus = ImageStatus.success;
-      paymentTitle =
-          'Paid via ${widget.order.payment.paymentMode.toUpperCase()}';
+      paymentTitle = 'Paid via ${_order.payment.paymentMode.toUpperCase()}';
+
+      if (_order.payment.description.isNotNullAndEmpty) {
+        paymentTitle += ' ${_order.payment.description.toUpperCase()}';
+      }
     } else {
       // for payment status - failure
       paymentStatus = ImageStatus.failure;
@@ -64,9 +69,9 @@ class _OrderStatusWidgetState extends State<OrderStatusWidget> {
     }
 
     // Show Refund Information Only
-    if (widget.order.refund.status != null) {
+    if (_order.refund.status != null) {
       // Refund Initiated
-      if (widget.order.refund.isSuccess) {
+      if (_order.refund.isSuccess) {
         paymentSubtitle = 'Refund completed';
       } else {
         paymentSubtitle = 'Refund pending';
@@ -75,7 +80,7 @@ class _OrderStatusWidgetState extends State<OrderStatusWidget> {
           width: double.infinity,
           icon: Icon(Icons.update, size: 18.0),
           title: 'Remind Seller to Refund',
-          onPressed: () => _whatsappModal(context, widget.order),
+          onPressed: () => _whatsappModal(context, _order),
         );
       }
     }
