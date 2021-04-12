@@ -65,7 +65,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
           isLoading: _isLoading,
           child: Column(
             children: [
-              CartDeliveryInfo(provider.cartSeller),
+              Padding(
+                padding: const EdgeInsets.only(top: 12.0),
+                child: CartDeliveryInfo(provider.cartSeller),
+              ),
               _paymentOptions(),
             ],
           ),

@@ -29,7 +29,8 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
     _isLoading = true;
     _order = widget.order;
 
-    Future.delayed(Duration(milliseconds: 25), () => _getOrderStatus());
+    // Time increased to improve chances of webhook receipt in the backend
+    Future.delayed(Duration(seconds: 2), () => _getOrderStatus());
   }
 
   Future<void> _getOrderStatus() async {
