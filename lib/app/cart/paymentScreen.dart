@@ -6,8 +6,7 @@ import '../../models/index.dart' show OrderModel;
 import '../../providers/index.dart' show CartProvider, UserProvider;
 import '../../theme/index.dart';
 import '../../util/index.dart' show Http, Flavor;
-import '../../widgets/index.dart'
-    show BotigaAppBar, Toast, PassiveButton, LoaderOverlay;
+import '../../widgets/index.dart' show BotigaAppBar, Toast, LoaderOverlay;
 
 import 'widgets/cartDeliveryInfo.dart';
 import '../orders/orderStatusScreen.dart';
@@ -19,8 +18,11 @@ class PaymentScreen extends StatefulWidget {
   _PaymentScreenState createState() => _PaymentScreenState();
 }
 
+enum PaymentMethod { upi, card, netbanking }
+
 class _PaymentScreenState extends State<PaymentScreen> {
   bool _isLoading = false;
+  PaymentMethod _selectedMethod;
   OrderModel _order;
 
   final _razorpay = Razorpay();
@@ -30,6 +32,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
     super.initState();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+
+    _selectedMethod = PaymentMethod.upi;
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
@@ -55,6 +59,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: BotigaAppBar('Pay ₹${provider.totalToPay}'),
+      bottomNavigationBar: _completePaymentButton(),
       body: SafeArea(
         child: LoaderOverlay(
           isLoading: _isLoading,
@@ -70,39 +75,148 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _paymentOptions() {
-    final _pad16 = SizedBox(height: 16);
+    final _pad24 = SizedBox(height: 24);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Select an option',
-            style: AppTheme.textStyle.w700.color100.size(17).lineHeight(1.3),
+            'PAY USING',
+            style: AppTheme.textStyle.w600.color50.size(14).lineHeight(1.3),
           ),
-          SizedBox(height: 24),
-          PassiveButton(
-            title: 'Debit Card',
-            onPressed: () => _proceedToPayment('card'),
-          ),
-          _pad16,
-          PassiveButton(
-            title: 'Netbanking',
-            onPressed: () => _proceedToPayment('netbanking'),
-          ),
-          _pad16,
-          PassiveButton(
+          _pad24,
+          _paymentTile(
+            image: 'payUpi.png',
             title: 'UPI',
-            onPressed: () => _proceedToPayment(''),
+            subTitle: 'Gpay, PhonePe etc...',
+            method: PaymentMethod.upi,
           ),
-          _pad16,
+          _pad24,
+          _paymentTile(
+            image: 'payCard.png',
+            title: 'Debit Card',
+            subTitle: 'Visa, Master, Maestro, Rupay',
+            method: PaymentMethod.card,
+          ),
+          _pad24,
+          _paymentTile(
+            image: 'payNet.png',
+            title: 'Net Banking',
+            subTitle: 'All Indian banks',
+            method: PaymentMethod.netbanking,
+          ),
+          _pad24,
         ],
       ),
     );
   }
 
-  void _proceedToPayment(String method) async {
+  Widget _paymentTile({
+    String image,
+    String title,
+    String subTitle,
+    PaymentMethod method,
+  }) {
+    final isSelected = _selectedMethod == method;
+    final color = isSelected ? AppTheme.primaryColor : AppTheme.dividerColor;
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        border: Border.all(color: color),
+        color: AppTheme.backgroundColor,
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.dividerColor,
+            offset: Offset(0.0, 1.0), //(x,y)
+            blurRadius: 1.0,
+          ),
+        ],
+      ),
+      child: ListTile(
+        onTap: () => setState(() => _selectedMethod = method),
+        leading: Image.asset('assets/images/$image', width: 40, height: 40),
+        title: Text(
+          title,
+          style: AppTheme.textStyle.w600.color100.size(15).lineHeight(1.3),
+        ),
+        subtitle: Text(
+          subTitle,
+          style: AppTheme.textStyle.w600.color50
+              .size(12)
+              .lineHeight(1.3)
+              .letterSpace(0.2),
+        ),
+        trailing: Container(
+            width: 20,
+            height: 20,
+            decoration: BoxDecoration(
+              color: color,
+              shape: BoxShape.circle,
+            ),
+            child: isSelected
+                ? Center(
+                    child: Icon(
+                    Icons.check,
+                    size: 12,
+                    color: AppTheme.backgroundColor,
+                  ))
+                : Container()),
+      ),
+    );
+  }
+
+  Widget _completePaymentButton() {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.only(
+          bottom: 10.0,
+          left: 20.0,
+          right: 20.0,
+        ),
+        child: InkWell(
+          onTap: () => _proceedToPayment(),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              color: AppTheme.primaryColor,
+            ),
+            height: 56,
+            child: Center(
+              child: Text(
+                'Complete Payment',
+                style: AppTheme.textStyle.w700
+                    .size(15.0)
+                    .lineHeight(1.5)
+                    .colored(AppTheme.backgroundColor),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _proceedToPayment() async {
     setState(() => _isLoading = true);
+
+    String method;
+
+    switch (_selectedMethod) {
+      case PaymentMethod.upi:
+        method = '';
+        break;
+
+      case PaymentMethod.card:
+        method = 'card';
+        break;
+
+      case PaymentMethod.netbanking:
+        method = 'netbanking';
+        break;
+    }
+
     try {
       final provider = Provider.of<CartProvider>(context, listen: false);
       _order = await provider.checkout();
