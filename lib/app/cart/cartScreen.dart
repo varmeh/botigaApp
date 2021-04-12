@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 
-import '../../models/index.dart' show ProductModel, OrderModel;
+import '../../models/index.dart' show ProductModel;
 import '../../providers/index.dart'
     show CartProvider, UserProvider, SellerProvider;
 import '../../theme/index.dart';
-import '../../util/index.dart' show Http, Flavor;
+import '../../util/index.dart' show Http;
 import '../../widgets/index.dart'
-    show IncrementButton, LottieScreen, BotigaAppBar, Toast, LoaderOverlay;
+    show
+        IncrementButton,
+        LottieScreen,
+        BotigaAppBar,
+        Toast,
+        LoaderOverlay,
+        OpenContainerBottomModal;
+
 import '../auth/index.dart' show LoginModal;
 import '../location/index.dart' show AddHouseDetailModal;
 import '../tabbar.dart';
 import 'widgets/cartDeliveryInfo.dart';
-import '../orders/orderStatusScreen.dart';
 import 'couponScreen.dart';
+import 'paymentScreen.dart';
 
 class CartScreen extends StatefulWidget {
   final String route = 'cartScreen';
@@ -26,33 +32,6 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   bool _isLoading = false;
   bool _showSellerNotLiveDialog = true;
-
-  final _razorpay = Razorpay();
-  OrderModel _order;
-
-  @override
-  void initState() {
-    super.initState();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-  }
-
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    _order.paymentSuccess(true);
-    _updateOrderStatus();
-  }
-
-  void _handlePaymentError(PaymentFailureResponse response) {
-    _order.paymentSuccess(false);
-    _updateOrderStatus();
-  }
-
-  @override
-  void dispose() {
-    _razorpay.clear();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final _provider = Provider.of<CartProvider>(context);
@@ -288,89 +267,26 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _proceedToPaymentModal(CartProvider provider) {
-    return Material(
-      elevation: 3.0,
-      shadowColor: Colors.transparent,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () async {
-          setState(() => _isLoading = true);
-          try {
-            _order = await provider.checkout();
-
-            final data = await provider.orderPayment(_order.id);
-
-            final userProvider =
-                Provider.of<UserProvider>(context, listen: false);
-
-            final options = {
-              'key': Flavor.shared.rpayId,
-              'amount': provider.totalAmount * 100,
-              'name': provider.cartSeller.brandName,
-              'order_id': data['id'],
-              'timeout': 60 * 5, // In secs,
-              'prefill': {
-                'contact': '91${userProvider.phone}',
-                'email': userProvider.email ?? 'noreply1@botiga.app',
-              },
-              'notes': {
-                'orderId': _order.id,
-                'orderNumber': _order.number
-              } // used in payment webhook
-            };
-
-            _razorpay.open(options);
-          } catch (error) {
-            if (_order != null) {
-              _order.paymentSuccess(false);
-              _updateOrderStatus();
-            }
-            Toast(message: Http.message(error)).show(context);
-          }
-        },
-        child: provider.cartSeller.live
-            ? Container(
-                height: 56,
-                width: MediaQuery.of(context).size.width - 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: const Radius.circular(16.0),
-                    topRight: const Radius.circular(16.0),
+    return provider.cartSeller.live
+        ? OpenContainerBottomModal(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Proceed To Pay',
+                    style: AppTheme.textStyle.w600
+                        .size(15)
+                        .lineHeight(1.3)
+                        .colored(AppTheme.backgroundColor),
                   ),
-                  color: AppTheme.primaryColor,
-                ),
-                child: Center(
-                  child: Text(
-                    'Proceed to pay',
-                    style: AppTheme.textStyle.w700
-                        .colored(AppTheme.backgroundColor)
-                        .size(13)
-                        .lineHeight(1.6),
-                  ),
-                ),
-              )
-            : Container(),
-      ),
-    );
-  }
-
-  void _updateOrderStatus() async {
-    // Change order state to failure if cancelled by user
-    if (_order.payment.isFailure) {
-      final provider = Provider.of<CartProvider>(context, listen: false);
-      await provider.paymentCancelled(_order.id);
-    }
-
-    setState(() => _isLoading = false);
-
-    Navigator.pushAndRemoveUntil(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, __, ___) => OrderStatusScreen(_order),
-        transitionDuration: Duration.zero,
-      ),
-      (route) => false,
-    );
+                ],
+              ),
+            ),
+            openOnTap: () => PaymentScreen(),
+          )
+        : Container();
   }
 
   void _sellerNotLiveDialog() {
