@@ -61,11 +61,13 @@ class CartProvider with ChangeNotifier {
       : products.values.reduce((cur, next) => cur + next);
 
   // Methods to manage cart - clearCart, addProduct & removeProduct
-  void clearCart() {
+  void clearCart({bool notify = true}) {
     totalAmount = 0.0;
     products.clear();
     cartSeller = null;
-    notifyListeners();
+
+    // Hack added to avoid exception on clearCart after Payment
+    if (notify) notifyListeners();
   }
 
   void addProduct(SellerModel seller, ProductModel product) {

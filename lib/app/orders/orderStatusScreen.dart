@@ -52,7 +52,7 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
       return _shimmerEffect();
     } else if (_order.payment.isSuccess) {
       final provider = Provider.of<CartProvider>(context, listen: false);
-      provider.clearCart();
+      provider.clearCart(notify: false);
       provider.saveCartToServer();
 
       return _orderDetails();

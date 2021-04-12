@@ -86,7 +86,7 @@ class _TabbarState extends State<Tabbar> with WidgetsBindingObserver {
             title = message['aps']['alert']['body'];
           }
 
-          if (title != null) {
+          if (title != null && context != null) {
             Toast(message: title).show(context);
           }
         },
