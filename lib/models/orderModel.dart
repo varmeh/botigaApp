@@ -74,7 +74,7 @@ class OrderModel {
     } else if (isDelivered) {
       return 'Delivered';
     } else if (isDelayed) {
-      return 'Delayed';
+      return 'Delivery Date Changed';
     } else if (isCancelled) {
       return 'Cancelled';
     } else {
