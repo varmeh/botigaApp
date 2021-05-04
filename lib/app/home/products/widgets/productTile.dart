@@ -191,12 +191,18 @@ class _ProductTileState extends State<ProductTile> {
                         Positioned(
                           bottom: _hasImage ? 0 : 40,
                           left: 20,
-                          child: Material(
-                            elevation: 4,
-                            color: Colors.transparent,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(6.0)),
-                            borderOnForeground: false,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(6.0)),
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0.0, 4.0),
+                                  blurRadius: 3.0,
+                                  color: AppTheme.color25,
+                                ),
+                              ],
+                            ),
                             child: ProductSelectionButton(
                               seller: widget.seller,
                               product: widget.product,
