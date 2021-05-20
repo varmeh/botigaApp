@@ -36,7 +36,8 @@ class _ProductTileState extends State<ProductTile> {
 
   @override
   Widget build(BuildContext context) {
-    final _hasMrp = widget.product.mrp != null;
+    final _hasMrp = widget.product.mrp != null &&
+        (widget.product.mrp - widget.product.price > 0);
     final _hasTag = widget.product.tag.isNotNullAndEmpty;
     final _hasZoomImages = widget.product.imageUrlLarge.isNotNullAndEmpty;
     final _ribbonColor = Color(0xfff49302);
