@@ -4,12 +4,7 @@ import '../../models/index.dart' show OrderModel;
 import '../../theme/index.dart';
 import '../../util/index.dart' show DateExtension, StringExtensions;
 import '../../widgets/index.dart'
-    show
-        StatusImageWidget,
-        ImageStatus,
-        PassiveButton,
-        BotigaBottomModal,
-        WhatsappButton;
+    show StatusImageWidget, ImageStatus, WhatsappButton;
 
 class OrderStatusWidget extends StatefulWidget {
   final OrderModel order;
@@ -76,11 +71,12 @@ class _OrderStatusWidgetState extends State<OrderStatusWidget> {
       } else {
         paymentSubtitle = 'Refund pending';
         // Show Reminder button
-        button = PassiveButton(
-          width: double.infinity,
-          icon: Icon(Icons.update, size: 18.0),
-          title: 'Remind Seller to Refund',
-          onPressed: () => _whatsappModal(context, _order),
+        button = WhatsappButton(
+          title: 'Get Refund Receipt',
+          number: '9910057232',
+          width: 280,
+          message:
+              'Hello\nPlease share receipt of refund amount ₹${_order.refund.amount} for order number #${_order.number}, cancelled on ${_order.completionDate.dateFormatDayMonthComplete}',
         );
       }
     }
@@ -175,50 +171,5 @@ class _OrderStatusWidgetState extends State<OrderStatusWidget> {
         ],
       ),
     );
-  }
-
-  void _whatsappModal(BuildContext context, OrderModel order) {
-    final _sizedBox = SizedBox(height: 16.0);
-    final _padding = const EdgeInsets.symmetric(horizontal: 28.0);
-
-    BotigaBottomModal(
-      child: Column(
-        children: [
-          Image.asset(
-            'assets/images/sadSmilie.png',
-            width: 48.0,
-            height: 48.0,
-          ),
-          _sizedBox,
-          Padding(
-            padding: _padding,
-            child: Text(
-              'We are Sorry, you have to do it again',
-              textAlign: TextAlign.center,
-              style:
-                  AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
-            ),
-          ),
-          _sizedBox,
-          Padding(
-            padding: _padding,
-            child: Text(
-              'We understand the hassle, so please bear with us while we make it seamless',
-              textAlign: TextAlign.center,
-              style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
-            ),
-          ),
-          SizedBox(height: 32.0),
-          WhatsappButton(
-            title: 'Whatsapp Seller',
-            number: order.seller.whatsapp,
-            width: 220.0,
-            message:
-                'Botiga Reminder:\nHello ${order.seller.brandName},\nThis is a reminder for refund of amount ${order.refund.amount} for order number ${order.number} cancelled on ${order.completionDate.dateFormatDayMonthComplete}',
-          ),
-          _sizedBox,
-        ],
-      ),
-    ).show(context);
   }
 }

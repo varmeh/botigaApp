@@ -6,13 +6,7 @@ import '../../providers/ordersProvider.dart';
 import '../../theme/index.dart';
 import '../../util/index.dart' show Http, DateExtension;
 import '../../widgets/index.dart'
-    show
-        MerchantContactWidget,
-        LoaderOverlay,
-        BotigaAppBar,
-        Toast,
-        WhatsappButton,
-        BotigaBottomModal;
+    show MerchantContactWidget, LoaderOverlay, BotigaAppBar, Toast;
 import 'orderStatusWidget.dart';
 
 class OrderDetailScreen extends StatefulWidget {
@@ -143,20 +137,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     try {
       final provider = Provider.of<OrdersProvider>(context, listen: false);
       await provider.cancelOrder(widget.orderId);
-      final order = provider.getOrderWithId(widget.orderId);
-
-      if (order.payment.isSuccess) {
-        Future.delayed(
-          Duration(milliseconds: 200),
-          () => _whatsappModal(
-              imageUrl: 'assets/images/orderCancel.png',
-              imageSize: 68.0,
-              title: 'Order Cancelled',
-              whatsappNumber: order.seller.whatsapp,
-              whatsappMessage:
-                  'Botiga Reminder:\nHello ${order.seller.brandName},\nI have cancelled order number ${order.number} placed on ${order.orderDate.dateFormatDayMonthComplete}.\nPlease refund the amount\n'),
-        );
-      }
     } catch (error) {
       Toast(message: Http.message(error)).show(context);
     } finally {
@@ -380,97 +360,39 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     final style = AppTheme.textStyle.w600.color100.size(13).lineHeight(1.6);
 
     return Padding(
-        padding: const EdgeInsets.only(top: 20, bottom: 52.0),
-        child: Column(
-          children: [
-            Divider(
-              thickness: 1,
-              color: AppTheme.dividerColor,
-            ),
-            SizedBox(height: 20.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Total',
-                  style: style,
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: '₹',
-                    style: AppTheme.textStyle.w400.color100
-                        .size(13.0)
-                        .lineHeight(1.6),
-                    children: [
-                      TextSpan(
-                        text: order.totalAmount.toString(),
-                        style: style,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ));
-  }
-
-  void _whatsappModal({
-    String imageUrl,
-    double imageSize,
-    String title,
-    String whatsappNumber,
-    String whatsappMessage,
-  }) {
-    final _sizedBox = SizedBox(height: 16.0);
-    final _padding = const EdgeInsets.symmetric(horizontal: 28.0);
-
-    BotigaBottomModal(
+      padding: const EdgeInsets.only(top: 20, bottom: 52.0),
       child: Column(
         children: [
-          Image.asset(
-            imageUrl,
-            width: imageSize,
-            height: imageSize,
+          Divider(
+            thickness: 1,
+            color: AppTheme.dividerColor,
           ),
-          _sizedBox,
-          Padding(
-            padding: _padding,
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style:
-                  AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
-            ),
+          SizedBox(height: 20.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Total',
+                style: style,
+              ),
+              RichText(
+                text: TextSpan(
+                  text: '₹',
+                  style: AppTheme.textStyle.w400.color100
+                      .size(13.0)
+                      .lineHeight(1.6),
+                  children: [
+                    TextSpan(
+                      text: order.totalAmount.toString(),
+                      style: style,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          _sizedBox,
-          Padding(
-            padding: _padding,
-            child: Text(
-              'Please contact seller for refund.',
-              textAlign: TextAlign.center,
-              style: AppTheme.textStyle.w500.color50.size(15.0).lineHeight(1.3),
-            ),
-          ),
-          _sizedBox,
-          Padding(
-            padding: _padding,
-            child: Text(
-              'We understand the hassle, so please bear with us while we make it seamless',
-              textAlign: TextAlign.center,
-              style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
-            ),
-          ),
-          SizedBox(height: 32.0),
-          WhatsappButton(
-            title: 'Whatsapp Seller',
-            number: whatsappNumber,
-            width: 220.0,
-            message: whatsappMessage,
-          ),
-          _sizedBox,
         ],
       ),
-    ).show(context);
+    );
   }
 }
