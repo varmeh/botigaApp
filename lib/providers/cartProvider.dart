@@ -11,10 +11,10 @@ import '../util/index.dart' show Http;
 class CartProvider with ChangeNotifier {
   // Cart Data
   SellerModel cartSeller;
-  double totalAmount = 0.0;
+  Map<ProductModel, int> products = {};
+
   double discountAmount = 0.0;
   CouponModel couponApplied;
-  Map<ProductModel, int> products = {};
 
   // Providers to load cart at the beginning
   UserProvider _userProvider;
@@ -33,6 +33,16 @@ class CartProvider with ChangeNotifier {
   bool get userLoggedIn => _userProvider.isLoggedIn;
   bool get hasAddress => _userProvider.selectedAddress != null;
   bool get isCouponApplied => couponApplied != null;
+
+  double get totalAmount {
+    double amount = 0.0;
+
+    products.forEach((product, quantity) {
+      amount += product.price * quantity;
+    });
+
+    return amount;
+  }
 
   int get deliveryFee =>
       totalAmount < cartSeller.deliveryMinOrder ? cartSeller.deliveryFee : 0;
@@ -62,7 +72,6 @@ class CartProvider with ChangeNotifier {
 
   // Methods to manage cart - clearCart, addProduct & removeProduct
   void clearCart({bool notify = true}) {
-    totalAmount = 0.0;
     products.clear();
     cartSeller = null;
 
@@ -74,12 +83,10 @@ class CartProvider with ChangeNotifier {
     if (cartSeller == seller) {
       products[product] =
           products.containsKey(product) ? products[product] + 1 : 1;
-      totalAmount += product.price;
     } else {
       clearCart();
       cartSeller = seller;
       products[product] = 1;
-      totalAmount = product.price;
     }
     saveCartToServer();
     removeCoupon();
@@ -88,8 +95,6 @@ class CartProvider with ChangeNotifier {
   void removeProduct(ProductModel product) {
     if (products[product] > 0) {
       products[product]--;
-
-      totalAmount -= product.price;
     }
 
     if (products[product] == 0) {
@@ -210,7 +215,6 @@ class CartProvider with ChangeNotifier {
                     product.available) {
                   // add only available products
                   products[product] = _productQuantityMap[product.id];
-                  totalAmount += products[product] * product.price;
                 }
               });
             });
