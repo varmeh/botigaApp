@@ -98,8 +98,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
           _pad24,
           _paymentTile(
             image: 'payCard.png',
-            title: 'Debit Card',
-            subTitle: 'Visa, Master, Maestro, Rupay',
+            title: 'Debit or Credit Card',
+            subTitle: 'Visa, Master, Maestro',
             method: PaymentMethod.card,
           ),
           _pad24,
