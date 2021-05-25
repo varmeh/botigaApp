@@ -52,14 +52,16 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
     if (_isLoading) {
       return _shimmerEffect();
     } else if (_order.payment.isSuccess) {
-      final provider = Provider.of<CartProvider>(context, listen: false);
-      provider.clearCart(notify: false);
-      provider.saveCartToServer();
-
+      _resetCart();
       return _orderDetails();
     } else {
       return _paymentFailureScreen();
     }
+  }
+
+  Future<void> _resetCart() async {
+    await Provider.of<CartProvider>(context, listen: false)
+        .cartClearOnOrderSuccess();
   }
 
   Widget _orderDetails() {

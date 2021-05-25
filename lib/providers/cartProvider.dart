@@ -71,12 +71,24 @@ class CartProvider with ChangeNotifier {
       : products.values.reduce((cur, next) => cur + next);
 
   // Methods to manage cart - clearCart, addProduct & removeProduct
-  void clearCart({bool notify = true}) {
+  void clearCart() {
     products.clear();
     cartSeller = null;
 
-    // Hack added to avoid exception on clearCart after Payment
-    if (notify) notifyListeners();
+    notifyListeners();
+  }
+
+  Future<void> cartClearOnOrderSuccess() async {
+    products.clear();
+    cartSeller = null;
+
+    try {
+      await Http.patch('/api/user/cart', body: {
+        'sellerId': null,
+        'addressId': _userProvider.selectedAddress.id,
+        'products': [],
+      });
+    } catch (_) {}
   }
 
   void addProduct(SellerModel seller, ProductModel product) {
