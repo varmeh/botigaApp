@@ -69,7 +69,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 padding: const EdgeInsets.only(top: 12.0),
                 child: CartDeliveryInfo(provider.cartSeller),
               ),
-              _paymentOptions(),
+              Expanded(child: _paymentOptions()),
             ],
           ),
         ),
@@ -81,36 +81,37 @@ class _PaymentScreenState extends State<PaymentScreen> {
     final _pad24 = SizedBox(height: 24);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'PAY USING',
-            style: AppTheme.textStyle.w600.color50.size(14).lineHeight(1.3),
-          ),
-          _pad24,
-          _paymentTile(
-            image: 'payUpi.png',
-            title: 'UPI',
-            subTitle: 'Gpay, PhonePe etc...',
-            method: PaymentMethod.upi,
-          ),
-          _pad24,
-          _paymentTile(
-            image: 'payCard.png',
-            title: 'Debit or Credit Card',
-            subTitle: 'Visa, Master, Maestro',
-            method: PaymentMethod.card,
-          ),
-          _pad24,
-          _paymentTile(
-            image: 'payNet.png',
-            title: 'Net Banking',
-            subTitle: 'All Indian banks',
-            method: PaymentMethod.netbanking,
-          ),
-          _pad24,
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'PAY USING',
+              style: AppTheme.textStyle.w600.color50.size(14).lineHeight(1.3),
+            ),
+            _pad24,
+            _paymentTile(
+              image: 'payUpi.png',
+              title: 'UPI',
+              subTitle: 'Gpay, PhonePe etc...',
+              method: PaymentMethod.upi,
+            ),
+            _pad24,
+            _paymentTile(
+              image: 'payCard.png',
+              title: 'Debit or Credit Card',
+              subTitle: 'Visa, Master, Maestro',
+              method: PaymentMethod.card,
+            ),
+            _pad24,
+            _paymentTile(
+              image: 'payNet.png',
+              title: 'Net Banking',
+              subTitle: 'All Indian banks',
+              method: PaymentMethod.netbanking,
+            ),
+          ],
+        ),
       ),
     );
   }

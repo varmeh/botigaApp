@@ -108,7 +108,7 @@ class CartDeliveryInfo extends StatelessWidget {
 
   Widget _deliveryDate(SellerModel seller) {
     var _deliveryTime =
-        'Delivery on ${seller.deliveryDate.toLocal().dateFormatDayDateMonth}';
+        '${seller.deliveryDate.toLocal().dateFormatDayDateMonth}';
 
     if (seller.deliverySlot.isNotNullAndEmpty) {
       _deliveryTime += '・${seller.deliverySlot}';
