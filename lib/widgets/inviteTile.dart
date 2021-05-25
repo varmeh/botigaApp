@@ -35,7 +35,7 @@ class InviteTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Share with neighbours',
+                    'Invite your friends',
                     style: AppTheme.textStyle.w700
                         .size(17.0)
                         .lineHeight(1.3)
@@ -43,7 +43,7 @@ class InviteTile extends StatelessWidget {
                   ),
                   SizedBox(height: 8.0),
                   Text(
-                    'Help your neighbours explore products they might love :)',
+                    'Please help spread the word',
                     style: AppTheme.textStyle.w500
                         .size(13.0)
                         .lineHeight(1.5)
@@ -53,13 +53,13 @@ class InviteTile extends StatelessWidget {
                   FlatButton(
                     onPressed: () {
                       ShareModal(
-                        title: 'SHARE WITH YOUR NEIGHBOURS',
+                        title: 'Invite Your Friends',
                         message:
-                            'Hey there!\nI am using Botiga to order wonderful products from our apartment\'s hand-picked merchants.\nDownload it here to experience the new way of shopping at home.\nhttp://onelink.to/husbnk',
+                            'Hey\nI order Farm Fresh Fruits & Vegetables, Grocery without the hassle of Delivery Slots\nOrder till Mid Night 12AM\nExcellent Products Delivered Daily at Doorstep\nIt\'s so convenient. Give it a try\nhttps://bit.ly/botigaApp',
                       ).show(context);
                     },
                     child: Text(
-                      'Share Now',
+                      'Invite Now',
                       style: AppTheme.textStyle.w600
                           .size(15)
                           .lineHeight(1.5)
