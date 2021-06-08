@@ -35,13 +35,6 @@ Future<void> main() async {
 
   await Firebase.initializeApp();
 
-  await Flavor.shared.init();
-
-  // Fetch Token from Secure Storage if exists
-  await Http.fetchToken();
-
-  await KeyStore.initialize();
-
   // Pass all uncaught errors to Crashlytics.
   if (kReleaseMode) {
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
@@ -53,6 +46,10 @@ Future<void> main() async {
       originalOnError(errorDetails);
     };
   }
+
+  await Flavor.shared.init();
+  await KeyStore.initialize();
+  await Http.fetchToken();
 
   runApp(
     MultiProvider(
