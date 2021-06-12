@@ -194,21 +194,57 @@ class _ProductListScreenState extends State<ProductListScreen> {
   }
 
   Widget _categoryList(BuildContext context, SellerModel seller) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _recommendedProductList(seller),
-          Text(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _recommendedProductList(seller),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, top: 36),
+          child: Text(
             'Categories',
             style: AppTheme.textStyle.w700.color100.size(17),
           ),
-          SizedBox(height: 20),
-          _productList(context, seller),
-        ],
-      ),
+        ),
+        SizedBox(height: 20),
+        _productList(context, seller),
+      ],
     );
+  }
+
+  Widget _recommendedProductList(SellerModel seller) {
+    final provider = Provider.of<SellerProvider>(context, listen: false);
+    final recommendedProducts = provider.recommendedProducts(seller.id);
+    const horizontalPadding = const EdgeInsets.symmetric(horizontal: 20);
+
+    return provider.hasRecommendedProducts(seller.id)
+        ? Container(
+            padding: const EdgeInsets.only(top: 36),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: horizontalPadding,
+                  child: Text(
+                    'Recommended',
+                    style: AppTheme.textStyle.w700.color100.size(17),
+                  ),
+                ),
+                ...recommendedProducts.asMap().entries.map(
+                      (entry) => Padding(
+                        padding: horizontalPadding,
+                        child: ProductTile(
+                          seller: seller,
+                          product: entry.value,
+                          lastTile: entry.key == recommendedProducts.length - 1,
+                        ),
+                      ),
+                    ),
+                SizedBox(height: 12),
+                _divider,
+              ],
+            ),
+          )
+        : Container();
   }
 
   Widget _productList(BuildContext context, SellerModel seller) {
@@ -219,51 +255,25 @@ class _ProductListScreenState extends State<ProductListScreen> {
             .where((category) => category.showCategory)
             .toList();
 
-        return Column(
-          children: [
-            ...categoryList.asMap().entries.map((entry) {
-              int idx = entry.key;
-              CategoryModel category = entry.value;
-              bool isLast = idx == categoryList.length - 1;
-              return CategoryList(
-                category: category,
-                seller: seller,
-                isLast: isLast,
-              );
-            })
-          ],
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            children: [
+              ...categoryList.asMap().entries.map((entry) {
+                int idx = entry.key;
+                CategoryModel category = entry.value;
+                bool isLast = idx == categoryList.length - 1;
+                return CategoryList(
+                  category: category,
+                  seller: seller,
+                  isLast: isLast,
+                );
+              })
+            ],
+          ),
         );
       },
     );
-  }
-
-  Widget _recommendedProductList(SellerModel seller) {
-    final provider = Provider.of<SellerProvider>(context, listen: false);
-
-    return provider.hasRecommendedProducts(seller.id)
-        ? Container(
-            padding: const EdgeInsets.only(
-              top: 24,
-              bottom: 24,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  'Recommended',
-                  style: AppTheme.textStyle.w700.color100.size(17),
-                ),
-                ...provider.recommendedProducts(seller.id).asMap().entries.map(
-                      (entry) => ProductTile(
-                        seller: seller,
-                        product: entry.value,
-                        lastTile: false,
-                      ),
-                    ),
-              ],
-            ),
-          )
-        : Container();
   }
 
   Widget _shimmerWidget() {
