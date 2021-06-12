@@ -14,8 +14,8 @@ import '../../../widgets/index.dart'
         TapBannerModel,
         ShimmerWidget;
 import '../../cart/cartBottomModal.dart';
-import 'widgets/categoryList.dart';
-import 'widgets/sellerBrandContainer.dart';
+import 'widgets/index.dart'
+    show SellerBrandContainer, CategoryList, ProductTile;
 import './productSearchScreen.dart';
 
 class ProductListScreen extends StatefulWidget {
@@ -199,6 +199,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          _recommendedProductList(seller),
           Text(
             'Categories',
             style: AppTheme.textStyle.w700.color100.size(17),
@@ -234,6 +235,35 @@ class _ProductListScreenState extends State<ProductListScreen> {
         );
       },
     );
+  }
+
+  Widget _recommendedProductList(SellerModel seller) {
+    final provider = Provider.of<SellerProvider>(context, listen: false);
+
+    return provider.hasRecommendedProducts(seller.id)
+        ? Container(
+            padding: const EdgeInsets.only(
+              top: 24,
+              bottom: 24,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'Recommended',
+                  style: AppTheme.textStyle.w700.color100.size(17),
+                ),
+                ...provider.recommendedProducts(seller.id).asMap().entries.map(
+                      (entry) => ProductTile(
+                        seller: seller,
+                        product: entry.value,
+                        lastTile: false,
+                      ),
+                    ),
+              ],
+            ),
+          )
+        : Container();
   }
 
   Widget _shimmerWidget() {
