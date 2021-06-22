@@ -13,7 +13,8 @@ import '../../widgets/index.dart'
         HttpServiceExceptionWidget,
         BannerCarosuel,
         TapBannerModel,
-        ShimmerWidget;
+        ShimmerWidget,
+        NetworkCachedImage;
 import '../location/index.dart'
     show SelectApartmenWhenNoUserLoggedInScreen, SavedAddressesSelectionModal;
 import '../tabbar.dart';
@@ -412,10 +413,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.network(
-                  'https://s3.ap-south-1.amazonaws.com/products.image.dev/home1_tiny.png',
+                NetworkCachedImage(
+                  imageUrl:
+                      'https://s3.ap-south-1.amazonaws.com/products.image.dev/home1_tiny.png',
                   width: width,
                   height: width,
+                  isColored: seller.live,
                 ),
                 SizedBox(height: 6),
                 Padding(
