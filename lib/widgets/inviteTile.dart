@@ -55,7 +55,7 @@ class InviteTile extends StatelessWidget {
                       ShareModal(
                         title: 'Invite Your Friends',
                         message:
-                            'Hey\nI order Farm Fresh Fruits & Vegetables, Grocery without the hassle of Delivery Slots\nOrder till Mid Night 12AM\nExcellent Products Delivered Daily at Doorstep\nIt\'s so convenient. Give it a try\nhttps://bit.ly/botigaApp',
+                            'Hey\nI buy amazing products from Best Sellers operating in our apartment\nOrder till Mid Night 12AM & products delivered doorstep, usually next day.\nIt\'s so convenient. Try it.\nhttps://bit.ly/botigaApp',
                       ).show(context);
                     },
                     child: Text(
