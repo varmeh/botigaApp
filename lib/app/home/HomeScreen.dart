@@ -11,7 +11,6 @@ import '../../widgets/index.dart'
         BrandingTile,
         InviteTile,
         HttpServiceExceptionWidget,
-        CircleNetworkAvatar,
         BannerCarosuel,
         TapBannerModel,
         ShimmerWidget;
@@ -77,6 +76,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         },
       );
     } else {
+      final width = (MediaQuery.of(context).size.width -
+              _horizontalPadding * 2 -
+              _crossAxisSpacing) /
+          _gridColumns;
+      final height = width + _heightDelta;
+
       final provider = Provider.of<ApartmentProvider>(context);
       return ListView(
         padding: EdgeInsets.zero,
@@ -85,9 +90,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           _banners(context, provider),
           provider.hasBanners ? SizedBox(height: 12) : SizedBox(height: 24),
           _filter(provider),
-          _availableSellersGrid(provider),
+          _availableSellersGrid(provider, width, height),
           InviteTile(),
-          _notAvailableSellersGrid(provider),
+          _notAvailableSellersGrid(provider, width, height),
           BrandingTile(
             'Thriving communities, empowering people',
             'Made by awesome team of Botiga',
@@ -306,13 +311,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  Widget _availableSellersGrid(ApartmentProvider provider) {
+  Widget _availableSellersGrid(
+      ApartmentProvider provider, double width, double height) {
     final color = AppTheme.backgroundColor;
-    final width = (MediaQuery.of(context).size.width -
-            _horizontalPadding * 2 -
-            _crossAxisSpacing) /
-        _gridColumns;
-    final height = width + _heightDelta;
 
     return !provider.hasAvailableSellers
         ? Container()
@@ -336,19 +337,18 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               ),
               itemCount: provider.availableSellers,
               itemBuilder: (context, index) => _sellersGridTile(
-                  provider.sellers[index], color, width, height),
+                provider.sellers[index],
+                color,
+                width,
+                height,
+              ),
             ),
           );
   }
 
-  Widget _notAvailableSellersGrid(ApartmentProvider provider) {
+  Widget _notAvailableSellersGrid(
+      ApartmentProvider provider, double width, double height) {
     final color = Color(0xfff7f7f7);
-
-    final width = (MediaQuery.of(context).size.width -
-            _horizontalPadding * 2 -
-            _crossAxisSpacing) /
-        _gridColumns;
-    final height = width + 82;
 
     return !provider.hasNotAvailableSellers
         ? Container()
@@ -382,10 +382,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ),
                   itemCount: provider.notAvailableSellers,
                   itemBuilder: (context, index) => _sellersGridTile(
-                      provider.sellers[provider.availableSellers + index],
-                      color,
-                      width,
-                      height),
+                    provider.sellers[provider.availableSellers + index],
+                    color,
+                    width,
+                    height,
+                  ),
                 ),
               ],
             ));

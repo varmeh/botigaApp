@@ -13,7 +13,6 @@ import '../../widgets/index.dart'
         Toast,
         PassiveButton,
         ActiveButton,
-        ShareModal,
         PolicyWebiewScreen;
 import '../auth/index.dart' show LoginScreen;
 import '../location/index.dart' show ManageAddressesScreen;
