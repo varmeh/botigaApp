@@ -26,6 +26,11 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+const double _horizontalPadding = 20;
+const double _crossAxisSpacing = 16;
+const int _gridColumns = 2;
+const double _heightDelta = 82;
+
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   bool _isLoading = false;
   Exception _error;
@@ -80,8 +85,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           _banners(context, provider),
           provider.hasBanners ? SizedBox(height: 12) : SizedBox(height: 24),
           _filter(provider),
-          _availableSellers(context, provider),
-          _notAvailableSellers(context, provider),
+          _availableSellersGrid(provider),
+          InviteTile(),
+          _notAvailableSellersGrid(provider),
           BrandingTile(
             'Thriving communities, empowering people',
             'Made by awesome team of Botiga',
@@ -300,154 +306,167 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  Widget _availableSellers(BuildContext context, ApartmentProvider provider) {
+  Widget _availableSellersGrid(ApartmentProvider provider) {
     final color = AppTheme.backgroundColor;
-    final halfMark = (provider.availableSellers / 2).ceil();
+    final width = (MediaQuery.of(context).size.width -
+            _horizontalPadding * 2 -
+            _crossAxisSpacing) /
+        _gridColumns;
+    final height = width + _heightDelta;
+
     return !provider.hasAvailableSellers
         ? Container()
         : Container(
-            margin: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(
+              top: 32,
+              left: _horizontalPadding,
+              right: _horizontalPadding,
+              bottom: 20,
+            ),
             color: color,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ...provider.showAllSellers
-                    ? List.generate(provider.availableSellers + 1, (index) {
-                        // Show Invite Tile in middle
-                        if (index < halfMark) {
-                          return _sellersTile(
-                            context,
-                            provider.sellers[index],
-                            color,
-                          );
-                        } else if (index > halfMark) {
-                          return _sellersTile(
-                            context,
-                            provider.sellers[index - 1],
-                            color,
-                          );
-                        } else {
-                          return InviteTile();
-                        }
-                      })
-                    : List.generate(
-                        provider.availableSellers + 1,
-                        (index) => index < provider.availableSellers
-                            ? _sellersTile(
-                                context,
-                                provider.sellers[index],
-                                color,
-                              )
-                            : InviteTile(),
-                      ),
-              ],
+            child: GridView.builder(
+              shrinkWrap: true,
+              padding: EdgeInsets.only(bottom: _crossAxisSpacing),
+              physics: NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: width / height,
+                mainAxisSpacing: _crossAxisSpacing * 2,
+                crossAxisSpacing: _crossAxisSpacing,
+              ),
+              itemCount: provider.availableSellers,
+              itemBuilder: (context, index) => _sellersGridTile(
+                  provider.sellers[index], color, width, height),
             ),
           );
   }
 
-  Widget _notAvailableSellers(
-      BuildContext context, ApartmentProvider provider) {
+  Widget _notAvailableSellersGrid(ApartmentProvider provider) {
     final color = Color(0xfff7f7f7);
+
+    final width = (MediaQuery.of(context).size.width -
+            _horizontalPadding * 2 -
+            _crossAxisSpacing) /
+        _gridColumns;
+    final height = width + 82;
+
     return !provider.hasNotAvailableSellers
         ? Container()
         : Container(
-            padding: const EdgeInsets.only(top: 24, bottom: 24),
-            margin: const EdgeInsets.only(top: 24, bottom: 24),
+            padding: const EdgeInsets.only(
+              top: 24,
+              left: _horizontalPadding,
+              right: _horizontalPadding,
+              bottom: 20,
+            ),
             color: color,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: Text(
-                    'Not accepting orders',
-                    style: AppTheme.textStyle.w700.color100
-                        .size(20.0)
-                        .lineHeight(1.2),
-                  ),
+                Text(
+                  'Not accepting orders',
+                  style: AppTheme.textStyle.w700.color100
+                      .size(20.0)
+                      .lineHeight(1.2),
                 ),
-                ...List.generate(
-                  provider.notAvailableSellers,
-                  (index) => _sellersTile(
-                    context,
-                    provider.sellers[provider.availableSellers + index],
-                    color,
+                SizedBox(height: 12),
+                GridView.builder(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.only(bottom: _crossAxisSpacing),
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: width / height,
+                    mainAxisSpacing: _crossAxisSpacing * 2,
+                    crossAxisSpacing: _crossAxisSpacing,
                   ),
-                )
+                  itemCount: provider.notAvailableSellers,
+                  itemBuilder: (context, index) => _sellersGridTile(
+                      provider.sellers[provider.availableSellers + index],
+                      color,
+                      width,
+                      height),
+                ),
               ],
-            ),
-          );
+            ));
   }
 
-  Widget _sellersTile(BuildContext context, SellerModel seller, Color color) {
+  Widget _sellersGridTile(
+      SellerModel seller, Color color, double width, double height) {
+    final deliveryDay = seller.deliveryDate != null &&
+            seller.deliveryDate.difference(DateTime.now()).inDays >= 1
+        ? '${seller.deliveryDate.dateFormatDayMonthWeekday}'
+        : 'Tomorrow';
+
     return OpenContainer(
-      closedElevation: 0.0,
+      closedElevation: 3.0,
+      closedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8.0))),
       transitionDuration: Duration(milliseconds: 300),
+      closedColor: color,
       closedBuilder: (context, openContainer) {
-        return Container(
-          padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
-          color: color,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: CircleNetworkAvatar(
-                  imageUrl: seller.brandImageUrl,
-                  radius: 28.0,
-                  isColored: seller.live,
+        return Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.network(
+                  'https://s3.ap-south-1.amazonaws.com/products.image.dev/home1_tiny.png',
+                  width: width,
+                  height: width,
                 ),
-              ),
-              SizedBox(width: 12),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                        bottom: BorderSide(color: AppTheme.dividerColor)),
-                  ),
-                  padding: const EdgeInsets.only(left: 4, bottom: 16),
+                SizedBox(height: 6),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         seller.brandName,
-                        style: AppTheme.textStyle.color100.w600
-                            .size(15)
-                            .lineHeight(1.3),
-                      ),
-                      SizedBox(height: 2),
-                      Text(
-                        seller.businessCategory,
                         style: AppTheme.textStyle.color50.w500
-                            .size(13)
-                            .lineHeight(1.5),
+                            .size(11)
+                            .lineHeight(1.5)
+                            .letterSpace(0.2),
                       ),
-                      SizedBox(height: 2),
-                      (seller.deliveryDate != null &&
-                              seller.deliveryDate
-                                      .difference(DateTime.now())
-                                      .inDays >=
-                                  1)
-                          ? Text(
-                              'Delivery by ${seller.deliveryDate.dateFormatCompleteWeekDayMonthDay}',
-                              style: AppTheme.textStyle.color100.w500
-                                  .size(13)
-                                  .lineHeight(1.5),
-                            )
-                          : Text(
-                              'Delivery Tomorrow',
-                              style: AppTheme.textStyle.color100.w500
-                                  .size(13)
-                                  .lineHeight(1.5),
-                            )
+                      SizedBox(height: 6),
+                      AutoSizeText(
+                        seller.tagline,
+                        style: AppTheme.textStyle.color100.w700
+                            .size(13)
+                            .lineHeight(1.2),
+                        minFontSize: 11.0,
+                        maxFontSize: 13.0,
+                        maxLines: 1,
+                      ),
                     ],
                   ),
-                ),
+                )
+              ],
+            ),
+            Positioned(
+              bottom: 14,
+              left: 12,
+              child: Row(
+                children: [
+                  Image.asset(
+                    'assets/images/truck.png',
+                    width: 18,
+                    height: 18,
+                    color: AppTheme.color50,
+                  ),
+                  SizedBox(width: 6),
+                  Text(
+                    deliveryDay,
+                    maxLines: 1,
+                    style: AppTheme.textStyle.color50.w500
+                        .size(11)
+                        .lineHeight(1.1),
+                  ),
+                ],
               ),
-            ],
-          ),
+            )
+          ],
         );
       },
       openBuilder: (_, __) => ProductListScreen(seller),
