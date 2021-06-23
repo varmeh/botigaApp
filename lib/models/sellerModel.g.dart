@@ -20,6 +20,8 @@ SellerModel _$SellerModelFromJson(Map<String, dynamic> json) {
     deliveryDate: json['deliveryDate'] == null
         ? null
         : DateTime.parse(json['deliveryDate'] as String),
+    homeImageUrl: json['homeImageUrl'] as String,
+    homeTagline: json['homeTagline'] as String,
     deliverySlot: json['deliverySlot'] as String,
     address: json['address'] as String,
     fssaiLicenseNumber: json['fssaiLicenseNumber'] as String,
@@ -36,6 +38,8 @@ Map<String, dynamic> _$SellerModelToJson(SellerModel instance) =>
       'tagline': instance.tagline,
       'businessCategory': instance.businessCategory,
       'brandImageUrl': instance.brandImageUrl,
+      'homeImageUrl': instance.homeImageUrl,
+      'homeTagline': instance.homeTagline,
       'live': instance.live,
       'phone': instance.phone,
       'whatsapp': instance.whatsapp,

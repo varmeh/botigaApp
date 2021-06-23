@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import '../util/index.dart' show StringExtensions;
+
 part 'sellerModel.g.dart';
 
 @JsonSerializable()
@@ -12,6 +14,8 @@ class SellerModel {
   final String businessCategory;
 
   final String brandImageUrl;
+  final String homeImageUrl;
+  final String homeTagline;
 
   final bool live;
 
@@ -40,6 +44,8 @@ class SellerModel {
     @required this.whatsapp,
     @required this.deliveryMessage,
     @required this.deliveryDate,
+    this.homeImageUrl,
+    this.homeTagline,
     this.deliverySlot,
     this.address,
     this.fssaiLicenseNumber,
@@ -49,6 +55,12 @@ class SellerModel {
   });
 
   bool get hasDeliveryFee => deliveryFee > 0;
+
+  String get brandTagline =>
+      homeTagline.isNotNullAndEmpty ? homeTagline : tagline;
+
+  String get brandUrl =>
+      homeImageUrl.isNotNullAndEmpty ? homeImageUrl : brandImageUrl;
 
   factory SellerModel.fromJson(Map<String, dynamic> json) =>
       _$SellerModelFromJson(json);
