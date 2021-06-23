@@ -9,7 +9,6 @@ import '../../theme/index.dart';
 import '../../widgets/index.dart'
     show
         BrandingTile,
-        InviteTile,
         HttpServiceExceptionWidget,
         BannerCarosuel,
         TapBannerModel,
@@ -92,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           provider.hasBanners ? SizedBox(height: 12) : SizedBox(height: 24),
           _filter(provider),
           _availableSellersGrid(provider, width, height),
-          InviteTile(),
+          // InviteTile(),
           _notAvailableSellersGrid(provider, width, height),
           BrandingTile(
             'Thriving communities, empowering people',
