@@ -401,7 +401,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         : 'Tomorrow';
 
     return OpenContainer(
-      closedElevation: 3.0,
+      closedElevation: 2.0,
       closedShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8.0))),
       transitionDuration: Duration(milliseconds: 300),
@@ -414,8 +414,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               mainAxisSize: MainAxisSize.min,
               children: [
                 NetworkCachedImage(
-                  imageUrl:
-                      'https://s3.ap-south-1.amazonaws.com/products.image.dev/home1_tiny.png',
+                  imageUrl: seller.brandUrl,
                   width: width,
                   height: width,
                   isColored: seller.live,
@@ -435,7 +434,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       ),
                       SizedBox(height: 6),
                       AutoSizeText(
-                        seller.tagline,
+                        seller.brandTagline,
                         style: AppTheme.textStyle.color100.w700
                             .size(13)
                             .lineHeight(1.2),
@@ -478,6 +477,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Widget _shimmerWidget() {
+    final width = (MediaQuery.of(context).size.width -
+            _horizontalPadding * 2 -
+            _crossAxisSpacing) /
+        _gridColumns;
+    final height = width + _heightDelta;
+
     return ListView(
       padding: const EdgeInsets.all(0),
       children: [
@@ -523,66 +528,74 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             ),
           ],
         ),
-        Column(
-          children: [
-            ...List<Widget>.generate(
-              10,
-              (index) => ShimmerWidget(
-                child: Container(
-                  padding: const EdgeInsets.only(
-                    left: 20.0,
-                    top: 24.0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CircleAvatar(radius: 28),
-                      SizedBox(width: 12),
-                      Expanded(
-                        flex: 4,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(color: AppTheme.color05),
-                            ),
-                          ),
-                          padding: const EdgeInsets.only(
-                            left: 2.0,
-                            top: 12.0,
-                            bottom: 20.0,
-                            right: 20.0,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                height: 15.0,
-                                color: Colors.white,
-                              ),
-                              SizedBox(height: 8),
-                              Container(
-                                width: 200,
-                                height: 13.0,
-                                color: Colors.white,
-                              ),
-                              SizedBox(height: 8),
-                              Container(
-                                width: double.infinity,
-                                height: 13.0,
-                                color: Colors.white,
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
+        Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: Container(
+            height: 28,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: List.generate(
+                6,
+                (index) => ShimmerWidget(
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 8),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppTheme.dividerColor),
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      color: AppTheme.backgroundColor,
+                    ),
+                    child: Center(
+                      child: Text(
+                        '     ' * (index + 1),
+                        textAlign: TextAlign.center,
+                        style:
+                            AppTheme.textStyle.w500.size(12).letterSpace(0.2),
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
-          ],
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.only(
+            top: 32,
+            left: _horizontalPadding,
+            right: _horizontalPadding,
+            bottom: 20,
+          ),
+          color: AppTheme.backgroundColor,
+          child: GridView.count(
+            shrinkWrap: true,
+            crossAxisCount: 2,
+            mainAxisSpacing: _crossAxisSpacing * 2,
+            crossAxisSpacing: _crossAxisSpacing,
+            childAspectRatio: width / height,
+            physics: NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.only(bottom: _crossAxisSpacing),
+            children: List.generate(
+              4,
+              (_) => ShimmerWidget(
+                child: OpenContainer(
+                  closedElevation: 2.0,
+                  closedShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                  tappable: false,
+                  closedColor: AppTheme.backgroundColor,
+                  closedBuilder: (context, openContainer) {
+                    return SizedBox(
+                      width: width,
+                      height: height,
+                    );
+                  },
+                  openBuilder: (_, __) => Container(),
+                ),
+              ),
+            ),
+          ),
         ),
       ],
     );
