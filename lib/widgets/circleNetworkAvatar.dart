@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../theme/index.dart';
 
+import './customCacheManager.dart';
+
 /*
  * Displays cached network image 
  * In case, imageUrl is null or image does not exist at url
@@ -57,6 +59,7 @@ class CircleNetworkAvatar extends StatelessWidget {
       height: this.radius * 2,
       placeholder: (_, __) => _placeholderImage(),
       imageUrl: this.imageUrl,
+      cacheManager: customCacheManager,
     );
   }
 

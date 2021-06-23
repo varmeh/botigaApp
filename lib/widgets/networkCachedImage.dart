@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
  * it shows placeholder image
 */
 
+import './customCacheManager.dart';
+
 class NetworkCachedImage extends StatelessWidget {
   final String imageUrl;
   final double width;
@@ -52,11 +54,12 @@ class NetworkCachedImage extends StatelessWidget {
           ),
         );
       },
-      fit: BoxFit.contain,
+      fit: BoxFit.cover,
       width: width,
       height: height,
       placeholder: (_, __) => _placeholderImage(),
       imageUrl: this.imageUrl,
+      cacheManager: customCacheManager,
     );
   }
 

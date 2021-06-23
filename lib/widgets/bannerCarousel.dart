@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../theme/index.dart';
+import './customCacheManager.dart';
 
 class TapBannerModel {
   final String url;
@@ -48,7 +49,10 @@ class _BannerCarosuelState extends State<BannerCarosuel> {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: CachedNetworkImageProvider(banner.url),
+                          image: CachedNetworkImageProvider(
+                            banner.url,
+                            cacheManager: customCacheManager,
+                          ),
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(12.0)),
                       ),
