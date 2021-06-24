@@ -20,7 +20,7 @@ class NetworkCachedImage extends StatelessWidget {
     @required this.imageUrl,
     @required this.width,
     @required this.height,
-    this.imagePlaceholder = 'assets/images/avatar.png',
+    this.imagePlaceholder = 'assets/images/homePlaceholder.png',
     this.isColored = false,
   });
 
