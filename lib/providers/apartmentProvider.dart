@@ -10,7 +10,8 @@ class ApartmentProvider with ChangeNotifier {
   int availableSellers = 0;
   List<BannerModel> _banners = [];
   List<SellerFilterModel> _filters = [];
-  List<SellerModel> _sellersClosingToday = [];
+  List<SellerModel> _closingTodaySellerList = [];
+  List<SellerModel> _newSellerList = [];
 
   final allFilter = SellerFilterModel(displayName: 'All', value: 'all');
   SellerFilterModel selectedFilter;
@@ -19,14 +20,19 @@ class ApartmentProvider with ChangeNotifier {
   bool get hasFilters => _filters.length > 0;
   bool get hasAvailableSellers => availableSellers > 0;
   bool get showAllSellers => selectedFilter == allFilter;
-  bool get hasOrdersClosingToday => _sellersClosingToday.length > 0;
+  bool get hasSellersClosingToday => _closingTodaySellerList.length > 0;
+  bool get hasNewSellers => _newSellerList.length > 0;
 
   int get notAvailableSellers => sellers.length - availableSellers;
   bool get hasNotAvailableSellers => notAvailableSellers > 0;
 
-  int get noOfSellersClosingToday => _sellersClosingToday.length;
+  int get noOfSellersClosingToday => _closingTodaySellerList.length;
   UnmodifiableListView<SellerModel> get sellersClosingToday =>
-      UnmodifiableListView(_sellersClosingToday);
+      UnmodifiableListView(_closingTodaySellerList);
+
+  int get noOfNewSellers => _newSellerList.length;
+  UnmodifiableListView<SellerModel> get newSellerList =>
+      UnmodifiableListView(_newSellerList);
 
   UnmodifiableListView<SellerModel> get sellers {
     if (selectedFilter == allFilter) {
@@ -98,7 +104,12 @@ class ApartmentProvider with ChangeNotifier {
           // Identify Sellers who deliver only selected times a week & if they are closing delivery tomorrow
           if (seller.limitedDelivery &&
               seller.deliveryDate.difference(dateTime).inDays == 0) {
-            _sellersClosingToday.add(seller);
+            _closingTodaySellerList.add(seller);
+          }
+
+          // Identify new sellers
+          if (seller.newlyLaunched) {
+            _newSellerList.add(seller);
           }
         }
         return seller;
