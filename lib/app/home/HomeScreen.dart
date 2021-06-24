@@ -89,6 +89,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           appBar(context, provider),
           _banners(context, provider),
           provider.hasBanners ? SizedBox(height: 12) : SizedBox(height: 24),
+          _closingOrders(provider, width, height + 12),
           _filter(provider),
           _availableSellersGrid(provider, width, height),
           // InviteTile(),
@@ -181,6 +182,49 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ),
       ),
     );
+  }
+
+  Widget _closingOrders(
+      ApartmentProvider provider, double width, double height) {
+    final color = AppTheme.backgroundColor;
+    return provider.hasOrdersClosingToday
+        ? Container(
+            padding: const EdgeInsets.only(bottom: 24, left: 20),
+            color: color,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Last Day to Order',
+                  style: AppTheme.textStyle.w700.color100
+                      .size(20.0)
+                      .lineHeight(1.2),
+                ),
+                SizedBox(height: 12),
+                Container(
+                  height: height,
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.only(bottom: _crossAxisSpacing),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                      childAspectRatio: height / width,
+                      mainAxisSpacing: _crossAxisSpacing,
+                    ),
+                    itemCount: provider.noOfSellersClosingToday,
+                    itemBuilder: (context, index) => _sellersGridTile(
+                      provider.sellersClosingToday[index],
+                      color,
+                      width,
+                      height,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        : Container();
   }
 
   Widget _banners(BuildContext context, ApartmentProvider provider) {
