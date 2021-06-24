@@ -26,11 +26,9 @@ class ApartmentProvider with ChangeNotifier {
   int get notAvailableSellers => sellers.length - availableSellers;
   bool get hasNotAvailableSellers => notAvailableSellers > 0;
 
-  int get noOfSellersClosingToday => _closingTodaySellerList.length;
   UnmodifiableListView<SellerModel> get sellersClosingToday =>
       UnmodifiableListView(_closingTodaySellerList);
 
-  int get noOfNewSellers => _newSellerList.length;
   UnmodifiableListView<SellerModel> get newSellerList =>
       UnmodifiableListView(_newSellerList);
 
@@ -65,6 +63,8 @@ class ApartmentProvider with ChangeNotifier {
     _sellerList.clear();
     _banners.clear();
     _filters.clear();
+    _newSellerList.clear();
+    _closingTodaySellerList.clear();
     selectedFilter = allFilter;
     availableSellers = 0;
   }

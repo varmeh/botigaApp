@@ -93,7 +93,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           _closingSellersGrid(provider, width, height + 12),
           _filter(provider),
           _availableSellersGrid(provider, width, height),
-          // InviteTile(),
           _notAvailableSellersGrid(provider, width, height),
           BrandingTile(
             'Thriving communities, empowering people',
@@ -202,26 +201,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       .lineHeight(1.2),
                 ),
                 SizedBox(height: 12),
-                Container(
-                  height: height,
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.only(bottom: _crossAxisSpacing),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1,
-                      childAspectRatio: height / width,
-                      mainAxisSpacing: _crossAxisSpacing,
-                    ),
-                    itemCount: provider.noOfNewSellers,
-                    itemBuilder: (context, index) => _sellersGridTile(
-                      provider.newSellerList[index],
-                      color,
-                      width,
-                      height,
-                    ),
-                  ),
-                ),
+                horizontalGrid(provider.newSellerList, width, height),
               ],
             ),
           )
@@ -245,30 +225,35 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       .lineHeight(1.2),
                 ),
                 SizedBox(height: 12),
-                Container(
-                  height: height,
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.only(bottom: _crossAxisSpacing),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1,
-                      childAspectRatio: height / width,
-                      mainAxisSpacing: _crossAxisSpacing,
-                    ),
-                    itemCount: provider.noOfSellersClosingToday,
-                    itemBuilder: (context, index) => _sellersGridTile(
-                      provider.sellersClosingToday[index],
-                      color,
-                      width,
-                      height,
-                    ),
-                  ),
-                ),
+                horizontalGrid(provider.sellersClosingToday, width, height),
               ],
             ),
           )
         : Container();
+  }
+
+  Widget horizontalGrid(
+      List<SellerModel> sellers, double width, double height) {
+    return Container(
+      height: height,
+      child: GridView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.only(bottom: _crossAxisSpacing),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 1,
+          childAspectRatio: height / width,
+          mainAxisSpacing: _crossAxisSpacing,
+        ),
+        itemCount: sellers.length,
+        itemBuilder: (context, index) => _sellersGridTile(
+          sellers[index],
+          AppTheme.backgroundColor,
+          width,
+          height,
+        ),
+      ),
+    );
   }
 
   Widget _banners(BuildContext context, ApartmentProvider provider) {
