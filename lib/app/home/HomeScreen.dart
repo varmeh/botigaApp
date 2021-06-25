@@ -89,7 +89,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           appBar(context, provider),
           _launchedSellersGrid(provider, width, height),
           _banners(context, provider),
-          provider.hasBanners ? SizedBox(height: 12) : SizedBox(height: 24),
           _closingSellersGrid(provider, width, height),
           _filter(provider),
           _availableSellersGrid(provider, width, height),
@@ -142,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return SafeArea(
       child: Padding(
         padding:
-            const EdgeInsets.only(top: 24, left: 20, right: 20, bottom: 32),
+            const EdgeInsets.only(top: 24, left: 20, right: 20, bottom: 48),
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {
@@ -225,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final color = AppTheme.backgroundColor;
     return provider.hasNewSellers
         ? Container(
-            padding: const EdgeInsets.only(bottom: 0, left: 20),
+            padding: const EdgeInsets.only(left: 20, bottom: 48),
             color: color,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -249,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final color = AppTheme.backgroundColor;
     return provider.hasSellersClosingToday
         ? Container(
-            padding: const EdgeInsets.only(bottom: 24, left: 20),
+            padding: const EdgeInsets.only(bottom: 48, left: 20),
             color: color,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -316,7 +315,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
       return Container(
         color: AppTheme.backgroundColor,
-        padding: const EdgeInsets.only(top: 24.0),
+        padding: const EdgeInsets.only(bottom: 48.0),
         child: BannerCarosuel(tapBannerList),
       );
     }
@@ -329,7 +328,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     return provider.hasFilters
         ? Padding(
-            padding: const EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.only(left: 20, bottom: 36),
             child: Container(
               height: 28,
               child: ListView(
@@ -384,7 +383,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ? Container()
         : Container(
             padding: const EdgeInsets.only(
-              top: 32,
+              // top: 32,
               left: _horizontalPadding,
               right: _horizontalPadding,
               bottom: 20,
