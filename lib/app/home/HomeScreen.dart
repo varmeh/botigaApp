@@ -526,8 +526,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 children: [
                   Image.asset(
                     'assets/images/truck.png',
-                    width: 18,
-                    height: 18,
+                    width: 16,
+                    height: 16,
                     color: AppTheme.color50,
                   ),
                   SizedBox(width: 6),

@@ -117,14 +117,15 @@ class CartDeliveryInfo extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 30.0, top: 16, bottom: 16),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset('assets/images/truck.png'),
+          Image.asset('assets/images/truck.png', width: 20, height: 20),
           SizedBox(width: 26.0),
           Expanded(
             child: Text(
               seller.live ? _deliveryTime : 'Not Serving at the moment',
               style: AppTheme.textStyle.w500.color100.size(13).lineHeight(1.5),
-              textAlign: TextAlign.justify,
+              textAlign: TextAlign.start,
             ),
           ),
         ],
