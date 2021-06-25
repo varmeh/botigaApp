@@ -179,9 +179,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           style: AppTheme.textStyle.w700.color100
                               .size(20.0)
                               .lineHeight(1.4),
-                          minFontSize: 15.0,
+                          minFontSize: 17.0,
                           maxFontSize: 20.0,
                           maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       SizedBox(width: 4),
