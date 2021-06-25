@@ -55,8 +55,8 @@ class SellerModel {
     this.deliveryFee = 0,
     this.deliveryMinOrder = 0,
     this.filters,
-    this.limitedDelivery = true, //TODO: change default to false
-    this.newlyLaunched = true, //TODO: change default to false
+    this.limitedDelivery = false,
+    this.newlyLaunched = false,
   });
 
   bool get hasDeliveryFee => deliveryFee > 0;
