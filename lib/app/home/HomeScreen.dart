@@ -237,6 +237,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final _height = height + 12;
     return Container(
       height: _height,
+      margin: const EdgeInsets.only(right: 20),
       child: GridView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
