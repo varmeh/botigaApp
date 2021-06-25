@@ -302,7 +302,7 @@ class _CartScreenState extends State<CartScreen> {
           style: AppTheme.textStyle.w400.color100,
         ),
         actions: [
-          FlatButton(
+          TextButton(
             child: Text(
               'Close',
               style: AppTheme.textStyle.w600.colored(AppTheme.primaryColor),

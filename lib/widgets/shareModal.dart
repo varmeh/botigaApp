@@ -71,9 +71,12 @@ class ShareModal {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              FlatButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6.0),
+              TextButton(
+                style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6.0),
+                  ),
+                  backgroundColor: AppTheme.color100,
                 ),
                 onPressed: () {
                   FlutterClipboard.copy(message).then((_) {
@@ -87,7 +90,6 @@ class ShareModal {
                     ).show(context);
                   }).catchError((_, __) => null);
                 },
-                color: AppTheme.color100,
                 child: Padding(
                   padding: const EdgeInsets.all(13.0),
                   child: Text(
@@ -99,9 +101,12 @@ class ShareModal {
                   ),
                 ),
               ),
-              FlatButton.icon(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6.0),
+              TextButton.icon(
+                style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6.0),
+                  ),
+                  backgroundColor: AppTheme.color100,
                 ),
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 13, top: 13, bottom: 13),
@@ -112,7 +117,6 @@ class ShareModal {
                       .then((_) => Navigator.pop(context))
                       .catchError((_, __) => null); //catch error do nothing
                 },
-                color: AppTheme.color100,
                 label: Padding(
                   padding: const EdgeInsets.only(
                     right: 13,

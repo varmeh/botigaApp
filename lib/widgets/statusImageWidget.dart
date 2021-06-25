@@ -28,7 +28,7 @@ class StatusImageWidget extends StatelessWidget {
     }
 
     return Stack(
-      overflow: Overflow.visible,
+      clipBehavior: Clip.none,
       children: [
         Image.asset(
           baseImage,

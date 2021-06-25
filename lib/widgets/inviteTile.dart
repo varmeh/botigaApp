@@ -50,7 +50,7 @@ class InviteTile extends StatelessWidget {
                         .color50,
                   ),
                   SizedBox(height: 16.0),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       ShareModal(
                         title: 'SHARE WITH YOUR NEIGHBOURS',
@@ -65,11 +65,12 @@ class InviteTile extends StatelessWidget {
                           .lineHeight(1.5)
                           .colored(AppTheme.backgroundColor),
                     ),
-                    color: AppTheme.color100,
-                    height: 42.0,
-                    minWidth: 136.0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      backgroundColor: AppTheme.color100,
+                      minimumSize: Size(136.0, 42.0),
                     ),
                   ),
                 ],

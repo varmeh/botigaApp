@@ -137,7 +137,7 @@ class _ManageAddressesScreenState extends State<ManageAddressesScreen> {
           style: AppTheme.textStyle.w400.color100,
         ),
         actions: [
-          FlatButton(
+          TextButton(
             child: Text(
               'Don\'t Delete',
               style: AppTheme.textStyle.w600.color50,
@@ -146,7 +146,7 @@ class _ManageAddressesScreenState extends State<ManageAddressesScreen> {
               Navigator.of(context).pop();
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text(
               'Confirm',
               style: AppTheme.textStyle.w600.colored(AppTheme.errorColor),

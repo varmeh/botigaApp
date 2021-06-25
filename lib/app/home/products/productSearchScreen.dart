@@ -74,9 +74,11 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
                                 onSubmit: (_) {},
                               ),
                             ),
-                            FlatButton(
-                              highlightColor: Colors.transparent,
-                              splashColor: Colors.transparent,
+                            TextButton(
+                              style: ButtonStyle(
+                                overlayColor: MaterialStateProperty.all(
+                                    Colors.transparent),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },

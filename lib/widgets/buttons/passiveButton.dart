@@ -22,12 +22,14 @@ class PassiveButton extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      child: FlatButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          backgroundColor: AppTheme.dividerColor,
         ),
         onPressed: onPressed,
-        color: AppTheme.dividerColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

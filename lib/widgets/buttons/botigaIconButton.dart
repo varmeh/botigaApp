@@ -16,13 +16,15 @@ class BotigaIconButton extends StatelessWidget {
     return Container(
       height: 42,
       width: 42,
-      child: FlatButton(
-        padding: const EdgeInsets.all(0.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          padding: const EdgeInsets.all(0.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          backgroundColor: AppTheme.dividerColor,
         ),
         child: child,
-        color: AppTheme.dividerColor,
         onPressed: onPressed,
       ),
     );

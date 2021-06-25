@@ -202,7 +202,7 @@ class _CouponScreenState extends State<CouponScreen> {
             style: AppTheme.textStyle.w400.color100,
           ),
           actions: [
-            FlatButton(
+            TextButton(
               child: Text(
                 'OK',
                 style: AppTheme.textStyle.w600.colored(AppTheme.errorColor),

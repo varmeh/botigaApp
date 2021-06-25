@@ -24,12 +24,14 @@ class ActiveButton extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      child: FlatButton(
-        shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(8.0),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(8.0),
+          ),
+          backgroundColor: AppTheme.primaryColor,
         ),
         onPressed: onPressed,
-        color: AppTheme.primaryColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

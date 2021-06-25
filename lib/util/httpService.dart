@@ -23,8 +23,9 @@ class Http {
   }
 
   static Future<dynamic> get(String url) async {
+    final requestUrl = Uri.parse('$_baseUrl$url');
     final response = await http.get(
-      '$_baseUrl$url',
+      requestUrl,
       headers: {..._globalHeaders, 'Authorization': _token},
     );
     return parse(response);
@@ -34,8 +35,9 @@ class Http {
     String url, {
     Map<String, String> body,
   }) async {
+    final requestUrl = Uri.parse('$_baseUrl$url');
     final response = await http.post(
-      '$_baseUrl$url',
+      requestUrl,
       headers: {..._globalHeaders},
       body: body != null ? json.encode(body) : null,
     );
@@ -50,8 +52,9 @@ class Http {
   static Future<dynamic> post(String url,
       {Map<String, String> headers, Map<String, dynamic> body}) async {
     final _headers = headers == null ? {} : headers;
+    final requestUrl = Uri.parse('$_baseUrl$url');
     final response = await http.post(
-      '$_baseUrl$url',
+      requestUrl,
       headers: {'Authorization': _token, ..._globalHeaders, ..._headers},
       body: body != null ? json.encode(body) : null,
     );
@@ -64,8 +67,9 @@ class Http {
     Map<String, dynamic> body,
   }) async {
     final _headers = headers == null ? {} : headers;
+    final requestUrl = Uri.parse('$_baseUrl$url');
     final response = await http.patch(
-      '$_baseUrl$url',
+      requestUrl,
       headers: {'Authorization': _token, ..._globalHeaders, ..._headers},
       body: body != null ? json.encode(body) : null,
     );
@@ -73,8 +77,9 @@ class Http {
   }
 
   static Future<dynamic> delete(String url) async {
+    final requestUrl = Uri.parse('$_baseUrl$url');
     final response = await http.delete(
-      '$_baseUrl$url',
+      requestUrl,
       headers: {..._globalHeaders, 'Authorization': _token},
     );
     return parse(response);

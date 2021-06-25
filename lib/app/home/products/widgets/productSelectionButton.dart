@@ -65,7 +65,7 @@ class _ProductSelectionButtonState extends State<ProductSelectionButton> {
           style: AppTheme.textStyle.w400.color100,
         ),
         actions: [
-          FlatButton(
+          TextButton(
             child: Text(
               'No',
               style: AppTheme.textStyle.w600.colored(AppTheme.primaryColor),
@@ -74,7 +74,7 @@ class _ProductSelectionButtonState extends State<ProductSelectionButton> {
               Navigator.of(context).pop();
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text(
               'Yes',
               style: AppTheme.textStyle.w600.colored(AppTheme.primaryColor),

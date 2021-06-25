@@ -98,7 +98,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     style: AppTheme.textStyle.w400.color100,
                   ),
                   actions: [
-                    FlatButton(
+                    TextButton(
                       child: Text(
                         'Don\'t Cancel',
                         style: AppTheme.textStyle.w600.color50,
@@ -107,7 +107,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         Navigator.of(context).pop();
                       },
                     ),
-                    FlatButton(
+                    TextButton(
                       child: Text(
                         'Confirm',
                         style: AppTheme.textStyle.w600
