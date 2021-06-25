@@ -472,79 +472,92 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ? '${seller.deliveryDate.dateFormatDayMonthWeekday}'
         : 'Tomorrow';
 
-    return OpenContainer(
-      closedElevation: 2.0,
-      closedShape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8.0))),
-      transitionDuration: Duration(milliseconds: 300),
-      closedColor: color,
-      closedBuilder: (context, openContainer) {
-        return Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                NetworkCachedImage(
-                  imageUrl: seller.brandUrl,
-                  width: width,
-                  height: width,
-                  isColored: seller.live,
-                ),
-                SizedBox(height: 6),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        seller.brandName,
-                        style: AppTheme.textStyle.color50.w500
-                            .size(11)
-                            .lineHeight(1.5)
-                            .letterSpace(0.2),
-                      ),
-                      SizedBox(height: 6),
-                      AutoSizeText(
-                        seller.brandTagline,
-                        style: AppTheme.textStyle.color100.w700
-                            .size(13)
-                            .lineHeight(1.2),
-                        minFontSize: 11.0,
-                        maxFontSize: 13.0,
-                        maxLines: 1,
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-            Positioned(
-              bottom: 14,
-              left: 12,
-              child: Row(
+    const _borderRadius = BorderRadius.all(Radius.circular(8.0));
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: _borderRadius,
+        border: Border.all(color: AppTheme.color05, width: 0.5),
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(0.0, 4.0),
+            blurRadius: 3.0,
+            color: AppTheme.color25,
+          ),
+        ],
+      ),
+      child: OpenContainer(
+        closedElevation: 0.0,
+        closedShape: RoundedRectangleBorder(borderRadius: _borderRadius),
+        transitionDuration: Duration(milliseconds: 300),
+        closedColor: color,
+        closedBuilder: (context, openContainer) {
+          return Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset(
-                    'assets/images/truck.png',
-                    width: 16,
-                    height: 16,
-                    color: AppTheme.color50,
+                  NetworkCachedImage(
+                    imageUrl: seller.brandUrl,
+                    width: width,
+                    height: width,
+                    isColored: seller.live,
                   ),
-                  SizedBox(width: 6),
-                  Text(
-                    deliveryDay,
-                    maxLines: 1,
-                    style: AppTheme.textStyle.color50.w500
-                        .size(11)
-                        .lineHeight(1.1),
-                  ),
+                  SizedBox(height: 6),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          seller.brandName,
+                          style: AppTheme.textStyle.color50.w500
+                              .size(11)
+                              .lineHeight(1.5)
+                              .letterSpace(0.2),
+                        ),
+                        SizedBox(height: 6),
+                        AutoSizeText(
+                          seller.brandTagline,
+                          style: AppTheme.textStyle.color100.w700
+                              .size(13)
+                              .lineHeight(1.2),
+                          minFontSize: 11.0,
+                          maxFontSize: 13.0,
+                          maxLines: 1,
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
-            )
-          ],
-        );
-      },
-      openBuilder: (_, __) => ProductListScreen(seller),
+              Positioned(
+                bottom: 14,
+                left: 12,
+                child: Row(
+                  children: [
+                    Image.asset(
+                      'assets/images/truck.png',
+                      width: 16,
+                      height: 16,
+                      color: AppTheme.color50,
+                    ),
+                    SizedBox(width: 6),
+                    Text(
+                      deliveryDay,
+                      maxLines: 1,
+                      style: AppTheme.textStyle.color50.w500
+                          .size(11)
+                          .lineHeight(1.1),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          );
+        },
+        openBuilder: (_, __) => ProductListScreen(seller),
+      ),
     );
   }
 
