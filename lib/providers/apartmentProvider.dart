@@ -11,7 +11,6 @@ class ApartmentProvider with ChangeNotifier {
   List<BannerModel> _banners = [];
   List<SellerFilterModel> _filters = [];
   List<SellerModel> _closingTodaySellerList = [];
-  List<SellerModel> _newSellerList = [];
 
   final allFilter = SellerFilterModel(displayName: 'All', value: 'all');
   SellerFilterModel selectedFilter;
@@ -21,16 +20,12 @@ class ApartmentProvider with ChangeNotifier {
   bool get hasAvailableSellers => availableSellers > 0;
   bool get showAllSellers => selectedFilter == allFilter;
   bool get hasSellersClosingToday => _closingTodaySellerList.length > 0;
-  bool get hasNewSellers => _newSellerList.length > 0;
 
   int get notAvailableSellers => sellers.length - availableSellers;
   bool get hasNotAvailableSellers => notAvailableSellers > 0;
 
   UnmodifiableListView<SellerModel> get sellersClosingToday =>
       UnmodifiableListView(_closingTodaySellerList);
-
-  UnmodifiableListView<SellerModel> get newSellerList =>
-      UnmodifiableListView(_newSellerList);
 
   UnmodifiableListView<SellerModel> get sellers {
     if (selectedFilter == allFilter) {
@@ -63,7 +58,6 @@ class ApartmentProvider with ChangeNotifier {
     _sellerList.clear();
     _banners.clear();
     _filters.clear();
-    _newSellerList.clear();
     _closingTodaySellerList.clear();
     selectedFilter = allFilter;
     availableSellers = 0;
@@ -105,11 +99,6 @@ class ApartmentProvider with ChangeNotifier {
           if (seller.limitedDelivery &&
               seller.deliveryDate.difference(dateTime).inDays == 0) {
             _closingTodaySellerList.add(seller);
-          }
-
-          // Identify new sellers
-          if (seller.newlyLaunched) {
-            _newSellerList.add(seller);
           }
         }
         return seller;
