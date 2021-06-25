@@ -229,11 +229,26 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Last Day to Order',
-                  style: AppTheme.textStyle.w700.color100
-                      .size(20.0)
-                      .lineHeight(1.2),
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => _showLastDayOrderInfo(),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Last Day to Order',
+                        style: AppTheme.textStyle.w700.color100
+                            .size(20.0)
+                            .lineHeight(1.2),
+                      ),
+                      SizedBox(width: 8),
+                      Image.asset(
+                        'assets/images/info.png',
+                        width: 16,
+                        height: 16,
+                        color: AppTheme.color100,
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 24),
                 horizontalGrid(provider.sellersClosingToday, width, height),
@@ -267,6 +282,48 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ),
       ),
     );
+  }
+
+  void _showLastDayOrderInfo() {
+    Dialog dialog = Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.only(top: 24, left: 30, right: 30, bottom: 16),
+            child: Text(
+              'These merchants deliver only once or twice a week, so quickly order before Midnight 12 AM and get them delivered tomorrow',
+              style: AppTheme.textStyle.w500.color100.size(15).lineHeight(1.3),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Divider(
+            thickness: 1,
+            color: AppTheme.dividerColor,
+          ),
+          Container(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: FlatButton(
+              child: Text(
+                'Okay, Got it!',
+                style: AppTheme.textStyle.w600
+                    .size(15)
+                    // .lineHeight(1.3)
+                    .colored(AppTheme.primaryColor),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+
+    showDialog(context: context, builder: (context) => dialog);
   }
 
   Widget _banners(BuildContext context, ApartmentProvider provider) {
