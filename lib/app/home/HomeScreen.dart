@@ -28,7 +28,7 @@ class HomeScreen extends StatefulWidget {
 const double _horizontalPadding = 20;
 const double _crossAxisSpacing = 16;
 const int _gridColumns = 2;
-const double _heightDelta = 82;
+const double _heightDelta = 90;
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   bool _isLoading = false;
@@ -89,8 +89,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           appBar(context, provider),
           _banners(context, provider),
           provider.hasBanners ? SizedBox(height: 12) : SizedBox(height: 24),
-          _launchedSellersGrid(provider, width, height + 12),
-          _closingSellersGrid(provider, width, height + 12),
+          _launchedSellersGrid(provider, width, height),
+          _closingSellersGrid(provider, width, height),
           _filter(provider),
           _availableSellersGrid(provider, width, height),
           _notAvailableSellersGrid(provider, width, height),
@@ -234,15 +234,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Widget horizontalGrid(
       List<SellerModel> sellers, double width, double height) {
+    final _height = height + 12;
     return Container(
-      height: height,
+      height: _height,
       child: GridView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.only(bottom: _crossAxisSpacing),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 1,
-          childAspectRatio: height / width,
+          childAspectRatio: _height / width,
           mainAxisSpacing: _crossAxisSpacing,
         ),
         itemCount: sellers.length,
@@ -472,6 +473,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ? '${seller.deliveryDate.dateFormatDayMonthWeekday}'
         : 'Tomorrow';
 
+    final _sizedBox8 = SizedBox(height: 8);
+
     const _borderRadius = BorderRadius.all(Radius.circular(8.0));
     return Container(
       decoration: BoxDecoration(
@@ -491,64 +494,62 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         transitionDuration: Duration(milliseconds: 300),
         closedColor: color,
         closedBuilder: (context, openContainer) {
-          return Stack(
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  NetworkCachedImage(
-                    imageUrl: seller.brandUrl,
-                    width: width,
-                    height: width,
-                    isColored: seller.live,
-                  ),
-                  SizedBox(height: 6),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          seller.brandName,
-                          style: AppTheme.textStyle.color50.w500
-                              .size(11)
-                              .lineHeight(1.5)
-                              .letterSpace(0.2),
-                        ),
-                        SizedBox(height: 6),
-                        AutoSizeText(
-                          seller.brandTagline,
-                          style: AppTheme.textStyle.color100.w700
-                              .size(13)
-                              .lineHeight(1.2),
-                          minFontSize: 11.0,
-                          maxFontSize: 13.0,
-                          maxLines: 1,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+              NetworkCachedImage(
+                imageUrl: seller.brandUrl,
+                width: width,
+                height: width,
+                isColored: seller.live,
               ),
-              Positioned(
-                bottom: 14,
-                left: 12,
-                child: Row(
+              SizedBox(height: 6),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset(
-                      'assets/images/truck.png',
-                      width: 16,
-                      height: 16,
-                      color: AppTheme.color50,
-                    ),
-                    SizedBox(width: 6),
-                    Text(
-                      deliveryDay,
-                      maxLines: 1,
+                    AutoSizeText(
+                      seller.brandName,
                       style: AppTheme.textStyle.color50.w500
                           .size(11)
-                          .lineHeight(1.1),
+                          .lineHeight(1.5)
+                          .letterSpace(0.2),
+                      minFontSize: 8.0,
+                      maxFontSize: 11.0,
+                      maxLines: 1,
+                    ),
+                    _sizedBox8,
+                    AutoSizeText(
+                      seller.brandTagline,
+                      style: AppTheme.textStyle.color100.w700
+                          .size(13)
+                          .lineHeight(1.2),
+                      minFontSize: 11.0,
+                      maxFontSize: 13.0,
+                      maxLines: 1,
+                    ),
+                    _sizedBox8,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/truck.png',
+                          width: 16,
+                          height: 16,
+                          color: AppTheme.color50,
+                        ),
+                        SizedBox(width: 6),
+                        Text(
+                          deliveryDay,
+                          maxLines: 1,
+                          style: AppTheme.textStyle.color50.w500
+                              .size(11)
+                              .lineHeight(1.1),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
                   ],
                 ),
