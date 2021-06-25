@@ -87,9 +87,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         padding: EdgeInsets.zero,
         children: [
           appBar(context, provider),
+          _launchedSellersGrid(provider, width, height),
           _banners(context, provider),
           provider.hasBanners ? SizedBox(height: 12) : SizedBox(height: 24),
-          _launchedSellersGrid(provider, width, height),
           _closingSellersGrid(provider, width, height),
           _filter(provider),
           _availableSellersGrid(provider, width, height),
@@ -138,45 +138,81 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Widget appBar(BuildContext context, ApartmentProvider apartmentProvider) {
-    return Material(
-      child: Container(
-        width: double.infinity,
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppTheme.primaryColor,
-            borderRadius: BorderRadius.only(
-              bottomLeft: const Radius.circular(16.0),
-              bottomRight: const Radius.circular(16.0),
-            ),
-            image: DecorationImage(
-              image: AssetImage('assets/images/background.png'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          padding: const EdgeInsets.only(
-            left: 20.0,
-            top: 60.0,
-            right: 20.0,
-            bottom: 32.0,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+    final userProvider = Provider.of<UserProvider>(context);
+    return SafeArea(
+      child: Padding(
+        padding:
+            const EdgeInsets.only(top: 24, left: 20, right: 20, bottom: 32),
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () {
+            if (userProvider.isLoggedIn) {
+              SavedAddressesSelectionModal().show(context);
+            } else {
+              Navigator.pushNamed(
+                context,
+                SelectApartmenWhenNoUserLoggedInScreen.route,
+              );
+            }
+          },
+          child: Stack(
             children: [
-              Flexible(child: _selectApartment(context)),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 4.0,
-                  left: 6.0,
+              Card(
+                elevation: 4,
+                margin: const EdgeInsets.only(
+                    top: 14), // Required to display deliverying bar
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 18),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset('assets/images/pinGreen.png'),
+                      SizedBox(width: 9),
+                      Expanded(
+                        child: AutoSizeText(
+                          userProvider.isLoggedIn
+                              ? userProvider.house
+                              : userProvider.apartmentName,
+                          style: AppTheme.textStyle.w700.color100
+                              .size(20.0)
+                              .lineHeight(1.4),
+                          minFontSize: 15.0,
+                          maxFontSize: 20.0,
+                          maxLines: 1,
+                        ),
+                      ),
+                      SizedBox(width: 4),
+                      Icon(
+                        Icons.expand_more_sharp,
+                        size: 25,
+                        color: AppTheme.color100,
+                      ),
+                    ],
+                  ),
                 ),
-                child: Text(
-                  '${apartmentProvider.availableSellers} merchants delivering',
-                  style: AppTheme.textStyle.w700
-                      .size(13.0)
-                      .lineHeight(1.5)
-                      .colored(AppTheme.backgroundColor),
+              ),
+              Positioned(
+                left: 16,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppTheme.primaryColor,
+                    borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 6, horizontal: 14),
+                  child: Text(
+                    '${apartmentProvider.availableSellers}  MERCHANTS  DELIVERING',
+                    style: AppTheme.textStyle.w600
+                        .size(11.0)
+                        .colored(AppTheme.backgroundColor),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -200,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       .size(20.0)
                       .lineHeight(1.2),
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: 24),
                 horizontalGrid(provider.newSellerList, width, height),
               ],
             ),
@@ -224,7 +260,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       .size(20.0)
                       .lineHeight(1.2),
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: 24),
                 horizontalGrid(provider.sellersClosingToday, width, height),
               ],
             ),
@@ -237,11 +273,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final _height = height + 12;
     return Container(
       height: _height,
-      margin: const EdgeInsets.only(right: 20),
       child: GridView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.only(bottom: _crossAxisSpacing),
+        padding: EdgeInsets.only(
+            bottom: _crossAxisSpacing, right: _crossAxisSpacing),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 1,
           childAspectRatio: _height / width,
@@ -338,52 +374,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             ),
           )
         : Container();
-  }
-
-  Widget _selectApartment(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () {
-        if (userProvider.isLoggedIn) {
-          SavedAddressesSelectionModal().show(context);
-        } else {
-          Navigator.pushNamed(
-            context,
-            SelectApartmenWhenNoUserLoggedInScreen.route,
-          );
-        }
-      },
-      child: Row(
-        children: [
-          Image.asset(
-            'assets/images/pinFilled.png',
-            color: AppTheme.backgroundColor,
-          ),
-          SizedBox(width: 9),
-          Flexible(
-            child: AutoSizeText(
-              userProvider.isLoggedIn
-                  ? userProvider.house
-                  : userProvider.apartmentName,
-              style: AppTheme.textStyle.w700
-                  .size(20.0)
-                  .lineHeight(1.4)
-                  .colored(AppTheme.backgroundColor),
-              minFontSize: 17.0,
-              maxFontSize: 20.0,
-              maxLines: 2,
-            ),
-          ),
-          SizedBox(width: 4),
-          Icon(
-            Icons.expand_more_sharp,
-            size: 25,
-            color: AppTheme.backgroundColor,
-          ),
-        ],
-      ),
-    );
   }
 
   Widget _availableSellersGrid(
@@ -485,7 +475,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           BoxShadow(
             offset: Offset(0.0, 4.0),
             blurRadius: 3.0,
-            color: AppTheme.color25,
+            color: AppTheme.shadowColor,
           ),
         ],
       ),
