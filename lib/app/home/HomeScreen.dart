@@ -87,7 +87,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         padding: EdgeInsets.zero,
         children: [
           appBar(context, provider),
-          _launchedSellersGrid(provider, width, height),
           _banners(context, provider),
           _closingSellersGrid(provider, width, height),
           _filter(provider),
@@ -218,30 +217,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ),
       ),
     );
-  }
-
-  Widget _launchedSellersGrid(
-      ApartmentProvider provider, double width, double height) {
-    final color = AppTheme.backgroundColor;
-    return provider.hasNewSellers
-        ? Container(
-            padding: const EdgeInsets.only(left: 20, bottom: 48),
-            color: color,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Newly Launched',
-                  style: AppTheme.textStyle.w700.color100
-                      .size(20.0)
-                      .lineHeight(1.2),
-                ),
-                SizedBox(height: 24),
-                horizontalGrid(provider.newSellerList, width, height),
-              ],
-            ),
-          )
-        : Container();
   }
 
   Widget _closingSellersGrid(
