@@ -189,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final color = AppTheme.backgroundColor;
     return provider.hasNewSellers
         ? Container(
-            padding: const EdgeInsets.only(bottom: 24, left: 20),
+            padding: const EdgeInsets.only(bottom: 0, left: 20),
             color: color,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
