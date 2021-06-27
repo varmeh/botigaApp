@@ -28,7 +28,7 @@ class HomeScreen extends StatefulWidget {
 const double _horizontalPadding = 20;
 const double _crossAxisSpacing = 16;
 const int _gridColumns = 2;
-const double _heightDelta = 90;
+const double _heightDelta = 104;
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   bool _isLoading = false;
@@ -251,16 +251,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ),
                 ),
                 SizedBox(height: 24),
-                horizontalGrid(provider.sellersClosingToday, width, height),
+                _horizontalGrid(provider.sellersClosingToday, width, height),
               ],
             ),
           )
         : Container();
   }
 
-  Widget horizontalGrid(
+  Widget _horizontalGrid(
       List<SellerModel> sellers, double width, double height) {
-    final _height = height + 12;
+    final _height = height + 14;
     return Container(
       height: _height,
       child: GridView.builder(
@@ -533,25 +533,22 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AutoSizeText(
+                    Text(
                       seller.brandName,
                       style: AppTheme.textStyle.color50.w500
                           .size(11)
                           .lineHeight(1.5)
                           .letterSpace(0.2),
-                      minFontSize: 8.0,
-                      maxFontSize: 11.0,
                       maxLines: 1,
                     ),
                     _sizedBox8,
-                    AutoSizeText(
+                    Text(
                       seller.brandTagline,
                       style: AppTheme.textStyle.color100.w700
                           .size(13)
                           .lineHeight(1.2),
-                      minFontSize: 11.0,
-                      maxFontSize: 13.0,
-                      maxLines: 1,
+                      maxLines: 2,
+                      overflow: TextOverflow.fade,
                     ),
                     _sizedBox8,
                     Row(
