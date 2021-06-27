@@ -29,7 +29,7 @@ class SellerModel {
   final int deliveryMinOrder;
 
   final bool limitedDelivery;
-  final bool newlyLaunched;
+  final String overlayTag;
 
   final String address;
   final String fssaiLicenseNumber;
@@ -56,7 +56,7 @@ class SellerModel {
     this.deliveryMinOrder = 0,
     this.filters,
     this.limitedDelivery = false,
-    this.newlyLaunched = false,
+    this.overlayTag = '',
   });
 
   bool get hasDeliveryFee => deliveryFee > 0;
