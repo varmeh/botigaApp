@@ -625,24 +625,47 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Widget _shimmerWidget() {
-    final width = (MediaQuery.of(context).size.width -
-            _horizontalPadding * 2 -
-            _crossAxisSpacing) /
-        _gridColumns;
-    final height = width + _heightDelta;
-
     return ListView(
       padding: const EdgeInsets.all(0),
       children: [
-        ShimmerWidget(
-          child: Container(
-            width: double.infinity,
-            height: 125,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                bottomLeft: const Radius.circular(16.0),
-                bottomRight: const Radius.circular(16.0),
+        SafeArea(
+          child: ShimmerWidget(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 24, left: 20, right: 20, bottom: 48),
+              child: Stack(
+                children: [
+                  Card(
+                    elevation: 4,
+                    margin: const EdgeInsets.only(top: 14),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 18),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset('assets/images/pinGreen.png'),
+                          SizedBox(width: 9),
+                          Expanded(
+                            child: Text(
+                              '         ',
+                              maxLines: 1,
+                            ),
+                          ),
+                          SizedBox(width: 4),
+                          Icon(
+                            Icons.expand_more_sharp,
+                            size: 25,
+                            color: AppTheme.color100,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -721,25 +744,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             crossAxisCount: 2,
             mainAxisSpacing: _crossAxisSpacing * 2,
             crossAxisSpacing: _crossAxisSpacing,
-            childAspectRatio: width / height,
+            childAspectRatio: _aspectRatioVertical,
             physics: NeverScrollableScrollPhysics(),
             padding: EdgeInsets.only(bottom: _crossAxisSpacing),
             children: List.generate(
               4,
               (_) => ShimmerWidget(
-                child: OpenContainer(
-                  closedElevation: 2.0,
-                  closedShape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                  tappable: false,
-                  closedColor: AppTheme.backgroundColor,
-                  closedBuilder: (context, openContainer) {
-                    return SizedBox(
-                      width: width,
-                      height: height,
-                    );
-                  },
-                  openBuilder: (_, __) => Container(),
+                child: Card(
+                  elevation: 3.0,
+                  shadowColor: AppTheme.color25,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    side: BorderSide(color: AppTheme.color05, width: 0.5),
+                  ),
                 ),
               ),
             ),
