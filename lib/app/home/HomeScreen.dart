@@ -28,7 +28,7 @@ class HomeScreen extends StatefulWidget {
 const double _horizontalPadding = 20;
 const double _crossAxisSpacing = 16;
 const int _gridColumns = 2;
-const double _heightDelta = 124;
+const double _aspectRatioVertical = 0.6;
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   bool _isLoading = false;
@@ -80,7 +80,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               _horizontalPadding * 2 -
               _crossAxisSpacing) /
           _gridColumns;
-      final height = width + _heightDelta;
 
       final provider = Provider.of<ApartmentProvider>(context);
       return ListView(
@@ -88,10 +87,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         children: [
           appBar(context, provider),
           _banners(context, provider),
-          _closingSellersGrid(provider, width, height),
+          _closingSellersGrid(provider, width),
           _filter(provider),
-          _availableSellersGrid(provider, width, height),
-          _notAvailableSellersGrid(provider, width, height),
+          _availableSellersGrid(provider, width),
+          _notAvailableSellersGrid(provider, width),
           BrandingTile(
             'Thriving communities, empowering people',
             'Made by awesome team of Botiga',
@@ -219,8 +218,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  Widget _closingSellersGrid(
-      ApartmentProvider provider, double width, double height) {
+  Widget _closingSellersGrid(ApartmentProvider provider, double width) {
     return provider.hasSellersClosingToday
         ? Container(
             padding: const EdgeInsets.only(bottom: 48),
@@ -253,18 +251,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ),
                 ),
                 SizedBox(height: 24),
-                _horizontalGrid(provider.sellersClosingToday, width, height),
+                _horizontalGrid(provider.sellersClosingToday, width),
               ],
             ),
           )
         : Container();
   }
 
-  Widget _horizontalGrid(
-      List<SellerModel> sellers, double width, double height) {
-    final _height = height + 14;
+  Widget _horizontalGrid(List<SellerModel> sellers, double width) {
     return Container(
-      height: _height,
+      height: width + 124,
       child: GridView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
@@ -275,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 1,
-          childAspectRatio: _height / width,
+          childAspectRatio: 1.8,
           mainAxisSpacing: _crossAxisSpacing,
         ),
         itemCount: sellers.length,
@@ -283,7 +279,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           sellers[index],
           AppTheme.backgroundColor,
           width,
-          height,
         ),
       ),
     );
@@ -413,8 +408,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         : Container();
   }
 
-  Widget _availableSellersGrid(
-      ApartmentProvider provider, double width, double height) {
+  Widget _availableSellersGrid(ApartmentProvider provider, double width) {
     final color = AppTheme.backgroundColor;
 
     return !provider.hasAvailableSellers
@@ -432,7 +426,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: width / height,
+                childAspectRatio: _aspectRatioVertical,
                 mainAxisSpacing: _crossAxisSpacing * 2,
                 crossAxisSpacing: _crossAxisSpacing,
               ),
@@ -441,14 +435,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 provider.sellers[index],
                 color,
                 width,
-                height,
               ),
             ),
           );
   }
 
-  Widget _notAvailableSellersGrid(
-      ApartmentProvider provider, double width, double height) {
+  Widget _notAvailableSellersGrid(ApartmentProvider provider, double width) {
     final color = Color(0xfff7f7f7);
 
     return !provider.hasNotAvailableSellers
@@ -482,7 +474,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: width / height,
+                    childAspectRatio: _aspectRatioVertical,
                     mainAxisSpacing: _crossAxisSpacing * 2,
                     crossAxisSpacing: _crossAxisSpacing,
                   ),
@@ -491,15 +483,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     provider.sellers[provider.availableSellers + index],
                     color,
                     width,
-                    height,
                   ),
                 ),
               ],
             ));
   }
 
-  Widget _sellersGridTile(
-      SellerModel seller, Color color, double width, double height) {
+  Widget _sellersGridTile(SellerModel seller, Color color, double width) {
     final deliveryDay = seller.deliveryDate != null &&
             seller.deliveryDate.difference(DateTime.now()).inDays >= 1
         ? '${seller.deliveryDate.dateFormatDayMonthWeekday}'
