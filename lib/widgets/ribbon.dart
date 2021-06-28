@@ -8,12 +8,14 @@ class Ribbon extends StatelessWidget {
   final Color ribbonColor;
   final Color ribbonBackColor;
   final double leftMargin;
+  final bool isColored;
 
   Ribbon({
     @required this.text,
     @required this.ribbonColor,
     @required this.ribbonBackColor,
     this.leftMargin = 7,
+    this.isColored = true,
   });
 
   @override
@@ -21,31 +23,37 @@ class Ribbon extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SkeletonAnimation(
-          shimmerDuration: 2000,
-          child: Container(
-            color: ribbonColor,
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            child: Center(
-              child: Text(
-                text.toUpperCase(),
-                style: AppTheme.textStyle.w600
-                    .size(10)
-                    .letterSpace(0.5)
-                    .colored(AppTheme.backgroundColor),
-              ),
-            ),
-          ),
-        ),
+        isColored
+            ? SkeletonAnimation(
+                shimmerDuration: 2000,
+                child: _ribbonBar(),
+              )
+            : _ribbonBar(),
         ClipPath(
           clipper: LeftTriangleClipper(),
           child: Container(
             height: leftMargin + 0.5,
             width: leftMargin,
-            color: ribbonBackColor,
+            color: isColored ? ribbonBackColor : AppTheme.color50,
           ),
         ),
       ],
+    );
+  }
+
+  Widget _ribbonBar() {
+    return Container(
+      color: isColored ? ribbonColor : AppTheme.color25,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      child: Center(
+        child: Text(
+          text.toUpperCase(),
+          style: AppTheme.textStyle.w600
+              .size(10)
+              .letterSpace(0.5)
+              .colored(AppTheme.backgroundColor),
+        ),
+      ),
     );
   }
 }

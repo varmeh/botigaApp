@@ -597,6 +597,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           text: 'New',
           ribbonColor: Color(0xfffa7b09),
           ribbonBackColor: Color(0xff8d4504),
+          isColored: seller.live,
         ),
       );
     } else if (seller.overlayTag.isNotNullAndEmpty) {
@@ -607,6 +608,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           text: seller.overlayTag,
           ribbonColor: AppTheme.color100,
           ribbonBackColor: Color(0xff3e3b3b),
+          isColored: seller.live,
         ),
       );
     } else {
