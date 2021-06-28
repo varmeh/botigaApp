@@ -581,20 +581,37 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 )
               ],
             ),
-            seller.overlayTag.isNotNullAndEmpty
-                ? Positioned(
-                    top: 12,
-                    left: -7,
-                    child: Ribbon(
-                      text: seller.overlayTag.toUpperCase(),
-                      ribbonColor: AppTheme.color100,
-                      ribbonBackColor: Color(0xff3e3b3b),
-                    ))
-                : Container(),
+            _ribbon(seller),
           ],
         ),
       ),
     );
+  }
+
+  Widget _ribbon(SellerModel seller) {
+    if (seller.newlyLaunched) {
+      return Positioned(
+        top: 12,
+        left: -7,
+        child: Ribbon(
+          text: 'New',
+          ribbonColor: Color(0xfffa7b09),
+          ribbonBackColor: Color(0xff8d4504),
+        ),
+      );
+    } else if (seller.overlayTag.isNotNullAndEmpty) {
+      return Positioned(
+        top: 12,
+        left: -7,
+        child: Ribbon(
+          text: seller.overlayTag,
+          ribbonColor: AppTheme.color100,
+          ribbonBackColor: Color(0xff3e3b3b),
+        ),
+      );
+    } else {
+      return Container();
+    }
   }
 
   Widget _shimmerWidget() {

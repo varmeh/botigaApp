@@ -29,6 +29,7 @@ SellerModel _$SellerModelFromJson(Map<String, dynamic> json) {
     deliveryMinOrder: json['deliveryMinOrder'] as int,
     filters: (json['filters'] as List)?.map((e) => e as String)?.toList(),
     limitedDelivery: json['limitedDelivery'] as bool,
+    newlyLaunched: json['newlyLaunched'] as bool,
     overlayTag: json['overlayTag'] as String,
   );
 }
@@ -51,6 +52,7 @@ Map<String, dynamic> _$SellerModelToJson(SellerModel instance) =>
       'deliveryFee': instance.deliveryFee,
       'deliveryMinOrder': instance.deliveryMinOrder,
       'limitedDelivery': instance.limitedDelivery,
+      'newlyLaunched': instance.newlyLaunched,
       'overlayTag': instance.overlayTag,
       'address': instance.address,
       'fssaiLicenseNumber': instance.fssaiLicenseNumber,

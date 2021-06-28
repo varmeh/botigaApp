@@ -7,11 +7,13 @@ class Ribbon extends StatelessWidget {
   final String text;
   final Color ribbonColor;
   final Color ribbonBackColor;
+  final double leftMargin;
 
   Ribbon({
     @required this.text,
     @required this.ribbonColor,
     @required this.ribbonBackColor,
+    this.leftMargin = 7,
   });
 
   @override
@@ -25,7 +27,7 @@ class Ribbon extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             child: Center(
               child: Text(
-                text,
+                text.toUpperCase(),
                 style: AppTheme.textStyle.w600
                     .size(10)
                     .letterSpace(0.5)
@@ -37,8 +39,8 @@ class Ribbon extends StatelessWidget {
         ClipPath(
           clipper: LeftTriangleClipper(),
           child: Container(
-            height: 7.5,
-            width: 7,
+            height: leftMargin + 0.5,
+            width: leftMargin,
             color: ribbonBackColor,
           ),
         ),

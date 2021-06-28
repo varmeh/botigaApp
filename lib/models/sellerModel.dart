@@ -29,6 +29,7 @@ class SellerModel {
   final int deliveryMinOrder;
 
   final bool limitedDelivery;
+  final bool newlyLaunched;
   final String overlayTag;
 
   final String address;
@@ -56,6 +57,7 @@ class SellerModel {
     this.deliveryMinOrder = 0,
     this.filters,
     this.limitedDelivery = false,
+    this.newlyLaunched = false,
     this.overlayTag = '',
   });
 
