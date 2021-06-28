@@ -506,8 +506,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ? '${seller.deliveryDate.dateFormatDayMonthWeekday}'
         : 'Tomorrow';
 
-    final _sizedBox8 = SizedBox(height: 8);
-
     const _radius = Radius.circular(8.0);
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -542,52 +540,53 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     isColored: seller.live,
                   ),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 12.0, right: 12, top: 12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        seller.brandName,
-                        style: AppTheme.textStyle.color50.w500
-                            .size(11)
-                            .lineHeight(1.5)
-                            .letterSpace(0.2),
-                        maxLines: 1,
-                      ),
-                      _sizedBox8,
-                      Text(
-                        seller.brandTagline,
-                        style: AppTheme.textStyle.color100.w700
-                            .size(13)
-                            .lineHeight(1.2),
-                        maxLines: 2,
-                      ),
-                      _sizedBox8,
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/truck.png',
-                            width: 16,
-                            height: 16,
-                            color: AppTheme.color50,
-                          ),
-                          SizedBox(width: 6),
-                          Text(
-                            deliveryDay,
-                            maxLines: 1,
-                            style: AppTheme.textStyle.color50.w500
-                                .size(11)
-                                .lineHeight(1.1),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ],
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 12.0, right: 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          seller.brandName,
+                          style: AppTheme.textStyle.color50.w500
+                              .size(11)
+                              .lineHeight(1.5)
+                              .letterSpace(0.2),
+                          maxLines: 1,
+                        ),
+                        Text(
+                          seller.brandTagline,
+                          style: AppTheme.textStyle.color100.w700
+                              .size(13)
+                              .lineHeight(1.2),
+                          maxLines: 2,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/truck.png',
+                              width: 16,
+                              height: 16,
+                              color: AppTheme.color50,
+                            ),
+                            SizedBox(width: 6),
+                            Text(
+                              deliveryDay,
+                              maxLines: 1,
+                              style: AppTheme.textStyle.color50.w500
+                                  .size(11)
+                                  .lineHeight(1.1),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                )
+                ),
+                SizedBox(height: 8)
               ],
             ),
             _ribbon(seller),
