@@ -59,6 +59,7 @@ class _OrderListScreenState extends State<OrderListScreen>
     } else if (_error != null) {
       return HttpServiceExceptionWidget(
         exception: _error,
+        screenName: 'Orders',
         onTap: () {
           Navigator.pushReplacement(
             context,

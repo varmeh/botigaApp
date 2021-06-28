@@ -64,6 +64,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
             : _error != null
                 ? HttpServiceExceptionWidget(
                     exception: _error,
+                    screenName: 'ProductList',
                     onTap: () {
                       _getProducts();
                     },

@@ -64,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     } else if (_error != null) {
       return HttpServiceExceptionWidget(
         exception: _error,
+        screenName: 'Home',
         onTap: () {
           // Rebuild screen
           Navigator.pushReplacement(

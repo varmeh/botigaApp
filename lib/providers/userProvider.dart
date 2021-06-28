@@ -183,4 +183,16 @@ class UserProvider with ChangeNotifier {
       'house': house,
     });
   }
+
+  Future<void> appException(Exception exception, String screen) async {
+    await Http.patch('/api/user/app/exception', body: {
+      'error': exception.toString(),
+      'screen': screen,
+      'name': '$firstName $lastName',
+      'phone': phone,
+      'house': house,
+      'apartmentId': apartmentId,
+      'apartmentName': apartmentName
+    });
+  }
 }

@@ -46,6 +46,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
           : _error != null
               ? HttpServiceExceptionWidget(
                   exception: _error,
+                  screenName: 'ProductSearch',
                   onTap: () {
                     _getProducts();
                   },
