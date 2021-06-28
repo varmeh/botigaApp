@@ -22,6 +22,7 @@ class Ribbon extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SkeletonAnimation(
+          shimmerDuration: 2000,
           child: Container(
             color: ribbonColor,
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
