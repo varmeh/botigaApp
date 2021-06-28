@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -674,8 +673,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           child: Container(
             width: double.infinity,
             height: 136,
-            margin:
-                const EdgeInsets.only(left: 32, right: 32, top: 24, bottom: 8),
+            margin: const EdgeInsets.only(left: 32, right: 32, bottom: 8),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(12.0)),
@@ -744,7 +742,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             crossAxisCount: 2,
             mainAxisSpacing: _crossAxisSpacing * 2,
             crossAxisSpacing: _crossAxisSpacing,
-            childAspectRatio: _aspectRatioVertical,
+            childAspectRatio: 0.7,
             physics: NeverScrollableScrollPhysics(),
             padding: EdgeInsets.only(bottom: _crossAxisSpacing),
             children: List.generate(
