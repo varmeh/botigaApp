@@ -222,33 +222,35 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Widget _closingSellersGrid(
       ApartmentProvider provider, double width, double height) {
-    final color = AppTheme.backgroundColor;
     return provider.hasSellersClosingToday
         ? Container(
-            padding: const EdgeInsets.only(bottom: 48, left: 20),
-            color: color,
+            padding: const EdgeInsets.only(bottom: 48),
+            color: AppTheme.backgroundColor,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () => _showLastDayOrderInfo(),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Last Day to Order',
-                        style: AppTheme.textStyle.w700.color100
-                            .size(20.0)
-                            .lineHeight(1.2),
-                      ),
-                      SizedBox(width: 8),
-                      Image.asset(
-                        'assets/images/info.png',
-                        width: 16,
-                        height: 16,
-                        color: AppTheme.color100,
-                      ),
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Last Day to Order',
+                          style: AppTheme.textStyle.w700.color100
+                              .size(20.0)
+                              .lineHeight(1.2),
+                        ),
+                        SizedBox(width: 8),
+                        Image.asset(
+                          'assets/images/info.png',
+                          width: 16,
+                          height: 16,
+                          color: AppTheme.color100,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(height: 24),
@@ -268,7 +270,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.only(
-            bottom: _crossAxisSpacing, right: _crossAxisSpacing),
+          bottom: _crossAxisSpacing,
+          right: _crossAxisSpacing,
+          left: 20,
+        ),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 1,
           childAspectRatio: _height / width,
@@ -416,16 +421,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return !provider.hasAvailableSellers
         ? Container()
         : Container(
-            padding: const EdgeInsets.only(
-              // top: 32,
-              left: _horizontalPadding,
-              right: _horizontalPadding,
-              bottom: 20,
-            ),
+            padding: const EdgeInsets.only(bottom: 20),
             color: color,
             child: GridView.builder(
               shrinkWrap: true,
-              padding: EdgeInsets.only(bottom: _crossAxisSpacing),
+              padding: EdgeInsets.only(
+                bottom: _crossAxisSpacing,
+                left: _horizontalPadding,
+                right: _horizontalPadding,
+              ),
               physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -453,24 +457,29 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         : Container(
             padding: const EdgeInsets.only(
               top: 24,
-              left: _horizontalPadding,
-              right: _horizontalPadding,
               bottom: 20,
             ),
             color: color,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Not accepting orders',
-                  style: AppTheme.textStyle.w700.color100
-                      .size(20.0)
-                      .lineHeight(1.2),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Text(
+                    'Not accepting orders',
+                    style: AppTheme.textStyle.w700.color100
+                        .size(20.0)
+                        .lineHeight(1.2),
+                  ),
                 ),
                 SizedBox(height: 12),
                 GridView.builder(
                   shrinkWrap: true,
-                  padding: EdgeInsets.only(bottom: _crossAxisSpacing),
+                  padding: EdgeInsets.only(
+                    bottom: _crossAxisSpacing,
+                    left: _horizontalPadding,
+                    right: _horizontalPadding,
+                  ),
                   physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
