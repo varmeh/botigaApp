@@ -13,7 +13,8 @@ import '../../widgets/index.dart'
         BannerCarosuel,
         TapBannerModel,
         ShimmerWidget,
-        NetworkCachedImage;
+        NetworkCachedImage,
+        Ribbon;
 import '../location/index.dart'
     show SelectApartmenWhenNoUserLoggedInScreen, SavedAddressesSelectionModal;
 import '../tabbar.dart';
@@ -28,7 +29,7 @@ class HomeScreen extends StatefulWidget {
 const double _horizontalPadding = 20;
 const double _crossAxisSpacing = 16;
 const int _gridColumns = 2;
-const double _heightDelta = 104;
+const double _heightDelta = 124;
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   bool _isLoading = false;
@@ -498,86 +499,100 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     final _sizedBox8 = SizedBox(height: 8);
 
-    const _borderRadius = BorderRadius.all(Radius.circular(8.0));
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: _borderRadius,
-        border: Border.all(color: AppTheme.color05, width: 0.5),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0.0, 4.0),
-            blurRadius: 3.0,
-            color: AppTheme.shadowColor,
-          ),
-        ],
+    const _radius = Radius.circular(8.0);
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => ProductListScreen(seller)),
       ),
-      child: OpenContainer(
-        closedElevation: 0.0,
-        closedShape: RoundedRectangleBorder(borderRadius: _borderRadius),
-        transitionDuration: Duration(milliseconds: 300),
-        closedColor: color,
-        closedBuilder: (context, openContainer) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              NetworkCachedImage(
-                imageUrl: seller.brandUrl,
-                width: width,
-                height: width,
-                isColored: seller.live,
-              ),
-              SizedBox(height: 6),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      seller.brandName,
-                      style: AppTheme.textStyle.color50.w500
-                          .size(11)
-                          .lineHeight(1.5)
-                          .letterSpace(0.2),
-                      maxLines: 1,
-                    ),
-                    _sizedBox8,
-                    Text(
-                      seller.brandTagline,
-                      style: AppTheme.textStyle.color100.w700
-                          .size(13)
-                          .lineHeight(1.2),
-                      maxLines: 2,
-                      overflow: TextOverflow.fade,
-                    ),
-                    _sizedBox8,
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/truck.png',
-                          width: 16,
-                          height: 16,
-                          color: AppTheme.color50,
-                        ),
-                        SizedBox(width: 6),
-                        Text(
-                          deliveryDay,
-                          maxLines: 1,
-                          style: AppTheme.textStyle.color50.w500
-                              .size(11)
-                              .lineHeight(1.1),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ],
+      child: Card(
+        elevation: 3.0,
+        shadowColor: AppTheme.color25,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          side: BorderSide(color: AppTheme.color05, width: 0.5),
+        ),
+        child: Stack(
+          overflow: Overflow.visible,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    borderRadius:
+                        BorderRadius.only(topLeft: _radius, topRight: _radius),
+                  ),
+                  child: NetworkCachedImage(
+                    imageUrl: seller.brandUrl,
+                    width: width,
+                    height: width,
+                    isColored: seller.live,
+                  ),
                 ),
-              )
-            ],
-          );
-        },
-        openBuilder: (_, __) => ProductListScreen(seller),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 12.0, right: 12, top: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        seller.brandName,
+                        style: AppTheme.textStyle.color50.w500
+                            .size(11)
+                            .lineHeight(1.5)
+                            .letterSpace(0.2),
+                        maxLines: 1,
+                      ),
+                      _sizedBox8,
+                      Text(
+                        seller.brandTagline,
+                        style: AppTheme.textStyle.color100.w700
+                            .size(13)
+                            .lineHeight(1.2),
+                        maxLines: 2,
+                      ),
+                      _sizedBox8,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/truck.png',
+                            width: 16,
+                            height: 16,
+                            color: AppTheme.color50,
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            deliveryDay,
+                            maxLines: 1,
+                            style: AppTheme.textStyle.color50.w500
+                                .size(11)
+                                .lineHeight(1.1),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            seller.overlayTag.isNotNullAndEmpty
+                ? Positioned(
+                    top: 12,
+                    left: -7,
+                    child: Ribbon(
+                      text: seller.overlayTag.toUpperCase(),
+                      ribbonColor: AppTheme.color100,
+                      ribbonBackColor: Color(0xff3e3b3b),
+                    ))
+                : Container(),
+          ],
+        ),
       ),
     );
   }

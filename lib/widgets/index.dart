@@ -23,3 +23,4 @@ export 'fssaiTile.dart';
 export 'bannerCarousel.dart';
 export 'shimmerWidget.dart';
 export 'networkCachedImage.dart';
+export 'ribbon.dart';
