@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         children: [
           appBar(context, provider),
           _banners(context, provider),
-          _closingSellersGrid(provider),
+          _closingSellersGrid(provider, width),
           _filter(provider),
           _availableSellersGrid(provider, width),
           _notAvailableSellersGrid(provider, width),
@@ -219,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  Widget _closingSellersGrid(ApartmentProvider provider) {
+  Widget _closingSellersGrid(ApartmentProvider provider, double width) {
     return provider.hasSellersClosingToday
         ? Container(
             padding: const EdgeInsets.only(bottom: 48),
@@ -252,15 +252,23 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ),
                 ),
                 SizedBox(height: 24),
-                _horizontalGrid(provider.sellersClosingToday),
+                _horizontalGrid(provider.sellersClosingToday, width),
               ],
             ),
           )
         : Container();
   }
 
-  Widget _horizontalGrid(List<SellerModel> sellers) {
-    const _width = 160.0;
+  Widget _horizontalGrid(List<SellerModel> sellers, double width) {
+    double _width = 160.0;
+    double _childAspectRatio = 1.65;
+
+    // Changing Width & Aspect Ratio for smaller devices
+    if (width < _width) {
+      _width = width;
+      _childAspectRatio = 1.75;
+    }
+
     return Container(
       height: _width + 132,
       child: GridView.builder(
@@ -273,8 +281,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 1,
-          childAspectRatio: 1.65,
-          mainAxisSpacing: _crossAxisSpacing,
+          childAspectRatio: _childAspectRatio,
+          mainAxisSpacing: 8,
         ),
         itemCount: sellers.length,
         itemBuilder: (context, index) => _sellersGridTile(
