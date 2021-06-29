@@ -272,7 +272,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 1,
-          childAspectRatio: 1.8,
+          childAspectRatio: 1.65,
           mainAxisSpacing: _crossAxisSpacing,
         ),
         itemCount: sellers.length,
