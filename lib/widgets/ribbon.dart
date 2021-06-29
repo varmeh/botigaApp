@@ -25,7 +25,7 @@ class Ribbon extends StatelessWidget {
       children: [
         isColored
             ? SkeletonAnimation(
-                shimmerDuration: 2000,
+                shimmerDuration: 3000,
                 child: _ribbonBar(),
               )
             : _ribbonBar(),
