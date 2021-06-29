@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         children: [
           appBar(context, provider),
           _banners(context, provider),
-          _closingSellersGrid(provider, width),
+          _closingSellersGrid(provider),
           _filter(provider),
           _availableSellersGrid(provider, width),
           _notAvailableSellersGrid(provider, width),
@@ -219,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  Widget _closingSellersGrid(ApartmentProvider provider, double width) {
+  Widget _closingSellersGrid(ApartmentProvider provider) {
     return provider.hasSellersClosingToday
         ? Container(
             padding: const EdgeInsets.only(bottom: 48),
@@ -252,16 +252,17 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ),
                 ),
                 SizedBox(height: 24),
-                _horizontalGrid(provider.sellersClosingToday, width),
+                _horizontalGrid(provider.sellersClosingToday),
               ],
             ),
           )
         : Container();
   }
 
-  Widget _horizontalGrid(List<SellerModel> sellers, double width) {
+  Widget _horizontalGrid(List<SellerModel> sellers) {
+    const _width = 160.0;
     return Container(
-      height: width + 124,
+      height: _width + 132,
       child: GridView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
@@ -272,14 +273,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 1,
-          childAspectRatio: 1.65,
+          childAspectRatio: 1.5,
           mainAxisSpacing: _crossAxisSpacing,
         ),
         itemCount: sellers.length,
         itemBuilder: (context, index) => _sellersGridTile(
           sellers[index],
           AppTheme.backgroundColor,
-          width,
+          _width,
         ),
       ),
     );
