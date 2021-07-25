@@ -13,6 +13,8 @@ class CartBottomModal extends StatelessWidget {
         .size(15)
         .lineHeight(1.3)
         .colored(AppTheme.backgroundColor);
+
+    const sizedBox = SizedBox(width: 8.0);
     return Consumer<CartProvider>(
       builder: (context, provider, child) {
         if (provider.numberOfItemsInCart <= 0) {
@@ -20,7 +22,7 @@ class CartBottomModal extends StatelessWidget {
         } else {
           return OpenContainerBottomModal(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -31,13 +33,14 @@ class CartBottomModal extends StatelessWidget {
                         color: AppTheme.backgroundColor,
                         size: 20,
                       ),
-                      SizedBox(width: 16.0),
+                      sizedBox,
                       Text(
                         '${provider.numberOfItemsInCart} Item${provider.numberOfItemsInCart > 1 ? 's' : ''} • ₹${provider.totalAmount}',
                         style: textStyle,
                       ),
                     ],
                   ),
+                  sizedBox,
                   Text(
                     'GO TO CART',
                     style: textStyle,

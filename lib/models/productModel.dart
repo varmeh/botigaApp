@@ -16,6 +16,7 @@ class ProductModel {
   final String tag;
   final String imageUrlLarge;
   List<String> secondaryImageUrls;
+  final bool recommended;
 
   ProductModel({
     @required this.id,
@@ -29,6 +30,7 @@ class ProductModel {
     this.imageUrl,
     this.imageUrlLarge,
     this.secondaryImageUrls,
+    this.recommended = false,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) =>

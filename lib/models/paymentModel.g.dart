@@ -22,4 +22,5 @@ Map<String, dynamic> _$PaymentModelToJson(PaymentModel instance) =>
       'paymentId': instance.paymentId,
       'status': instance.status,
       'paymentMode': instance.paymentMode,
+      'description': instance.description,
     };

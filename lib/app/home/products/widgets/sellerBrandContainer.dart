@@ -14,7 +14,7 @@ class SellerBrandContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     var _deliverySchedule = (seller.deliveryDate != null &&
             seller.deliveryDate.difference(DateTime.now()).inDays >= 1)
-        ? 'Delivery by ${seller.deliveryDate.dateFormatDayDateMonth}'
+        ? '${seller.deliveryDate.dateFormatDayDateMonth}'
         : 'Delivery Tomorrow';
 
     if (seller.deliverySlot.isNotNullAndEmpty) {

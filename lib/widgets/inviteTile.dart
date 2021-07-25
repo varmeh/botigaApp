@@ -7,7 +7,7 @@ class InviteTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+      margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       decoration: BoxDecoration(
         color: AppTheme.backgroundColor,
@@ -35,7 +35,7 @@ class InviteTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Share with neighbours',
+                    'Invite your friends',
                     style: AppTheme.textStyle.w700
                         .size(17.0)
                         .lineHeight(1.3)
@@ -43,7 +43,7 @@ class InviteTile extends StatelessWidget {
                   ),
                   SizedBox(height: 8.0),
                   Text(
-                    'Help your neighbours explore products they might love :)',
+                    'Please help spread the word',
                     style: AppTheme.textStyle.w500
                         .size(13.0)
                         .lineHeight(1.5)
@@ -53,13 +53,13 @@ class InviteTile extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       ShareModal(
-                        title: 'SHARE WITH YOUR NEIGHBOURS',
+                        title: 'Invite Your Friends',
                         message:
-                            'Hey there!\nI am using Botiga to order wonderful products from our apartment\'s hand-picked merchants.\nDownload it here to experience the new way of shopping at home.\nhttp://onelink.to/husbnk',
+                            'Hey\nI buy amazing products from Best Sellers operating in our apartment\nOrder till Mid Night 12AM & products delivered doorstep, usually next day.\nIt\'s so convenient. Try it.\nhttps://bit.ly/botigaApp',
                       ).show(context);
                     },
                     child: Text(
-                      'Share Now',
+                      'Invite Now',
                       style: AppTheme.textStyle.w600
                           .size(15)
                           .lineHeight(1.5)

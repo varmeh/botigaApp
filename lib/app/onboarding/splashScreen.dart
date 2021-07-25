@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/index.dart' show CartProvider, AuthUtil;
 import '../../theme/index.dart';
-import '../../util/index.dart' show KeyStore;
+import '../../util/index.dart' show KeyStore, Http;
 import '../tabbar.dart';
 import 'onboarding.dart';
 
@@ -79,6 +79,9 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> _getProfile() async {
     try {
+      if (Http.tokenNotExists) {
+        await Http.fetchToken();
+      }
       await AuthUtil.getProfile(context);
       _hasProfile = true;
     } catch (_) {} finally {

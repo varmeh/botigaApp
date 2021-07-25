@@ -39,14 +39,11 @@ class _TabbarState extends State<Tabbar> with WidgetsBindingObserver {
 
   void changeTab(int index) {
     setState(() => _selectedIndex = index);
-    setStatusBarBrightness();
   }
 
   void setStatusBarBrightness() {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarBrightness:
-          _selectedIndex == 0 ? Brightness.dark : Brightness.light,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarBrightness: Brightness.light));
   }
 
   @override

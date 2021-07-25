@@ -1,26 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../theme/index.dart';
-
-import './customCacheManager.dart';
-
 /*
  * Displays cached network image 
  * In case, imageUrl is null or image does not exist at url
  * it shows placeholder image
 */
 
-class CircleNetworkAvatar extends StatelessWidget {
+import './customCacheManager.dart';
+
+class NetworkCachedImage extends StatelessWidget {
   final String imageUrl;
-  final double radius;
+  final double width;
+  final double height;
   final String imagePlaceholder;
   final bool isColored;
 
-  CircleNetworkAvatar({
+  NetworkCachedImage({
     @required this.imageUrl,
-    this.imagePlaceholder = 'assets/images/avatar.png',
-    this.radius = 24.0,
+    @required this.width,
+    @required this.height,
+    this.imagePlaceholder = 'assets/images/homePlaceholder.png',
     this.isColored = false,
   });
 
@@ -32,10 +32,11 @@ class CircleNetworkAvatar extends StatelessWidget {
   Widget _networkImage() {
     return CachedNetworkImage(
       colorBlendMode: BlendMode.saturation,
+      fadeInDuration: Duration(milliseconds: 300),
       imageBuilder: (context, imageProvider) {
         return Container(
-          width: 120.0,
-          height: 90.0,
+          width: this.width,
+          height: this.height,
           decoration: BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.fill,
@@ -50,13 +51,12 @@ class CircleNetworkAvatar extends StatelessWidget {
                     ),
               image: imageProvider,
             ),
-            borderRadius: BorderRadius.circular(this.radius),
           ),
         );
       },
       fit: BoxFit.cover,
-      width: this.radius * 2,
-      height: this.radius * 2,
+      width: width,
+      height: height,
       placeholder: (_, __) => _placeholderImage(),
       imageUrl: this.imageUrl,
       cacheManager: customCacheManager,
@@ -64,10 +64,7 @@ class CircleNetworkAvatar extends StatelessWidget {
   }
 
   Widget _placeholderImage() {
-    return CircleAvatar(
-      backgroundColor: AppTheme.color05,
-      backgroundImage: AssetImage(this.imagePlaceholder),
-      radius: this.radius,
-    );
+    return Image.asset(this.imagePlaceholder,
+        width: this.width, height: this.height);
   }
 }

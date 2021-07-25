@@ -20,12 +20,17 @@ SellerModel _$SellerModelFromJson(Map<String, dynamic> json) {
     deliveryDate: json['deliveryDate'] == null
         ? null
         : DateTime.parse(json['deliveryDate'] as String),
+    homeImageUrl: json['homeImageUrl'] as String,
+    homeTagline: json['homeTagline'] as String,
     deliverySlot: json['deliverySlot'] as String,
     address: json['address'] as String,
     fssaiLicenseNumber: json['fssaiLicenseNumber'] as String,
     deliveryFee: json['deliveryFee'] as int,
     deliveryMinOrder: json['deliveryMinOrder'] as int,
     filters: (json['filters'] as List)?.map((e) => e as String)?.toList(),
+    limitedDelivery: json['limitedDelivery'] as bool,
+    newlyLaunched: json['newlyLaunched'] as bool,
+    overlayTag: json['overlayTag'] as String,
   );
 }
 
@@ -36,6 +41,8 @@ Map<String, dynamic> _$SellerModelToJson(SellerModel instance) =>
       'tagline': instance.tagline,
       'businessCategory': instance.businessCategory,
       'brandImageUrl': instance.brandImageUrl,
+      'homeImageUrl': instance.homeImageUrl,
+      'homeTagline': instance.homeTagline,
       'live': instance.live,
       'phone': instance.phone,
       'whatsapp': instance.whatsapp,
@@ -44,6 +51,9 @@ Map<String, dynamic> _$SellerModelToJson(SellerModel instance) =>
       'deliverySlot': instance.deliverySlot,
       'deliveryFee': instance.deliveryFee,
       'deliveryMinOrder': instance.deliveryMinOrder,
+      'limitedDelivery': instance.limitedDelivery,
+      'newlyLaunched': instance.newlyLaunched,
+      'overlayTag': instance.overlayTag,
       'address': instance.address,
       'fssaiLicenseNumber': instance.fssaiLicenseNumber,
       'filters': instance.filters,

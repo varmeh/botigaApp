@@ -36,7 +36,8 @@ class _ProductTileState extends State<ProductTile> {
 
   @override
   Widget build(BuildContext context) {
-    final _hasMrp = widget.product.mrp != null;
+    final _hasMrp = widget.product.mrp != null &&
+        (widget.product.mrp - widget.product.price > 0);
     final _hasTag = widget.product.tag.isNotNullAndEmpty;
     final _hasZoomImages = widget.product.imageUrlLarge.isNotNullAndEmpty;
     final _ribbonColor = Color(0xfff49302);
@@ -191,12 +192,18 @@ class _ProductTileState extends State<ProductTile> {
                         Positioned(
                           bottom: _hasImage ? 0 : 40,
                           left: 20,
-                          child: Material(
-                            elevation: 4,
-                            color: Colors.transparent,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(6.0)),
-                            borderOnForeground: false,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(6.0)),
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0.0, 4.0),
+                                  blurRadius: 3.0,
+                                  color: AppTheme.color25,
+                                ),
+                              ],
+                            ),
                             child: ProductSelectionButton(
                               seller: widget.seller,
                               product: widget.product,

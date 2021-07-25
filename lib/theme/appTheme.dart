@@ -16,4 +16,6 @@ class AppTheme {
   static final color50 = Color.fromRGBO(18, 23, 21, 0.5);
   static final color25 = Color.fromRGBO(18, 23, 21, 0.25);
   static final color05 = Color.fromRGBO(18, 23, 21, 0.05);
+
+  static final shadowColor = Color.fromRGBO(17, 14, 14, 0.15);
 }

@@ -13,7 +13,6 @@ import '../../widgets/index.dart'
         Toast,
         PassiveButton,
         ActiveButton,
-        ShareModal,
         PolicyWebiewScreen;
 import '../auth/index.dart' show LoginScreen;
 import '../location/index.dart' show ManageAddressesScreen;
@@ -62,8 +61,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _addresses(provider),
               divider,
               _support(provider),
-              divider,
-              _share(),
               divider,
               provider.isLoggedIn ? _logout(provider) : Container(),
               _appVersion(appVersion),
@@ -330,55 +327,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             'https://s3.ap-south-1.amazonaws.com/products.image.prod/faqCustomers.html',
           ),
           SizedBox(height: 8),
-        ],
-      ),
-    );
-  }
-
-  Widget _share() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Image.asset(
-                'assets/images/store.png',
-                color: AppTheme.color100,
-              ),
-              SizedBox(width: 12.0),
-              Text(
-                'Help your Merchant',
-                style:
-                    AppTheme.textStyle.w700.color100.size(15.0).lineHeight(1.3),
-              )
-            ],
-          ),
-          sizedBox8,
-          Text(
-            'Is your merchant finding difficult to sell his product online & manage orders? Share Botiga to them and they will remember you forever :)',
-            style: AppTheme.textStyle.w500.color50.size(15.0).lineHeight(1.3),
-          ),
-          sizedBox24,
-          PassiveButton(
-            height: 44,
-            width: double.infinity,
-            icon: Image.asset(
-              'assets/images/whatsapp.png',
-              width: 20,
-              height: 20,
-            ),
-            onPressed: () {
-              ShareModal(
-                title: 'SHARE WITH YOUR MERCHANT',
-                message:
-                    'Hello,\nI am placing orders to all my merchants using Botiga. It takes only 3 mins to register and start selling.\nIt\'s absolutely free, try it out now. https://www.botigabusiness.app',
-              ).show(context);
-            },
-            title: 'Invite Merchant',
-          ),
         ],
       ),
     );

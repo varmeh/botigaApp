@@ -20,6 +20,7 @@ ProductModel _$ProductModelFromJson(Map<String, dynamic> json) {
     imageUrlLarge: json['imageUrlLarge'] as String,
     secondaryImageUrls:
         (json['secondaryImageUrls'] as List)?.map((e) => e as String)?.toList(),
+    recommended: json['recommended'] as bool,
   );
 }
 
@@ -36,4 +37,5 @@ Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
       'tag': instance.tag,
       'imageUrlLarge': instance.imageUrlLarge,
       'secondaryImageUrls': instance.secondaryImageUrls,
+      'recommended': instance.recommended,
     };

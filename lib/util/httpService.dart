@@ -18,8 +18,8 @@ class Http {
     _token = await Token.read();
   }
 
-  static bool get tokenExists {
-    return _token != null;
+  static bool get tokenNotExists {
+    return _token == null;
   }
 
   static Future<dynamic> get(String url) async {
