@@ -316,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           ),
           Container(
             padding: const EdgeInsets.only(bottom: 8),
-            child: FlatButton(
+            child: TextButton(
               child: Text(
                 'Okay, Got it!',
                 style: AppTheme.textStyle.w600
@@ -520,7 +520,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           side: BorderSide(color: AppTheme.color05, width: 0.5),
         ),
         child: Stack(
-          overflow: Overflow.visible,
+          clipBehavior: Clip.none,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
