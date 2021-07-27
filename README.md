@@ -2,6 +2,7 @@
   - [Command to generate models using json_serializable](#command-to-generate-models-using-json_serializable)
   - [Custom Icons](#custom-icons)
   - [Issues with iOS build](#issues-with-ios-build)
+    - [General Cleanup](#general-cleanup)
   - [App Version Number](#app-version-number)
   - [Firebase App Distribution](#firebase-app-distribution)
     - [Android](#android)
@@ -33,14 +34,30 @@ flutter pub run build_runner build --delete-conflicting-outputs
 
 ## Issues with iOS build
 
--   If you face unexpected build issues, do a clean build with the following:
+### General Cleanup
+
+-   If you face unexpected build or link issues like `Undefined symbols for architecture x86_64`, do a clean build with the following:
 
 ```
-flutter clean
-rm -Rf ios/Pods
-rm -Rf ios/.symlinks
-rm -Rf ios/Flutter/Flutter.framework
-rm -Rf ios/Flutter/Flutter.podspec
+cd ios
+pod deintegrate && pod cache clean --all
+rm -rf ~/Library/Developer/Xcode/DerivedData
+
+cd ..
+flutter clean && \
+rm pubspec.lock && \
+rm ios/Podfile.lock && \
+rm -Rf ios/Pods && \
+rm -Rf ios/.symlinks && \
+rm -Rf ios/Flutter/Flutter.framework && \
+rm -Rf ios/Flutter/Flutter.podspec && \
+rm -Rf ios/Runner.xcworkspace
+
+flutter pub get
+cd ios
+pod install
+
+flutter run --flavor dev
 ```
 
 -   [GeneratedPluginRegistrant.m Module not found](https://github.com/flutter/flutter/issues/43986)
