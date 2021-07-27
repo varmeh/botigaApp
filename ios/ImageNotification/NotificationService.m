@@ -2,12 +2,11 @@
 //  NotificationService.m
 //  ImageNotification
 //
-//  Created by Varun Mehta on 15/03/21.
+//  Created by Varun Mehta on 27/07/21.
 //
 
 #import "NotificationService.h"
 #import "FirebaseMessaging.h"
-
 
 @interface NotificationService ()
 
@@ -24,8 +23,8 @@
     
     // Modify the notification content here...
 //    self.bestAttemptContent.title = [NSString stringWithFormat:@"%@ [modified]", self.bestAttemptContent.title];
+//
 //    self.contentHandler(self.bestAttemptContent);
-    
     [[FIRMessaging extensionHelper] populateNotificationContent:self.bestAttemptContent withContentHandler:contentHandler];
 
 }
