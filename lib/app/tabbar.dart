@@ -86,15 +86,31 @@ class _TabbarState extends State<Tabbar> with WidgetsBindingObserver {
       } else {
         _saveToken();
 
-        // Required to process onMessage & onMessageOpenedApp on Android
-        FirebaseMessaging.instance.getInitialMessage().then((_) {});
-
         FirebaseMessaging.onMessage.listen((RemoteMessage message) {
           Toast(message: message.notification.body).show(context);
         });
       }
 
-      // Called if user taps the notification
+      // FCM onLaunch
+      // Handle the background notifications when the app is termianted
+      FirebaseMessaging.instance
+          .getInitialMessage()
+          .then((RemoteMessage message) {
+        if (message != null && message.data != null) {
+          final userProvider =
+              Provider.of<UserProvider>(context, listen: false);
+          if (message.data['sellerId'] != null) {
+            userProvider.notificationSellerId = message.data['sellerId'];
+            changeTab(0);
+          } else if (message.data['orderId'] != null) {
+            userProvider.notificationOrderId = message.data['orderId'];
+            changeTab(1);
+          }
+        }
+      });
+
+      // FCM onResume
+      // Handle the background notifications when the app is in background & not terminated
       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
         if (message.data != null) {
           if (message.data['sellerId'] != null) {
