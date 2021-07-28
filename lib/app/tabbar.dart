@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import '../providers/index.dart'
     show CartProvider, UserProvider, ApartmentProvider, OrdersProvider;
 import '../theme/index.dart';
-// import '../widgets/index.dart' show Toast;
+import '../widgets/index.dart' show Toast;
 import '../util/index.dart' show FlavorBanner, Http, KeyStore;
 import 'cart/cartScreen.dart';
 import 'home/HomeScreen.dart';
@@ -85,6 +85,13 @@ class _TabbarState extends State<Tabbar> with WidgetsBindingObserver {
         );
       } else {
         _saveToken();
+
+        // Required to process onMessage & onMessageOpenedApp on Android
+        FirebaseMessaging.instance.getInitialMessage().then((_) {});
+
+        FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+          Toast(message: message.notification.body).show(context);
+        });
       }
 
       // Called if user taps the notification
