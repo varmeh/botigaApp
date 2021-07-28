@@ -1,4 +1,4 @@
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/index.dart';
@@ -30,7 +30,7 @@ class Toast {
       duration: Duration(seconds: 3),
       margin: EdgeInsets.all(20),
       padding: EdgeInsets.all(20),
-      borderRadius: 8,
+      borderRadius: BorderRadius.all(Radius.circular(8)),
     ).show(context);
   }
 }

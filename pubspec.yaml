@@ -39,7 +39,7 @@ dependencies:
   lottie: ^1.1.0
   share: ^2.0.4
   clipboard: ^0.1.2+5
-  flushbar: ^1.10.4
+  another_flushbar: ^1.10.24
   mask_text_input_formatter: ^2.0.0
   pin_code_fields: ^7.3.0
   flutter_secure_storage: ^4.2.0
