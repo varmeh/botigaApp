@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const _keyLastApartment = 'apartment';
 const _keyPushTokenRegistered = 'pushTokenRegisterd';
-const _tokenResetCounter = 50;
+const _tokenResetCounter = 10;
 
 class KeyStore {
   KeyStore._privateConstructor();
