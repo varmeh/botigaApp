@@ -92,7 +92,7 @@ flutter build apk --flavor dev --release
 -   First, create an ios app version:
 
 ```
-flutter build ios --flavor dev --release
+flutter build ios --flavor dev --release --bundle-sksl-path flutter_01.sksl.json
 ```
 
 -   Once app is built, archieve it as explaind [here](https://flutter.dev/docs/deployment/ios#create-a-build-archive)
@@ -122,7 +122,7 @@ The reason to use appbundle has been detailed in [article](https://developer.and
 -   Create an **[obfuscated](https://flutter.dev/docs/deployment/obfuscate)** appbundle version for sharing with command:
 
 ```
-flutter build ios --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaApp_1.1.1+6 --flavor prod --release
+flutter build ios --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaApp_1.1.1+6 --flavor prod --release --bundle-sksl-path flutter_01.sksl.json
 ```
 
 -   `botigaApp_<version>` Version here should match one in pubspec.yaml
