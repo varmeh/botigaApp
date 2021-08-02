@@ -109,6 +109,8 @@ flutter build ios --flavor dev --release --bundle-sksl-path flutter_01.sksl.json
 
 -   Create an **[obfuscated](https://flutter.dev/docs/deployment/obfuscate)** appbundle version for sharing with command:
 
+`Update the Imagespec version in Xcode before building to App Version`
+
 ```
 flutter build appbundle --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaApp_1.1.1+6 --flavor prod --release
 ```
